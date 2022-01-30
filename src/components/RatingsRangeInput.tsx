@@ -78,7 +78,7 @@ export default function RatingsRangeInput({
 	return (
 		<Form.Group>
 			<Form.Label>Range of Ratings to Try</Form.Label>
-			<div className="py-4">
+			<div className="py-3">
 				<Row>
 					<Col lg={2}>
 						<InputGroup className="mb-3">
