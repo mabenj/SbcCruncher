@@ -11,3 +11,8 @@
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 } */
+
+button:disabled {
+	cursor: not-allowed;
+	pointer-events: all !important;
+}

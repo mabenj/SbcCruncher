@@ -73,7 +73,7 @@ export default function ExistingRatingsInput({
 			/>
 			<Form.Text muted>
 				Specify the ratings of the players you already posess and wish to use in
-				the SBC. <strong>Minimum of 2 values is required.</strong>
+				the SBC
 			</Form.Text>
 		</Form.Group>
 	);

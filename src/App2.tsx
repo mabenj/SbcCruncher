@@ -59,7 +59,6 @@ function App() {
 			}
 
 			setPlayerPrices(resultPrices);
-			console.log(resultPrices);
 		} catch (error: unknown) {
 			console.warn("Could not fetch player prices: ", error);
 			if (typeof error === "string") {

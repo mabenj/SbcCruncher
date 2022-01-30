@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
-import Select, { MultiValue, ActionMeta } from "react-select";
+import Select, { SingleValue } from "react-select";
 import IRatingOption from "../interfaces/RatingOption.interface";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import InputGroup from "react-bootstrap/InputGroup";
 
 import Slider, { SliderTooltip } from "rc-slider";
 import "rc-slider/assets/index.css";
-import { range } from "../utils";
+import { getMaxRatingOption, getMinRatingOption, range } from "../util/utils";
 const { createSliderWithTooltip } = Slider;
 const Range = createSliderWithTooltip(Slider.Range);
 const { Handle } = Slider;
@@ -16,18 +19,43 @@ interface IRatingsRangeInputProps {
 	defaultRange: IRatingOption[];
 }
 
+const selectStyle: React.CSSProperties = {
+	flexGrow: "1"
+};
+
+const sliderStyle: React.CSSProperties = {
+	margin: "10px"
+};
+
 export default function RatingsRangeInput({
 	ratingOptions,
 	onChange,
 	defaultRange
 }: IRatingsRangeInputProps) {
 	const [marks, setMarks] = useState<Record<number, React.ReactNode>>();
+	const [min, setMin] = useState<IRatingOption>(
+		getMinRatingOption(defaultRange)
+	);
+	const [max, setMax] = useState<IRatingOption>(
+		getMaxRatingOption(defaultRange)
+	);
 
 	useEffect(() => {
 		setMarks(() => getMarks(ratingOptions));
 	}, [ratingOptions]);
 
-	const handleChange = (newRange: number[]) => {
+	const handleRangeChange = (newRange: number[]) => {
+		newRange.sort();
+		setMin(
+			ratingOptions.find(
+				(rating) => rating.ratingValue === Math.min(...newRange)
+			) || getMinRatingOption(ratingOptions)
+		);
+		setMax(
+			ratingOptions.find(
+				(rating) => rating.ratingValue === Math.max(...newRange)
+			) || getMaxRatingOption(ratingOptions)
+		);
 		onChange(
 			range(newRange[0], newRange[newRange.length - 1], 1).map((rating) => ({
 				value: Math.random(),
@@ -37,22 +65,70 @@ export default function RatingsRangeInput({
 		);
 	};
 
+	const handleMinChange = (newValue: SingleValue<IRatingOption>) => {
+		const range = [newValue?.ratingValue || -1, max.ratingValue];
+		handleRangeChange(range);
+	};
+
+	const handleMaxChange = (newValue: SingleValue<IRatingOption>) => {
+		const range = [min.ratingValue, newValue?.ratingValue || -1];
+		handleRangeChange(range);
+	};
+
 	return (
 		<Form.Group>
 			<Form.Label>Range of Ratings to Try</Form.Label>
 			<div className="py-4">
-				<Range
-					step={1}
-					defaultValue={[
-						defaultRange[0].ratingValue,
-						defaultRange[1].ratingValue
-					]}
-					onAfterChange={handleChange}
-					min={Math.min(...ratingOptions.map((rating) => rating.ratingValue))}
-					max={Math.max(...ratingOptions.map((rating) => rating.ratingValue))}
-					marks={marks}
-					handle={handle}
-				/>
+				<Row>
+					<Col lg={2}>
+						<InputGroup className="mb-3">
+							<InputGroup.Text>Min</InputGroup.Text>
+							<div style={selectStyle}>
+								<Select
+									value={min}
+									options={ratingOptions}
+									onChange={handleMinChange}
+									filterOption={(opt) => opt.data.ratingValue < max.ratingValue}
+								/>
+							</div>
+						</InputGroup>
+					</Col>
+
+					<Col lg={2}>
+						<InputGroup className="mb-3">
+							<InputGroup.Text>Max</InputGroup.Text>
+							<div style={selectStyle}>
+								<Select
+									value={max}
+									options={ratingOptions}
+									onChange={handleMaxChange}
+									filterOption={(opt) => opt.data.ratingValue > min.ratingValue}
+								/>
+							</div>
+						</InputGroup>
+					</Col>
+				</Row>
+				<Row className="py-4">
+					<div style={sliderStyle}>
+						<Range
+							step={1}
+							defaultValue={[
+								defaultRange[0].ratingValue,
+								defaultRange[1].ratingValue
+							]}
+							value={[min.ratingValue, max.ratingValue]}
+							onChange={handleRangeChange}
+							min={Math.min(
+								...ratingOptions.map((rating) => rating.ratingValue)
+							)}
+							max={Math.max(
+								...ratingOptions.map((rating) => rating.ratingValue)
+							)}
+							marks={marks}
+							handle={handle}
+						/>
+					</div>
+				</Row>
 			</div>
 			<Form.Text muted>
 				Specify the minimum and maximum ratings to use when calculating the

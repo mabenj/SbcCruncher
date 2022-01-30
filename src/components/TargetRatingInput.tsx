@@ -24,7 +24,7 @@ export default function TargetRatingInput({
 						ratingValue: newVal?.ratingValue || -1
 					})
 				}
-				options={ratingOptions}
+				options={ratingOptions.sort((a, b) => a.ratingValue - b.ratingValue)}
 			/>
 		</Form.Group>
 	);
