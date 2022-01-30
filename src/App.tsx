@@ -22,7 +22,7 @@ const combinationsWorker: Worker = new Worker(
 );
 
 function App() {
-	const [isFormValid, setIsFormValid] = useState<boolean | undefined>();
+	const [isFormValid /*, setIsFormValid*/] = useState<boolean | undefined>();
 	const [isCalculating, setIsCalculating] = useState(false);
 
 	const [targetRating, setTargetRating] = useState<IRatingOption>();
