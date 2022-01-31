@@ -20,8 +20,6 @@ import IPriceInfo from "./interfaces/PriceInfo.interface";
 import PricesInput from "./components/PricesInput";
 import ReactGA from "react-ga";
 
-ReactGA.pageview(window.location.pathname);
-
 const PLAYERS_IN_SQUAD = 11;
 
 function App() {
@@ -37,6 +35,10 @@ function App() {
 
 	const [prices, setPrices] = useState<IPriceInfo>({});
 	const [solutions, setSolutions] = useState<ISolution[] | null>(null);
+
+	useEffect(() => {
+		ReactGA.pageview(window.location.pathname);
+	}, []);
 
 	useEffect(() => {
 		setSolutions(null);
