@@ -9,6 +9,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Slider, { SliderTooltip } from "rc-slider";
 import "rc-slider/assets/index.css";
 import { getMaxRatingOption, getMinRatingOption, range } from "../util/utils";
+import useIsMobile from "../hooks/useIsMobile";
 const { createSliderWithTooltip } = Slider;
 const Range = createSliderWithTooltip(Slider.Range);
 const { Handle } = Slider;
@@ -33,6 +34,7 @@ export default function RatingsRangeInput({
 	onChange,
 	defaultRange
 }: IRatingsRangeInputProps) {
+	const [isMobile] = useIsMobile();
 	const [marks, setMarks] = useState<Record<number, React.ReactNode>>();
 	const [min, setMin] = useState<IRatingOption>(
 		getMinRatingOption(defaultRange)
@@ -109,27 +111,29 @@ export default function RatingsRangeInput({
 						</InputGroup>
 					</Col>
 				</Row>
-				<Row className="py-4">
-					<div style={sliderStyle}>
-						<Range
-							step={1}
-							defaultValue={[
-								defaultRange[0].ratingValue,
-								defaultRange[1].ratingValue
-							]}
-							value={[min.ratingValue, max.ratingValue]}
-							onChange={handleRangeChange}
-							min={Math.min(
-								...ratingOptions.map((rating) => rating.ratingValue)
-							)}
-							max={Math.max(
-								...ratingOptions.map((rating) => rating.ratingValue)
-							)}
-							marks={marks}
-							handle={handle}
-						/>
-					</div>
-				</Row>
+				{!isMobile && (
+					<Row className="py-4">
+						<div style={sliderStyle}>
+							<Range
+								step={1}
+								defaultValue={[
+									defaultRange[0].ratingValue,
+									defaultRange[1].ratingValue
+								]}
+								value={[min.ratingValue, max.ratingValue]}
+								onChange={handleRangeChange}
+								min={Math.min(
+									...ratingOptions.map((rating) => rating.ratingValue)
+								)}
+								max={Math.max(
+									...ratingOptions.map((rating) => rating.ratingValue)
+								)}
+								marks={marks}
+								handle={handle}
+							/>
+						</div>
+					</Row>
+				)}
 			</div>
 			<Form.Text muted>
 				Specify the minimum and maximum ratings to use when calculating the
