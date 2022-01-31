@@ -2,26 +2,26 @@ import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Spinner from "react-bootstrap/Spinner";
 import Header from "./components/Header";
 import ExistingRatingsInput from "./components/ExistingRatingsInput";
 import TargetRatingInput from "./components/TargetRatingInput";
 import IRatingOption from "./interfaces/RatingOption.interface";
 import { isTargetRating, range } from "./util/utils";
 import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Badge from "react-bootstrap/Badge";
 import RatingsRangeInput from "./components/RatingsRangeInput";
 import ICombinationWorkResult from "./interfaces/CombinationWorkResult.interface";
 import ICombinationWorkRequest from "./interfaces/CombinationWorkRequest.interface";
+import Solutions from "./components/Solutions";
+import ISolution from "./interfaces/Solution.interface";
+import CalculationButtons from "./components/CalculationButtons";
+/* eslint-disable import/no-webpack-loader-syntax */
+import Solver from "worker-loader!./workers/Solver.worker.ts";
 
 const PLAYERS_IN_SQUAD = 11;
 
-const combinationsWorker: Worker = new Worker(
-	"./workers/combinations.worker.js"
-);
-
 function App() {
+	const [solver, setSolver] = useState(new Solver());
+
 	const [isFormValid /*, setIsFormValid*/] = useState<boolean | undefined>();
 	const [isCalculating, setIsCalculating] = useState(false);
 
@@ -30,38 +30,43 @@ function App() {
 	const [ratingsToTry, setRatingsToTry] =
 		useState<IRatingOption[]>(DEFAULT_RANGE);
 
-	const [solutions, setSolutions] = useState<
-		{ ratings: number[]; price: number }[]
-	>([]);
+	const [solutions, setSolutions] = useState<ISolution[] | null>(null);
 
 	useEffect(() => {
-		combinationsWorker.onmessage = (event) => {
-			const data = event.data as ICombinationWorkResult;
-			switch (data.status) {
-				case "DONE":
-					setIsCalculating(false);
-					break;
-				case "COMBINATION":
-					const wholeSquad = [
-						...existingRatings.map((rating) => rating.ratingValue),
-						...data.combination
-					];
-					if (isTargetRating(wholeSquad, targetRating?.ratingValue || -1)) {
-						setSolutions((prev) => [
-							...prev,
-							{ ratings: data.combination, price: -1 }
-						]);
-					}
-					break;
-				default:
-					break;
-			}
+		setSolutions(null);
+	}, [targetRating, existingRatings, ratingsToTry]);
+
+	useEffect(() => {
+		// combinationsWorker.onmessage = (event) => {
+		// 	const data = event.data as ICombinationWorkResult;
+		// 	switch (data.status) {
+		// 		case "DONE":
+		// 			setIsCalculating(false);
+		// 			break;
+		// 		case "COMBINATION":
+		// 			const wholeSquad = [
+		// 				...existingRatings.map((rating) => rating.ratingValue),
+		// 				...data.combination
+		// 			];
+		// 			if (isTargetRating(wholeSquad, targetRating?.ratingValue || -1)) {
+		// 				setSolutions((prev) => [
+		// 					...(prev || []),
+		// 					{ ratings: data.combination, price: 0 }
+		// 				]);
+		// 			}
+		// 			break;
+		// 		default:
+		// 			break;
+		// 	}
+		// };
+		solver.onmessage = (message) => {
+			console.log(message);
 		};
-		combinationsWorker.onerror = (error) => {
+		solver.onerror = (error) => {
 			console.error("ERROR", error);
 			setIsCalculating(false);
 		};
-	}, [existingRatings, targetRating?.ratingValue]);
+	}, [solver, existingRatings, targetRating?.ratingValue]);
 
 	const calculate = (e: React.FormEvent) => {
 		e.preventDefault();
@@ -71,7 +76,7 @@ function App() {
 			ratings: ratingsToTry.map((rating) => rating.ratingValue),
 			length: PLAYERS_IN_SQUAD - existingRatings.length
 		};
-		combinationsWorker.postMessage(request);
+		solver.postMessage(request);
 	};
 
 	return (
@@ -105,44 +110,27 @@ function App() {
 						/>
 					</Row>
 
-					<Button
-						type="submit"
-						variant="secondary"
-						title="Calculate"
-						disabled={!targetRating || isCalculating}>
-						{isCalculating && (
-							<Spinner
-								as="span"
-								animation="grow"
-								size="sm"
-								role="status"
-								aria-hidden="true"
-							/>
-						)}
-						{isCalculating ? " Calculating..." : "Calculate Ratings"}
-					</Button>
+					<CalculationButtons
+						disabled={!targetRating || isCalculating}
+						isCalculating={isCalculating}
+						onStopPressed={() => {
+							setSolver((prev) => {
+								prev.terminate();
+								return new Solver();
+							});
+							setIsCalculating(false);
+						}}
+					/>
 
 					<Row className="my-5">
-						<h3>
-							Solutions{" "}
-							{solutions.length > 0 && (
-								<Badge bg="success">{solutions.length}</Badge>
-							)}
-						</h3>
-						<small className="text-muted mb-4">
-							These are the ratings of the players you need to aquire in order
-							to achieve the target rating
-							{targetRating && (
-								<>
-									{" "}
-									of <strong>{targetRating.ratingValue}</strong>
-								</>
-							)}
-						</small>
-
-						{solutions.map((solution, index) => (
-							<div key={index}>{solution.ratings.join(", ")}</div>
-						))}
+						<Solutions
+							solutions={solutions}
+							targetRating={targetRating?.ratingValue}
+							columnDefinitions={ratingsToTry.map((rating) => ({
+								label: rating.label,
+								rating: rating.ratingValue
+							}))}
+						/>
 					</Row>
 				</Form>
 			</Container>

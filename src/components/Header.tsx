@@ -5,8 +5,7 @@ export default function Header() {
 		<>
 			<h1>SBC Rating Solver </h1>
 			<small className="text-muted">
-				A tool for calculating needed player ratings for SBCs in FIFA Ultimate
-				Team
+				A tool for calculating player ratings for SBCs in FIFA Ultimate Team
 			</small>
 		</>
 	);

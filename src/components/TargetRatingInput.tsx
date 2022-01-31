@@ -16,7 +16,7 @@ export default function TargetRatingInput({
 		<Form.Group>
 			<Form.Label>Squad Target Rating</Form.Label>
 			<Select
-				placeholder="86"
+				placeholder=""
 				onChange={(newVal) =>
 					onChange({
 						value: newVal?.value || -1,

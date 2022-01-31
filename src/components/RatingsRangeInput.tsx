@@ -24,6 +24,7 @@ const selectStyle: React.CSSProperties = {
 };
 
 const sliderStyle: React.CSSProperties = {
+	width: "95%",
 	margin: "10px"
 };
 

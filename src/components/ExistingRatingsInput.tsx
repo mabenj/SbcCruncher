@@ -65,14 +65,14 @@ export default function ExistingRatingsInput({
 		<Form.Group>
 			<Form.Label>Existing Player Ratings</Form.Label>
 			<Select
-				placeholder="86 86 84 83 ..."
+				placeholder=""
 				value={existingRatings}
 				onChange={handleExistingRatingsChange}
 				options={allRatings.sort((a, b) => a.ratingValue - b.ratingValue)}
 				isMulti
 			/>
 			<Form.Text muted>
-				Specify the ratings of the players you already posess and wish to use in
+				Specify the ratings of the players you already posses and wish to use in
 				the SBC
 			</Form.Text>
 		</Form.Group>
