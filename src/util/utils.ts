@@ -36,3 +36,14 @@ function getRating(ratings: number[]): number {
 	const rating = Math.round(sum + excess) / 11;
 	return Math.floor(rating);
 }
+
+export function calculatePrice(
+	ratings: number[],
+	pricesDictionary: { [rating: number]: number }
+): number {
+	let sum = 0;
+	ratings.forEach((rating: number) => {
+		sum += pricesDictionary[rating] || 0;
+	});
+	return sum;
+}

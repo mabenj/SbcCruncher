@@ -5,6 +5,12 @@ import Table from "react-bootstrap/Table";
 import ISolutionColumnDefinition from "../interfaces/SolutionColumnDefinition.interface";
 import Alert from "react-bootstrap/Alert";
 
+const style: React.CSSProperties = {
+	minHeight: "1000px"
+};
+
+const AMOUNT_TO_DISPLAY = 50;
+
 interface ISolutionsProps {
 	solutions: ISolution[] | null;
 	targetRating: number | undefined;
@@ -21,14 +27,14 @@ export default function Solutions({
 	const noSolutions = solutions !== null && solutions.length === 0;
 	solutions = solutions === null ? [] : solutions;
 	return (
-		<>
+		<div style={style}>
 			<h3>
 				Solutions{" "}
 				{solutions.length > 0 && <Badge bg="success">{solutions.length}</Badge>}
 			</h3>
 			<small className="text-muted mb-4">
-				This table shows how many players of each rating you must acquire in
-				order to achieve the target rating
+				Each row in this table shows how many players of each rating you must
+				acquire in order to achieve the target rating
 				{targetRating && (
 					<>
 						{" "}
@@ -47,11 +53,11 @@ export default function Solutions({
 					</tr>
 				</thead>
 				<tbody>
-					{solutions.map((solution, rowIndex) => (
-						<tr key={`row${rowIndex}`}>
+					{solutions.slice(0, AMOUNT_TO_DISPLAY).map((solution) => (
+						<tr key={solution.id}>
 							{columnDefinitions.map((columnDefinition, columnIndex) => (
 								<RatingCell
-									key={`row${rowIndex}col${columnIndex}`}
+									key={`row${solution.id}col${columnIndex}`}
 									value={
 										solution.ratings.filter(
 											(rating) => rating === columnDefinition.rating
@@ -72,13 +78,19 @@ export default function Solutions({
 					)}
 				</tbody>
 			</Table>
+            
+			{solutions.length > AMOUNT_TO_DISPLAY && (
+				<Alert variant="warning">
+					Only the cheapest {AMOUNT_TO_DISPLAY} solutions are shown
+				</Alert>
+			)}
 
 			{noSolutions && (
 				<Alert variant="danger">
 					No possible solutions exist — Try again with a different configuration
 				</Alert>
 			)}
-		</>
+		</div>
 	);
 }
 

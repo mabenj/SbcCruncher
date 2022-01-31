@@ -1,18 +1,39 @@
 /* eslint-disable no-restricted-globals */
 import { multisets } from "combinatorics";
-import { isTargetRating, range } from "../util/utils";
+import ISolverWorkRequest from "../interfaces/SolverWorkRequest.interface";
+import ISolverWorkResult from "../interfaces/SolverWorkResult.interface";
+import { isTargetRating } from "../util/utils";
+
+const CHUNK_SIZE = 10;
 
 const ctx: Worker = self as any;
 
-// Post data to parent thread
-ctx.postMessage({
-	foo: "foo",
-	bar: isTargetRating([1, 1, 1], 75),
-	combi: multisets([1, 2, 3, 4], 3).next()
+ctx.addEventListener("message", (message) => {
+	const request = message.data as ISolverWorkRequest;
+	let resultChunk: number[][] = [];
+	const combinations = multisets(request.ratingsToTry, request.length);
+	for (const combination of combinations) {
+		const wholeSquad = [...request.existingRatings, ...combination];
+		if (isTargetRating(wholeSquad, request.targetRating)) {
+			resultChunk = [...resultChunk, combination];
+			if (resultChunk.length === CHUNK_SIZE) {
+				const response: ISolverWorkResult = {
+					resultChunk: resultChunk,
+					combination: [],
+					status: "COMBINATION"
+				};
+				ctx.postMessage(response);
+				resultChunk = [];
+			}
+		}
+	}
+	ctx.postMessage({
+		resultChunk: resultChunk,
+		combination: [],
+		status: "COMBINATION"
+	});
+	ctx.postMessage({ combination: [], status: "DONE" });
 });
-
-// Respond to message from parent thread
-ctx.addEventListener("message", (event) => console.log(event));
 
 // self.onmessage = async (event) => {
 // 	if (event && event.data) {
