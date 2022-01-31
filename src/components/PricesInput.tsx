@@ -9,6 +9,7 @@ import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
 import { fetchFutbinPrices } from "../services/FutbinPrices.service";
 import { setItem, getItemOrNull } from "../services/LocalStorage.service";
+import ReactGA from "react-ga";
 
 const PRICE_DATA_KEY = "SBC_SOLVER_PRICE_DATA";
 
@@ -44,6 +45,11 @@ export default function PricesInput({ ratings, onChange }: IPricesInputProps) {
 		}
 		setFetchError(errorMessage);
 		setIsFetching(false);
+		ReactGA.event({
+			category: "FUTBIN",
+			action: "FUTBIN_FETCH",
+			label: "FUTBIN"
+		});
 	}, []);
 
 	return (

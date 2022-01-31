@@ -18,6 +18,9 @@ import ISolverWorkResult from "./interfaces/SolverWorkResult.interface";
 import ISolverWorkRequest from "./interfaces/SolverWorkRequest.interface";
 import IPriceInfo from "./interfaces/PriceInfo.interface";
 import PricesInput from "./components/PricesInput";
+import ReactGA from "react-ga";
+
+ReactGA.pageview(window.location.pathname);
 
 const PLAYERS_IN_SQUAD = 11;
 
@@ -45,6 +48,11 @@ function App() {
 			switch (result.status) {
 				case "DONE": {
 					setIsCalculating(false);
+					ReactGA.event({
+						category: "CALCULATION",
+						action: "CALCULATION_DONE",
+						label: "CALCULATION"
+					});
 					break;
 				}
 				case "COMBINATION": {
@@ -65,6 +73,11 @@ function App() {
 		};
 		solver.onerror = (error) => {
 			console.error("ERROR", error);
+			ReactGA.event({
+				category: "ERROR",
+				action: "SOLVER_MESSAGE",
+				label: "SOLVER"
+			});
 			setIsCalculating(false);
 		};
 	}, [solver, existingRatings, targetRating?.ratingValue, prices]);
@@ -80,6 +93,11 @@ function App() {
 			targetRating: targetRating?.ratingValue || -1
 		};
 		solver.postMessage(request);
+		ReactGA.event({
+			category: "CALCULATE",
+			action: "CALCULATE_PRESSED",
+			label: "CALCULATE"
+		});
 	};
 
 	return (
