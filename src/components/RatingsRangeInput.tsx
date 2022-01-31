@@ -47,16 +47,16 @@ export default function RatingsRangeInput({
 
 	const handleRangeChange = (newRange: number[]) => {
 		newRange.sort();
-		setMin(
+		const min =
 			ratingOptions.find(
 				(rating) => rating.ratingValue === Math.min(...newRange)
-			) || getMinRatingOption(ratingOptions)
-		);
-		setMax(
+			) || getMinRatingOption(ratingOptions);
+		const max =
 			ratingOptions.find(
 				(rating) => rating.ratingValue === Math.max(...newRange)
-			) || getMaxRatingOption(ratingOptions)
-		);
+			) || getMaxRatingOption(ratingOptions);
+		setMin(min);
+		setMax(max);
 		onChange(
 			range(newRange[0], newRange[newRange.length - 1], 1).map((rating) => ({
 				value: Math.random(),

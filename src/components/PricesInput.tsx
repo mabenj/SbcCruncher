@@ -64,6 +64,7 @@ export default function PricesInput({ ratings, onChange }: IPricesInputProps) {
 										Number(e.target.value)
 									)
 								}
+								min={0}
 								step={1000}
 							/>
 						</InputGroup>
