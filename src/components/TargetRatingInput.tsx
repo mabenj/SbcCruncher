@@ -26,6 +26,7 @@ export default function TargetRatingInput({
 				}
 				options={ratingOptions.sort((a, b) => a.ratingValue - b.ratingValue)}
 			/>
+			<Form.Text muted>Specify the desired squad rating</Form.Text>
 		</Form.Group>
 	);
 }

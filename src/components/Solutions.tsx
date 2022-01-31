@@ -32,7 +32,7 @@ export default function Solutions({
 				Solutions{" "}
 				{solutions.length > 0 && <Badge bg="success">{solutions.length}</Badge>}
 			</h3>
-			<small className="text-muted mb-4">
+			<small className="text-muted">
 				Each row in this table shows how many players of each rating you must
 				acquire in order to achieve the target rating
 				{targetRating && (
@@ -43,7 +43,7 @@ export default function Solutions({
 				)}
 			</small>
 
-			<Table striped hover responsive="lg">
+			<Table striped hover responsive="lg" className="mt-2">
 				<thead className="table-dark">
 					<tr>
 						{columnDefinitions.map((cd, index) => (
@@ -78,7 +78,7 @@ export default function Solutions({
 					)}
 				</tbody>
 			</Table>
-            
+
 			{solutions.length > AMOUNT_TO_DISPLAY && (
 				<Alert variant="warning">
 					Only the cheapest {AMOUNT_TO_DISPLAY} solutions are shown

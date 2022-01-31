@@ -4,7 +4,7 @@ import ISolverWorkRequest from "../interfaces/SolverWorkRequest.interface";
 import ISolverWorkResult from "../interfaces/SolverWorkResult.interface";
 import { isTargetRating } from "../util/utils";
 
-const CHUNK_SIZE = 10;
+const CHUNK_SIZE = 40;
 
 const ctx: Worker = self as any;
 
