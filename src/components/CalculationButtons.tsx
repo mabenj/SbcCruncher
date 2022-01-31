@@ -30,7 +30,9 @@ export default function CalculationButtons({
 						<span className="m-2"> Calculating...</span>
 					</>
 				) : (
-					"Calculate Ratings"
+					<>
+						<i className="fas fa-calculator"></i> Calculate Ratings
+					</>
 				)}
 			</Button>
 			<Button
@@ -39,7 +41,7 @@ export default function CalculationButtons({
 				title="Stop calculation"
 				disabled={!isCalculating}
 				onClick={handleStop}>
-				Stop
+				<i className="fas fa-ban"></i> Stop
 			</Button>
 		</>
 	);
