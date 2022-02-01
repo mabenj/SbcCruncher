@@ -19,18 +19,16 @@ ctx.addEventListener("message", (message) => {
 			if (resultChunk.length === CHUNK_SIZE) {
 				const response: ISolverWorkResult = {
 					resultChunk: resultChunk,
-					combination: [],
-					status: "COMBINATION"
+					status: "IN_PROGRESS"
 				};
 				ctx.postMessage(response);
 				resultChunk = [];
 			}
 		}
 	}
-	ctx.postMessage({
+	const result: ISolverWorkResult = {
 		resultChunk: resultChunk,
-		combination: [],
-		status: "COMBINATION"
-	});
-	ctx.postMessage({ combination: [], status: "DONE" });
+		status: "DONE"
+	};
+	ctx.postMessage(result);
 });

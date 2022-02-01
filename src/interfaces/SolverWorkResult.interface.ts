@@ -1,5 +1,4 @@
 export default interface ISolverWorkResult {
-	status: "DONE" | "COMBINATION";
-	combination: number[];
+	status: "DONE" | "IN_PROGRESS";
 	resultChunk: number[][];
 }

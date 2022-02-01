@@ -53,7 +53,18 @@ function App() {
 			switch (result.status) {
 				case "DONE": {
 					setIsCalculating(false);
-					setNoSolutions(solutions.length === 0);
+					setSolutions((prev) => {
+						const all = [
+							...(prev || []),
+							...result.resultChunk.map((ratings) => ({
+								id: Math.random(),
+								ratings: ratings,
+								price: calculatePrice(ratings, prices)
+							}))
+						];
+						setNoSolutions(all.length === 0);
+						return all;
+					});
 					ReactGA.event({
 						category: "CALCULATION",
 						action: "CALCULATION_DONE",
@@ -61,7 +72,7 @@ function App() {
 					});
 					break;
 				}
-				case "COMBINATION": {
+				case "IN_PROGRESS": {
 					setSolutions((prev) => [
 						...(prev || []),
 						...result.resultChunk.map((ratings) => ({
@@ -116,7 +127,7 @@ function App() {
 	return (
 		<main>
 			<Container fluid="md">
-                <Sidebar/>
+				<Sidebar />
 				<Row className="my-4">
 					<Header />
 				</Row>
@@ -181,7 +192,9 @@ function App() {
 export default App;
 
 const FormRowWrapper = ({ children }: { children: React.ReactNode }) => {
-	return <Row className="my-5 bg-light border rounded p-4">{children}</Row>;
+	return (
+		<Row className="my-5 mx-1 bg-light border rounded p-3">{children}</Row>
+	);
 };
 
 const POSSIBLE_RATINGS: IRatingOption[] = range(99, 75, -1).map((rating) => ({
@@ -195,24 +208,3 @@ const DEFAULT_RANGE: IRatingOption[] = range(82, 85, 1).map((rating) => ({
 	label: rating.toString(),
 	ratingValue: rating
 }));
-
-// const PRICES: IPriceInfo = {
-// 	81: 600,
-// 	82: 800,
-// 	83: 950,
-// 	84: 3500,
-// 	85: 9100,
-// 	86: 16000,
-// 	87: 23250,
-// 	88: 30000,
-// 	89: 39250,
-// 	90: 48000,
-// 	91: 61000,
-// 	92: 67000,
-// 	93: 91000,
-// 	94: 690000,
-// 	95: 1540000,
-// 	96: 231000,
-// 	97: 870000,
-// 	98: 936000
-// };
