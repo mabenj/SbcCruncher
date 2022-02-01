@@ -34,14 +34,16 @@ function App() {
 		useState<IRatingOption[]>(DEFAULT_RANGE);
 
 	const [prices, setPrices] = useState<IPriceInfo>({});
-	const [solutions, setSolutions] = useState<ISolution[] | null>(null);
+	const [solutions, setSolutions] = useState<ISolution[]>([]);
+	const [noSolutions, setNoSolutions] = useState(false);
 
 	useEffect(() => {
 		ReactGA.pageview(window.location.pathname);
 	}, []);
 
 	useEffect(() => {
-		setSolutions(null);
+		setSolutions([]);
+		setNoSolutions(false);
 	}, [targetRating, existingRatings, ratingsToTry]);
 
 	useEffect(() => {
@@ -50,6 +52,7 @@ function App() {
 			switch (result.status) {
 				case "DONE": {
 					setIsCalculating(false);
+					setNoSolutions(solutions.length === 0);
 					ReactGA.event({
 						category: "CALCULATION",
 						action: "CALCULATION_DONE",
@@ -82,11 +85,18 @@ function App() {
 			});
 			setIsCalculating(false);
 		};
-	}, [solver, existingRatings, targetRating?.ratingValue, prices]);
+	}, [
+		solver,
+		existingRatings,
+		targetRating?.ratingValue,
+		prices,
+		solutions.length
+	]);
 
 	const calculate = (e: React.FormEvent) => {
 		e.preventDefault();
 		setSolutions([]);
+		setNoSolutions(false);
 		setIsCalculating(true);
 		const request: ISolverWorkRequest = {
 			ratingsToTry: ratingsToTry.map((rating) => rating.ratingValue),
@@ -157,6 +167,7 @@ function App() {
 								label: rating.label,
 								rating: rating.ratingValue
 							}))}
+							noSolutions={noSolutions}
 						/>
 					</Row>
 				</Form>

@@ -4,6 +4,7 @@ import ISolution from "../interfaces/Solution.interface";
 import Table from "react-bootstrap/Table";
 import ISolutionColumnDefinition from "../interfaces/SolutionColumnDefinition.interface";
 import Alert from "react-bootstrap/Alert";
+import Collapse from "react-bootstrap/Collapse";
 
 const style: React.CSSProperties = {
 	minHeight: "1000px"
@@ -12,20 +13,18 @@ const style: React.CSSProperties = {
 const AMOUNT_TO_DISPLAY = 50;
 
 interface ISolutionsProps {
-	solutions: ISolution[] | null;
+	solutions: ISolution[];
 	targetRating: number | undefined;
 	columnDefinitions: ISolutionColumnDefinition[];
+	noSolutions: boolean;
 }
 
 export default function Solutions({
 	solutions,
 	targetRating,
-	columnDefinitions
+	columnDefinitions,
+	noSolutions
 }: ISolutionsProps) {
-	// If solutions are null, it means that no attempt to calculate them has yet been made
-	// However, if their length is 0, it means that no valid solution exists
-	const noSolutions = solutions !== null && solutions.length === 0;
-	solutions = solutions === null ? [] : solutions;
 	return (
 		<div style={style}>
 			<h3>
@@ -85,11 +84,14 @@ export default function Solutions({
 				</Alert>
 			)}
 
-			{noSolutions && (
-				<Alert variant="danger">
-					No possible solutions exist — Try again with a different configuration
-				</Alert>
-			)}
+			<Collapse in={noSolutions}>
+				<div>
+					<Alert variant="danger">
+						No possible solutions exist — Try again with a different
+						configuration
+					</Alert>
+				</div>
+			</Collapse>
 		</div>
 	);
 }

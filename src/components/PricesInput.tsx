@@ -10,6 +10,7 @@ import Alert from "react-bootstrap/Alert";
 import { fetchFutbinPrices } from "../services/FutbinPrices.service";
 import { setItem, getItemOrNull } from "../services/LocalStorage.service";
 import ReactGA from "react-ga";
+import Collapse from "react-bootstrap/Collapse";
 
 const PRICE_DATA_KEY = "SBC_SOLVER_PRICE_DATA";
 
@@ -103,14 +104,16 @@ export default function PricesInput({ ratings, onChange }: IPricesInputProps) {
 							</>
 						)}
 					</Button>
-					{fetchError && (
-						<Alert
-							variant="danger"
-							dismissible
-							onClose={() => setFetchError("")}>
-							Could not fetch price data from FUTBIN: {fetchError}
-						</Alert>
-					)}
+					<Collapse in={!!fetchError}>
+						<div>
+							<Alert
+								variant="danger"
+								dismissible
+								onClose={() => setFetchError("")}>
+								Could not fetch price data from FUTBIN: {fetchError}
+							</Alert>
+						</div>
+					</Collapse>
 				</span>
 			</div>
 			<Form.Text muted>
