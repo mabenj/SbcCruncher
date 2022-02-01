@@ -49,13 +49,13 @@ export default function Sidebar() {
 						<Link href="https://www.github.com/elmaano/sbc">elmaano</Link>.
 					</p>
 					<p>
-						Squad ratings are calculated based on the{" "}
-						<Link href="https://reddit.com/r/FIFA/comments/5osq7k/new_overall_rating_figured_out/">
-							formula
-						</Link>{" "}
-						discovered by{" "}
+						The squad ratings are calculated based on{" "}
 						<Link href="https://reddit.com/user/ChairmanMeowwww">
 							u_ChairmanMeowwww
+						</Link>
+						's{" "}
+						<Link href="https://reddit.com/r/FIFA/comments/5osq7k/new_overall_rating_figured_out/">
+							formula
 						</Link>
 						.
 					</p>
