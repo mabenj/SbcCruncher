@@ -11,6 +11,7 @@ import { fetchFutbinPrices } from "../services/FutbinPrices.service";
 import { setItem, getItemOrNull } from "../services/LocalStorage.service";
 import ReactGA from "react-ga";
 import Collapse from "react-bootstrap/Collapse";
+import Link from "./Link";
 
 const PRICE_DATA_KEY = "SBC_SOLVER_PRICE_DATA";
 
@@ -118,9 +119,9 @@ export default function PricesInput({ ratings, onChange }: IPricesInputProps) {
 			</div>
 			<Form.Text muted>
 				Fetching the prices from FUTBIN will scrape the price data from FUTBIN's{" "}
-				<a href="https://www.futbin.com/stc/cheapest">
+				<Link href="https://www.futbin.com/stc/cheapest">
 					cheapest players by rating
-				</a>{" "}
+				</Link>{" "}
 				page. The price of the cheapest player of each rating will be used.{" "}
 				<br />
 			</Form.Text>

@@ -19,6 +19,7 @@ import ISolverWorkRequest from "./interfaces/SolverWorkRequest.interface";
 import IPriceInfo from "./interfaces/PriceInfo.interface";
 import PricesInput from "./components/PricesInput";
 import ReactGA from "react-ga";
+import Sidebar from "./components/Sidebar";
 
 const PLAYERS_IN_SQUAD = 11;
 
@@ -115,6 +116,7 @@ function App() {
 	return (
 		<main>
 			<Container fluid="md">
+                <Sidebar/>
 				<Row className="my-4">
 					<Header />
 				</Row>
