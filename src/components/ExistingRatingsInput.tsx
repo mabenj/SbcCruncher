@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
-import Select, { MultiValue, ActionMeta } from "react-select";
 import IRatingOption from "../interfaces/RatingOption.interface";
+import RatingSelect, { ActionMeta } from "./RatingSelect";
 
 interface IExistingRatingsInputProps {
 	ratingOptions: IRatingOption[];
@@ -20,7 +20,7 @@ export default function ExistingRatingsInput({
 	}, [existingRatings, onChange]);
 
 	const handleExistingRatingsChange = (
-		newValues: MultiValue<IRatingOption>,
+		newValue: IRatingOption,
 		actionMeta: ActionMeta<IRatingOption>
 	) => {
 		switch (actionMeta.action) {
@@ -64,12 +64,12 @@ export default function ExistingRatingsInput({
 	return (
 		<Form.Group>
 			<Form.Label>Existing Player Ratings</Form.Label>
-			<Select
-				placeholder=""
+			<RatingSelect
 				value={existingRatings}
 				onChange={handleExistingRatingsChange}
-				options={allRatings.sort((a, b) => a.ratingValue - b.ratingValue)}
+				options={allRatings}
 				isMulti
+				maxNumberOfValues={10}
 			/>
 			<Form.Text muted>
 				Specify the ratings of the <abbr title="fodder">players</abbr> you

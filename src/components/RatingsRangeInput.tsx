@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
-import Select, { SingleValue } from "react-select";
 import IRatingOption from "../interfaces/RatingOption.interface";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -10,6 +9,7 @@ import Slider, { SliderTooltip } from "rc-slider";
 import "rc-slider/assets/index.css";
 import { getMaxRatingOption, getMinRatingOption, range } from "../util/utils";
 import useIsMobile from "../hooks/useIsMobile";
+import RatingSelect from "./RatingSelect";
 const { createSliderWithTooltip } = Slider;
 const Range = createSliderWithTooltip(Slider.Range);
 const { Handle } = Slider;
@@ -68,13 +68,23 @@ export default function RatingsRangeInput({
 		);
 	};
 
-	const handleMinChange = (newValue: SingleValue<IRatingOption>) => {
-		const range = [newValue?.ratingValue || -1, max.ratingValue];
+	const handleMinChange = (newValue: IRatingOption) => {
+		const range = [
+			newValue.ratingValue,
+			newValue.ratingValue > max.ratingValue
+				? newValue.ratingValue + 1
+				: max.ratingValue
+		];
 		handleRangeChange(range);
 	};
 
-	const handleMaxChange = (newValue: SingleValue<IRatingOption>) => {
-		const range = [min.ratingValue, newValue?.ratingValue || -1];
+	const handleMaxChange = (newValue: IRatingOption) => {
+		const range = [
+			newValue.ratingValue < min.ratingValue
+				? newValue.ratingValue - 1
+				: min.ratingValue,
+			newValue.ratingValue
+		];
 		handleRangeChange(range);
 	};
 
@@ -87,11 +97,10 @@ export default function RatingsRangeInput({
 						<InputGroup className="mb-3">
 							<InputGroup.Text>Min</InputGroup.Text>
 							<div style={selectStyle}>
-								<Select
+								<RatingSelect
 									value={min}
 									options={ratingOptions}
 									onChange={handleMinChange}
-									filterOption={(opt) => opt.data.ratingValue < max.ratingValue}
 								/>
 							</div>
 						</InputGroup>
@@ -101,11 +110,10 @@ export default function RatingsRangeInput({
 						<InputGroup className="mb-3">
 							<InputGroup.Text>Max</InputGroup.Text>
 							<div style={selectStyle}>
-								<Select
+								<RatingSelect
 									value={max}
 									options={ratingOptions}
 									onChange={handleMaxChange}
-									filterOption={(opt) => opt.data.ratingValue > min.ratingValue}
 								/>
 							</div>
 						</InputGroup>

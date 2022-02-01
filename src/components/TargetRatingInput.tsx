@@ -1,7 +1,7 @@
 import React from "react";
 import Form from "react-bootstrap/Form";
-import Select from "react-select";
 import IRatingOption from "../interfaces/RatingOption.interface";
+import RatingSelect from "./RatingSelect";
 
 interface ITargetRatingInputProps {
 	ratingOptions: IRatingOption[];
@@ -15,8 +15,7 @@ export default function TargetRatingInput({
 	return (
 		<Form.Group>
 			<Form.Label>Squad Target Rating</Form.Label>
-			<Select
-				placeholder=""
+			<RatingSelect
 				onChange={(newVal) =>
 					onChange({
 						value: newVal?.value || -1,
@@ -24,7 +23,7 @@ export default function TargetRatingInput({
 						ratingValue: newVal?.ratingValue || -1
 					})
 				}
-				options={ratingOptions.sort((a, b) => a.ratingValue - b.ratingValue)}
+				options={ratingOptions}
 			/>
 			<Form.Text muted>Specify the desired squad rating</Form.Text>
 		</Form.Group>
