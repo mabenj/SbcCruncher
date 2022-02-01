@@ -85,7 +85,8 @@ export default function PricesInput({ ratings, onChange }: IPricesInputProps) {
 						variant="dark"
 						className="mt-5 mb-2"
 						onClick={handleFetchFutbin}
-						disabled={isFetching}>
+						disabled={isFetching}
+						title="Fetch from FUTBIN">
 						{isFetching ? (
 							<>
 								<div className="lds-ring">
@@ -103,7 +104,10 @@ export default function PricesInput({ ratings, onChange }: IPricesInputProps) {
 						)}
 					</Button>
 					{fetchError && (
-						<Alert variant="danger" dismissible>
+						<Alert
+							variant="danger"
+							dismissible
+							onClose={() => setFetchError("")}>
 							Could not fetch price data from FUTBIN: {fetchError}
 						</Alert>
 					)}

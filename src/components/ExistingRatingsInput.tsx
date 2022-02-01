@@ -72,8 +72,8 @@ export default function ExistingRatingsInput({
 				isMulti
 			/>
 			<Form.Text muted>
-				Specify the ratings of the players you already posses and wish to use in
-				the SBC
+				Specify the ratings of the <abbr title="fodder">players</abbr> you
+				already posses and plan to use in the SBC
 			</Form.Text>
 		</Form.Group>
 	);

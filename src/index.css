@@ -17,6 +17,14 @@ button:disabled {
 	pointer-events: all !important;
 }
 
+a {
+	text-decoration: none !important;
+}
+
+a:hover {
+	text-decoration: underline !important;
+}
+
 /* USAGE: <div class="lds-hourglass"></div> */
 .lds-hourglass {
 	display: inline-block;
