@@ -5,12 +5,11 @@ import Table from "react-bootstrap/Table";
 import ISolutionColumnDefinition from "../interfaces/SolutionColumnDefinition.interface";
 import Alert from "react-bootstrap/Alert";
 import Collapse from "react-bootstrap/Collapse";
+import Config from "../Config";
 
 const style: React.CSSProperties = {
 	minHeight: "1000px"
 };
-
-const AMOUNT_TO_DISPLAY = 50;
 
 interface ISolutionsProps {
 	solutions: ISolution[];
@@ -52,7 +51,7 @@ export default function Solutions({
 					</tr>
 				</thead>
 				<tbody>
-					{solutions.slice(0, AMOUNT_TO_DISPLAY).map((solution) => (
+					{solutions.slice(0, Config.maxAmountOfSolutions).map((solution) => (
 						<tr key={solution.id}>
 							{columnDefinitions.map((columnDefinition, columnIndex) => (
 								<RatingCell
@@ -78,9 +77,9 @@ export default function Solutions({
 				</tbody>
 			</Table>
 
-			{solutions.length > AMOUNT_TO_DISPLAY && (
+			{solutions.length > Config.maxAmountOfSolutions && (
 				<Alert variant="warning">
-					Only the cheapest {AMOUNT_TO_DISPLAY} solutions are shown
+					Only the cheapest {Config.maxAmountOfSolutions} solutions are shown
 				</Alert>
 			)}
 

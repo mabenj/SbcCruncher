@@ -6,7 +6,7 @@ import Header from "./components/Header";
 import ExistingRatingsInput from "./components/ExistingRatingsInput";
 import TargetRatingInput from "./components/TargetRatingInput";
 import IRatingOption from "./interfaces/RatingOption.interface";
-import { calculatePrice, range } from "./util/utils";
+import { calculatePrice } from "./util/utils";
 import Form from "react-bootstrap/Form";
 import RatingsRangeInput from "./components/RatingsRangeInput";
 import Solutions from "./components/Solutions";
@@ -20,8 +20,7 @@ import IPriceInfo from "./interfaces/PriceInfo.interface";
 import PricesInput from "./components/PricesInput";
 import ReactGA from "react-ga";
 import Sidebar from "./components/Sidebar";
-
-const PLAYERS_IN_SQUAD = 11;
+import Config from "./Config";
 
 function App() {
 	const [solver, setSolver] = useState(new Solver());
@@ -31,8 +30,9 @@ function App() {
 
 	const [targetRating, setTargetRating] = useState<IRatingOption>();
 	const [existingRatings, setExistingRatings] = useState<IRatingOption[]>([]);
-	const [ratingsToTry, setRatingsToTry] =
-		useState<IRatingOption[]>(DEFAULT_RANGE);
+	const [ratingsToTry, setRatingsToTry] = useState<IRatingOption[]>(
+		Config.defaultTryRange
+	);
 
 	const [prices, setPrices] = useState<IPriceInfo>({});
 	const [solutions, setSolutions] = useState<ISolution[]>([]);
@@ -89,7 +89,7 @@ function App() {
 			}
 		};
 		solver.onerror = (error) => {
-			console.error("ERROR", error);
+			console.error("SOLVER WORKER ERROR", error);
 			ReactGA.event({
 				category: "ERROR",
 				action: "SOLVER_MESSAGE",
@@ -113,7 +113,6 @@ function App() {
 		const request: ISolverWorkRequest = {
 			ratingsToTry: ratingsToTry.map((rating) => rating.ratingValue),
 			existingRatings: existingRatings.map((rating) => rating.ratingValue),
-			length: PLAYERS_IN_SQUAD - existingRatings.length,
 			targetRating: targetRating?.ratingValue || -1
 		};
 		solver.postMessage(request);
@@ -136,13 +135,13 @@ function App() {
 					<FormRowWrapper>
 						<Col lg={3}>
 							<TargetRatingInput
-								ratingOptions={POSSIBLE_RATINGS}
+								ratingOptions={Config.ratingOptions}
 								onChange={setTargetRating}
 							/>
 						</Col>
 						<Col>
 							<ExistingRatingsInput
-								ratingOptions={POSSIBLE_RATINGS}
+								ratingOptions={Config.ratingOptions}
 								onChange={setExistingRatings}
 							/>
 						</Col>
@@ -150,9 +149,9 @@ function App() {
 
 					<FormRowWrapper>
 						<RatingsRangeInput
-							ratingOptions={POSSIBLE_RATINGS}
+							ratingOptions={Config.ratingOptions}
 							onChange={setRatingsToTry}
-							defaultRange={DEFAULT_RANGE}
+							defaultRange={Config.defaultTryRange}
 						/>
 					</FormRowWrapper>
 
@@ -196,15 +195,3 @@ const FormRowWrapper = ({ children }: { children: React.ReactNode }) => {
 		<Row className="my-5 mx-1 bg-light border rounded p-3">{children}</Row>
 	);
 };
-
-const POSSIBLE_RATINGS: IRatingOption[] = range(99, 75, -1).map((rating) => ({
-	value: Math.random(),
-	label: rating.toString(),
-	ratingValue: rating
-}));
-
-const DEFAULT_RANGE: IRatingOption[] = range(82, 85, 1).map((rating) => ({
-	value: Math.random(),
-	label: rating.toString(),
-	ratingValue: rating
-}));

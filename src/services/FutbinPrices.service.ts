@@ -1,16 +1,15 @@
 import axios from "axios";
 import IPriceInfo from "../interfaces/PriceInfo.interface";
 import { sleep } from "../util/utils";
+import Config from "../Config";
 
-const FETCH_ATTEMPTS = 5;
-const COOLDOWN_MS = 1000;
 const FUTBIN_URL = "https://www.futbin.com/stc/cheapest";
 
 export const fetchFutbinPrices = async (): Promise<[IPriceInfo, string]> => {
 	const prices: IPriceInfo = {};
 	let errorMessage = "";
 	let attempts = 0;
-	while (attempts < FETCH_ATTEMPTS) {
+	while (attempts < Config.maxPriceFetchAttempts) {
 		try {
 			const html = (await axios.get<string>(FUTBIN_URL)).data;
 			const parser = new DOMParser();
@@ -44,7 +43,7 @@ export const fetchFutbinPrices = async (): Promise<[IPriceInfo, string]> => {
 				errorMessage = "Unknown error";
 			}
 			attempts++;
-			await sleep(COOLDOWN_MS);
+			await sleep(Config.priceFetchCooldownMs);
 		}
 	}
 	return [prices, errorMessage];

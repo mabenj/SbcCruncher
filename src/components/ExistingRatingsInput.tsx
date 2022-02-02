@@ -65,6 +65,7 @@ export default function ExistingRatingsInput({
 		<Form.Group>
 			<Form.Label>Existing Player Ratings</Form.Label>
 			<RatingSelect
+				placeholder="Select multiple..."
 				value={existingRatings}
 				onChange={handleExistingRatingsChange}
 				options={allRatings}

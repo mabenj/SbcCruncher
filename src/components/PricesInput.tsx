@@ -12,8 +12,7 @@ import { setItem, getItemOrNull } from "../services/LocalStorage.service";
 import ReactGA from "react-ga";
 import Collapse from "react-bootstrap/Collapse";
 import Link from "./Link";
-
-const PRICE_DATA_KEY = "SBC_SOLVER_PRICE_DATA";
+import Config from "../Config";
 
 interface IPricesInputProps {
 	ratings: IRatingOption[];
@@ -22,14 +21,14 @@ interface IPricesInputProps {
 
 export default function PricesInput({ ratings, onChange }: IPricesInputProps) {
 	const [prices, setPrices] = useState<IPriceInfo>(
-		getItemOrNull<IPriceInfo>(PRICE_DATA_KEY) || {}
+		getItemOrNull<IPriceInfo>(Config.priceDataStorageKey) || {}
 	);
 	const [isFetching, setIsFetching] = useState(false);
 	const [fetchError, setFetchError] = useState("");
 
 	useEffect(() => {
 		if (prices) {
-			setItem(PRICE_DATA_KEY, prices);
+			setItem(Config.priceDataStorageKey, prices);
 			onChange(prices);
 		}
 	}, [onChange, prices]);
@@ -91,12 +90,7 @@ export default function PricesInput({ ratings, onChange }: IPricesInputProps) {
 						title="Fetch from FUTBIN">
 						{isFetching ? (
 							<>
-								<div className="lds-ring">
-									<div></div>
-									<div></div>
-									<div></div>
-									<div></div>
-								</div>
+								<Spinner />
 								<span className="m-2">Fetching...</span>
 							</>
 						) : (
@@ -133,3 +127,14 @@ export default function PricesInput({ ratings, onChange }: IPricesInputProps) {
 		</Form.Group>
 	);
 }
+
+const Spinner = () => {
+	return (
+		<div className="lds-ring">
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+	);
+};
