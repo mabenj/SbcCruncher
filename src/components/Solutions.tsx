@@ -5,30 +5,33 @@ import Table from "react-bootstrap/Table";
 import ISolutionColumnDefinition from "../interfaces/SolutionColumnDefinition.interface";
 import Alert from "react-bootstrap/Alert";
 import Collapse from "react-bootstrap/Collapse";
-import Config from "../Config";
 
 const style: React.CSSProperties = {
 	minHeight: "1000px"
 };
 
 interface ISolutionsProps {
-	solutions: ISolution[];
+	displaySolutions: ISolution[];
 	targetRating: number | undefined;
 	columnDefinitions: ISolutionColumnDefinition[];
-	noSolutions: boolean;
+	totalSolutionsCount: number | null; // null means calculation has not been done yet
 }
 
 export default function Solutions({
-	solutions,
+	displaySolutions,
 	targetRating,
 	columnDefinitions,
-	noSolutions
+	totalSolutionsCount
 }: ISolutionsProps) {
 	return (
 		<div style={style}>
 			<h3>
 				Solutions{" "}
-				{solutions.length > 0 && <Badge bg="success">{solutions.length}</Badge>}
+				{totalSolutionsCount !== null && (
+					<Badge bg={totalSolutionsCount === 0 ? "danger" : "success"}>
+						{totalSolutionsCount}
+					</Badge>
+				)}
 			</h3>
 			<small className="text-muted">
 				Each row in this table shows how many players of each rating you must
@@ -51,7 +54,7 @@ export default function Solutions({
 					</tr>
 				</thead>
 				<tbody>
-					{solutions.slice(0, Config.maxAmountOfSolutions).map((solution) => (
+					{displaySolutions.map((solution) => (
 						<tr key={solution.id}>
 							{columnDefinitions.map((columnDefinition, columnIndex) => (
 								<RatingCell
@@ -66,7 +69,7 @@ export default function Solutions({
 							<PriceCell value={solution.price} />
 						</tr>
 					))}
-					{solutions.length === 0 && (
+					{displaySolutions.length === 0 && (
 						<tr>
 							{columnDefinitions.map((_, index) => (
 								<RatingCell key={index} value={0} />
@@ -77,13 +80,14 @@ export default function Solutions({
 				</tbody>
 			</Table>
 
-			{solutions.length > Config.maxAmountOfSolutions && (
-				<Alert variant="warning">
-					Only the cheapest {Config.maxAmountOfSolutions} solutions are shown
-				</Alert>
-			)}
+			{totalSolutionsCount !== null &&
+				totalSolutionsCount > displaySolutions.length && (
+					<Alert variant="warning">
+						Only the cheapest {displaySolutions.length} solutions are shown
+					</Alert>
+				)}
 
-			<Collapse in={noSolutions}>
+			<Collapse in={totalSolutionsCount === 0}>
 				<div>
 					<Alert variant="danger">
 						No possible solutions exist — Try again with a different

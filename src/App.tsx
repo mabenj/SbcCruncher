@@ -6,7 +6,6 @@ import Header from "./components/Header";
 import ExistingRatingsInput from "./components/ExistingRatingsInput";
 import TargetRatingInput from "./components/TargetRatingInput";
 import IRatingOption from "./interfaces/RatingOption.interface";
-import { calculatePrice } from "./util/utils";
 import Form from "react-bootstrap/Form";
 import RatingsRangeInput from "./components/RatingsRangeInput";
 import Solutions from "./components/Solutions";
@@ -36,7 +35,7 @@ function App() {
 
 	const [prices, setPrices] = useState<IPriceInfo>({});
 	const [solutions, setSolutions] = useState<ISolution[]>([]);
-	const [noSolutions, setNoSolutions] = useState(false);
+	const [solutionsCount, setSolutionsCount] = useState<number | null>(null);
 
 	useEffect(() => {
 		ReactGA.pageview(window.location.pathname);
@@ -44,43 +43,35 @@ function App() {
 
 	useEffect(() => {
 		setSolutions([]);
-		setNoSolutions(false);
+		setSolutionsCount(null);
 	}, [targetRating, existingRatings, ratingsToTry]);
 
 	useEffect(() => {
 		solver.onmessage = (message) => {
 			const result = message.data as ISolverWorkResult;
 			switch (result.status) {
+				//@ts-ignore
 				case "DONE": {
 					setIsCalculating(false);
+					/* falls through */
+				}
+				case "IN_PROGRESS": {
+					setSolutionsCount((prev) => (prev || 0) + result.resultChunk.length);
 					setSolutions((prev) => {
-						const all = [
-							...(prev || []),
-							...result.resultChunk.map((ratings) => ({
-								id: Math.random(),
-								ratings: ratings,
-								price: calculatePrice(ratings, prices)
-							}))
-						];
-						setNoSolutions(all.length === 0);
-						return all;
+						// Assume prev array and result array are both sorted
+						if (result.resultChunk[0].price > prev[-1]?.price) {
+							return prev;
+						}
+						const all = [...prev, ...result.resultChunk].sort(
+							(a, b) => a.price - b.price
+						);
+						return all.slice(0, Config.maxAmountOfSolutions);
 					});
 					ReactGA.event({
 						category: "CALCULATION",
 						action: "CALCULATION_DONE",
 						label: "CALCULATION"
 					});
-					break;
-				}
-				case "IN_PROGRESS": {
-					setSolutions((prev) => [
-						...(prev || []),
-						...result.resultChunk.map((ratings) => ({
-							id: Math.random(),
-							ratings: ratings,
-							price: calculatePrice(ratings, prices)
-						}))
-					]);
 					break;
 				}
 				default: {
@@ -97,23 +88,18 @@ function App() {
 			});
 			setIsCalculating(false);
 		};
-	}, [
-		solver,
-		existingRatings,
-		targetRating?.ratingValue,
-		prices,
-		solutions.length
-	]);
+	}, [prices, solver]);
 
 	const calculate = (e: React.FormEvent) => {
 		e.preventDefault();
 		setSolutions([]);
-		setNoSolutions(false);
+		setSolutionsCount(null);
 		setIsCalculating(true);
 		const request: ISolverWorkRequest = {
 			ratingsToTry: ratingsToTry.map((rating) => rating.ratingValue),
 			existingRatings: existingRatings.map((rating) => rating.ratingValue),
-			targetRating: targetRating?.ratingValue || -1
+			targetRating: targetRating?.ratingValue || -1,
+			prices: prices
 		};
 		solver.postMessage(request);
 		ReactGA.event({
@@ -173,13 +159,13 @@ function App() {
 
 					<Row className="my-5">
 						<Solutions
-							solutions={solutions?.sort((a, b) => a.price - b.price) || null}
+							displaySolutions={solutions}
 							targetRating={targetRating?.ratingValue}
 							columnDefinitions={ratingsToTry.map((rating) => ({
 								label: rating.label,
 								rating: rating.ratingValue
 							}))}
-							noSolutions={noSolutions}
+							totalSolutionsCount={solutionsCount}
 						/>
 					</Row>
 				</Form>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import IRatingOption from "../interfaces/RatingOption.interface";
 import RatingSelect, { ActionMeta } from "./RatingSelect";
+import Config from "../Config";
 
 interface IExistingRatingsInputProps {
 	ratingOptions: IRatingOption[];
@@ -70,7 +71,7 @@ export default function ExistingRatingsInput({
 				onChange={handleExistingRatingsChange}
 				options={allRatings}
 				isMulti
-				maxNumberOfValues={10}
+				maxNumberOfValues={Config.playersInSquad - 1}
 			/>
 			<Form.Text muted>
 				Specify the ratings of the <abbr title="fodder">players</abbr> you
