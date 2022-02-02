@@ -4,7 +4,6 @@ import IRatingOption from "../interfaces/RatingOption.interface";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import InputGroup from "react-bootstrap/InputGroup";
-
 import Slider, { SliderTooltip } from "rc-slider";
 import "rc-slider/assets/index.css";
 import { getMaxRatingOption, getMinRatingOption, range } from "../util/utils";
