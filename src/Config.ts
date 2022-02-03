@@ -4,7 +4,6 @@ import { range } from "./util/utils";
 const possibleRatings = range(75, 99, 1);
 const possibleRatingOptions: IRatingOption[] = possibleRatings.map(
 	(rating) => ({
-		value: Math.random(),
 		label: rating.toString(),
 		ratingValue: rating
 	})
@@ -31,12 +30,10 @@ const config: IConfig = {
 	solverResultChunkSize: 54,
 	ratingOptions: possibleRatingOptions,
 	defaultTryMin: {
-		value: Math.random(),
 		label: "82",
 		ratingValue: 82
 	},
 	defaultTryMax: {
-		value: Math.random(),
 		label: "85",
 		ratingValue: 85
 	}

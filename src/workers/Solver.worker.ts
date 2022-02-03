@@ -11,6 +11,7 @@ const ctx: Worker = self as any;
 ctx.addEventListener("message", (message) => {
 	const request = message.data as ISolverWorkRequest;
 	let resultChunk: ISolution[] = [];
+	let solutionId = 0;
 	const combinations = multisets(
 		request.ratingsToTry,
 		Config.playersInSquad - request.existingRatings.length
@@ -19,7 +20,7 @@ ctx.addEventListener("message", (message) => {
 		const wholeSquad = [...request.existingRatings, ...combination];
 		if (isTargetRating(wholeSquad, request.targetRating)) {
 			const solution: ISolution = {
-				id: Math.random(),
+				id: solutionId++,
 				price: calculatePrice(combination, request.prices),
 				ratings: combination
 			};

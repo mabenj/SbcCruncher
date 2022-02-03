@@ -17,23 +17,23 @@ export default function ExistingRatingsInput({
 		newValue: IRatingOption,
 		actionMeta: ActionMeta<IRatingOption>
 	) => {
+		console.log({ newValue, actionMeta });
 		let newSelections: IRatingOption[] = [];
 		switch (actionMeta.action) {
 			case "select-option":
 				const added: IRatingOption = {
-					value: actionMeta.option?.value || -1,
 					label: actionMeta.option?.label || "",
 					ratingValue: actionMeta.option?.ratingValue || -1
 				};
 				newSelections = [...value, added];
 				break;
 			case "remove-value":
-				const removed: IRatingOption = {
-					value: actionMeta.removedValue?.value || -1,
-					label: actionMeta.removedValue?.label || "",
-					ratingValue: actionMeta.removedValue?.ratingValue || -1
-				};
-				newSelections = value.filter((value) => value.value !== removed.value);
+				newSelections = [...value];
+				const index = newSelections.findIndex(
+					(rating) =>
+						rating.ratingValue === actionMeta.removedValue?.ratingValue
+				);
+				newSelections.splice(index, 1);
 				break;
 			case "clear":
 				break;
@@ -56,7 +56,7 @@ export default function ExistingRatingsInput({
 			/>
 			<Form.Text muted>
 				Specify the ratings of the <abbr title="fodder">players</abbr> you
-				already posses and plan to use in the SBC
+				already possess and plan to use in the SBC
 			</Form.Text>
 		</Form.Group>
 	);

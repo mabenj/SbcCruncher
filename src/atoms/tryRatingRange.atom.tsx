@@ -3,8 +3,8 @@ import Config from "../Config";
 import IRatingOption from "../interfaces/RatingOption.interface";
 import { deserializeRatingOption, serializeRatingOption } from "../util/utils";
 
-const KEY_MIN = "tryMin";
-const KEY_MAX = "tryMax";
+const KEY_MIN = "try_min";
+const KEY_MAX = "try_max";
 
 export const tryRatingMinAtom = atomWithHash<IRatingOption>(
 	KEY_MIN,

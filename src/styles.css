@@ -1,17 +1,3 @@
-/* body {
-	background-color: #282c34;
-	display: flex;
-	flex-direction: column;
-	font-size: calc(10px + 2vmin);
-	color: white;
-	margin: 0;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-		"Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-		sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-} */
-
 button:disabled {
 	cursor: not-allowed;
 	pointer-events: all !important;

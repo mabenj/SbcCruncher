@@ -58,7 +58,7 @@ export default function PricesInput({ ratings, onChange }: IPricesInputProps) {
 			<Form.Label>Player Prices</Form.Label>
 			<Row>
 				{ratings.map((ratingOption) => (
-					<Col key={ratingOption.value} lg={2} md={4} sm={6}>
+					<Col key={ratingOption.ratingValue} lg={2} md={4} sm={6}>
 						<InputGroup className="my-2">
 							<InputGroup.Text>{ratingOption.label}</InputGroup.Text>
 							<Form.Control

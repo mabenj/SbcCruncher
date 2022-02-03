@@ -19,8 +19,7 @@ export function ratingRange(
 	return range(start.ratingValue, stop.ratingValue, step).map<IRatingOption>(
 		(rating) => ({
 			label: rating.toString(),
-			ratingValue: rating,
-			value: Math.random()
+			ratingValue: rating
 		})
 	);
 }
@@ -87,8 +86,7 @@ export function deserializeRatingOption(
 	}
 	const deserialized: IRatingOption = {
 		label: str,
-		ratingValue: Number(str),
-		value: Math.random()
+		ratingValue: Number(str)
 	};
 	return (
 		Config.ratingOptions.find(

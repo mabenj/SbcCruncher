@@ -21,7 +21,6 @@ export default function TargetRatingInput({
 				value={value}
 				onChange={(newVal) =>
 					onChange({
-						value: newVal?.value || -1,
 						label: newVal?.label || "",
 						ratingValue: newVal?.ratingValue || -1
 					})
