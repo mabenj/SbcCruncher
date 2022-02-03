@@ -39,12 +39,23 @@ export default function RatingSelect<
 
 	const handleChange = (
 		newValue: MultiValue<IRatingOption> | SingleValue<IRatingOption>,
+		// TODO convert RCActionMeta to something better
 		actionMeta: RCActionMeta<IRatingOption>
 	) => {
 		if (!onChange) {
 			return;
 		}
 		onChange(Array.isArray(newValue) ? newValue[0] : newValue, actionMeta);
+	};
+
+	const handleIsOptionSelected = (opt: IRatingOption): boolean => {
+		if (isMulti) {
+			return false;
+		}
+		if (Array.isArray(value)) {
+			return !!value.find((v) => v.ratingValue === opt.ratingValue);
+		}
+		return value?.ratingValue === opt.ratingValue;
 	};
 
 	return (
@@ -61,6 +72,12 @@ export default function RatingSelect<
 			isMulti={isMulti}
 			isOptionDisabled={(opt) =>
 				isOptionDisabled ? isOptionDisabled(opt) : false
+			}
+			isOptionSelected={handleIsOptionSelected}
+			noOptionsMessage={() =>
+				isTooLong
+					? "Maximum number of player ratings reached"
+					: "No options available"
 			}
 		/>
 	);

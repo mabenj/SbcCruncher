@@ -6,18 +6,13 @@ import Col from "react-bootstrap/Col";
 import InputGroup from "react-bootstrap/InputGroup";
 import Slider, { SliderTooltip } from "rc-slider";
 import "rc-slider/assets/index.css";
-import { getMaxRatingOption, getMinRatingOption, range } from "../util/utils";
+import { getMaxRatingOption, getMinRatingOption } from "../util/utils";
 import useIsMobile from "../hooks/useIsMobile";
+import Config from "../Config";
 import RatingSelect from "./RatingSelect";
 const { createSliderWithTooltip } = Slider;
 const Range = createSliderWithTooltip(Slider.Range);
 const { Handle } = Slider;
-
-interface IRatingsRangeInputProps {
-	ratingOptions: IRatingOption[];
-	onChange: (newValues: IRatingOption[]) => void;
-	defaultRange: IRatingOption[];
-}
 
 const selectStyle: React.CSSProperties = {
 	flexGrow: "1"
@@ -28,60 +23,54 @@ const sliderStyle: React.CSSProperties = {
 	margin: "10px"
 };
 
-export default function RatingsRangeInput({
-	ratingOptions,
-	onChange,
-	defaultRange
+interface IRatingsRangeInputProps {
+	valueOfMin: IRatingOption | undefined;
+	valueOfMax: IRatingOption | undefined;
+	onChange: (min: IRatingOption, max: IRatingOption) => void;
+}
+
+export default function TryRatingsRangeInput({
+	valueOfMin,
+	valueOfMax,
+	onChange
 }: IRatingsRangeInputProps) {
 	const [isMobile] = useIsMobile();
 	const [marks, setMarks] = useState<Record<number, React.ReactNode>>();
-	const [min, setMin] = useState<IRatingOption>(
-		getMinRatingOption(defaultRange)
-	);
-	const [max, setMax] = useState<IRatingOption>(
-		getMaxRatingOption(defaultRange)
-	);
 
 	useEffect(() => {
-		setMarks(() => getMarks(ratingOptions));
-	}, [ratingOptions]);
+		setMarks(() => getMarks(Config.ratingOptions));
+	}, []);
 
 	const handleRangeChange = (newRange: number[]) => {
 		newRange.sort();
 		const min =
-			ratingOptions.find(
+			Config.ratingOptions.find(
 				(rating) => rating.ratingValue === Math.min(...newRange)
-			) || getMinRatingOption(ratingOptions);
+			) || getMinRatingOption(Config.ratingOptions);
 		const max =
-			ratingOptions.find(
+			Config.ratingOptions.find(
 				(rating) => rating.ratingValue === Math.max(...newRange)
-			) || getMaxRatingOption(ratingOptions);
-		setMin(min);
-		setMax(max);
-		onChange(
-			range(newRange[0], newRange[newRange.length - 1], 1).map((rating) => ({
-				value: Math.random(),
-				label: rating.toString(),
-				ratingValue: rating
-			}))
-		);
+			) || getMaxRatingOption(Config.ratingOptions);
+		onChange(min, max);
 	};
 
 	const handleMinChange = (newValue: IRatingOption) => {
+		valueOfMax = valueOfMax || newValue;
 		const range = [
 			newValue.ratingValue,
-			newValue.ratingValue > max.ratingValue
+			newValue.ratingValue > valueOfMax.ratingValue
 				? newValue.ratingValue + 1
-				: max.ratingValue
+				: valueOfMax.ratingValue
 		];
 		handleRangeChange(range);
 	};
 
 	const handleMaxChange = (newValue: IRatingOption) => {
+		valueOfMin = valueOfMin || newValue;
 		const range = [
-			newValue.ratingValue < min.ratingValue
+			newValue.ratingValue < valueOfMin.ratingValue
 				? newValue.ratingValue - 1
-				: min.ratingValue,
+				: valueOfMin.ratingValue,
 			newValue.ratingValue
 		];
 		handleRangeChange(range);
@@ -97,8 +86,8 @@ export default function RatingsRangeInput({
 							<InputGroup.Text>Min</InputGroup.Text>
 							<div style={selectStyle}>
 								<RatingSelect
-									value={min}
-									options={ratingOptions}
+									value={valueOfMin}
+									options={Config.ratingOptions}
 									onChange={handleMinChange}
 								/>
 							</div>
@@ -110,8 +99,8 @@ export default function RatingsRangeInput({
 							<InputGroup.Text>Max</InputGroup.Text>
 							<div style={selectStyle}>
 								<RatingSelect
-									value={max}
-									options={ratingOptions}
+									value={valueOfMax}
+									options={Config.ratingOptions}
 									onChange={handleMaxChange}
 								/>
 							</div>
@@ -124,16 +113,19 @@ export default function RatingsRangeInput({
 							<Range
 								step={1}
 								defaultValue={[
-									defaultRange[0].ratingValue,
-									defaultRange[1].ratingValue
+									Config.defaultTryMin.ratingValue,
+									Config.defaultTryMax.ratingValue
 								]}
-								value={[min.ratingValue, max.ratingValue]}
+								value={[
+									valueOfMin?.ratingValue || Config.defaultTryMin.ratingValue,
+									valueOfMax?.ratingValue || Config.defaultTryMax.ratingValue
+								]}
 								onChange={handleRangeChange}
 								min={Math.min(
-									...ratingOptions.map((rating) => rating.ratingValue)
+									...Config.ratingOptions.map((rating) => rating.ratingValue)
 								)}
 								max={Math.max(
-									...ratingOptions.map((rating) => rating.ratingValue)
+									...Config.ratingOptions.map((rating) => rating.ratingValue)
 								)}
 								marks={marks}
 								handle={handle}

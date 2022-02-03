@@ -1,29 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Form from "react-bootstrap/Form";
 import IRatingOption from "../interfaces/RatingOption.interface";
 import RatingSelect, { ActionMeta } from "./RatingSelect";
 import Config from "../Config";
 
 interface IExistingRatingsInputProps {
-	ratingOptions: IRatingOption[];
-	onChange: (newValues: IRatingOption[]) => void;
+	value: IRatingOption[];
+	onChange: (newValues: IRatingOption[] | undefined) => void;
 }
 
 export default function ExistingRatingsInput({
-	ratingOptions,
+	value,
 	onChange
 }: IExistingRatingsInputProps) {
-	const [allRatings, setAllRatings] = useState<IRatingOption[]>(ratingOptions);
-	const [existingRatings, setExistingRatings] = useState<IRatingOption[]>([]);
-
-	useEffect(() => {
-		onChange(existingRatings);
-	}, [existingRatings, onChange]);
-
 	const handleExistingRatingsChange = (
 		newValue: IRatingOption,
 		actionMeta: ActionMeta<IRatingOption>
 	) => {
+		let newSelections: IRatingOption[] = [];
 		switch (actionMeta.action) {
 			case "select-option":
 				const added: IRatingOption = {
@@ -31,14 +25,7 @@ export default function ExistingRatingsInput({
 					label: actionMeta.option?.label || "",
 					ratingValue: actionMeta.option?.ratingValue || -1
 				};
-				setExistingRatings((prev) => [...prev, added]);
-				setAllRatings((prev) => [
-					...prev,
-					{
-						...added,
-						value: Math.random()
-					}
-				]);
+				newSelections = [...value, added];
 				break;
 			case "remove-value":
 				const removed: IRatingOption = {
@@ -46,20 +33,14 @@ export default function ExistingRatingsInput({
 					label: actionMeta.removedValue?.label || "",
 					ratingValue: actionMeta.removedValue?.ratingValue || -1
 				};
-				setExistingRatings((prev) =>
-					prev.filter((prevOption) => prevOption.value !== removed.value)
-				);
-				setAllRatings((prev) =>
-					prev.filter((prevOption) => prevOption.value !== removed.value)
-				);
+				newSelections = value.filter((value) => value.value !== removed.value);
 				break;
 			case "clear":
-				setExistingRatings([]);
-				setAllRatings(ratingOptions);
 				break;
 			default:
 				break;
 		}
+		onChange(newSelections.length === 0 ? undefined : newSelections);
 	};
 
 	return (
@@ -67,9 +48,9 @@ export default function ExistingRatingsInput({
 			<Form.Label>Existing Player Ratings</Form.Label>
 			<RatingSelect
 				placeholder="Select multiple..."
-				value={existingRatings}
+				value={value}
 				onChange={handleExistingRatingsChange}
-				options={allRatings}
+				options={Config.ratingOptions}
 				isMulti
 				maxNumberOfValues={Config.playersInSquad - 1}
 			/>

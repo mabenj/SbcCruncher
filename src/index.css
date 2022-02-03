@@ -21,7 +21,7 @@ a {
 	text-decoration: none !important;
 }
 
-a:hover {
+a:not(.text-decoration-none):hover {
 	text-decoration: underline !important;
 }
 

@@ -1,9 +1,27 @@
+import Config from "../Config";
 import IRatingOption from "../interfaces/RatingOption.interface";
 
 export function range(start: number, stop: number, step: number): number[] {
 	return Array.from(
 		{ length: (stop - start) / step + 1 },
 		(_, i) => start + i * step
+	);
+}
+
+export function ratingRange(
+	start: IRatingOption | undefined,
+	stop: IRatingOption | undefined,
+	step: number
+): IRatingOption[] {
+	if (!start || !stop) {
+		return [];
+	}
+	return range(start.ratingValue, stop.ratingValue, step).map<IRatingOption>(
+		(rating) => ({
+			label: rating.toString(),
+			ratingValue: rating,
+			value: Math.random()
+		})
 	);
 }
 
@@ -50,4 +68,31 @@ export function calculatePrice(
 
 export function sleep(ms: number) {
 	return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+export function serializeRatingOption(
+	value: IRatingOption | undefined
+): string {
+	if (!value) {
+		return "";
+	}
+	return value.ratingValue.toString();
+}
+
+export function deserializeRatingOption(
+	str: string
+): IRatingOption | undefined {
+	if (!str) {
+		return undefined;
+	}
+	const deserialized: IRatingOption = {
+		label: str,
+		ratingValue: Number(str),
+		value: Math.random()
+	};
+	return (
+		Config.ratingOptions.find(
+			(rating) => rating.ratingValue === deserialized.ratingValue
+		) && deserialized
+	);
 }

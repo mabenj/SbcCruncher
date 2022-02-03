@@ -10,13 +10,6 @@ const possibleRatingOptions: IRatingOption[] = possibleRatings.map(
 	})
 );
 
-const defaultRange = range(82, 85, 1);
-const defaultRangeOptions: IRatingOption[] = defaultRange.map((rating) => ({
-	value: Math.random(),
-	label: rating.toString(),
-	ratingValue: rating
-}));
-
 interface IConfig {
 	readonly playersInSquad: number;
 	readonly priceDataStorageKey: string;
@@ -25,7 +18,8 @@ interface IConfig {
 	readonly priceFetchCooldownMs: number;
 	readonly solverResultChunkSize: number;
 	readonly ratingOptions: IRatingOption[];
-	readonly defaultTryRange: IRatingOption[];
+	readonly defaultTryMin: IRatingOption;
+	readonly defaultTryMax: IRatingOption;
 }
 
 const config: IConfig = {
@@ -36,7 +30,16 @@ const config: IConfig = {
 	priceFetchCooldownMs: 1000,
 	solverResultChunkSize: 54,
 	ratingOptions: possibleRatingOptions,
-	defaultTryRange: defaultRangeOptions
+	defaultTryMin: {
+		value: Math.random(),
+		label: "82",
+		ratingValue: 82
+	},
+	defaultTryMax: {
+		value: Math.random(),
+		label: "85",
+		ratingValue: 85
+	}
 };
 
 export default config;

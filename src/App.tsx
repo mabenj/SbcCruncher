@@ -5,9 +5,8 @@ import Col from "react-bootstrap/Col";
 import Header from "./components/Header";
 import ExistingRatingsInput from "./components/ExistingRatingsInput";
 import TargetRatingInput from "./components/TargetRatingInput";
-import IRatingOption from "./interfaces/RatingOption.interface";
 import Form from "react-bootstrap/Form";
-import RatingsRangeInput from "./components/RatingsRangeInput";
+import TryRatingsRangeInput from "./components/TryRatingsRangeInput";
 import Solutions from "./components/Solutions";
 import ISolution from "./interfaces/Solution.interface";
 import CalculationButtons from "./components/CalculationButtons";
@@ -20,6 +19,14 @@ import PricesInput from "./components/PricesInput";
 import ReactGA from "react-ga";
 import Sidebar from "./components/Sidebar";
 import Config from "./Config";
+import { useAtom } from "jotai";
+import { targetRatingAtom } from "./atoms/targetRating.atom";
+import { existingRatingsAtom } from "./atoms/existingRatings.atom";
+import {
+	tryRatingMinAtom,
+	tryRatingMaxAtom
+} from "./atoms/tryRatingRange.atom";
+import { range, ratingRange } from "./util/utils";
 
 function App() {
 	const [solver, setSolver] = useState(new Solver());
@@ -27,11 +34,10 @@ function App() {
 	const [isFormValid /*, setIsFormValid*/] = useState<boolean | undefined>();
 	const [isCalculating, setIsCalculating] = useState(false);
 
-	const [targetRating, setTargetRating] = useState<IRatingOption>();
-	const [existingRatings, setExistingRatings] = useState<IRatingOption[]>([]);
-	const [ratingsToTry, setRatingsToTry] = useState<IRatingOption[]>(
-		Config.defaultTryRange
-	);
+	const [targetRating, setTargetRating] = useAtom(targetRatingAtom);
+	const [existingRatings, setExistingRatings] = useAtom(existingRatingsAtom);
+	const [tryRatingMin, setTryRatingMin] = useAtom(tryRatingMinAtom);
+	const [tryRatingMax, setTryRatingMax] = useAtom(tryRatingMaxAtom);
 
 	const [prices, setPrices] = useState<IPriceInfo>({});
 	const [solutions, setSolutions] = useState<ISolution[]>([]);
@@ -44,7 +50,7 @@ function App() {
 	useEffect(() => {
 		setSolutions([]);
 		setSolutionsCount(null);
-	}, [targetRating, existingRatings, ratingsToTry]);
+	}, [targetRating, existingRatings, tryRatingMin, tryRatingMax]);
 
 	useEffect(() => {
 		solver.onmessage = (message) => {
@@ -95,9 +101,15 @@ function App() {
 		setSolutions([]);
 		setSolutionsCount(null);
 		setIsCalculating(true);
+		const ratingsToTry = range(
+			tryRatingMin?.ratingValue || 0,
+			tryRatingMax?.ratingValue || 0,
+			1
+		);
 		const request: ISolverWorkRequest = {
-			ratingsToTry: ratingsToTry.map((rating) => rating.ratingValue),
-			existingRatings: existingRatings.map((rating) => rating.ratingValue),
+			ratingsToTry: ratingsToTry,
+			existingRatings:
+				existingRatings?.map((rating) => rating.ratingValue) || [],
 			targetRating: targetRating?.ratingValue || -1,
 			prices: prices
 		};
@@ -121,28 +133,34 @@ function App() {
 					<FormRowWrapper>
 						<Col lg={3}>
 							<TargetRatingInput
-								ratingOptions={Config.ratingOptions}
+								value={targetRating}
 								onChange={setTargetRating}
 							/>
 						</Col>
 						<Col>
 							<ExistingRatingsInput
-								ratingOptions={Config.ratingOptions}
+								value={existingRatings || []}
 								onChange={setExistingRatings}
 							/>
 						</Col>
 					</FormRowWrapper>
 
 					<FormRowWrapper>
-						<RatingsRangeInput
-							ratingOptions={Config.ratingOptions}
-							onChange={setRatingsToTry}
-							defaultRange={Config.defaultTryRange}
+						<TryRatingsRangeInput
+							valueOfMin={tryRatingMin}
+							valueOfMax={tryRatingMax}
+							onChange={(min, max) => {
+								setTryRatingMin(min);
+								setTryRatingMax(max);
+							}}
 						/>
 					</FormRowWrapper>
 
 					<FormRowWrapper>
-						<PricesInput ratings={ratingsToTry} onChange={setPrices} />
+						<PricesInput
+							ratings={ratingRange(tryRatingMin, tryRatingMax, 1)}
+							onChange={setPrices}
+						/>
 					</FormRowWrapper>
 
 					<CalculationButtons
@@ -161,9 +179,13 @@ function App() {
 						<Solutions
 							displaySolutions={solutions}
 							targetRating={targetRating?.ratingValue}
-							columnDefinitions={ratingsToTry.map((rating) => ({
-								label: rating.label,
-								rating: rating.ratingValue
+							columnDefinitions={range(
+								tryRatingMin?.ratingValue || 0,
+								tryRatingMax?.ratingValue || 0,
+								1
+							).map((rating) => ({
+								label: rating.toString(),
+								rating: rating
 							}))}
 							totalSolutionsCount={solutionsCount}
 						/>

@@ -4,6 +4,8 @@ import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import App from "./App";
 
+import "react-virtualized/styles.css";
+
 import ReactGA from "react-ga";
 
 ReactGA.initialize(process.env.REACT_APP_GA || "");
