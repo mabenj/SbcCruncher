@@ -32,6 +32,5 @@ function deserializeRatingOptions(str: string): IRatingOption[] | undefined {
 			Config.ratingOptions.find((ro) => ro.ratingValue === rating?.ratingValue)
 		)
 		.slice(0, Config.playersInSquad - 1);
-	console.log({ validRatings });
 	return validRatings;
 }
