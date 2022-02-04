@@ -5,6 +5,7 @@ import Table from "react-bootstrap/Table";
 import ISolutionColumnDefinition from "../interfaces/SolutionColumnDefinition.interface";
 import Alert from "react-bootstrap/Alert";
 import Collapse from "react-bootstrap/Collapse";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const style: React.CSSProperties = {
 	minHeight: "1000px"
@@ -23,6 +24,10 @@ export default function Solutions({
 	columnDefinitions,
 	totalSolutionsCount
 }: ISolutionsProps) {
+	const fetchMoreSolutions = () => {
+		// console.log("fetching more data");
+	};
+
 	return (
 		<div style={style}>
 			<h3>
@@ -44,41 +49,48 @@ export default function Solutions({
 				)}
 			</small>
 
-			<Table striped hover responsive="lg" className="mt-2">
-				<thead className="table-dark">
-					<tr>
-						{columnDefinitions.map((cd, index) => (
-							<RatingCell key={index} isHeader value={cd.label} />
-						))}
-						<PriceCell value="Price" isHeader />
-					</tr>
-				</thead>
-				<tbody>
-					{displaySolutions.map((solution) => (
-						<tr key={solution.id}>
-							{columnDefinitions.map((columnDefinition, columnIndex) => (
-								<RatingCell
-									key={`row${solution.id}col${columnIndex}`}
-									value={
-										solution.ratings.filter(
-											(rating) => rating === columnDefinition.rating
-										).length
-									}
-								/>
-							))}
-							<PriceCell value={solution.price} />
-						</tr>
-					))}
-					{displaySolutions.length === 0 && (
+			<InfiniteScroll
+				dataLength={displaySolutions.length}
+				next={fetchMoreSolutions}
+				hasMore={(totalSolutionsCount || 0) > displaySolutions.length}
+				// loader={<h4>Loading...</h4>}
+				loader={""}>
+				<Table striped hover responsive="lg" className="mt-2">
+					<thead className="table-dark">
 						<tr>
-							{columnDefinitions.map((_, index) => (
-								<RatingCell key={index} value={0} />
+							{columnDefinitions.map((cd, index) => (
+								<RatingCell key={index} isHeader value={cd.label} />
 							))}
-							<PriceCell value={0} />
+							<PriceCell value="Price" isHeader />
 						</tr>
-					)}
-				</tbody>
-			</Table>
+					</thead>
+					<tbody>
+						{displaySolutions.map((solution) => (
+							<tr key={solution.id}>
+								{columnDefinitions.map((columnDefinition, columnIndex) => (
+									<RatingCell
+										key={`row${solution.id}col${columnIndex}`}
+										value={
+											solution.ratings.filter(
+												(rating) => rating === columnDefinition.rating
+											).length
+										}
+									/>
+								))}
+								<PriceCell value={solution.price} />
+							</tr>
+						))}
+						{displaySolutions.length === 0 && (
+							<tr>
+								{columnDefinitions.map((_, index) => (
+									<RatingCell key={index} value={0} />
+								))}
+								<PriceCell value={0} />
+							</tr>
+						)}
+					</tbody>
+				</Table>
+			</InfiniteScroll>
 
 			{totalSolutionsCount !== null &&
 				totalSolutionsCount > displaySolutions.length && (
