@@ -15,27 +15,25 @@ interface ISolutionsProps {
 	displaySolutions: ISolution[];
 	targetRating: number | undefined;
 	columnDefinitions: ISolutionColumnDefinition[];
-	totalSolutionsCount: number | null; // null means calculation has not been done yet
+	totalSolutionsCount: number | null; // null means that calculation has not started yet
+	isCalculating: boolean;
+	fetchMoreSolutions: (fromIndex: number) => void;
 }
 
 export default function Solutions({
 	displaySolutions,
 	targetRating,
 	columnDefinitions,
-	totalSolutionsCount
+	totalSolutionsCount,
+	isCalculating,
+	fetchMoreSolutions
 }: ISolutionsProps) {
-	const fetchMoreSolutions = () => {
-		// console.log("fetching more data");
-	};
-
 	return (
 		<div style={style}>
 			<h3>
 				Solutions{" "}
-				{totalSolutionsCount !== null && (
-					<Badge bg={totalSolutionsCount === 0 ? "danger" : "primary"}>
-						{totalSolutionsCount}
-					</Badge>
+				{(totalSolutionsCount || 0) > 0 && (
+					<Badge bg="primary">{totalSolutionsCount}</Badge>
 				)}
 			</h3>
 			<small className="text-muted">
@@ -51,12 +49,18 @@ export default function Solutions({
 
 			<InfiniteScroll
 				dataLength={displaySolutions.length}
-				next={fetchMoreSolutions}
-				hasMore={(totalSolutionsCount || 0) > displaySolutions.length}
-				// loader={<h4>Loading...</h4>}
-				loader={""}>
+				next={
+					isCalculating
+						? () => -1
+						: () => fetchMoreSolutions(displaySolutions.length)
+				}
+				hasMore={
+					!isCalculating && (totalSolutionsCount || 0) > displaySolutions.length
+				}
+				loader={isCalculating ? <></> : <Loading />}
+				style={{ overflow: "initial" }}>
 				<Table striped hover responsive="lg" className="mt-2">
-					<thead className="table-dark">
+					<thead className="table-dark" style={{ position: "sticky", top: 0 }}>
 						<tr>
 							{columnDefinitions.map((cd, index) => (
 								<RatingCell key={index} isHeader value={cd.label} />
@@ -92,14 +96,19 @@ export default function Solutions({
 				</Table>
 			</InfiniteScroll>
 
-			{totalSolutionsCount !== null &&
-				totalSolutionsCount > displaySolutions.length && (
+			<Collapse
+				in={
+					isCalculating && (totalSolutionsCount || 0) > displaySolutions.length
+				}>
+				<div>
 					<Alert variant="warning">
-						Only the cheapest {displaySolutions.length} solutions are shown
+						Only the cheapest {displaySolutions.length} solutions are shown when
+						calculating
 					</Alert>
-				)}
+				</div>
+			</Collapse>
 
-			<Collapse in={totalSolutionsCount === 0}>
+			<Collapse in={totalSolutionsCount !== null && totalSolutionsCount === 0}>
 				<div>
 					<Alert variant="danger">
 						No possible solutions exist — Try again with a different
@@ -110,6 +119,25 @@ export default function Solutions({
 		</div>
 	);
 }
+
+const Loading = () => {
+	const style: React.CSSProperties = {
+		display: "flex",
+		justifyContent: "center",
+		alignItems: "center"
+	};
+	return (
+		<div style={style}>
+			<div className="lds-ellipsis">
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
+			<h5>Loading...</h5>
+		</div>
+	);
+};
 
 const PriceCell = ({
 	isHeader = false,
@@ -144,10 +172,7 @@ const Cell = ({
 		textAlign: type === "rating" ? "center" : "right"
 	};
 	const headerStyle: React.CSSProperties = {
-		...style,
-		borderBottom: "none",
-		position: "sticky",
-		top: 0
+		...style
 	};
 	if (isHeader) {
 		return (

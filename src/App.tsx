@@ -27,6 +27,7 @@ import {
 } from "./atoms/tryRatingRange.atom";
 import { range, ratingRange } from "./util/utils";
 import ProgressBar from "react-bootstrap/ProgressBar";
+import ISolverDataFetchRequest from "./interfaces/SolverDataFetchRequest.interface";
 
 function App() {
 	const [solver, setSolver] = useState(new Solver());
@@ -67,13 +68,19 @@ function App() {
 					requestAnimationFrame(() => {
 						setSolutionsCount(result.totalSolutionCount);
 						setProgressPercentage(result.percent);
-						setSolutions(result.cheapestSolutions);
+						setSolutions(result.solutions);
 					});
 					ReactGA.event({
 						category: "CALCULATION",
 						action: "CALCULATION_DONE",
 						label: "CALCULATION"
 					});
+					break;
+				}
+				case "DATA_FETCH": {
+					setSolutions((prev) =>
+						prev.concat(result.solutions).sort((a, b) => a.price - b.price)
+					);
 					break;
 				}
 				default: {
@@ -104,6 +111,7 @@ function App() {
 			1
 		);
 		const request: ISolverWorkRequest = {
+			discriminator: "SOLVER-START",
 			ratingsToTry: ratingsToTry,
 			existingRatings:
 				existingRatings?.map((rating) => rating.ratingValue) || [],
@@ -116,6 +124,14 @@ function App() {
 			action: "CALCULATE_PRESSED",
 			label: "CALCULATE"
 		});
+	};
+
+	const fetchMoreSolutions = (fromIndex: number) => {
+		const request: ISolverDataFetchRequest = {
+			discriminator: "SOLVER-FETCH",
+			fromIndex
+		};
+		solver.postMessage(request);
 	};
 
 	return (
@@ -196,6 +212,8 @@ function App() {
 								rating: rating
 							}))}
 							totalSolutionsCount={solutionsCount}
+							fetchMoreSolutions={fetchMoreSolutions}
+							isCalculating={isCalculating}
 						/>
 					</Row>
 				</Form>

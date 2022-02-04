@@ -1,6 +1,8 @@
 /* eslint-disable no-restricted-globals */
 import { multisets } from "combinatorics";
-import ISolverWorkRequest from "../interfaces/SolverWorkRequest.interface";
+import ISolverWorkRequest, {
+	instanceOfISolverWorkRequest
+} from "../interfaces/SolverWorkRequest.interface";
 import ISolverWorkResult from "../interfaces/SolverWorkResult.interface";
 import {
 	calculatePrice,
@@ -9,14 +11,24 @@ import {
 } from "../util/utils";
 import Config from "../Config";
 import ISolution from "../interfaces/Solution.interface";
+import ISolverDataFetchRequest, {
+	instanceOfISolverDataFetchRequest
+} from "../interfaces/SolverDataFetchRequest.interface";
 
 const ctx: Worker = self as any;
 
 let allSolutions: ISolution[];
 
 ctx.addEventListener("message", (message) => {
+	if (instanceOfISolverWorkRequest(message.data)) {
+		handleWorkRequest(message.data as ISolverWorkRequest);
+	} else if (instanceOfISolverDataFetchRequest(message.data)) {
+		handleDataFetch(message.data as ISolverDataFetchRequest);
+	}
+});
+
+function handleWorkRequest(request: ISolverWorkRequest) {
 	allSolutions = [];
-	const request = message.data as ISolverWorkRequest;
 	const totalCombinationsCount = getNumberOfCombinationsWithRepetitions(
 		request.ratingsToTry.length,
 		Config.playersInSquad - request.existingRatings.length
@@ -48,11 +60,26 @@ ctx.addEventListener("message", (message) => {
 		}
 	}
 	postStatus("DONE", 100);
-});
+}
 
-function postStatus(status: "DONE" | "IN_PROGRESS", percent: number) {
+function handleDataFetch(request: ISolverDataFetchRequest) {
+	const CHUNK_SIZE = 100;
+	postStatus(
+		"DATA_FETCH",
+		100,
+		request.fromIndex,
+		request.fromIndex + CHUNK_SIZE
+	);
+}
+
+function postStatus(
+	status: "DONE" | "IN_PROGRESS" | "DATA_FETCH",
+	percent: number,
+	fromIndex: number = 0,
+	toIndex: number = Config.maxAmountOfSolutions
+) {
 	const message: ISolverWorkResult = {
-		cheapestSolutions: getCheapestSolutions(Config.maxAmountOfSolutions),
+		solutions: getSolutions(fromIndex, toIndex),
 		status: status,
 		percent: percent,
 		totalSolutionCount: allSolutions.length
@@ -60,6 +87,6 @@ function postStatus(status: "DONE" | "IN_PROGRESS", percent: number) {
 	ctx.postMessage(message);
 }
 
-function getCheapestSolutions(n: number): ISolution[] {
-	return allSolutions.sort((a, b) => a.price - b.price).slice(0, n);
+function getSolutions(from: number, to: number): ISolution[] {
+	return allSolutions.sort((a, b) => a.price - b.price).slice(from, to);
 }
