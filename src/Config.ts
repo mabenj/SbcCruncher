@@ -19,6 +19,7 @@ interface IConfig {
 	readonly ratingOptions: IRatingOption[];
 	readonly defaultTryMin: IRatingOption;
 	readonly defaultTryMax: IRatingOption;
+	readonly solverUpdateFrequencyMs: number;
 }
 
 const config: IConfig = {
@@ -37,7 +38,8 @@ const config: IConfig = {
 		value: Math.random(),
 		label: "85",
 		ratingValue: 85
-	}
+	},
+	solverUpdateFrequencyMs: 300
 };
 
 export default config;

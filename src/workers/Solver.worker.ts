@@ -10,13 +10,12 @@ import {
 import Config from "../Config";
 import ISolution from "../interfaces/Solution.interface";
 
-const UPDATE_FREQUENCY_MS = 300;
-
 const ctx: Worker = self as any;
 
-let allSolutions: ISolution[] = [];
+let allSolutions: ISolution[];
 
 ctx.addEventListener("message", (message) => {
+	allSolutions = [];
 	const request = message.data as ISolverWorkRequest;
 	const totalCombinationsCount = getNumberOfCombinationsWithRepetitions(
 		request.ratingsToTry.length,
@@ -39,7 +38,7 @@ ctx.addEventListener("message", (message) => {
 			});
 
 			const elapsed = Date.now() - lastUpdate;
-			if (elapsed >= UPDATE_FREQUENCY_MS) {
+			if (elapsed >= Config.solverUpdateFrequencyMs) {
 				postStatus(
 					"IN_PROGRESS",
 					(processedCombinationsCount / totalCombinationsCount) * 100
