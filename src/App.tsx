@@ -18,7 +18,6 @@ import IPriceInfo from "./interfaces/PriceInfo.interface";
 import PricesInput from "./components/PricesInput";
 import ReactGA from "react-ga";
 import Sidebar from "./components/Sidebar";
-import Config from "./Config";
 import { useAtom } from "jotai";
 import { targetRatingAtom } from "./atoms/targetRating.atom";
 import { existingRatingsAtom } from "./atoms/existingRatings.atom";
