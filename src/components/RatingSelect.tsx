@@ -1,23 +1,13 @@
 import React from "react";
-import ReactSelect, {
-	ActionMeta as RCActionMeta,
-	MultiValue,
-	SingleValue
-} from "react-select";
+import ReactSelect, { MultiValue, SingleValue } from "react-select";
 import useIsMobile from "../hooks/useIsMobile";
 import IRatingOption from "../interfaces/RatingOption.interface";
-
-export type ActionMeta<T extends IRatingOption | IRatingOption[] | null> =
-	RCActionMeta<T>;
 
 interface IRatingSelectProps<T extends IRatingOption | IRatingOption[]> {
 	options: IRatingOption[];
 	placeholder?: string;
 	value?: T;
-	onChange?: (
-		newValue: IRatingOption,
-		action: ActionMeta<IRatingOption>
-	) => void;
+	onChange?: (newValue: T) => void;
 	isOptionDisabled?: (option: IRatingOption) => boolean;
 	isMulti?: boolean;
 	maxNumberOfValues?: number;
@@ -38,14 +28,12 @@ export default function RatingSelect<
 	const isTooLong = Array.isArray(value) && value?.length >= maxNumberOfValues;
 
 	const handleChange = (
-		newValue: MultiValue<IRatingOption> | SingleValue<IRatingOption>,
-		// TODO convert RCActionMeta to something better
-		actionMeta: RCActionMeta<IRatingOption>
+		newValue: MultiValue<IRatingOption> | SingleValue<IRatingOption>
 	) => {
 		if (!onChange) {
 			return;
 		}
-		onChange(Array.isArray(newValue) ? newValue[0] : newValue, actionMeta);
+		onChange(newValue as T);
 	};
 
 	const handleIsOptionSelected = (opt: IRatingOption): boolean => {

@@ -1,7 +1,7 @@
 import React from "react";
 import Form from "react-bootstrap/Form";
 import IRatingOption from "../interfaces/RatingOption.interface";
-import RatingSelect, { ActionMeta } from "./RatingSelect";
+import RatingSelect from "./RatingSelect";
 import Config from "../Config";
 
 interface IExistingRatingsInputProps {
@@ -13,34 +13,13 @@ export default function ExistingRatingsInput({
 	value,
 	onChange
 }: IExistingRatingsInputProps) {
-	const handleExistingRatingsChange = (
-		newValue: IRatingOption,
-		actionMeta: ActionMeta<IRatingOption>
-	) => {
-		console.log({ newValue, actionMeta });
-		let newSelections: IRatingOption[] = [];
-		switch (actionMeta.action) {
-			case "select-option":
-				const added: IRatingOption = {
-					label: actionMeta.option?.label || "",
-					ratingValue: actionMeta.option?.ratingValue || -1
-				};
-				newSelections = [...value, added];
-				break;
-			case "remove-value":
-				newSelections = [...value];
-				const index = newSelections.findIndex(
-					(rating) =>
-						rating.ratingValue === actionMeta.removedValue?.ratingValue
-				);
-				newSelections.splice(index, 1);
-				break;
-			case "clear":
-				break;
-			default:
-				break;
-		}
-		onChange(newSelections.length === 0 ? undefined : newSelections);
+	const handleChange = (newOptions: IRatingOption[]) => {
+		console.log({ newOptions });
+		const newSelectedOptions: IRatingOption[] = newOptions.map((opt) => ({
+			...opt,
+			value: Math.random()
+		}));
+		onChange(newSelectedOptions);
 	};
 
 	return (
@@ -49,7 +28,7 @@ export default function ExistingRatingsInput({
 			<RatingSelect
 				placeholder="Select multiple..."
 				value={value}
-				onChange={handleExistingRatingsChange}
+				onChange={handleChange}
 				options={Config.ratingOptions}
 				isMulti
 				maxNumberOfValues={Config.playersInSquad - 1}
