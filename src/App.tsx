@@ -173,7 +173,7 @@ function App() {
 					/>
 
 					<ProgressBar
-						animated
+						animated={isCalculating}
 						striped
 						now={progressPercentage}
 						label={
