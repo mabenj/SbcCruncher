@@ -1,10 +1,10 @@
-import { CapacitorConfig } from '@capacitor/cli';
+import { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
-  appId: 'com.mabenj.sbcsolver',
-  appName: 'SbcSolver',
-  webDir: 'build',
-  bundledWebRuntime: false
+	appId: "com.mabenj.sbccalculator",
+	appName: "SbcCalculator",
+	webDir: "build",
+	bundledWebRuntime: false
 };
 
 export default config;
