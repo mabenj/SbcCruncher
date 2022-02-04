@@ -11,12 +11,18 @@ const ctx: Worker = self as any;
 ctx.addEventListener("message", (message) => {
 	const request = message.data as ISolverWorkRequest;
 	let resultChunk: ISolution[] = [];
+	const totalCombinations = getNumberOfCombinations(
+		request.ratingsToTry.length,
+		Config.playersInSquad - request.existingRatings.length
+	);
+	let processedCombinations = 0;
 	let solutionId = 0;
 	const combinations = multisets(
 		request.ratingsToTry,
 		Config.playersInSquad - request.existingRatings.length
 	);
 	for (const combination of combinations) {
+		processedCombinations++;
 		const wholeSquad = [...request.existingRatings, ...combination];
 		if (isTargetRating(wholeSquad, request.targetRating)) {
 			const solution: ISolution = {
@@ -28,7 +34,8 @@ ctx.addEventListener("message", (message) => {
 			if (resultChunk.length === Config.solverResultChunkSize) {
 				const response: ISolverWorkResult = {
 					resultChunk: resultChunk,
-					status: "IN_PROGRESS"
+					status: "IN_PROGRESS",
+					percent: (processedCombinations / totalCombinations) * 100
 				};
 				ctx.postMessage(response);
 				resultChunk = [];
@@ -37,7 +44,18 @@ ctx.addEventListener("message", (message) => {
 	}
 	const result: ISolverWorkResult = {
 		resultChunk: resultChunk,
-		status: "DONE"
+		status: "DONE",
+		percent: 100
 	};
 	ctx.postMessage(result);
 });
+
+function getNumberOfCombinations(n: number, k: number) {
+	return factorial(n + k - 1) / (factorial(n - 1) * factorial(k));
+}
+
+function factorial(num: number): number {
+	var rval = 1;
+	for (var i = 2; i <= num; i++) rval = rval * i;
+	return rval;
+}

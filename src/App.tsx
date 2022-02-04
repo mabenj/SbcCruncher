@@ -27,12 +27,14 @@ import {
 	tryRatingMaxAtom
 } from "./atoms/tryRatingRange.atom";
 import { range, ratingRange } from "./util/utils";
+import ProgressBar from "react-bootstrap/ProgressBar";
 
 function App() {
 	const [solver, setSolver] = useState(new Solver());
 
 	const [isFormValid /*, setIsFormValid*/] = useState<boolean | undefined>();
 	const [isCalculating, setIsCalculating] = useState(false);
+	const [progressPercentage, setProgressPercentage] = useState(0);
 
 	const [targetRating, setTargetRating] = useAtom(targetRatingAtom);
 	const [existingRatings, setExistingRatings] = useAtom(existingRatingsAtom);
@@ -50,6 +52,7 @@ function App() {
 	useEffect(() => {
 		setSolutions([]);
 		setSolutionsCount(null);
+		setProgressPercentage(0);
 	}, [targetRating, existingRatings, tryRatingMin, tryRatingMax]);
 
 	useEffect(() => {
@@ -63,15 +66,18 @@ function App() {
 				}
 				case "IN_PROGRESS": {
 					setSolutionsCount((prev) => (prev || 0) + result.resultChunk.length);
-					setSolutions((prev) => {
-						// Assume prev array and result array are both sorted
-						if (result.resultChunk[0]?.price > prev[-1]?.price) {
-							return prev;
-						}
-						const all = [...prev, ...result.resultChunk].sort(
-							(a, b) => a.price - b.price
-						);
-						return all.slice(0, Config.maxAmountOfSolutions);
+					requestAnimationFrame(() => {
+						setProgressPercentage(result.percent);
+						setSolutions((prev) => {
+							// Assume prev array and result array are both sorted
+							if (result.resultChunk[0]?.price > prev[-1]?.price) {
+								return prev;
+							}
+							const all = [...prev, ...result.resultChunk].sort(
+								(a, b) => a.price - b.price
+							);
+							return all.slice(0, Config.maxAmountOfSolutions);
+						});
 					});
 					ReactGA.event({
 						category: "CALCULATION",
@@ -100,6 +106,7 @@ function App() {
 		e.preventDefault();
 		setSolutions([]);
 		setSolutionsCount(null);
+		setProgressPercentage(0);
 		setIsCalculating(true);
 		const ratingsToTry = range(
 			tryRatingMin?.ratingValue || 0,
@@ -173,6 +180,17 @@ function App() {
 								return new Solver();
 							});
 						}}
+					/>
+
+					<ProgressBar
+						animated
+						striped
+						now={progressPercentage}
+						label={
+							progressPercentage === 100
+								? "Done"
+								: `${Math.round(progressPercentage)}%`
+						}
 					/>
 
 					<Row className="my-5">
