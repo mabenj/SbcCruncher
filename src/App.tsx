@@ -65,19 +65,10 @@ function App() {
 					/* falls through */
 				}
 				case "IN_PROGRESS": {
-					setSolutionsCount((prev) => (prev || 0) + result.resultChunk.length);
 					requestAnimationFrame(() => {
+						setSolutionsCount(result.totalSolutionCount);
 						setProgressPercentage(result.percent);
-						setSolutions((prev) => {
-							// Assume prev array and result array are both sorted
-							if (result.resultChunk[0]?.price > prev[-1]?.price) {
-								return prev;
-							}
-							const all = [...prev, ...result.resultChunk].sort(
-								(a, b) => a.price - b.price
-							);
-							return all.slice(0, Config.maxAmountOfSolutions);
-						});
+						setSolutions(result.cheapestSolutions);
 					});
 					ReactGA.event({
 						category: "CALCULATION",
@@ -183,6 +174,7 @@ function App() {
 					/>
 
 					<ProgressBar
+						animated
 						striped
 						now={progressPercentage}
 						label={

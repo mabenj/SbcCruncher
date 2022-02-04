@@ -2,60 +2,65 @@
 import { multisets } from "combinatorics";
 import ISolverWorkRequest from "../interfaces/SolverWorkRequest.interface";
 import ISolverWorkResult from "../interfaces/SolverWorkResult.interface";
-import { calculatePrice, isTargetRating } from "../util/utils";
+import {
+	calculatePrice,
+	getNumberOfCombinationsWithRepetitions,
+	isTargetRating
+} from "../util/utils";
 import Config from "../Config";
 import ISolution from "../interfaces/Solution.interface";
 
+const UPDATE_FREQUENCY_MS = 300;
+
 const ctx: Worker = self as any;
+
+let allSolutions: ISolution[] = [];
 
 ctx.addEventListener("message", (message) => {
 	const request = message.data as ISolverWorkRequest;
-	let resultChunk: ISolution[] = [];
-	const totalCombinations = getNumberOfCombinations(
+	const totalCombinationsCount = getNumberOfCombinationsWithRepetitions(
 		request.ratingsToTry.length,
 		Config.playersInSquad - request.existingRatings.length
 	);
-	let processedCombinations = 0;
-	let solutionId = 0;
+	let processedCombinationsCount = 0;
 	const combinations = multisets(
 		request.ratingsToTry,
 		Config.playersInSquad - request.existingRatings.length
 	);
+	let lastUpdate = Date.now();
 	for (const combination of combinations) {
-		processedCombinations++;
+		processedCombinationsCount++;
 		const wholeSquad = [...request.existingRatings, ...combination];
 		if (isTargetRating(wholeSquad, request.targetRating)) {
-			const solution: ISolution = {
-				id: solutionId++,
+			allSolutions.push({
+				id: Math.random(),
 				price: calculatePrice(combination, request.prices),
 				ratings: combination
-			};
-			resultChunk = [...resultChunk, solution];
-			if (resultChunk.length === Config.solverResultChunkSize) {
-				const response: ISolverWorkResult = {
-					resultChunk: resultChunk,
-					status: "IN_PROGRESS",
-					percent: (processedCombinations / totalCombinations) * 100
-				};
-				ctx.postMessage(response);
-				resultChunk = [];
+			});
+
+			const elapsed = Date.now() - lastUpdate;
+			if (elapsed >= UPDATE_FREQUENCY_MS) {
+				postStatus(
+					"IN_PROGRESS",
+					(processedCombinationsCount / totalCombinationsCount) * 100
+				);
+				lastUpdate = Date.now();
 			}
 		}
 	}
-	const result: ISolverWorkResult = {
-		resultChunk: resultChunk,
-		status: "DONE",
-		percent: 100
-	};
-	ctx.postMessage(result);
+	postStatus("DONE", 100);
 });
 
-function getNumberOfCombinations(n: number, k: number) {
-	return factorial(n + k - 1) / (factorial(n - 1) * factorial(k));
+function postStatus(status: "DONE" | "IN_PROGRESS", percent: number) {
+	const message: ISolverWorkResult = {
+		cheapestSolutions: getCheapestSolutions(Config.maxAmountOfSolutions),
+		status: status,
+		percent: percent,
+		totalSolutionCount: allSolutions.length
+	};
+	ctx.postMessage(message);
 }
 
-function factorial(num: number): number {
-	var rval = 1;
-	for (var i = 2; i <= num; i++) rval = rval * i;
-	return rval;
+function getCheapestSolutions(n: number): ISolution[] {
+	return allSolutions.sort((a, b) => a.price - b.price).slice(0, n);
 }

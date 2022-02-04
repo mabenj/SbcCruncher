@@ -16,7 +16,6 @@ interface IConfig {
 	readonly maxAmountOfSolutions: number;
 	readonly maxPriceFetchAttempts: number;
 	readonly priceFetchCooldownMs: number;
-	readonly solverResultChunkSize: number;
 	readonly ratingOptions: IRatingOption[];
 	readonly defaultTryMin: IRatingOption;
 	readonly defaultTryMax: IRatingOption;
@@ -28,7 +27,6 @@ const config: IConfig = {
 	maxAmountOfSolutions: 20,
 	maxPriceFetchAttempts: 5,
 	priceFetchCooldownMs: 1000,
-	solverResultChunkSize: 4253,
 	ratingOptions: possibleRatingOptions,
 	defaultTryMin: {
 		value: Math.random(),

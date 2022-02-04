@@ -96,3 +96,13 @@ export function deserializeRatingOption(
 		) && deserialized
 	);
 }
+
+export function getNumberOfCombinationsWithRepetitions(n: number, k: number) {
+	return factorial(n + k - 1) / (factorial(n - 1) * factorial(k));
+}
+
+export function factorial(num: number): number {
+	var rval = 1;
+	for (var i = 2; i <= num; i++) rval = rval * i;
+	return rval;
+}
