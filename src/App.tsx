@@ -65,7 +65,7 @@ function App() {
 					setSolutionsCount((prev) => (prev || 0) + result.resultChunk.length);
 					setSolutions((prev) => {
 						// Assume prev array and result array are both sorted
-						if (result.resultChunk[0].price > prev[-1]?.price) {
+						if (result.resultChunk[0]?.price > prev[-1]?.price) {
 							return prev;
 						}
 						const all = [...prev, ...result.resultChunk].sort(

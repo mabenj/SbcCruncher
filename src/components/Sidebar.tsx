@@ -60,6 +60,11 @@ export default function Sidebar() {
 						.
 					</p>
 					{/*CSpell: enable */}
+					<p>
+						<strong>Tip!</strong> To ensure faster calculation times, try to
+						specify at least a few existing player ratings and do not use a
+						large range for the ratings to try.
+					</p>
 				</Offcanvas.Body>
 			</Offcanvas>
 		</>

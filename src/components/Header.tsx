@@ -7,7 +7,8 @@ export default function Header() {
 		<>
 			<Brand />
 			<small className="text-muted m-1">
-				A tool for calculating player ratings for SBCs in FIFA Ultimate Team
+				A tool for calculating player ratings and prices for SBCs in FIFA
+				Ultimate Team
 			</small>
 		</>
 	);
@@ -22,7 +23,7 @@ const Brand = () => {
 		<Link href="/" className="text-reset text-decoration-none" openInSameTab>
 			<div style={style}>
 				<Image src="/logo.png" alt="SBC Solver logo" width="50px" />
-				<h1 className="m-2">SBC Rating Solver</h1>
+				<h1 className="m-2">SBC Calculator</h1>
 			</div>
 		</Link>
 	);
