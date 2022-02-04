@@ -28,7 +28,7 @@ export default function Solutions({
 			<h3>
 				Solutions{" "}
 				{totalSolutionsCount !== null && (
-					<Badge bg={totalSolutionsCount === 0 ? "danger" : "success"}>
+					<Badge bg={totalSolutionsCount === 0 ? "danger" : "primary"}>
 						{totalSolutionsCount}
 					</Badge>
 				)}

@@ -129,6 +129,9 @@ export default function TryRatingsRangeInput({
 								)}
 								marks={marks}
 								handle={handle}
+								trackStyle={[{ backgroundColor: "#007bff" }]}
+								handleStyle={[{ borderColor: "#007bff" }]}
+								activeDotStyle={{ borderColor: "#007bff" }}
 							/>
 						</div>
 					</Row>
