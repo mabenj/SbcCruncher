@@ -32,12 +32,12 @@ const config: IConfig = {
 	defaultTryMin: {
 		value: Math.random(),
 		label: "82",
-		ratingValue: 82
+		ratingValue: 81
 	},
 	defaultTryMax: {
 		value: Math.random(),
 		label: "85",
-		ratingValue: 85
+		ratingValue: 86
 	},
 	solverUpdateFrequencyMs: 300
 };

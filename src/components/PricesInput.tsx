@@ -64,7 +64,7 @@ export default function PricesInput({ ratings, onChange }: IPricesInputProps) {
 							<Form.Control
 								type="number"
 								placeholder=""
-								value={prices && prices[ratingOption.ratingValue]}
+								value={(prices && prices[ratingOption.ratingValue]) || 0}
 								onChange={(e) =>
 									handlePriceChange(
 										ratingOption.ratingValue,
