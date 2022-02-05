@@ -3,7 +3,7 @@ import Config from "../Config";
 import IRatingOption from "../interfaces/RatingOption.interface";
 import { deserializeRatingOption, serializeRatingOption } from "../util/utils";
 
-const KEY = "existing_players";
+const KEY = "players";
 
 export const existingRatingsAtom = atomWithHash<IRatingOption[] | undefined>(
 	KEY,
