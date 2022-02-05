@@ -13,7 +13,7 @@ import ReactGA from "react-ga";
 import Collapse from "react-bootstrap/Collapse";
 import Link from "./Link";
 import Config from "../Config";
-import Ring from "./Spinners/Ring";
+import Spinner from "./Spinner";
 
 interface IPricesInputProps {
 	ratings: IRatingOption[];
@@ -96,7 +96,7 @@ export default function PricesInput({ ratings, onChange }: IPricesInputProps) {
 						title="Fetch from FUTBIN">
 						{isFetching ? (
 							<>
-								<Ring />
+								<Spinner.Ring />
 								<span className="m-2">Fetching...</span>
 							</>
 						) : (

@@ -21,9 +21,9 @@ let allSolutions: ISolution[];
 
 ctx.addEventListener("message", (message) => {
 	if (instanceOfISolverWorkRequest(message.data)) {
-		handleWorkRequest(message.data as ISolverWorkRequest);
+		handleWorkRequest(message.data);
 	} else if (instanceOfISolverDataFetchRequest(message.data)) {
-		handleDataFetch(message.data as ISolverDataFetchRequest);
+		handleDataFetch(message.data);
 	}
 });
 

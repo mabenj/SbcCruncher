@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
-import Hourglass from "./Spinners/Hourglass";
+import Spinner from "./Spinner";
 
 interface ICalculationButtonsProps {
 	disabled: boolean;
@@ -27,7 +27,7 @@ export default function CalculationButtons({
 				disabled={disabled}>
 				{isCalculating ? (
 					<>
-						<Hourglass />
+						<Spinner.Hourglass />
 						<span className="m-2">&nbsp;Calculating...</span>
 					</>
 				) : (

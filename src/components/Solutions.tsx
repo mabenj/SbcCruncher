@@ -8,7 +8,7 @@ import Collapse from "react-bootstrap/Collapse";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 import "../styles/Solutions.scss";
-import Ellipsis from "./Spinners/Ellipsis";
+import Spinner from "./Spinner";
 
 interface ISolutionsProps {
 	displaySolutions: ISolution[];
@@ -122,7 +122,7 @@ export default function Solutions({
 const Loading = () => {
 	return (
 		<div className="loader-container">
-			<Ellipsis />
+			<Spinner.Ellipsis />
 			<h5>Loading...</h5>
 		</div>
 	);

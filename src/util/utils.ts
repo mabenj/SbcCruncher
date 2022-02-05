@@ -51,7 +51,7 @@ function getRating(ratings: number[]): number {
 		}
 		return acc + curr - avg;
 	}, 0);
-	const rating = Math.round(sum + excess) / 11;
+	const rating = Math.round(sum + excess) / Config.playersInSquad;
 	return Math.floor(rating);
 }
 
