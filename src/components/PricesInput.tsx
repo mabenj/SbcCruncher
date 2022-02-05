@@ -34,8 +34,16 @@ export default function PricesInput({ ratings, onChange }: IPricesInputProps) {
 		}
 	}, [onChange, prices]);
 
-	const handlePriceChange = (rating: number, newPrice: number) => {
-		setPrices((prev) => ({ ...prev, [rating]: newPrice }));
+	const handlePriceChange = (rating: number, newPrice: string) => {
+		if (newPrice === "") {
+			setPrices((prev) => {
+				const clone = { ...prev };
+				delete clone[rating];
+				return clone;
+			});
+		} else {
+			setPrices((prev) => ({ ...prev, [rating]: Number(newPrice) }));
+		}
 	};
 
 	const handleFetchFutbin = useCallback(async (e: React.MouseEvent) => {
@@ -65,12 +73,9 @@ export default function PricesInput({ ratings, onChange }: IPricesInputProps) {
 							<Form.Control
 								type="number"
 								placeholder=""
-								value={(prices && prices[ratingOption.ratingValue]) || 0}
+								value={prices[ratingOption.ratingValue]}
 								onChange={(e) =>
-									handlePriceChange(
-										ratingOption.ratingValue,
-										Number(e.target.value)
-									)
+									handlePriceChange(ratingOption.ratingValue, e.target.value)
 								}
 								min={0}
 								step={1000}
