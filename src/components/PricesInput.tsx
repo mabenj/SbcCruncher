@@ -41,7 +41,7 @@ export default function PricesInput({ ratings, onChange }: IPricesInputProps) {
 		e.preventDefault();
 		setIsFetching(true);
 		const [prices, errorMessage] = await fetchFutbinPrices();
-		if (prices) {
+		if (prices && !errorMessage) {
 			setPrices(prices);
 		}
 		setFetchError(errorMessage);
@@ -95,7 +95,8 @@ export default function PricesInput({ ratings, onChange }: IPricesInputProps) {
 							</>
 						) : (
 							<>
-								<i className="fas fa-redo-alt"></i> Fetch from FUTBIN.com
+								<i className="fas fa-redo-alt"></i>
+								&nbsp;Fetch&nbsp;from&nbsp;FUTBIN
 							</>
 						)}
 					</Button>
@@ -116,7 +117,8 @@ export default function PricesInput({ ratings, onChange }: IPricesInputProps) {
 				<Link href="https://www.futbin.com/stc/cheapest">
 					cheapest players by rating
 				</Link>{" "}
-				page. The price of the cheapest player of each rating will be used.{" "}
+				page. The price of the cheapest player of each rating will be used here.{" "}
+				<br />
 				<br />
 			</Form.Text>
 			<Form.Text muted>

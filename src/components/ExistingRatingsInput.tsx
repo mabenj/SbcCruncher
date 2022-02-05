@@ -34,8 +34,8 @@ export default function ExistingRatingsInput({
 				maxNumberOfValues={Config.playersInSquad - 1}
 			/>
 			<Form.Text muted>
-				Specify the ratings of the <abbr title="fodder">players</abbr> you
-				already possess and plan to use in the SBC
+				Specify the ratings of the players you already possess and plan to use
+				in the SBC <em>(aka fodder)</em>
 			</Form.Text>
 		</Form.Group>
 	);

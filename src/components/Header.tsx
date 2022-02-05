@@ -7,8 +7,8 @@ export default function Header() {
 		<>
 			<Brand />
 			<small className="text-muted m-1">
-				A tool for calculating player ratings and prices for SBCs in FIFA
-				Ultimate Team
+				A tool for calculating the most optimal player ratings and prices for
+				FIFA Ultimate Team SBCs
 			</small>
 		</>
 	);
@@ -20,11 +20,13 @@ const Brand = () => {
 		alignItems: "center"
 	};
 	return (
-		<Link href="/" className="text-reset text-decoration-none" openInSameTab>
-			<div style={style}>
-				<Image src="/logo.png" alt="SBC Solver logo" width="50px" />
-				<h1 className="m-2">SBC Calculator</h1>
-			</div>
-		</Link>
+		<div style={style}>
+			<Link href="/" className="text-reset text-decoration-none" openInSameTab>
+				<Image src="/logo.png" alt="SBC Cruncher logo" width="50px" />
+			</Link>
+			<Link href="/" className="text-reset text-decoration-none" openInSameTab>
+				<h1 className="m-2">SBC Cruncher</h1>
+			</Link>
+		</div>
 	);
 };

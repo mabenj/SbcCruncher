@@ -31,12 +31,12 @@ const config: IConfig = {
 	ratingOptions: possibleRatingOptions,
 	defaultTryMin: {
 		value: Math.random(),
-		label: "82",
+		label: "81",
 		ratingValue: 81
 	},
 	defaultTryMax: {
 		value: Math.random(),
-		label: "85",
+		label: "86",
 		ratingValue: 86
 	},
 	solverUpdateFrequencyMs: 300

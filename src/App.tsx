@@ -144,7 +144,7 @@ function App() {
 
 				<Form noValidate validated={isFormValid} onSubmit={calculate}>
 					<FormRowWrapper>
-						<Col lg={3}>
+						<Col lg={3} className="mb-5">
 							<TargetRatingInput
 								value={targetRating}
 								onChange={setTargetRating}
@@ -189,6 +189,7 @@ function App() {
 					/>
 
 					<ProgressBar
+						className="my-5"
 						animated={isCalculating}
 						striped
 						now={progressPercentage}
@@ -199,7 +200,7 @@ function App() {
 						}
 					/>
 
-					<Row className="my-5">
+					<Row>
 						<Solutions
 							displaySolutions={solutions}
 							targetRating={targetRating?.ratingValue}
@@ -224,8 +225,16 @@ function App() {
 
 export default App;
 
-const FormRowWrapper = ({ children }: { children: React.ReactNode }) => {
+const FormRowWrapper = ({
+	children,
+	className
+}: {
+	children: React.ReactNode;
+	className?: string;
+}) => {
 	return (
-		<Row className="my-5 mx-1 bg-light border rounded p-3">{children}</Row>
+		<Row className={`my-5 mx-1 bg-light border rounded p-3 ${className}`}>
+			{children}
+		</Row>
 	);
 };

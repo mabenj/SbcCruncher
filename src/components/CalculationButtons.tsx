@@ -27,11 +27,11 @@ export default function CalculationButtons({
 				{isCalculating ? (
 					<>
 						<div className="lds-hourglass"></div>
-						<span className="m-2"> Calculating...</span>
+						<span className="m-2">&nbsp;Calculating...</span>
 					</>
 				) : (
 					<>
-						<i className="fas fa-calculator"></i> Calculate Ratings
+						<i className="fas fa-calculator"></i>&nbsp;Calculate Solutions
 					</>
 				)}
 			</Button>
@@ -41,7 +41,7 @@ export default function CalculationButtons({
 				title="Stop calculation"
 				disabled={!isCalculating}
 				onClick={handleStop}>
-				<i className="fas fa-ban"></i> Stop
+				<i className="fas fa-ban"></i>&nbsp;Stop
 			</Button>
 		</>
 	);

@@ -5,20 +5,23 @@ interface ILinkProps {
 	children: React.ReactNode;
 	className?: string;
 	openInSameTab?: boolean;
+	style?: React.CSSProperties;
 }
 
 export default function Link({
 	href,
 	children,
 	className,
-	openInSameTab = false
+	openInSameTab = false,
+	style
 }: ILinkProps) {
 	return (
 		<a
 			href={href}
 			target={openInSameTab ? "_self" : "_blank"}
 			rel="noreferrer"
-			className={className}>
+			className={className}
+			style={style}>
 			{children}
 		</a>
 	);

@@ -139,7 +139,9 @@ export default function TryRatingsRangeInput({
 			</div>
 			<Form.Text muted>
 				Specify the minimum and maximum ratings to use when calculating the
-				rating combinations.{" "}
+				possible rating combinations
+				<br />
+				<br />
 				<strong className="text-danger">
 					A large range will take a long time to calculate!
 				</strong>

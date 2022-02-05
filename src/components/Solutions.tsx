@@ -59,7 +59,12 @@ export default function Solutions({
 				}
 				loader={isCalculating ? <></> : <Loading />}
 				style={{ overflow: "initial" }}>
-				<Table striped hover responsive="lg" className="mt-2">
+				<Table
+					striped
+					hover
+					responsive="lg"
+					className="mt-2"
+					style={{ overflow: "initial" }}>
 					<thead className="table-dark" style={{ position: "sticky", top: 0 }}>
 						<tr>
 							{columnDefinitions.map((cd, index) => (
