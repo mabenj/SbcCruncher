@@ -1,5 +1,5 @@
 {
-	"name": "sbc-rating-solver",
+	"name": "sbc-cruncher",
 	"version": "0.1.0",
 	"private": true,
 	"dependencies": {

@@ -19,6 +19,12 @@ const buttonStyle: React.CSSProperties = {
 	position: "absolute"
 };
 
+const bodyStyle: React.CSSProperties = {
+	display: "flex",
+	flexDirection: "column",
+	justifyContent: "space-between"
+};
+
 export default function Sidebar() {
 	const [show, setShow] = useState(false);
 
@@ -38,33 +44,40 @@ export default function Sidebar() {
 				<Offcanvas.Header closeButton>
 					<Offcanvas.Title>About</Offcanvas.Title>
 				</Offcanvas.Header>
-				<Offcanvas.Body>
+				<Offcanvas.Body style={bodyStyle}>
 					{/*CSpell: disable */}
-					<p>
-						This tool is inspired by{" "}
-						<Link href="https://elmaano.github.io/sbc/">
-							SBC Rating Brute Forcer
-						</Link>{" "}
-						made by{" "}
-						<Link href="https://www.github.com/elmaano/sbc">elmaano</Link>.
-					</p>
-					<p>
-						The squad ratings are calculated based on{" "}
-						<Link href="https://reddit.com/user/ChairmanMeowwww">
-							u_ChairmanMeowwww
+					<div>
+						<p>
+							This tool is inspired by{" "}
+							<Link href="https://elmaano.github.io/sbc/">
+								SBC Rating Brute Forcer
+							</Link>{" "}
+							made by{" "}
+							<Link href="https://www.github.com/elmaano/sbc">elmaano</Link>.
+							And the squad ratings are calculated based on{" "}
+							<Link href="https://reddit.com/user/ChairmanMeowwww">
+								u_ChairmanMeowwww
+							</Link>
+							's{" "}
+							<Link href="https://reddit.com/r/FIFA/comments/5osq7k/new_overall_rating_figured_out/">
+								formula
+							</Link>
+							.
+						</p>
+						{/*CSpell: enable */}
+						<p>
+							<strong>Tip!</strong> To ensure faster calculation times, try to
+							specify at least a few existing player ratings and do not use a
+							large range for the ratings to try.
+						</p>
+					</div>
+					<div className="my-4">
+						<Link
+							href="https://github.com/mabenj/SbcCruncher"
+							className="text-decoration-none">
+							<i className="fab fa-github"></i>&nbsp;mabenj
 						</Link>
-						's{" "}
-						<Link href="https://reddit.com/r/FIFA/comments/5osq7k/new_overall_rating_figured_out/">
-							formula
-						</Link>
-						.
-					</p>
-					{/*CSpell: enable */}
-					<p>
-						<strong>Tip!</strong> To ensure faster calculation times, try to
-						specify at least a few existing player ratings and do not use a
-						large range for the ratings to try.
-					</p>
+					</div>
 				</Offcanvas.Body>
 			</Offcanvas>
 		</>
