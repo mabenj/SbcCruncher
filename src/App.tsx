@@ -144,13 +144,13 @@ function App() {
 
 				<Form noValidate validated={isFormValid} onSubmit={calculate}>
 					<FormRowWrapper>
-						<Col lg={3} className="mb-5">
+						<Col lg={3} className="my-3">
 							<TargetRatingInput
 								value={targetRating}
 								onChange={setTargetRating}
 							/>
 						</Col>
-						<Col>
+						<Col className="my-3">
 							<ExistingRatingsInput
 								value={existingRatings || []}
 								onChange={setExistingRatings}
