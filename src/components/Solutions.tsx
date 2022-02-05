@@ -157,11 +157,12 @@ const Cell = ({
 	isHeader: boolean;
 	value: string | number;
 }) => {
+	const className = type === "rating" ? "rating-cell" : "price-cell";
 	if (isHeader) {
-		return <th className="bg-dark">{value}</th>;
+		return <th className={`bg-dark ${className}`}>{value}</th>;
 	} else {
 		return (
-			<td className={type === "rating" ? "rating-cell" : "price-cell"}>
+			<td className={className}>
 				<span className={value === 0 ? "text-muted" : ""}>{value}</span>
 			</td>
 		);
