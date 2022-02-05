@@ -7,9 +7,8 @@ import Alert from "react-bootstrap/Alert";
 import Collapse from "react-bootstrap/Collapse";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-const style: React.CSSProperties = {
-	minHeight: "1000px"
-};
+import "../styles/Solutions.scss";
+import Ellipsis from "./Spinners/Ellipsis";
 
 interface ISolutionsProps {
 	displaySolutions: ISolution[];
@@ -29,7 +28,7 @@ export default function Solutions({
 	fetchMoreSolutions
 }: ISolutionsProps) {
 	return (
-		<div style={style}>
+		<div className="solutions">
 			<h3>
 				Solutions{" "}
 				{(totalSolutionsCount || 0) > 0 && (
@@ -58,14 +57,9 @@ export default function Solutions({
 					!isCalculating && (totalSolutionsCount || 0) > displaySolutions.length
 				}
 				loader={isCalculating ? <></> : <Loading />}
-				style={{ overflow: "initial" }}>
-				<Table
-					striped
-					hover
-					responsive="lg"
-					className="mt-2"
-					style={{ overflow: "initial" }}>
-					<thead className="table-dark" style={{ position: "sticky", top: 0 }}>
+				className="infinite-scroll">
+				<Table striped hover responsive="lg" className="mt-2 solutions-table">
+					<thead className="table-dark sticky-header">
 						<tr>
 							{columnDefinitions.map((cd, index) => (
 								<RatingCell key={index} isHeader value={cd.label} />
@@ -107,8 +101,8 @@ export default function Solutions({
 				}>
 				<div>
 					<Alert variant="warning">
-						Only the cheapest {displaySolutions.length} solutions are shown when
-						calculating
+						Only the cheapest {displaySolutions.length} solutions are shown
+						while calculating
 					</Alert>
 				</div>
 			</Collapse>
@@ -126,19 +120,9 @@ export default function Solutions({
 }
 
 const Loading = () => {
-	const style: React.CSSProperties = {
-		display: "flex",
-		justifyContent: "center",
-		alignItems: "center"
-	};
 	return (
-		<div style={style}>
-			<div className="lds-ellipsis">
-				<div></div>
-				<div></div>
-				<div></div>
-				<div></div>
-			</div>
+		<div className="loader-container">
+			<Ellipsis />
 			<h5>Loading...</h5>
 		</div>
 	);
@@ -173,21 +157,11 @@ const Cell = ({
 	isHeader: boolean;
 	value: string | number;
 }) => {
-	const style: React.CSSProperties = {
-		textAlign: type === "rating" ? "center" : "right"
-	};
-	const headerStyle: React.CSSProperties = {
-		...style
-	};
 	if (isHeader) {
-		return (
-			<th className="bg-dark" style={headerStyle}>
-				{value}
-			</th>
-		);
+		return <th className="bg-dark">{value}</th>;
 	} else {
 		return (
-			<td style={style}>
+			<td className={type === "rating" ? "rating-cell" : "price-cell"}>
 				<span className={value === 0 ? "text-muted" : ""}>{value}</span>
 			</td>
 		);

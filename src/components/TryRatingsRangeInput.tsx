@@ -10,18 +10,12 @@ import { getMaxRatingOption, getMinRatingOption } from "../util/utils";
 import useIsMobile from "../hooks/useIsMobile";
 import Config from "../Config";
 import RatingSelect from "./RatingSelect";
+
+import "../styles/TryRatingsRangeInput.scss";
+
 const { createSliderWithTooltip } = Slider;
 const Range = createSliderWithTooltip(Slider.Range);
 const { Handle } = Slider;
-
-const selectStyle: React.CSSProperties = {
-	flexGrow: "1"
-};
-
-const sliderStyle: React.CSSProperties = {
-	width: "95%",
-	margin: "10px"
-};
 
 interface IRatingsRangeInputProps {
 	valueOfMin: IRatingOption | undefined;
@@ -84,7 +78,7 @@ export default function TryRatingsRangeInput({
 					<Col lg={2}>
 						<InputGroup className="mb-3">
 							<InputGroup.Text>Min</InputGroup.Text>
-							<div style={selectStyle}>
+							<div className="select">
 								<RatingSelect
 									value={valueOfMin}
 									options={Config.ratingOptions}
@@ -97,7 +91,7 @@ export default function TryRatingsRangeInput({
 					<Col lg={2}>
 						<InputGroup className="mb-3">
 							<InputGroup.Text>Max</InputGroup.Text>
-							<div style={selectStyle}>
+							<div className="select">
 								<RatingSelect
 									value={valueOfMax}
 									options={Config.ratingOptions}
@@ -109,7 +103,7 @@ export default function TryRatingsRangeInput({
 				</Row>
 				{!isMobile && (
 					<Row className="py-4">
-						<div style={sliderStyle}>
+						<div className="slider">
 							<Range
 								step={1}
 								defaultValue={[

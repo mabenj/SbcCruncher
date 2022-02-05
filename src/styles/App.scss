@@ -1,0 +1,12 @@
+button:disabled {
+	cursor: not-allowed;
+	pointer-events: all !important;
+}
+
+a {
+	text-decoration: none !important;
+}
+
+a:not(.text-decoration-none):hover {
+	text-decoration: underline !important;
+}

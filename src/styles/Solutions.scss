@@ -1,0 +1,30 @@
+.solutions {
+	min-height: 1000px;
+
+	.infinite-scroll {
+		overflow: initial;
+	}
+
+	.solutions-table {
+		overflow: initial;
+
+		.sticky-header {
+			position: sticky;
+			top: 0;
+		}
+	}
+}
+
+.loader-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.rating-cell {
+	text-align: center;
+}
+
+.price-cell {
+	text-align: right;
+}

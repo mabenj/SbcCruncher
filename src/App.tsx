@@ -29,6 +29,8 @@ import { range, ratingRange } from "./util/utils";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import ISolverDataFetchRequest from "./interfaces/SolverDataFetchRequest.interface";
 
+import "./styles/App.scss";
+
 function App() {
 	const [solver, setSolver] = useState(new Solver());
 

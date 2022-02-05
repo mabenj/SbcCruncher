@@ -2,6 +2,8 @@ import React from "react";
 import Image from "react-bootstrap/Image";
 import Link from "./Link";
 
+import "../styles/Header.scss";
+
 export default function Header() {
 	return (
 		<>
@@ -15,12 +17,8 @@ export default function Header() {
 }
 
 const Brand = () => {
-	const style: React.CSSProperties = {
-		display: "flex",
-		alignItems: "center"
-	};
 	return (
-		<div style={style}>
+		<div className="header">
 			<Link href="/" className="text-reset text-decoration-none" openInSameTab>
 				<Image src="/logo.png" alt="SBC Cruncher logo" width="50px" />
 			</Link>
