@@ -2,9 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
-import reportWebVitals from "./reportWebVitals";
-import "bootstrap/dist/css/bootstrap.min.css";
+// import reportWebVitals from "./reportWebVitals";
 import ReactGA from "react-ga";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 ReactGA.initialize(process.env.REACT_APP_GA || "");
 
