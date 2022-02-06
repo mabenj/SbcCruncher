@@ -11,7 +11,7 @@ import Solutions from "./components/Solutions";
 import ISolution from "./interfaces/Solution.interface";
 import CalculationButtons from "./components/CalculationButtons";
 /* eslint-disable import/no-webpack-loader-syntax */
-import Solver from "worker-loader!./workers/Solver.worker.ts";
+import Solver from "worker-loader!./solver/Solver.worker.ts";
 import ISolverWorkResult from "./interfaces/SolverWorkResult.interface";
 import ISolverWorkRequest from "./interfaces/SolverWorkRequest.interface";
 import IPriceInfo from "./interfaces/PriceInfo.interface";
