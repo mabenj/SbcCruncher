@@ -14,7 +14,6 @@ export default function ExistingRatingsInput({
 	onChange
 }: IExistingRatingsInputProps) {
 	const handleChange = (newOptions: IRatingOption[]) => {
-		console.log({ newOptions });
 		const newSelectedOptions: IRatingOption[] = newOptions.map((opt) => ({
 			...opt,
 			value: Math.random()
