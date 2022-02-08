@@ -1,7 +1,7 @@
 import React from "react";
 import Form from "react-bootstrap/Form";
-import IRatingOption from "../interfaces/RatingOption.interface";
-import RatingSelect from "./RatingSelect";
+import { IRatingOption } from "../interfaces";
+import { RatingSelect } from "./";
 import Config from "../Config";
 
 interface IExistingRatingsInputProps {
@@ -9,7 +9,7 @@ interface IExistingRatingsInputProps {
 	onChange: (newValues: IRatingOption[] | undefined) => void;
 }
 
-export default function ExistingRatingsInput({
+export function ExistingRatingsInput({
 	value,
 	onChange
 }: IExistingRatingsInputProps) {

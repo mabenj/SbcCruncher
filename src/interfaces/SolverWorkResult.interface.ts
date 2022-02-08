@@ -1,6 +1,6 @@
-import ISolution from "./Solution.interface";
+import { ISolution } from "./";
 
-export default interface ISolverWorkResult {
+export interface ISolverWorkResult {
 	status: "DONE" | "IN_PROGRESS" | "DATA_FETCH";
 	solutions: ISolution[];
 	percent: number;

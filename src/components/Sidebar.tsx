@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
-import Link from "./Link";
+import { Link } from "./";
 
 import "../styles/Sidebar.scss";
 
-export default function Sidebar() {
+export function Sidebar() {
 	const [show, setShow] = useState(false);
 
 	const handleInfoClick = (e: React.MouseEvent) => {

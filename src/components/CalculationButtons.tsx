@@ -8,7 +8,7 @@ interface ICalculationButtonsProps {
 	onStopPressed: () => void;
 }
 
-export default function CalculationButtons({
+export function CalculationButtons({
 	disabled,
 	isCalculating,
 	onStopPressed

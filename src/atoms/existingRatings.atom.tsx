@@ -1,6 +1,6 @@
 import { atomWithHash } from "jotai/utils";
 import Config from "../Config";
-import IRatingOption from "../interfaces/RatingOption.interface";
+import { IRatingOption } from "../interfaces";
 import { deserializeRatingOption, serializeRatingOption } from "../util/utils";
 
 const KEY = "players";

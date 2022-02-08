@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 const BREAKPOINT = 768;
 
-const useIsMobile = () => {
+export const useIsMobile = () => {
 	const [width, setWidth] = useState(window.innerWidth);
 
 	function handleWindowSizeChange() {
@@ -17,5 +17,3 @@ const useIsMobile = () => {
 
 	return [width <= BREAKPOINT];
 };
-
-export default useIsMobile;

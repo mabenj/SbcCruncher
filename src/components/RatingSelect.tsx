@@ -1,7 +1,7 @@
 import React from "react";
 import ReactSelect, { MultiValue, SingleValue } from "react-select";
-import useIsMobile from "../hooks/useIsMobile";
-import IRatingOption from "../interfaces/RatingOption.interface";
+import { useIsMobile } from "../hooks";
+import { IRatingOption } from "../interfaces";
 
 interface IRatingSelectProps<T extends IRatingOption | IRatingOption[]> {
 	options: IRatingOption[];
@@ -13,9 +13,7 @@ interface IRatingSelectProps<T extends IRatingOption | IRatingOption[]> {
 	maxNumberOfValues?: number;
 }
 
-export default function RatingSelect<
-	T extends IRatingOption | IRatingOption[]
->({
+export function RatingSelect<T extends IRatingOption | IRatingOption[]>({
 	placeholder,
 	value,
 	onChange,

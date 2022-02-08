@@ -1,5 +1,5 @@
 import Config from "../Config";
-import IRatingOption from "../interfaces/RatingOption.interface";
+import { IRatingOption } from "../interfaces";
 
 export function range(start: number, stop: number, step: number): number[] {
 	return Array.from(

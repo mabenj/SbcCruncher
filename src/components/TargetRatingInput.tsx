@@ -1,15 +1,15 @@
 import React from "react";
 import Form from "react-bootstrap/Form";
 import Config from "../Config";
-import IRatingOption from "../interfaces/RatingOption.interface";
-import RatingSelect from "./RatingSelect";
+import { IRatingOption } from "../interfaces";
+import { RatingSelect } from "./";
 
 interface ITargetRatingInputProps {
 	value: IRatingOption | undefined;
 	onChange: (newRating: IRatingOption) => void;
 }
 
-export default function TargetRatingInput({
+export function TargetRatingInput({
 	value,
 	onChange
 }: ITargetRatingInputProps) {

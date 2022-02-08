@@ -2,32 +2,36 @@ import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Header from "./components/Header";
-import ExistingRatingsInput from "./components/ExistingRatingsInput";
-import TargetRatingInput from "./components/TargetRatingInput";
 import Form from "react-bootstrap/Form";
-import TryRatingsRangeInput from "./components/TryRatingsRangeInput";
-import Solutions from "./components/Solutions";
-import ISolution from "./interfaces/Solution.interface";
-import CalculationButtons from "./components/CalculationButtons";
+import ProgressBar from "react-bootstrap/ProgressBar";
+import {
+	ISolution,
+	ISolverWorkResult,
+	ISolverWorkRequest,
+	IPriceInfo,
+	ISolverDataFetchRequest
+} from "./interfaces";
+import {
+	CalculationButtons,
+	ExistingRatingsInput,
+	Header,
+	PricesInput,
+	Sidebar,
+	Solutions,
+	TargetRatingInput,
+	TryRatingsRangeInput
+} from "./components/";
 /* eslint-disable import/no-webpack-loader-syntax */
 import Solver from "worker-loader!./solver/Solver.worker.ts";
-import ISolverWorkResult from "./interfaces/SolverWorkResult.interface";
-import ISolverWorkRequest from "./interfaces/SolverWorkRequest.interface";
-import IPriceInfo from "./interfaces/PriceInfo.interface";
-import PricesInput from "./components/PricesInput";
 import ReactGA from "react-ga";
-import Sidebar from "./components/Sidebar";
 import { useAtom } from "jotai";
-import { targetRatingAtom } from "./atoms/targetRating.atom";
-import { existingRatingsAtom } from "./atoms/existingRatings.atom";
 import {
+	targetRatingAtom,
+	existingRatingsAtom,
 	tryRatingMinAtom,
 	tryRatingMaxAtom
-} from "./atoms/tryRatingRange.atom";
+} from "./atoms";
 import { range, ratingRange } from "./util/utils";
-import ProgressBar from "react-bootstrap/ProgressBar";
-import ISolverDataFetchRequest from "./interfaces/SolverDataFetchRequest.interface";
 
 import "./styles/App.scss";
 

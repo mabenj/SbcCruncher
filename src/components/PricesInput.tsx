@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
-import IPriceInfo from "../interfaces/PriceInfo.interface";
-import IRatingOption from "../interfaces/RatingOption.interface";
+import { IPriceInfo } from "../interfaces";
+import { IRatingOption } from "../interfaces";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import InputGroup from "react-bootstrap/InputGroup";
@@ -11,7 +11,7 @@ import { fetchFutbinPrices } from "../services/FutbinPrices.service";
 import { setItem, getItemOrNull } from "../services/LocalStorage.service";
 import ReactGA from "react-ga";
 import Collapse from "react-bootstrap/Collapse";
-import Link from "./Link";
+import { Link } from "./";
 import Config from "../Config";
 import Spinner from "./Spinner";
 
@@ -20,7 +20,7 @@ interface IPricesInputProps {
 	onChange: (priceInfo: IPriceInfo) => void;
 }
 
-export default function PricesInput({ ratings, onChange }: IPricesInputProps) {
+export function PricesInput({ ratings, onChange }: IPricesInputProps) {
 	const [prices, setPrices] = useState<IPriceInfo>(
 		getItemOrNull<IPriceInfo>(Config.priceDataStorageKey) || {}
 	);

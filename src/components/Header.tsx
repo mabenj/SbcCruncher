@@ -1,10 +1,10 @@
 import React from "react";
 import Image from "react-bootstrap/Image";
-import Link from "./Link";
+import { Link } from "./";
 
 import "../styles/Header.scss";
 
-export default function Header() {
+export function Header() {
 	return (
 		<>
 			<Brand />

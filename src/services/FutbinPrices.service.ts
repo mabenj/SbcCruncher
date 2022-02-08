@@ -1,5 +1,5 @@
 import axios from "axios";
-import IPriceInfo from "../interfaces/PriceInfo.interface";
+import { IPriceInfo } from "../interfaces";
 import { sleep } from "../util/utils";
 import Config from "../Config";
 

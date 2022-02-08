@@ -1,4 +1,4 @@
-export default interface ISolution {
+export interface ISolution {
 	ratings: number[];
 	price: number;
 	id: number;

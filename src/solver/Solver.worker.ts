@@ -1,19 +1,19 @@
 /* eslint-disable no-restricted-globals */
 import { multisets } from "combinatorics";
-import ISolverWorkRequest, {
+import {
+	ISolverWorkRequest,
+	ISolverWorkResult,
+	ISolution,
+	ISolverDataFetchRequest,
+	instanceOfISolverDataFetchRequest,
 	instanceOfISolverWorkRequest
-} from "../interfaces/SolverWorkRequest.interface";
-import ISolverWorkResult from "../interfaces/SolverWorkResult.interface";
+} from "../interfaces";
 import {
 	calculatePrice,
 	getNumberOfCombinationsWithRepetitions,
 	isTargetRating
 } from "../util/utils";
 import Config from "../Config";
-import ISolution from "../interfaces/Solution.interface";
-import ISolverDataFetchRequest, {
-	instanceOfISolverDataFetchRequest
-} from "../interfaces/SolverDataFetchRequest.interface";
 
 const ctx: Worker = self as any;
 

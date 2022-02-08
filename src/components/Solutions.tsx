@@ -1,8 +1,8 @@
 import React from "react";
 import Badge from "react-bootstrap/Badge";
-import ISolution from "../interfaces/Solution.interface";
+import { ISolution } from "../interfaces";
 import Table from "react-bootstrap/Table";
-import ISolutionColumnDefinition from "../interfaces/SolutionColumnDefinition.interface";
+import { ISolutionColumnDefinition } from "../interfaces";
 import Alert from "react-bootstrap/Alert";
 import Collapse from "react-bootstrap/Collapse";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -19,7 +19,7 @@ interface ISolutionsProps {
 	fetchMoreSolutions: (fromIndex: number) => void;
 }
 
-export default function Solutions({
+export function Solutions({
 	displaySolutions,
 	targetRating,
 	columnDefinitions,

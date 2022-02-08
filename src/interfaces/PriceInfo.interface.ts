@@ -1,3 +1,3 @@
-export default interface IPriceInfo {
+export interface IPriceInfo {
 	[rating: number]: number;
 }

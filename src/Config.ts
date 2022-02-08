@@ -1,4 +1,4 @@
-import IRatingOption from "./interfaces/RatingOption.interface";
+import { IRatingOption } from "./interfaces";
 import { range } from "./util/utils";
 
 const possibleRatings = range(70, 98, 1);

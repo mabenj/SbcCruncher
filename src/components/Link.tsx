@@ -8,7 +8,7 @@ interface ILinkProps {
 	style?: React.CSSProperties;
 }
 
-export default function Link({
+export function Link({
 	href,
 	children,
 	className,

@@ -1,5 +1,5 @@
 import { atomWithHash } from "jotai/utils";
-import IPriceInfo from "../interfaces/PriceInfo.interface";
+import { IPriceInfo } from "../interfaces";
 
 const KEY = "prices";
 

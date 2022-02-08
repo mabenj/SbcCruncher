@@ -1,6 +1,6 @@
-import IPriceInfo from "./PriceInfo.interface";
+import { IPriceInfo } from "./";
 
-export default interface ISolverWorkRequest {
+export interface ISolverWorkRequest {
 	discriminator: "SOLVER-START";
 	ratingsToTry: number[];
 	targetRating: number;

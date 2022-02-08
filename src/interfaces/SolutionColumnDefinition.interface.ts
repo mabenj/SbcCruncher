@@ -1,4 +1,4 @@
-export default interface ISolutionColumnDefinition {
+export interface ISolutionColumnDefinition {
 	label: string;
 	rating: number;
 }

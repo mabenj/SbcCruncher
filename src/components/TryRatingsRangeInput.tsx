@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
-import IRatingOption from "../interfaces/RatingOption.interface";
+import { IRatingOption } from "../interfaces";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import InputGroup from "react-bootstrap/InputGroup";
 import Slider, { SliderTooltip } from "rc-slider";
 import "rc-slider/assets/index.css";
 import { getMaxRatingOption, getMinRatingOption } from "../util/utils";
-import useIsMobile from "../hooks/useIsMobile";
+import { useIsMobile } from "../hooks";
 import Config from "../Config";
-import RatingSelect from "./RatingSelect";
+import { RatingSelect } from "./";
 
 import "../styles/TryRatingsRangeInput.scss";
 
@@ -23,7 +23,7 @@ interface IRatingsRangeInputProps {
 	onChange: (min: IRatingOption, max: IRatingOption) => void;
 }
 
-export default function TryRatingsRangeInput({
+export function TryRatingsRangeInput({
 	valueOfMin,
 	valueOfMax,
 	onChange
@@ -134,11 +134,6 @@ export default function TryRatingsRangeInput({
 			<Form.Text muted>
 				Specify the minimum and maximum ratings to use when calculating the
 				possible rating combinations
-				<br />
-				<br />
-				<strong className="text-danger">
-					A large range will take a long time to calculate!
-				</strong>
 			</Form.Text>
 		</Form.Group>
 	);

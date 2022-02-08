@@ -1,4 +1,4 @@
-export default interface ISolverDataFetchRequest {
+export interface ISolverDataFetchRequest {
 	discriminator: "SOLVER-FETCH";
 	fromIndex: number;
 }
