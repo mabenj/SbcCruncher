@@ -24,9 +24,9 @@ interface IConfig {
 
 const config: IConfig = {
 	playersInSquad: 11,
-	priceDataStorageKey: "SBC_SOLVER_PRICE_DATA",
+	priceDataStorageKey: "SBC_CRUNCHER_PRICE_DATA",
 	maxAmountOfSolutions: 40,
-	maxPriceFetchAttempts: 5,
+	maxPriceFetchAttempts: 10,
 	priceFetchCooldownMs: 1000,
 	ratingOptions: possibleRatingOptions,
 	defaultTryMin: {
