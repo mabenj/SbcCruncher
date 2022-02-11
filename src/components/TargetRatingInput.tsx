@@ -1,5 +1,4 @@
 import React from "react";
-import Form from "react-bootstrap/Form";
 import Config from "../Config";
 import { IRatingOption } from "../interfaces";
 import { RatingSelect } from "./";
@@ -14,8 +13,8 @@ export function TargetRatingInput({
 	onChange
 }: ITargetRatingInputProps) {
 	return (
-		<Form.Group>
-			<Form.Label>Squad Target Rating</Form.Label>
+		<div className="p-field">
+			<label htmlFor="targetRating">Squad Target Rating</label>
 			<RatingSelect
 				placeholder="Select..."
 				value={value}
@@ -28,7 +27,7 @@ export function TargetRatingInput({
 				}
 				options={Config.ratingOptions}
 			/>
-			<Form.Text muted>Specify the desired squad rating</Form.Text>
-		</Form.Group>
+			<small>Specify the desired squad rating</small>
+		</div>
 	);
 }

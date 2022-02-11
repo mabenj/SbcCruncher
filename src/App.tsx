@@ -1,9 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
-import ProgressBar from "react-bootstrap/ProgressBar";
 import {
 	ISolution,
 	ISolverWorkResult,
@@ -19,7 +14,8 @@ import {
 	Sidebar,
 	Solutions,
 	TargetRatingInput,
-	TryRatingsRangeInput
+	TryRatingsRangeInput,
+	Container
 } from "./components/";
 /* eslint-disable import/no-webpack-loader-syntax */
 import Solver from "worker-loader!./solver/Solver.worker.ts";
@@ -31,6 +27,10 @@ import {
 	tryRatingMinAtom,
 	tryRatingMaxAtom
 } from "./atoms";
+import { Panel } from "primereact/panel";
+import { ProgressBar } from "primereact/progressbar";
+import { ScrollTop } from "primereact/scrolltop";
+import { Card } from "primereact/card";
 import { range, ratingRange } from "./util/utils";
 
 import "./styles/App.scss";
@@ -38,7 +38,6 @@ import "./styles/App.scss";
 function App() {
 	const [solver, setSolver] = useState(new Solver());
 
-	const [isFormValid /*, setIsFormValid*/] = useState<boolean | undefined>();
 	const [isCalculating, setIsCalculating] = useState(false);
 	const [progressPercentage, setProgressPercentage] = useState(0);
 
@@ -141,106 +140,107 @@ function App() {
 	};
 
 	return (
-		<main>
-			<Container fluid="md">
-				<Sidebar />
-				<Row className="my-4">
-					<Header />
-				</Row>
+		<Container>
+			<ScrollTop threshold={200} />
 
-				<Form noValidate validated={isFormValid} onSubmit={calculate}>
-					<FormRowWrapper>
-						<Col lg={3} className="my-3">
-							<TargetRatingInput
-								value={targetRating}
-								onChange={setTargetRating}
-							/>
-						</Col>
-						<Col className="my-3">
-							<ExistingRatingsInput
-								value={existingRatings || []}
-								onChange={setExistingRatings}
-							/>
-						</Col>
-					</FormRowWrapper>
+			<Sidebar />
 
-					<FormRowWrapper>
-						<TryRatingsRangeInput
-							valueOfMin={tryRatingMin}
-							valueOfMax={tryRatingMax}
-							onChange={(min, max) => {
-								setTryRatingMin(min);
-								setTryRatingMax(max);
-							}}
+			<div className="p-my-4">
+				<Header />
+			</div>
+
+			<form noValidate onSubmit={calculate}>
+				<FormPanelWrapper header="Target Rating & Fodder">
+					<div className="p-lg-3 p-my-3">
+						<TargetRatingInput
+							value={targetRating}
+							onChange={setTargetRating}
 						/>
-					</FormRowWrapper>
-
-					<FormRowWrapper>
-						<PricesInput
-							ratings={ratingRange(tryRatingMin, tryRatingMax, 1)}
-							onChange={setPrices}
+					</div>
+					<div className="p-col p-my-3">
+						<ExistingRatingsInput
+							value={existingRatings || []}
+							onChange={setExistingRatings}
 						/>
-					</FormRowWrapper>
+					</div>
+				</FormPanelWrapper>
 
-					<CalculationButtons
-						disabled={!targetRating || isCalculating}
-						isCalculating={isCalculating}
-						onStopPressed={() => {
-							setSolver((prev) => {
-								prev.terminate();
-								setIsCalculating(false);
-								return new Solver();
-							});
+				<FormPanelWrapper>
+					<TryRatingsRangeInput
+						valueOfMin={tryRatingMin}
+						valueOfMax={tryRatingMax}
+						onChange={(min, max) => {
+							setTryRatingMin(min);
+							setTryRatingMax(max);
 						}}
 					/>
+				</FormPanelWrapper>
 
-					<ProgressBar
-						className="my-5"
-						animated={isCalculating}
-						striped
-						now={progressPercentage}
-						label={
-							progressPercentage === 100
-								? "Done"
-								: `${Math.round(progressPercentage)}%`
-						}
+				<FormPanelWrapper>
+					<PricesInput
+						ratings={ratingRange(tryRatingMin, tryRatingMax, 1)}
+						onChange={setPrices}
 					/>
+				</FormPanelWrapper>
 
-					<Row>
-						<Solutions
-							displaySolutions={solutions}
-							targetRating={targetRating?.ratingValue}
-							columnDefinitions={range(
-								tryRatingMin?.ratingValue || 0,
-								tryRatingMax?.ratingValue || 0,
-								1
-							).map((rating) => ({
-								label: rating.toString(),
-								rating: rating
-							}))}
-							totalSolutionsCount={solutionsCount}
-							fetchMoreSolutions={fetchMoreSolutions}
-							isCalculating={isCalculating}
-						/>
-					</Row>
-				</Form>
-			</Container>
-		</main>
+				<CalculationButtons
+					disabled={!targetRating || isCalculating}
+					isCalculating={isCalculating}
+					onStopPressed={() => {
+						setSolver((prev) => {
+							prev.terminate();
+							setIsCalculating(false);
+							return new Solver();
+						});
+					}}
+				/>
+
+				<ProgressBar
+					className="p-my-5"
+					// animated={isCalculating}
+					// striped
+					value={Math.floor(progressPercentage)}
+					// label={
+					// 	progressPercentage === 100
+					// 		? "Done"
+					// 		: `${Math.round(progressPercentage)}%`
+					// }
+				/>
+
+				<Solutions
+					displaySolutions={solutions}
+					targetRating={targetRating?.ratingValue}
+					columnDefinitions={range(
+						tryRatingMin?.ratingValue || 0,
+						tryRatingMax?.ratingValue || 0,
+						1
+					).map((rating) => ({
+						label: rating.toString(),
+						rating: rating
+					}))}
+					totalSolutionsCount={solutionsCount}
+					fetchMoreSolutions={fetchMoreSolutions}
+					isCalculating={isCalculating}
+				/>
+			</form>
+		</Container>
 	);
 }
 
 export default App;
 
-const FormRowWrapper = ({
+const FormPanelWrapper = ({
 	children,
-	className
+	className,
+	header
 }: {
 	children: React.ReactNode;
 	className?: string;
+	header?: string;
 }) => {
 	return (
-		<Row className={`my-5 mx-1 bg-light border rounded p-3 ${className}`}>
+		<Card header={header} className={`p-my-5 p-mx-1 p-p-3 p-grid ${className}`}>
 			{children}
-		</Row>
+		</Card>
 	);
 };

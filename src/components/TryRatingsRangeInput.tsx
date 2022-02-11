@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Form from "react-bootstrap/Form";
 import { IRatingOption } from "../interfaces";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import InputGroup from "react-bootstrap/InputGroup";
 import Slider, { SliderTooltip } from "rc-slider";
 import "rc-slider/assets/index.css";
 import { getMaxRatingOption, getMinRatingOption } from "../util/utils";
@@ -71,13 +67,13 @@ export function TryRatingsRangeInput({
 	};
 
 	return (
-		<Form.Group>
-			<Form.Label>Range of Ratings to Try</Form.Label>
-			<div className="py-3">
-				<Row>
-					<Col lg={2}>
-						<InputGroup className="mb-3">
-							<InputGroup.Text>Min</InputGroup.Text>
+		<div className="p-field">
+			<label htmlFor="ratingsToTry">Range of Ratings to Try</label>
+			<div className="p-py-3">
+				<div className="p-grid">
+					<div className="p-lg-2">
+						<div className="p-inputgroup p-mb-3">
+							<span className="p-inputgroup-addon">Min</span>
 							<div className="select">
 								<RatingSelect
 									value={valueOfMin}
@@ -85,12 +81,12 @@ export function TryRatingsRangeInput({
 									onChange={handleMinChange}
 								/>
 							</div>
-						</InputGroup>
-					</Col>
+						</div>
+					</div>
 
-					<Col lg={2}>
-						<InputGroup className="mb-3">
-							<InputGroup.Text>Max</InputGroup.Text>
+					<div className="p-lg-2">
+						<div className="p-inputgroup p-mb-3">
+							<span className="p-inputgroup-addon">Max</span>
 							<div className="select">
 								<RatingSelect
 									value={valueOfMax}
@@ -98,44 +94,42 @@ export function TryRatingsRangeInput({
 									onChange={handleMaxChange}
 								/>
 							</div>
-						</InputGroup>
-					</Col>
-				</Row>
-				{!isMobile && (
-					<Row className="py-4">
-						<div className="slider">
-							<Range
-								step={1}
-								defaultValue={[
-									Config.defaultTryMin.ratingValue,
-									Config.defaultTryMax.ratingValue
-								]}
-								value={[
-									valueOfMin?.ratingValue || Config.defaultTryMin.ratingValue,
-									valueOfMax?.ratingValue || Config.defaultTryMax.ratingValue
-								]}
-								onChange={handleRangeChange}
-								min={Math.min(
-									...Config.ratingOptions.map((rating) => rating.ratingValue)
-								)}
-								max={Math.max(
-									...Config.ratingOptions.map((rating) => rating.ratingValue)
-								)}
-								marks={marks}
-								handle={handle}
-								trackStyle={[{ backgroundColor: "#007bff" }]}
-								handleStyle={[{ borderColor: "#007bff" }]}
-								activeDotStyle={{ borderColor: "#007bff" }}
-							/>
 						</div>
-					</Row>
+					</div>
+				</div>
+				{!isMobile && (
+					<div className="slider p-py-4">
+						<Range
+							step={1}
+							defaultValue={[
+								Config.defaultTryMin.ratingValue,
+								Config.defaultTryMax.ratingValue
+							]}
+							value={[
+								valueOfMin?.ratingValue || Config.defaultTryMin.ratingValue,
+								valueOfMax?.ratingValue || Config.defaultTryMax.ratingValue
+							]}
+							onChange={handleRangeChange}
+							min={Math.min(
+								...Config.ratingOptions.map((rating) => rating.ratingValue)
+							)}
+							max={Math.max(
+								...Config.ratingOptions.map((rating) => rating.ratingValue)
+							)}
+							marks={marks}
+							handle={handle}
+							trackStyle={[{ backgroundColor: "#007bff" }]}
+							handleStyle={[{ borderColor: "#007bff" }]}
+							activeDotStyle={{ borderColor: "#007bff" }}
+						/>
+					</div>
 				)}
 			</div>
-			<Form.Text muted>
+			<small>
 				Specify the minimum and maximum ratings to use when calculating the
 				possible rating combinations
-			</Form.Text>
-		</Form.Group>
+			</small>
+		</div>
 	);
 }
 

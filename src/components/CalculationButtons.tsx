@@ -1,6 +1,6 @@
 import React from "react";
-import Button from "react-bootstrap/Button";
 import Spinner from "./Spinner";
+import { Button } from "primereact/button";
 
 interface ICalculationButtonsProps {
 	disabled: boolean;
@@ -22,27 +22,29 @@ export function CalculationButtons({
 		<>
 			<Button
 				type="submit"
-				variant="primary"
+				label={isCalculating ? "Calculating..." : "Calculate"}
+				className="p-button-raised"
 				title="Calculate"
-				disabled={disabled}>
+				disabled={disabled}
+				loading={isCalculating}>
 				{isCalculating ? (
 					<>
 						<Spinner.Hourglass />
-						<span className="m-2">&nbsp;Calculating...</span>
+						&nbsp;
 					</>
 				) : (
 					<>
-						<i className="fas fa-calculator"></i>&nbsp;Calculate Solutions
+						<i className="fas fa-calculator"></i>&nbsp;
 					</>
 				)}
 			</Button>
 			<Button
-				className="m-2"
-				variant="danger"
+				label="stop"
+				className="p-m-2 p-button-danger p-button-raised"
 				title="Stop calculation"
 				disabled={!isCalculating}
 				onClick={handleStop}>
-				<i className="fas fa-ban"></i>&nbsp;Stop
+				<i className="fas fa-ban"></i>&nbsp;
 			</Button>
 		</>
 	);

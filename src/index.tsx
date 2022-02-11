@@ -4,7 +4,11 @@ import App from "./App";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 // import reportWebVitals from "./reportWebVitals";
 import ReactGA from "react-ga";
-import "bootstrap/dist/css/bootstrap.min.css";
+
+import "primereact/resources/themes/lara-light-blue/theme.css"; //theme
+import "primereact/resources/primereact.min.css"; //core css
+import "primeicons/primeicons.css"; //icons
+import "primeflex/primeflex.css";
 
 ReactGA.initialize(process.env.REACT_APP_GA || "");
 

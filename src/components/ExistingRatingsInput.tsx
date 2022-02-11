@@ -1,5 +1,4 @@
 import React from "react";
-import Form from "react-bootstrap/Form";
 import { IRatingOption } from "../interfaces";
 import { RatingSelect } from "./";
 import Config from "../Config";
@@ -22,8 +21,8 @@ export function ExistingRatingsInput({
 	};
 
 	return (
-		<Form.Group>
-			<Form.Label>Existing Player Ratings</Form.Label>
+		<div className="p-field">
+			<label htmlFor="existingRatings">Existing Player Ratings</label>
 			<RatingSelect
 				placeholder="Select multiple..."
 				value={value}
@@ -32,10 +31,10 @@ export function ExistingRatingsInput({
 				isMulti
 				maxNumberOfValues={Config.playersInSquad - 1}
 			/>
-			<Form.Text muted>
+			<small>
 				Specify the ratings of the players you already possess and plan to use
 				in the SBC <em>(aka fodder)</em>
-			</Form.Text>
-		</Form.Group>
+			</small>
+		</div>
 	);
 }

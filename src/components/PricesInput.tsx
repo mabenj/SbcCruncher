@@ -1,19 +1,15 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { IPriceInfo } from "../interfaces";
 import { IRatingOption } from "../interfaces";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import InputGroup from "react-bootstrap/InputGroup";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Alert from "react-bootstrap/Alert";
 import { fetchFutbinPrices } from "../services/FutbinPrices.service";
 import { setItem, getItemOrNull } from "../services/LocalStorage.service";
 import ReactGA from "react-ga";
-import Collapse from "react-bootstrap/Collapse";
 import { Link } from "./";
 import Config from "../Config";
 import Spinner from "./Spinner";
+import { InputNumber } from "primereact/inputnumber";
+import { Button } from "primereact/button";
+import { Toast } from "primereact/toast";
 
 interface IPricesInputProps {
 	ratings: IRatingOption[];
@@ -21,11 +17,11 @@ interface IPricesInputProps {
 }
 
 export function PricesInput({ ratings, onChange }: IPricesInputProps) {
+	const errorToast = useRef<Toast>(null);
 	const [prices, setPrices] = useState<IPriceInfo>(
 		getItemOrNull<IPriceInfo>(Config.priceDataStorageKey) || {}
 	);
 	const [isFetching, setIsFetching] = useState(false);
-	const [fetchError, setFetchError] = useState("");
 
 	useEffect(() => {
 		if (prices) {
@@ -34,15 +30,15 @@ export function PricesInput({ ratings, onChange }: IPricesInputProps) {
 		}
 	}, [onChange, prices]);
 
-	const handlePriceChange = (rating: number, newPrice: string) => {
-		if (newPrice === "") {
+	const handlePriceChange = (rating: number, newPrice: number | null) => {
+		if (newPrice === null) {
 			setPrices((prev) => {
 				const clone = { ...prev };
 				delete clone[rating];
 				return clone;
 			});
 		} else {
-			setPrices((prev) => ({ ...prev, [rating]: Number(newPrice) }));
+			setPrices((prev) => ({ ...prev, [rating]: newPrice }));
 		}
 	};
 
@@ -50,75 +46,76 @@ export function PricesInput({ ratings, onChange }: IPricesInputProps) {
 		e.preventDefault();
 		setIsFetching(true);
 		const [prices, errorMessage] = await fetchFutbinPrices();
+		if (errorMessage && errorToast.current !== null) {
+			errorToast.current.show({
+				severity: "error",
+				summary: "Could not fetch price data from FUTBIN",
+				detail: errorMessage,
+				life: 3000
+			});
+		}
 		if (prices && !errorMessage) {
 			setPrices(prices);
 		}
-		setFetchError(errorMessage);
 		setIsFetching(false);
 		ReactGA.event({
 			category: "FUTBIN",
 			action: "FUTBIN_FETCH",
-			label: "FUTBIN"
+			label: errorMessage ? `FUTBIN_ERROR=${errorMessage}` : "FUTBIN_SUCCESS"
 		});
 	}, []);
 
 	return (
-		<Form.Group>
-			<Form.Label>Player Prices</Form.Label>
-			<Row>
-				{ratings.map((ratingOption) => (
-					<Col key={ratingOption.ratingValue} lg={2} md={4} sm={6}>
-						<InputGroup className="my-2">
-							<InputGroup.Text>{ratingOption.label}</InputGroup.Text>
-							<Form.Control
-								type="number"
-								placeholder=""
-								value={prices[ratingOption.ratingValue]}
-								onChange={(e) =>
-									handlePriceChange(ratingOption.ratingValue, e.target.value)
-								}
-								min={0}
-								step={1000}
-							/>
-						</InputGroup>
-					</Col>
-				))}
-				<Form.Text muted>Specify the price for each rating</Form.Text>
-			</Row>
+		<>
+			<Toast ref={errorToast} />
+			<div className="p-field">
+				<label htmlFor="playerPrices">Player Prices</label>
+				<div id="playerPrices" className="p-grid">
+					{ratings.map((ratingOption) => (
+						<div
+							key={ratingOption.ratingValue}
+							className="p-col-12 p-lg-2 p-md-4 p-sm-6">
+							<div className="p-inputgroup">
+								<span className="p-inputgroup-addon">{ratingOption.label}</span>
+								<InputNumber
+									placeholder=""
+									value={prices[ratingOption.ratingValue]}
+									onChange={(e) =>
+										handlePriceChange(ratingOption.ratingValue, e.value)
+									}
+									showButtons
+									min={0}
+									step={1000}
+								/>
+							</div>
+						</div>
+					))}
+					<small>Specify the price for each rating</small>
+				</div>
+			</div>
 
 			<div>
 				<span>
 					<Button
-						variant="dark"
-						className="mt-5 mb-2"
+						label={isFetching ? "Fetching..." : "Fetch from FUTBIN"}
+						className="p-mt-5 p-mb-2 p-button-secondary p-button-raised"
 						onClick={handleFetchFutbin}
 						disabled={isFetching}
 						title="Fetch from FUTBIN">
 						{isFetching ? (
 							<>
 								<Spinner.Ring />
-								<span className="m-2">Fetching...</span>
+								&nbsp;
 							</>
 						) : (
 							<>
-								<i className="fas fa-redo-alt"></i>
-								&nbsp;Fetch&nbsp;from&nbsp;FUTBIN
+								<i className="fas fa-redo-alt"></i>&nbsp;
 							</>
 						)}
 					</Button>
-					<Collapse in={!!fetchError}>
-						<div>
-							<Alert
-								variant="danger"
-								dismissible
-								onClose={() => setFetchError("")}>
-								Could not fetch price data from FUTBIN: {fetchError}
-							</Alert>
-						</div>
-					</Collapse>
 				</span>
 			</div>
-			<Form.Text muted>
+			<small>
 				Fetching the prices from FUTBIN will scrape the price data from FUTBIN's{" "}
 				<Link href="https://www.futbin.com/stc/cheapest">
 					cheapest players by rating
@@ -126,12 +123,12 @@ export function PricesInput({ ratings, onChange }: IPricesInputProps) {
 				page. The price of the cheapest player of each rating will be used here.{" "}
 				<br />
 				<br />
-			</Form.Text>
-			<Form.Text muted>
+			</small>
+			<small>
 				<strong>
 					Note! Only the prices for ratings 81 - 98 are available from FUTBIN.
 				</strong>
-			</Form.Text>
-		</Form.Group>
+			</small>
+		</>
 	);
 }

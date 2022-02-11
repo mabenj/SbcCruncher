@@ -1,11 +1,12 @@
 import React from "react";
-import Badge from "react-bootstrap/Badge";
 import { ISolution } from "../interfaces";
-import Table from "react-bootstrap/Table";
 import { ISolutionColumnDefinition } from "../interfaces";
-import Alert from "react-bootstrap/Alert";
-import Collapse from "react-bootstrap/Collapse";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { Badge } from "primereact/badge";
+
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
+import { Message } from "primereact/message";
 
 import "../styles/Solutions.scss";
 import Spinner from "./Spinner";
@@ -27,15 +28,42 @@ export function Solutions({
 	isCalculating,
 	fetchMoreSolutions
 }: ISolutionsProps) {
+	const loadingTemplate = () => {
+		return isCalculating ? <></> : <Loading />;
+	};
+
+	const ratingTemplate = (rating: number) => {
+		return <span>{rating}</span>;
+	};
+
+	const columns = columnDefinitions
+		.map((cd) => {
+			return (
+				<Column
+					key={cd.label}
+					field={cd.rating.toString()}
+					header={cd.label}
+					body={(rowData) => ratingTemplate(rowData.ratings[cd.rating])}
+				/>
+			);
+		})
+		.push(
+			<Column
+				field="price"
+				header="Price"
+				body={(rowData) => <span>{rowData.price}</span>}
+			/>
+		);
+
 	return (
 		<div className="solutions">
 			<h3>
 				Solutions{" "}
 				{(totalSolutionsCount || 0) > 0 && (
-					<Badge bg="primary">{totalSolutionsCount}</Badge>
+					<Badge value={totalSolutionsCount} />
 				)}
 			</h3>
-			<small className="text-muted">
+			<small>
 				Each row in this table shows how many players of each rating you must
 				acquire in order to achieve the target rating
 				{targetRating && (
@@ -46,7 +74,21 @@ export function Solutions({
 				)}
 			</small>
 
-			<InfiniteScroll
+			{/* <DataTable
+				value={displaySolutions}
+				stripedRows
+				virtualScrollerOptions={{
+					lazy: true,
+					onLazyLoad: isCalculating
+						? () => -1
+						: () => fetchMoreSolutions(displaySolutions.length),
+					showLoader: true,
+					loadingTemplate
+				}}>
+				{columns}
+			</DataTable> */}
+
+			{/* <InfiniteScroll
 				dataLength={displaySolutions.length}
 				next={
 					isCalculating
@@ -58,7 +100,7 @@ export function Solutions({
 				}
 				loader={isCalculating ? <></> : <Loading />}
 				className="infinite-scroll">
-				<Table striped hover responsive="lg" className="mt-2 solutions-table">
+				<Table striped hover responsive="lg" className="p-mt-2 solutions-table">
 					<thead className="table-dark sticky-header">
 						<tr>
 							{columnDefinitions.map((cd, index) => (
@@ -93,9 +135,9 @@ export function Solutions({
 						)}
 					</tbody>
 				</Table>
-			</InfiniteScroll>
+			</InfiniteScroll> */}
 
-			<Collapse
+			{/* <Collapse
 				in={
 					isCalculating && (totalSolutionsCount || 0) > displaySolutions.length
 				}>
@@ -114,7 +156,7 @@ export function Solutions({
 						configuration
 					</Alert>
 				</div>
-			</Collapse>
+			</Collapse> */}
 		</div>
 	);
 }

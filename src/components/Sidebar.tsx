@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Offcanvas from "react-bootstrap/Offcanvas";
 import { Link } from "./";
+import { Sidebar as PrimeSidebar } from "primereact/sidebar";
 
 import "../styles/Sidebar.scss";
 
@@ -19,13 +19,10 @@ export function Sidebar() {
 					<i className="far fa-question-circle"></i>
 				</button>
 			</div>
-			<Offcanvas show={show} onHide={() => setShow(false)}>
-				<Offcanvas.Header closeButton>
-					<Offcanvas.Title>About</Offcanvas.Title>
-				</Offcanvas.Header>
-				<Offcanvas.Body className="body">
-					{/*CSpell: disable */}
+			<PrimeSidebar visible={show} onHide={() => setShow(false)} className="">
+				<div className="body">
 					<div>
+						<h2>About</h2>
 						<p>
 							This tool is inspired by{" "}
 							<Link href="https://elmaano.github.io/sbc/">
@@ -44,15 +41,15 @@ export function Sidebar() {
 							.
 						</p>
 					</div>
-					<div className="my-4">
+					<div className="p-my-4">
 						<Link
 							href="https://github.com/mabenj/SbcCruncher"
-							className="text-decoration-none">
+							className="p-text-normal">
 							<i className="fab fa-github"></i>&nbsp;mabenj
 						</Link>
 					</div>
-				</Offcanvas.Body>
-			</Offcanvas>
+				</div>
+			</PrimeSidebar>
 		</>
 	);
 }
