@@ -5,9 +5,6 @@ import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 // import reportWebVitals from "./reportWebVitals";
 import ReactGA from "react-ga";
 
-// import "primereact/resources/themes/lara-light-blue/theme.css"; //theme
-// import "primereact/resources/themes/vela-blue/theme.css"; //theme
-// import "primereact/resources/themes/vela-blue/theme.css"; //theme
 import "primereact/resources/primereact.min.css"; //core css
 import "primeicons/primeicons.css"; //icons
 import "primeflex/primeflex.css";

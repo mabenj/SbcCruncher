@@ -3,8 +3,6 @@ import { ISolution } from "../interfaces";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Badge } from "primereact/badge";
 
-import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/column";
 import { Message } from "primereact/message";
 
 import "../styles/Solutions.scss";
@@ -27,33 +25,6 @@ export function Solutions({
 	isCalculating,
 	fetchMoreSolutions
 }: ISolutionsProps) {
-	const loadingTemplate = () => {
-		return isCalculating ? <></> : <Loading />;
-	};
-
-	const ratingTemplate = (numOfRatings: number) => {
-		return <span>{numOfRatings}</span>;
-	};
-
-	const priceTemplate = (price: number) => {
-		return <span>{price}</span>;
-	};
-
-	const columns = columnDefinitions.map((cd) => {
-		return (
-			<Column
-				key={cd}
-				field="ratings"
-				header={cd}
-				body={(rowData) =>
-					ratingTemplate(
-						rowData.ratings.filter((rating: number) => rating === cd).length
-					)
-				}
-			/>
-		);
-	});
-
 	return (
 		<div className="solutions">
 			<h2>
@@ -72,26 +43,6 @@ export function Solutions({
 					</>
 				)}
 			</small>
-
-			{/* <DataTable
-				className="p-mt-4"
-				value={displaySolutions}
-				stripedRows
-				responsiveLayout="scroll"
-				emptyMessage="No solutions"
-				rowHover
-				scrollable
-				scrollHeight="600px">
-				{[
-					...columns,
-					<Column
-						key="price"
-						field="price"
-						header="Price"
-						body={(rowData) => priceTemplate(rowData.price)}
-					/>
-				]}
-			</DataTable> */}
 
 			<InfiniteScroll
 				dataLength={displaySolutions.length}
@@ -158,27 +109,6 @@ export function Solutions({
 					className="p-my-5"
 				/>
 			)}
-
-			{/* <Collapse
-				in={
-					isCalculating && (totalSolutionsCount || 0) > displaySolutions.length
-				}>
-				<div>
-					<Alert variant="warning">
-						Only the cheapest {displaySolutions.length} solutions are shown
-						while calculating
-					</Alert>
-				</div>
-			</Collapse>
-
-			<Collapse in={totalSolutionsCount !== null && totalSolutionsCount === 0}>
-				<div>
-					<Alert variant="danger">
-						No possible solutions exist — Try again with a different
-						configuration
-					</Alert>
-				</div>
-			</Collapse> */}
 		</div>
 	);
 }

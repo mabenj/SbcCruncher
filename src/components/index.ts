@@ -3,7 +3,6 @@ export * from "./ExistingRatingsInput";
 export * from "./Header";
 export * from "./Link";
 export * from "./PricesInput";
-export * from "./RatingSelect";
 export * from "./Sidebar";
 export * from "./Solutions";
 export * from "./Spinner";

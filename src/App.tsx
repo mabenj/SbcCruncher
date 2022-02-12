@@ -11,7 +11,6 @@ import {
 	ExistingRatingsInput,
 	Header,
 	PricesInput,
-	Sidebar,
 	Solutions,
 	TargetRatingInput,
 	TryRatingsRangeInput,
@@ -138,7 +137,7 @@ function App() {
 	return (
 		<Container>
 			<ScrollTop threshold={Config.scrollToTopThreshold} />
-            
+
 			<div className="p-my-4">
 				<Header />
 			</div>

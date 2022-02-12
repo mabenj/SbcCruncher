@@ -1,39 +1,9 @@
 import Config from "../Config";
-import { IRatingOption } from "../interfaces";
 
 export function range(start: number, stop: number, step: number): number[] {
 	return Array.from(
 		{ length: (stop - start) / step + 1 },
 		(_, i) => start + i * step
-	);
-}
-
-export function ratingRange(
-	start: IRatingOption | undefined,
-	stop: IRatingOption | undefined,
-	step: number
-): IRatingOption[] {
-	if (!start || !stop) {
-		return [];
-	}
-	return range(start.ratingValue, stop.ratingValue, step).map<IRatingOption>(
-		(rating) => ({
-			label: rating.toString(),
-			ratingValue: rating,
-			value: Math.random()
-		})
-	);
-}
-
-export function getMinRatingOption(ratings: IRatingOption[]): IRatingOption {
-	return ratings.reduce((prev, curr) =>
-		prev.ratingValue < curr.ratingValue ? prev : curr
-	);
-}
-
-export function getMaxRatingOption(ratings: IRatingOption[]): IRatingOption {
-	return ratings.reduce((prev, curr) =>
-		prev.ratingValue > curr.ratingValue ? prev : curr
 	);
 }
 
