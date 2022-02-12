@@ -60,7 +60,12 @@ const ThemeToggle = () => {
 	return (
 		<span className="theme-toggle">
 			<i className="pi pi-moon"></i>
-			<InputSwitch checked={isDark} onChange={handleThemeToggle} />
+			<InputSwitch
+				checked={isDark}
+				onChange={handleThemeToggle}
+				tooltip={`Switch to ${isDark ? "light" : "dark"} theme`}
+				tooltipOptions={{ position: "bottom" }}
+			/>
 		</span>
 	);
 };

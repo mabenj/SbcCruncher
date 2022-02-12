@@ -19,6 +19,8 @@ export function Sidebar() {
 				icon={<i className="far fa-question-circle"></i>}
 				onClick={handleInfoClick}
 				className="p-button-rounded p-button-text p-button-plain"
+				tooltip="About"
+				tooltipOptions={{ position: "bottom" }}
 			/>
 			<PrimeSidebar visible={show} onHide={() => setShow(false)} className="">
 				<div className="body">
