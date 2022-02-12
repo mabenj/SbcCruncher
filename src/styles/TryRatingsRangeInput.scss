@@ -1,8 +1,28 @@
-.select {
-	flex-grow: 1;
+.slider {
+	// width: 95%;
+	margin: 10px;
+
+	.rc-slider-track,
+	.rc-slider-handle {
+		background-color: var(--primary-color);
+		border-color: var(--primary-color);
+	}
+
+	.rc-slider-rail {
+		background-color: var(--surface-300);
+	}
+
+	.rc-slider-dot {
+		background-color: var(--surface-300);
+		border-color: var(--surface-300);
+
+		&.rc-slider-dot-active {
+			background-color: var(--primary-color);
+			border-color: var(--primary-color);
+		}
+	}
 }
 
-.slider {
-	width: 95%;
-	margin: 10px;
+.mark {
+	color: var(--text-color);
 }

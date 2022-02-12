@@ -1,14 +1,4 @@
-import { IRatingOption } from "./interfaces";
 import { range } from "./util/utils";
-
-const possibleRatings = range(70, 98, 1);
-const possibleRatingOptions: IRatingOption[] = possibleRatings.map(
-	(rating) => ({
-		value: Math.random(),
-		label: rating.toString(),
-		ratingValue: rating
-	})
-);
 
 interface IConfig {
 	readonly playersInSquad: number;
@@ -16,10 +6,15 @@ interface IConfig {
 	readonly maxAmountOfSolutions: number;
 	readonly maxPriceFetchAttempts: number;
 	readonly priceFetchCooldownMs: number;
-	readonly ratingOptions: IRatingOption[];
-	readonly defaultTryMin: IRatingOption;
-	readonly defaultTryMax: IRatingOption;
+	readonly allRatings: number[];
+	readonly tryRatings: number[];
+	readonly defaultTryMin: number;
+	readonly defaultTryMax: number;
 	readonly solverUpdateFrequencyMs: number;
+	readonly scrollToTopThreshold: number;
+	readonly darkThemeName: string;
+	readonly lightThemeName: string;
+	readonly isDarkThemeStorageKey: string;
 }
 
 const config: IConfig = {
@@ -28,18 +23,15 @@ const config: IConfig = {
 	maxAmountOfSolutions: 40,
 	maxPriceFetchAttempts: 10,
 	priceFetchCooldownMs: 1000,
-	ratingOptions: possibleRatingOptions,
-	defaultTryMin: {
-		value: Math.random(),
-		label: "81",
-		ratingValue: 81
-	},
-	defaultTryMax: {
-		value: Math.random(),
-		label: "86",
-		ratingValue: 86
-	},
-	solverUpdateFrequencyMs: 300
+	allRatings: range(98, 47, -1),
+	tryRatings: range(98, 70, -1),
+	defaultTryMin: 81,
+	defaultTryMax: 86,
+	solverUpdateFrequencyMs: 300,
+	scrollToTopThreshold: 1000,
+	darkThemeName: "arya-blue",
+	lightThemeName: "saga-blue",
+	isDarkThemeStorageKey: "SBC_CRUNCHER_IS_DARK"
 };
 
 export default config;

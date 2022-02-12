@@ -1,12 +1,11 @@
 import { atomWithHash } from "jotai/utils";
 import Config from "../Config";
-import { IRatingOption } from "../interfaces";
 import { deserializeRatingOption, serializeRatingOption } from "../util/utils";
 
 const KEY_MIN = "min";
 const KEY_MAX = "max";
 
-export const tryRatingMinAtom = atomWithHash<IRatingOption>(
+export const tryRatingMinAtom = atomWithHash<number>(
 	KEY_MIN,
 	Config.defaultTryMin,
 	{
@@ -16,7 +15,7 @@ export const tryRatingMinAtom = atomWithHash<IRatingOption>(
 	}
 );
 
-export const tryRatingMaxAtom = atomWithHash<IRatingOption>(
+export const tryRatingMaxAtom = atomWithHash<number>(
 	KEY_MAX,
 	Config.defaultTryMax,
 	{

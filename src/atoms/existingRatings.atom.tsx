@@ -5,7 +5,7 @@ import { deserializeRatingOption, serializeRatingOption } from "../util/utils";
 
 const KEY = "players";
 
-export const existingRatingsAtom = atomWithHash<IRatingOption[] | undefined>(
+export const existingRatingsAtom = atomWithHash<number[] | undefined>(
 	KEY,
 	undefined,
 	{
@@ -15,22 +15,20 @@ export const existingRatingsAtom = atomWithHash<IRatingOption[] | undefined>(
 	}
 );
 
-function serializeRatingOptions(values: IRatingOption[] | undefined): string {
+function serializeRatingOptions(values: number[] | undefined): string {
 	return values?.map((value) => serializeRatingOption(value)).join("-") || "";
 }
 
-function deserializeRatingOptions(str: string): IRatingOption[] | undefined {
+function deserializeRatingOptions(str: string): number[] | undefined {
 	if (!str) {
 		return undefined;
 	}
 	const ratings = str
 		.split("-")
 		.map(deserializeRatingOption)
-		.filter((ro): ro is IRatingOption => !!ro);
+		.filter((ro): ro is number => !!ro);
 	const validRatings = ratings
-		.filter((rating) =>
-			Config.ratingOptions.find((ro) => ro.ratingValue === rating?.ratingValue)
-		)
+		.filter((rating) => Config.allRatings.find((ro) => ro === rating))
 		.slice(0, Config.playersInSquad - 1);
 	return validRatings;
 }

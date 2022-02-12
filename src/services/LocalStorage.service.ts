@@ -6,3 +6,10 @@ export function getItemOrNull<T>(key: string): T | null {
 export function setItem<T>(key: string, item: T): void {
 	localStorage.setItem(key, JSON.stringify(item));
 }
+
+const LocalStorageService = {
+	setItem,
+	getItemOrNull
+};
+
+export default LocalStorageService;

@@ -1,10 +1,9 @@
 import { atomWithHash } from "jotai/utils";
-import { IRatingOption } from "../interfaces";
 import { deserializeRatingOption, serializeRatingOption } from "../util/utils";
 
 const KEY = "target";
 
-export const targetRatingAtom = atomWithHash<IRatingOption | undefined>(
+export const targetRatingAtom = atomWithHash<number | undefined>(
 	KEY,
 	undefined,
 	{

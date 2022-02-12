@@ -23,29 +23,34 @@ export function CalculationButtons({
 			<Button
 				type="submit"
 				label={isCalculating ? "Calculating..." : "Calculate"}
-				className="p-button-raised"
-				title="Calculate"
+				className="p-mx-1 p-button-raised"
 				disabled={disabled}
-				loading={isCalculating}>
-				{isCalculating ? (
-					<>
-						<Spinner.Hourglass />
-						&nbsp;
-					</>
-				) : (
+				icon={
 					<>
 						<i className="fas fa-calculator"></i>&nbsp;
 					</>
-				)}
-			</Button>
+				}
+				loading={isCalculating}
+				loadingIcon={
+					<>
+						<Spinner.Hourglass />
+						&nbsp; &nbsp;
+					</>
+				}
+				tooltip={isCalculating ? undefined : "Start calculation"}
+				tooltipOptions={{ position: "top" }}></Button>
 			<Button
-				label="stop"
-				className="p-m-2 p-button-danger p-button-raised"
-				title="Stop calculation"
+				label="Stop"
+				className="p-mx-1 p-button-danger p-button-raised"
 				disabled={!isCalculating}
-				onClick={handleStop}>
-				<i className="fas fa-ban"></i>&nbsp;
-			</Button>
+				onClick={handleStop}
+				icon={
+					<>
+						<i className="fas fa-ban"></i>&nbsp;
+					</>
+				}
+				tooltip={"Stop calculation"}
+				tooltipOptions={{ position: "top" }}></Button>
 		</>
 	);
 }

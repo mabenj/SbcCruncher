@@ -1,4 +1,27 @@
-.header {
+@import url("https://fonts.googleapis.com/css2?family=Londrina+Outline&display=swap");
+
+.header-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+}
+
+.options {
 	display: flex;
 	align-items: center;
+	column-gap: 20px;
+
+	.theme-toggle {
+		display: flex;
+		align-items: center;
+		column-gap: 10px;
+	}
+}
+
+.brand {
+	display: flex;
+	align-items: center;
+	letter-spacing: 0.4em;
+	font-family: "Londrina Outline", cursive;
+	font-size: 1.4em;
 }

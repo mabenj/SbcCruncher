@@ -1,18 +1,16 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { IPriceInfo } from "../interfaces";
-import { IRatingOption } from "../interfaces";
 import { fetchFutbinPrices } from "../services/FutbinPrices.service";
 import { setItem, getItemOrNull } from "../services/LocalStorage.service";
 import ReactGA from "react-ga";
 import { Link } from "./";
 import Config from "../Config";
-import Spinner from "./Spinner";
 import { InputNumber } from "primereact/inputnumber";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
 
 interface IPricesInputProps {
-	ratings: IRatingOption[];
+	ratings: number[];
 	onChange: (priceInfo: IPriceInfo) => void;
 }
 
@@ -70,28 +68,25 @@ export function PricesInput({ ratings, onChange }: IPricesInputProps) {
 			<Toast ref={errorToast} />
 			<div className="p-field">
 				<label htmlFor="playerPrices">Player Prices</label>
-				<div id="playerPrices" className="p-grid">
-					{ratings.map((ratingOption) => (
-						<div
-							key={ratingOption.ratingValue}
-							className="p-col-12 p-lg-2 p-md-4 p-sm-6">
+				<div id="playerPrices" className="p-grid p-mb-2">
+					{ratings.map((rating) => (
+						<div key={rating} className="p-col-12 p-lg-4 p-md-6">
 							<div className="p-inputgroup">
-								<span className="p-inputgroup-addon">{ratingOption.label}</span>
+								<span className="p-inputgroup-addon">{rating}</span>
 								<InputNumber
 									placeholder=""
-									value={prices[ratingOption.ratingValue]}
-									onChange={(e) =>
-										handlePriceChange(ratingOption.ratingValue, e.value)
-									}
+									value={prices[rating]}
+									onChange={(e) => handlePriceChange(rating, e.value)}
 									showButtons
 									min={0}
 									step={1000}
+									useGrouping={false}
 								/>
 							</div>
 						</div>
 					))}
-					<small>Specify the price for each rating</small>
 				</div>
+				<small>Specify the price for each rating</small>
 			</div>
 
 			<div>
@@ -100,19 +95,15 @@ export function PricesInput({ ratings, onChange }: IPricesInputProps) {
 						label={isFetching ? "Fetching..." : "Fetch from FUTBIN"}
 						className="p-mt-5 p-mb-2 p-button-secondary p-button-raised"
 						onClick={handleFetchFutbin}
-						disabled={isFetching}
-						title="Fetch from FUTBIN">
-						{isFetching ? (
-							<>
-								<Spinner.Ring />
-								&nbsp;
-							</>
-						) : (
+						icon={
 							<>
 								<i className="fas fa-redo-alt"></i>&nbsp;
 							</>
-						)}
-					</Button>
+						}
+						loading={isFetching}
+						tooltip="Fetch prices"
+						tooltipOptions={{ position: "top" }}
+					/>
 				</span>
 			</div>
 			<small>

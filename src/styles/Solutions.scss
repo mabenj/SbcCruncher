@@ -1,3 +1,8 @@
+$sm: 640px;
+$md: 720px;
+$lg: 960px;
+$xl: 1080px;
+
 .solutions {
 	min-height: 1000px;
 
@@ -6,11 +11,47 @@
 	}
 
 	.solutions-table {
+		font-family: var(--font-family);
+		color: var(--text-color);
+		border-collapse: collapse;
+		border-spacing: 0;
+		width: 100%;
 		overflow: initial;
 
 		.sticky-header {
 			position: sticky;
 			top: 0;
+		}
+
+		th,
+		td {
+			padding: 12px;
+		}
+
+		thead {
+			tr {
+				background-color: var(--primary-color);
+				color: var(--primary-color-text);
+			}
+		}
+
+		tbody {
+			tr:nth-child(odd) {
+				background-color: var(--surface-50);
+			}
+
+			tr {
+				border-top: 1px solid var(--surface-100);
+				border-bottom: 1px solid var(--surface-100);
+			}
+
+			tr:hover {
+				background-color: var(--surface-100);
+			}
+		}
+
+		@media only screen and (max-width: $lg) {
+			overflow-x: auto;
 		}
 	}
 }
@@ -19,6 +60,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	color: var(--text-color);
 }
 
 .rating-cell {
@@ -27,4 +69,8 @@
 
 .price-cell {
 	text-align: right;
+}
+
+.text-muted {
+	color: var(--text-secondary-color);
 }

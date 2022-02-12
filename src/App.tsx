@@ -27,13 +27,13 @@ import {
 	tryRatingMinAtom,
 	tryRatingMaxAtom
 } from "./atoms";
-import { Panel } from "primereact/panel";
 import { ProgressBar } from "primereact/progressbar";
 import { ScrollTop } from "primereact/scrolltop";
 import { Card } from "primereact/card";
-import { range, ratingRange } from "./util/utils";
+import { range } from "./util/utils";
 
 import "./styles/App.scss";
+import Config from "./Config";
 
 function App() {
 	const [solver, setSolver] = useState(new Solver());
@@ -110,17 +110,12 @@ function App() {
 		setSolutionsCount(null);
 		setProgressPercentage(0);
 		setIsCalculating(true);
-		const ratingsToTry = range(
-			tryRatingMin?.ratingValue || 0,
-			tryRatingMax?.ratingValue || 0,
-			1
-		);
+		const ratingsToTry = range(tryRatingMin, tryRatingMax, 1);
 		const request: ISolverWorkRequest = {
 			discriminator: "SOLVER-START",
 			ratingsToTry: ratingsToTry,
-			existingRatings:
-				existingRatings?.map((rating) => rating.ratingValue) || [],
-			targetRating: targetRating?.ratingValue || -1,
+			existingRatings: existingRatings || [],
+			targetRating: targetRating || -1,
 			prices: prices
 		};
 		solver.postMessage(request);
@@ -132,6 +127,7 @@ function App() {
 	};
 
 	const fetchMoreSolutions = (fromIndex: number) => {
+		console.log("Fetch more!");
 		const request: ISolverDataFetchRequest = {
 			discriminator: "SOLVER-FETCH",
 			fromIndex
@@ -141,27 +137,27 @@ function App() {
 
 	return (
 		<Container>
-			<ScrollTop threshold={200} />
-
-			<Sidebar />
-
+			<ScrollTop threshold={Config.scrollToTopThreshold} />
+            
 			<div className="p-my-4">
 				<Header />
 			</div>
 
 			<form noValidate onSubmit={calculate}>
-				<FormPanelWrapper header="Target Rating & Fodder">
-					<div className="p-lg-3 p-my-3">
-						<TargetRatingInput
-							value={targetRating}
-							onChange={setTargetRating}
-						/>
-					</div>
-					<div className="p-col p-my-3">
-						<ExistingRatingsInput
-							value={existingRatings || []}
-							onChange={setExistingRatings}
-						/>
+				<FormPanelWrapper>
+					<div className="p-grid">
+						<div className="p-col-12 p-lg-3 p-mx-3">
+							<TargetRatingInput
+								value={targetRating}
+								onChange={setTargetRating}
+							/>
+						</div>
+						<div className="p-col p-mx-3">
+							<ExistingRatingsInput
+								value={existingRatings || []}
+								onChange={setExistingRatings}
+							/>
+						</div>
 					</div>
 				</FormPanelWrapper>
 
@@ -178,7 +174,7 @@ function App() {
 
 				<FormPanelWrapper>
 					<PricesInput
-						ratings={ratingRange(tryRatingMin, tryRatingMax, 1)}
+						ratings={range(tryRatingMin, tryRatingMax, 1)}
 						onChange={setPrices}
 					/>
 				</FormPanelWrapper>
@@ -196,28 +192,14 @@ function App() {
 				/>
 
 				<ProgressBar
-					className="p-my-5"
-					// animated={isCalculating}
-					// striped
+					className="p-my-6"
 					value={Math.floor(progressPercentage)}
-					// label={
-					// 	progressPercentage === 100
-					// 		? "Done"
-					// 		: `${Math.round(progressPercentage)}%`
-					// }
 				/>
 
 				<Solutions
 					displaySolutions={solutions}
-					targetRating={targetRating?.ratingValue}
-					columnDefinitions={range(
-						tryRatingMin?.ratingValue || 0,
-						tryRatingMax?.ratingValue || 0,
-						1
-					).map((rating) => ({
-						label: rating.toString(),
-						rating: rating
-					}))}
+					targetRating={targetRating}
+					columnDefinitions={range(tryRatingMin, tryRatingMax, 1)}
 					totalSolutionsCount={solutionsCount}
 					fetchMoreSolutions={fetchMoreSolutions}
 					isCalculating={isCalculating}
@@ -239,7 +221,7 @@ const FormPanelWrapper = ({
 	header?: string;
 }) => {
 	return (
-		<Card header={header} className={`p-my-5 p-mx-1 p-p-3 p-grid ${className}`}>
+		<Card header={header} className={`p-my-5 p-p-lg-3 p-p-md-1 ${className}`}>
 			{children}
 		</Card>
 	);

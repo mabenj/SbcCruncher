@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "./";
 import { Sidebar as PrimeSidebar } from "primereact/sidebar";
+import { Button } from "primereact/button";
 
 import "../styles/Sidebar.scss";
 
@@ -14,15 +15,16 @@ export function Sidebar() {
 
 	return (
 		<>
-			<div className="button-container">
-				<button className="button" onClick={handleInfoClick} title="About">
-					<i className="far fa-question-circle"></i>
-				</button>
-			</div>
+			<Button
+				icon={<i className="far fa-question-circle"></i>}
+				onClick={handleInfoClick}
+				className="p-button-rounded p-button-text p-button-plain"
+			/>
 			<PrimeSidebar visible={show} onHide={() => setShow(false)} className="">
 				<div className="body">
 					<div>
 						<h2>About</h2>
+						{/*cSpell: disable */}
 						<p>
 							This tool is inspired by{" "}
 							<Link href="https://elmaano.github.io/sbc/">
@@ -30,7 +32,9 @@ export function Sidebar() {
 							</Link>{" "}
 							made by{" "}
 							<Link href="https://www.github.com/elmaano/sbc">elmaano</Link>.
-							And the squad ratings are calculated based on{" "}
+						</p>
+						<p>
+							The squad ratings are calculated based on{" "}
 							<Link href="https://reddit.com/user/ChairmanMeowwww">
 								u_ChairmanMeowwww
 							</Link>
@@ -40,11 +44,12 @@ export function Sidebar() {
 							</Link>
 							.
 						</p>
+						{/*cSpell: enable */}
 					</div>
 					<div className="p-my-4">
 						<Link
 							href="https://github.com/mabenj/SbcCruncher"
-							className="p-text-normal">
+							className="no-style-a">
 							<i className="fab fa-github"></i>&nbsp;mabenj
 						</Link>
 					</div>

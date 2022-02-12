@@ -1,11 +1,10 @@
 import React from "react";
 import Config from "../Config";
-import { IRatingOption } from "../interfaces";
-import { RatingSelect } from "./";
+import { SingleRatingSelect } from "./";
 
 interface ITargetRatingInputProps {
-	value: IRatingOption | undefined;
-	onChange: (newRating: IRatingOption) => void;
+	value: number | undefined;
+	onChange: (newRating: number) => void;
 }
 
 export function TargetRatingInput({
@@ -14,19 +13,14 @@ export function TargetRatingInput({
 }: ITargetRatingInputProps) {
 	return (
 		<div className="p-field">
-			<label htmlFor="targetRating">Squad Target Rating</label>
-			<RatingSelect
-				placeholder="Select..."
-				value={value}
-				onChange={(newVal) =>
-					onChange({
-						value: newVal?.value || -1,
-						label: newVal?.label || "",
-						ratingValue: newVal?.ratingValue || -1
-					})
-				}
-				options={Config.ratingOptions}
-			/>
+			<span className="p-float-label p-fluid">
+				<SingleRatingSelect
+					ratings={Config.allRatings}
+					value={value}
+					onChange={onChange}
+				/>
+				<label htmlFor="targetRating">Squad Target Rating</label>
+			</span>
 			<small>Specify the desired squad rating</small>
 		</div>
 	);

@@ -10,3 +10,5 @@ export * from "./Spinner";
 export * from "./TargetRatingInput";
 export * from "./TryRatingsRangeInput";
 export * from "./Container";
+export * from "./SingleRatingSelect";
+export * from "./MultiRatingSelect";

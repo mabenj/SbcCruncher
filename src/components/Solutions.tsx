@@ -1,6 +1,5 @@
 import React from "react";
 import { ISolution } from "../interfaces";
-import { ISolutionColumnDefinition } from "../interfaces";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Badge } from "primereact/badge";
 
@@ -14,7 +13,7 @@ import Spinner from "./Spinner";
 interface ISolutionsProps {
 	displaySolutions: ISolution[];
 	targetRating: number | undefined;
-	columnDefinitions: ISolutionColumnDefinition[];
+	columnDefinitions: number[];
 	totalSolutionsCount: number | null; // null means that calculation has not started yet
 	isCalculating: boolean;
 	fetchMoreSolutions: (fromIndex: number) => void;
@@ -32,37 +31,37 @@ export function Solutions({
 		return isCalculating ? <></> : <Loading />;
 	};
 
-	const ratingTemplate = (rating: number) => {
-		return <span>{rating}</span>;
+	const ratingTemplate = (numOfRatings: number) => {
+		return <span>{numOfRatings}</span>;
 	};
 
-	const columns = columnDefinitions
-		.map((cd) => {
-			return (
-				<Column
-					key={cd.label}
-					field={cd.rating.toString()}
-					header={cd.label}
-					body={(rowData) => ratingTemplate(rowData.ratings[cd.rating])}
-				/>
-			);
-		})
-		.push(
+	const priceTemplate = (price: number) => {
+		return <span>{price}</span>;
+	};
+
+	const columns = columnDefinitions.map((cd) => {
+		return (
 			<Column
-				field="price"
-				header="Price"
-				body={(rowData) => <span>{rowData.price}</span>}
+				key={cd}
+				field="ratings"
+				header={cd}
+				body={(rowData) =>
+					ratingTemplate(
+						rowData.ratings.filter((rating: number) => rating === cd).length
+					)
+				}
 			/>
 		);
+	});
 
 	return (
 		<div className="solutions">
-			<h3>
+			<h2>
 				Solutions{" "}
 				{(totalSolutionsCount || 0) > 0 && (
-					<Badge value={totalSolutionsCount} />
+					<Badge value={totalSolutionsCount} size="large" />
 				)}
-			</h3>
+			</h2>
 			<small>
 				Each row in this table shows how many players of each rating you must
 				acquire in order to achieve the target rating
@@ -75,20 +74,26 @@ export function Solutions({
 			</small>
 
 			{/* <DataTable
+				className="p-mt-4"
 				value={displaySolutions}
 				stripedRows
-				virtualScrollerOptions={{
-					lazy: true,
-					onLazyLoad: isCalculating
-						? () => -1
-						: () => fetchMoreSolutions(displaySolutions.length),
-					showLoader: true,
-					loadingTemplate
-				}}>
-				{columns}
+				responsiveLayout="scroll"
+				emptyMessage="No solutions"
+				rowHover
+				scrollable
+				scrollHeight="600px">
+				{[
+					...columns,
+					<Column
+						key="price"
+						field="price"
+						header="Price"
+						body={(rowData) => priceTemplate(rowData.price)}
+					/>
+				]}
 			</DataTable> */}
 
-			{/* <InfiniteScroll
+			<InfiniteScroll
 				dataLength={displaySolutions.length}
 				next={
 					isCalculating
@@ -100,11 +105,11 @@ export function Solutions({
 				}
 				loader={isCalculating ? <></> : <Loading />}
 				className="infinite-scroll">
-				<Table striped hover responsive="lg" className="p-mt-2 solutions-table">
-					<thead className="table-dark sticky-header">
+				<table className="p-mt-3 solutions-table">
+					<thead className="sticky-header">
 						<tr>
 							{columnDefinitions.map((cd, index) => (
-								<RatingCell key={index} isHeader value={cd.label} />
+								<RatingCell key={index} isHeader value={cd} />
 							))}
 							<PriceCell value="Price" isHeader />
 						</tr>
@@ -117,7 +122,7 @@ export function Solutions({
 										key={`row${solution.id}col${columnIndex}`}
 										value={
 											solution.ratings.filter(
-												(rating) => rating === columnDefinition.rating
+												(rating) => rating === columnDefinition
 											).length
 										}
 									/>
@@ -134,8 +139,25 @@ export function Solutions({
 							</tr>
 						)}
 					</tbody>
-				</Table>
-			</InfiniteScroll> */}
+				</table>
+			</InfiniteScroll>
+
+			{totalSolutionsCount !== null && totalSolutionsCount === 0 && (
+				<Message
+					severity="error"
+					text="No possible solutions exist — Try again with a different configuration"
+					className="p-my-5"
+				/>
+			)}
+
+			{isCalculating && (totalSolutionsCount || 0) > displaySolutions.length && (
+				<Message
+					severity="warn"
+					text={`Only the cheapest ${displaySolutions.length} solutions are shown
+                    while calculating`}
+					className="p-my-5"
+				/>
+			)}
 
 			{/* <Collapse
 				in={
@@ -201,7 +223,7 @@ const Cell = ({
 }) => {
 	const className = type === "rating" ? "rating-cell" : "price-cell";
 	if (isHeader) {
-		return <th className={`bg-dark ${className}`}>{value}</th>;
+		return <th className={`${className}`}>{value}</th>;
 	} else {
 		return (
 			<td className={className}>

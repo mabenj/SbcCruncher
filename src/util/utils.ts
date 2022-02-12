@@ -70,31 +70,19 @@ export function sleep(ms: number) {
 	return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-export function serializeRatingOption(
-	value: IRatingOption | undefined
-): string {
+export function serializeRatingOption(value: number | undefined): string {
 	if (!value) {
 		return "";
 	}
-	return value.ratingValue.toString();
+	return value.toString();
 }
 
-export function deserializeRatingOption(
-	str: string
-): IRatingOption | undefined {
+export function deserializeRatingOption(str: string): number | undefined {
 	if (!str) {
 		return undefined;
 	}
-	const deserialized: IRatingOption = {
-		label: str,
-		ratingValue: Number(str),
-		value: Math.random()
-	};
-	return (
-		Config.ratingOptions.find(
-			(rating) => rating.ratingValue === deserialized.ratingValue
-		) && deserialized
-	);
+	const deserialized = Number(str);
+	return Config.allRatings.find((opt) => opt === deserialized) && deserialized;
 }
 
 export function getNumberOfCombinationsWithRepetitions(n: number, k: number) {

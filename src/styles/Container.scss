@@ -1,8 +1,18 @@
+$sm: 640px;
+$md: 720px;
+$lg: 960px;
+$xl: 1080px;
+
 .main-container {
 	display: flex;
 	justify-content: center;
 
 	.children {
+		padding: 1rem;
 		width: 70%;
+
+		@media only screen and (max-width: $md) {
+			width: 100%;
+		}
 	}
 }
