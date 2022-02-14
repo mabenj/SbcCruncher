@@ -22,8 +22,10 @@ ReactDOM.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://cra.link/PWA
 serviceWorkerRegistration.register({
-	onUpdate: () => {
+	onUpdate: (registration) => {
 		console.log("Performing a hard refresh");
+		const waitingServiceWorker = registration.waiting;
+		waitingServiceWorker?.postMessage({ type: "SKIP_WAITING" });
 		const url = new URL(window.location.href);
 		url.searchParams.set("update", "true");
 		window.location.href = url.toString();
