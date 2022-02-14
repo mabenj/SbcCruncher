@@ -35,8 +35,10 @@
 		// text-shadow: 0.025em 0.025em 0 var(--blue-300),
 		// 	0.05em 0.05em 0 var(--cyan-500), 0.075em 0.075em 0 var(--teal-500),
 		// 	0.1em 0.1em 0 var(--indigo-700);
-		text-shadow: 0.025em 0.025em 0 var(--blue-300),
-			0.05em 0.05em 0 var(--blue-500), 0.075em 0.075em 0 var(--cyan-500),
-			0.1em 0.1em 0 var(--blue-700);
+		text-shadow: 
+            0.025em 0.025em 0 #003E80, 
+            0.05em 0.05em 0 #4DA3FF,
+			0.075em 0.075em 0 #007BFF, 
+            0.1em 0.1em 0 #265180;
 	}
 }

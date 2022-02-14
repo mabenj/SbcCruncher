@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
+// import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 // import reportWebVitals from "./reportWebVitals";
 import ReactGA from "react-ga";
 
@@ -21,17 +21,15 @@ ReactDOM.render(
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://cra.link/PWA
-serviceWorkerRegistration.register({
-	onUpdate: (registration) => {
-		console.log("Performing a hard refresh");
-		const waitingServiceWorker = registration.waiting;
-		waitingServiceWorker?.postMessage({ type: "SKIP_WAITING" });
-		const url = new URL(window.location.href);
-		url.searchParams.set("update", "true");
-		window.location.href = url.toString();
-		console.log("Page refreshed");
-	}
-});
+// serviceWorkerRegistration.register({
+// 	onUpdate: (registration) => {
+// 		const waitingServiceWorker = registration.waiting;
+// 		waitingServiceWorker?.postMessage({ type: "SKIP_WAITING" });
+// 		const url = new URL(window.location.href);
+// 		url.searchParams.set("update", "true");
+// 		window.location.href = url.toString();
+// 	}
+// });
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
