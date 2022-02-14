@@ -14,7 +14,8 @@ import { precacheAndRoute, createHandlerBoundToURL } from "workbox-precaching";
 import { registerRoute } from "workbox-routing";
 import { StaleWhileRevalidate } from "workbox-strategies";
 
-const version = 1;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const commitRef = process.env.COMMIT_REF;
 
 declare const self: ServiceWorkerGlobalScope;
 
