@@ -54,10 +54,6 @@ export function Sidebar() {
 							className="no-style-a">
 							<i className="fab fa-github"></i>&nbsp;mabenj
 						</Link>
-						<br />
-						<small>
-							<em>Built from commit: {process.env.REACT_APP_COMMIT_REF}</em>
-						</small>
 					</div>
 				</div>
 			</PrimeSidebar>

@@ -15,7 +15,7 @@ import { registerRoute } from "workbox-routing";
 import { StaleWhileRevalidate } from "workbox-strategies";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const commitRef = process.env.REACT_APP_COMMIT_REF;
+const version = 1;
 
 declare const self: ServiceWorkerGlobalScope;
 
