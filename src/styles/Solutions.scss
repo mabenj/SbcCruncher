@@ -37,12 +37,12 @@ $xl: 1080px;
 
 		tbody {
 			tr:nth-child(odd) {
-				background-color: var(--surface-50);
+				background-color: var(--surface-100);
 			}
 
 			tr {
-				border-top: 1px solid var(--surface-100);
-				border-bottom: 1px solid var(--surface-100);
+				border-top: 1px solid var(--surface-200);
+				border-bottom: 1px solid var(--surface-200);
 			}
 
 			tr:hover {
