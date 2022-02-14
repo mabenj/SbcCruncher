@@ -1,6 +1,6 @@
 import React from "react";
 import Config from "../Config";
-import { SingleRatingSelect } from "./";
+import { SingleRatingDropdown } from "./";
 
 interface ITargetRatingInputProps {
 	value: number | undefined;
@@ -14,7 +14,7 @@ export function TargetRatingInput({
 	return (
 		<div className="p-field">
 			<span className="p-float-label p-fluid">
-				<SingleRatingSelect
+				<SingleRatingDropdown
 					ratings={Config.allRatings}
 					value={value}
 					onChange={onChange}

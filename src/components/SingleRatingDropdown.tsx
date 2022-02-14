@@ -1,11 +1,12 @@
-import React, { useState, useRef, useEffect } from "react";
-import {
-	AutoComplete,
-	AutoCompleteCompleteMethodParams
-} from "primereact/autocomplete";
-import { useIsMobile } from "../hooks";
+import React, { useState, useEffect } from "react";
+import { Dropdown } from "primereact/dropdown";
 
 import "../styles/SingleRatingSelect.scss";
+
+interface IOption {
+	ratingValue: string | undefined;
+	ratingLabel: string | undefined;
+}
 
 interface ISingleRatingSelectProps {
 	ratings: number[];
@@ -18,50 +19,56 @@ export const SingleRatingDropdown = ({
 	value,
 	onChange
 }: ISingleRatingSelectProps) => {
-	const autoCompleteRef = useRef<AutoComplete>(null);
-	const [originalRatings] = useState(ratings.map((r) => r.toString()));
-	const [options, setOptions] = useState(originalRatings);
-	const [currentValue, setCurrentValue] = useState(value);
-	const [isMobile] = useIsMobile();
+	const [currentValue, setCurrentValue] = useState<IOption>();
+	const [options] = useState<IOption[]>(
+		ratings.map((r) => ({
+			ratingLabel: r.toString(),
+			ratingValue: r.toString()
+		}))
+	);
 
-	useEffect(() => setCurrentValue(value), [value]);
+	useEffect(() => {
+		if (!value && value !== 0) {
+			return;
+		}
+		setCurrentValue({
+			ratingLabel: value?.toString(),
+			ratingValue: value?.toString()
+		});
+	}, [value]);
 
-	const searchOptions = (e: AutoCompleteCompleteMethodParams) => {
-		const filtered = originalRatings.filter((opt) => opt.startsWith(e.query));
-		setOptions(filtered);
+	const itemTemplate = (opt: IOption) => {
+		if (!opt) {
+			return <span>empty</span>;
+		}
+		const value = Number(opt.ratingValue);
+		const color = value > 74 ? "golden" : value > 64 ? "silver" : "bronze";
+		return <span className={`card card-${color}`}>{value}</span>;
 	};
 
-	const itemTemplate = (data: number) => {
-		const color = data > 74 ? "golden" : data > 64 ? "silver" : "bronze";
-		return <span className={`card card-${color}`}>{data}</span>;
-	};
-
-	const selectedItemTemplate = (data: any) => {
-		return <p>asd</p>;
+	const handleChange = (newValue: IOption) => {
+		const num = Number(newValue.ratingValue);
+		if (ratings.indexOf(num) > -1) {
+			console.log("onchange", { num });
+			onChange(num);
+		}
 	};
 
 	return (
-		<AutoComplete
-			ref={autoCompleteRef}
-			forceSelection
-			dropdown
-			dropdownMode="blank"
+		<Dropdown
 			value={currentValue}
-			suggestions={options}
-			completeMethod={searchOptions}
-			onChange={(e) => setCurrentValue(e.value)}
-			onSelect={(e) => onChange(e.value)}
-			onBlur={() => {
-				if (!originalRatings.find((r) => r === currentValue?.toString())) {
-					setCurrentValue(value);
-				}
-			}}
-			scrollHeight="400px"
-			readOnly={isMobile}
+			options={options}
+			optionLabel="ratingLabel"
+			scrollHeight="300px"
+			emptyMessage="No ratings available"
+			emptyFilterMessage="No ratings found"
+			resetFilterOnHide
+			filter
+			filterMatchMode="startsWith"
+			required
 			itemTemplate={itemTemplate}
-			selectedItemTemplate={selectedItemTemplate}
-			// @ts-ignore
-			onClick={(e) => autoCompleteRef.current?.onDropdownClick(e, "")}
+			valueTemplate={itemTemplate}
+			onChange={(e) => handleChange(e.value)}
 		/>
 	);
 };

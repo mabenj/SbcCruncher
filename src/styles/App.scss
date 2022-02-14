@@ -32,7 +32,7 @@ p {
 }
 
 a:not(.no-style-a) {
-	background: linear-gradient(90deg, var(--primary-color), var(--cyan-300));
+	background: linear-gradient(90deg, var(--primary-color), var(--blue-300));
 	background-size: 0% 2px;
 	background-repeat: no-repeat;
 	background-position: left bottom;
@@ -40,7 +40,7 @@ a:not(.no-style-a) {
 
 	text-decoration: none;
 	color: var(--primary-color);
-	font-weight: 600;
+	font-weight: 900;
 }
 
 a:not(.no-style-a):hover {

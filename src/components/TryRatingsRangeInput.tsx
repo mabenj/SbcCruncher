@@ -3,7 +3,7 @@ import Slider, { SliderTooltip } from "rc-slider";
 import "rc-slider/assets/index.css";
 import { useIsMobile } from "../hooks";
 import Config from "../Config";
-import { SingleRatingSelect } from "./";
+import { SingleRatingDropdown } from "./";
 
 import "../styles/TryRatingsRangeInput.scss";
 
@@ -57,10 +57,10 @@ export function TryRatingsRangeInput({
 			<label htmlFor="ratingsToTry">Range of Ratings to Try</label>
 			<div className="p-py-3">
 				<div className="p-grid">
-					<div className="p-lg-3 p-md-6 p-sm-12">
+					<div className="p-lg-2 p-md-6 p-sm-12">
 						<div className="p-inputgroup p-mb-3">
 							<span className="p-inputgroup-addon">Min</span>
-							<SingleRatingSelect
+							<SingleRatingDropdown
 								ratings={Config.tryRatings}
 								value={valueOfMin}
 								onChange={handleMinChange}
@@ -68,10 +68,10 @@ export function TryRatingsRangeInput({
 						</div>
 					</div>
 
-					<div className="p-lg-3 p-md-6 p-sm-12">
+					<div className="p-lg-2 p-md-6 p-sm-12">
 						<div className="p-inputgroup p-mb-3">
 							<span className="p-inputgroup-addon">Max</span>
-							<SingleRatingSelect
+							<SingleRatingDropdown
 								ratings={Config.tryRatings}
 								value={valueOfMax}
 								onChange={handleMaxChange}

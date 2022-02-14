@@ -144,7 +144,8 @@ function App() {
 			<form noValidate onSubmit={calculate}>
 				<FormPanelWrapper>
 					<div className="p-grid">
-						<div className="p-col-12 p-lg-3 p-mx-3">
+						<label className="p-col-12 p-mb-5">Target Rating & Fodder</label>
+						<div className="p-col-12 p-lg-2 p-mx-2">
 							<TargetRatingInput
 								value={targetRating}
 								onChange={setTargetRating}
