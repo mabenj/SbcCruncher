@@ -37,7 +37,10 @@ $xl: 1080px;
 
 		tbody {
 			tr:nth-child(odd) {
-				background-color: var(--surface-100);
+				background-color: var(--surface-a);
+			}
+			tr:nth-child(even) {
+				background-color: var(--surface-b);
 			}
 
 			tr {
