@@ -6,12 +6,14 @@ interface ICalculationButtonsProps {
 	disabled: boolean;
 	isCalculating: boolean;
 	onStopPressed: () => void;
+	className?: string;
 }
 
 export function CalculationButtons({
 	disabled,
 	isCalculating,
-	onStopPressed
+	onStopPressed,
+	className
 }: ICalculationButtonsProps) {
 	const handleStop = (e: React.MouseEvent) => {
 		e.preventDefault();
@@ -19,7 +21,7 @@ export function CalculationButtons({
 	};
 
 	return (
-		<>
+		<span className={className}>
 			<Button
 				type="submit"
 				label={isCalculating ? "Calculating..." : "Calculate"}
@@ -51,6 +53,6 @@ export function CalculationButtons({
 				}
 				tooltip={"Stop calculation"}
 				tooltipOptions={{ position: "top" }}></Button>
-		</>
+		</span>
 	);
 }

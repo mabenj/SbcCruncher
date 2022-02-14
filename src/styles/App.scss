@@ -12,7 +12,7 @@ body {
 
 button:disabled {
 	cursor: not-allowed !important;
-	// pointer-events: all !important;
+	pointer-events: all !important;
 }
 
 // a {
@@ -31,14 +31,20 @@ p {
 	width: 100%;
 }
 
-a {
+a:not(.no-style-a) {
+	background: linear-gradient(90deg, var(--primary-color), var(--cyan-300));
+	background-size: 0% 2px;
+	background-repeat: no-repeat;
+	background-position: left bottom;
+	transition: background-size 300ms ease;
+
 	text-decoration: none;
 	color: var(--primary-color);
 	font-weight: 600;
 }
 
-a:hover {
-	text-decoration: underline;
+a:not(.no-style-a):hover {
+	background-size: 100% 2px;
 }
 
 a.no-style-a {

@@ -28,8 +28,8 @@ export function Header() {
 const Brand = () => {
 	return (
 		<div className="brand">
-			<Link href="/" className="" openInSameTab>
-				<Image src="/logo.png" alt="SBC Cruncher logo" width="50px" />
+			<Link href="/" className="no-style-a" openInSameTab>
+				<Image src="/logo.png" alt="SBC Cruncher logo" width="70px" />
 			</Link>
 			<Link href="/" className="no-style-a" openInSameTab>
 				<h1 className="p-m-2">SBC CRUNCHER</h1>
@@ -39,9 +39,7 @@ const Brand = () => {
 };
 
 const ThemeToggle = () => {
-	const [isDark, setIsDark] = useState(
-		LocalStorage.getItemOrNull(Config.isDarkThemeStorageKey) || false
-	);
+	const [isDark, setIsDark] = useState(getIsDarkInitial());
 
 	useEffect(() => {
 		let themeLink = document.getElementById("app-theme") as HTMLLinkElement;
@@ -68,4 +66,14 @@ const ThemeToggle = () => {
 			/>
 		</span>
 	);
+};
+
+const getIsDarkInitial = () => {
+	const storedIsDark = LocalStorage.getItemOrNull<boolean>(
+		Config.isDarkThemeStorageKey
+	);
+	if (storedIsDark === null) {
+		return window.matchMedia("(prefers-color-scheme: dark)").matches;
+	}
+	return storedIsDark;
 };

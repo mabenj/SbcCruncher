@@ -1,9 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Londrina+Outline&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@900&display=swap");
 
 .header-container {
 	display: flex;
 	justify-content: space-between;
 	align-items: flex-start;
+	flex-wrap: wrap;
 }
 
 .options {
@@ -21,7 +22,21 @@
 .brand {
 	display: flex;
 	align-items: center;
-	letter-spacing: 0.4em;
-	font-family: "Londrina Outline", cursive;
-	font-size: 1.4em;
+	letter-spacing: 0.2em;
+	font-size: min(1.4em, 4vw);
+	font-family: "Rubik", sans-serif;
+	column-gap: 20px;
+	max-width: 100vw;
+
+	h1 {
+		color: white;
+		-webkit-text-stroke: 1px rgb(65, 65, 65);
+		// color: var(--primary-color-text);
+		// text-shadow: 0.025em 0.025em 0 var(--blue-300),
+		// 	0.05em 0.05em 0 var(--cyan-500), 0.075em 0.075em 0 var(--teal-500),
+		// 	0.1em 0.1em 0 var(--indigo-700);
+		text-shadow: 0.025em 0.025em 0 var(--blue-300),
+			0.05em 0.05em 0 var(--blue-500), 0.075em 0.075em 0 var(--cyan-500),
+			0.1em 0.1em 0 var(--blue-700);
+	}
 }

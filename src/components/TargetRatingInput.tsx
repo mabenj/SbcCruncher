@@ -4,7 +4,7 @@ import { SingleRatingSelect } from "./";
 
 interface ITargetRatingInputProps {
 	value: number | undefined;
-	onChange: (newRating: number) => void;
+	onChange: (newRating: number | undefined) => void;
 }
 
 export function TargetRatingInput({

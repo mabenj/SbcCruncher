@@ -6,6 +6,7 @@ $xl: 1080px;
 .main-container {
 	display: flex;
 	justify-content: center;
+	max-width: 100vw;
 
 	.children {
 		padding: 1rem;

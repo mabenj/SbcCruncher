@@ -40,12 +40,14 @@ export function TryRatingsRangeInput({
 		onChange(min, max);
 	};
 
-	const handleMinChange = (newValue: number) => {
+	const handleMinChange = (newValue: number | undefined) => {
+		newValue = newValue === undefined ? valueOfMin : newValue;
 		const range = [newValue, newValue > valueOfMax ? newValue + 1 : valueOfMax];
 		handleRangeChange(range);
 	};
 
-	const handleMaxChange = (newValue: number) => {
+	const handleMaxChange = (newValue: number | undefined) => {
+		newValue = newValue === undefined ? valueOfMax : newValue;
 		const range = [newValue < valueOfMin ? newValue - 1 : valueOfMin, newValue];
 		handleRangeChange(range);
 	};

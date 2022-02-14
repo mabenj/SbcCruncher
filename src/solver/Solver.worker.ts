@@ -59,6 +59,7 @@ function handleWorkRequest(request: ISolverWorkRequest) {
 			}
 		}
 	}
+
 	postStatus("DONE", 100);
 }
 

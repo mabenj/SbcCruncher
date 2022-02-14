@@ -11,3 +11,4 @@ export * from "./TryRatingsRangeInput";
 export * from "./Container";
 export * from "./SingleRatingSelect";
 export * from "./MultiRatingSelect";
+export * from "./SingleRatingDropdown";

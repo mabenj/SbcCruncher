@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
 	AutoComplete,
-	AutoCompleteCompleteMethodParams,
 	AutoCompleteChangeParams
 } from "primereact/autocomplete";
 
 import "../styles/MultiRatingSelect.scss";
 import Config from "../Config";
+import { useIsMobile } from "../hooks";
 
 interface IOption {
 	rating: string;
@@ -22,17 +22,19 @@ export const MultiRatingSelect = ({
 	value,
 	onChange
 }: IMultiRatingSelectProps) => {
+	const autoCompleteRef = useRef<AutoComplete>(null);
 	const [originalOptions] = useState<IOption[]>(
 		Config.allRatings.map((r, i) => ({ rating: r.toString(), index: i }))
 	);
 	const [suggestions, setSuggestions] = useState(originalOptions);
+	const [isMobile] = useIsMobile();
 
 	const formattedValues: IOption[] | undefined =
 		value?.map((val, i) => ({ rating: val.toString(), index: i })) || [];
 
-	const searchOptions = (e: AutoCompleteCompleteMethodParams) => {
+	const searchOptions = (query: string) => {
 		const filtered = originalOptions.filter((opt) =>
-			opt.rating.startsWith(e.query)
+			opt.rating.startsWith(query)
 		);
 		setSuggestions(filtered);
 	};
@@ -41,7 +43,6 @@ export const MultiRatingSelect = ({
 		if ((value?.length || 0) >= Config.playersInSquad) {
 			return;
 		}
-		console.log("select", e);
 		onChange([...(value || []), Number(e.value.rating)]);
 	};
 
@@ -49,25 +50,27 @@ export const MultiRatingSelect = ({
 		const newValues = formattedValues.filter(
 			(val) => val.index !== e.value.index
 		);
-		console.log("unselect", { oldValues: formattedValues, newValues, e });
 		onChange(newValues.map((nv) => Number(nv.rating)));
 	};
 
 	return (
 		<AutoComplete
+			ref={autoCompleteRef}
 			multiple
 			forceSelection
 			dropdown
-			dropdownMode="current"
 			field="rating"
 			value={formattedValues.length > 0 ? formattedValues : undefined}
 			suggestions={
 				(value?.length || 0) >= Config.playersInSquad ? undefined : suggestions
 			}
-			completeMethod={searchOptions}
+			completeMethod={(e) => searchOptions(e.query)}
 			onSelect={handleSelect}
 			onUnselect={handleUnselect}
 			scrollHeight="400px"
+			// @ts-ignore
+			onClick={(e) => autoCompleteRef.current?.onDropdownClick(e, "")}
+			readOnly={isMobile}
 		/>
 	);
 };

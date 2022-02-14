@@ -126,7 +126,6 @@ function App() {
 	};
 
 	const fetchMoreSolutions = (fromIndex: number) => {
-		console.log("Fetch more!");
 		const request: ISolverDataFetchRequest = {
 			discriminator: "SOLVER-FETCH",
 			fromIndex
@@ -184,8 +183,9 @@ function App() {
 					onStopPressed={() => {
 						setSolver((prev) => {
 							prev.terminate();
+							prev = new Solver();
 							setIsCalculating(false);
-							return new Solver();
+							return prev;
 						});
 					}}
 				/>
@@ -220,7 +220,9 @@ const FormPanelWrapper = ({
 	header?: string;
 }) => {
 	return (
-		<Card header={header} className={`p-my-5 p-p-lg-3 p-p-md-1 ${className}`}>
+		<Card
+			header={header}
+			className={`p-my-5 p-p-lg-3 p-my-lg-5 p-p-md-1 p-m-md-1 ${className}`}>
 			{children}
 		</Card>
 	);

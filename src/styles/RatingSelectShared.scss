@@ -1,0 +1,42 @@
+// colors ripped from futbin :D
+$gold: linear-gradient(
+	45deg,
+	#c6a009 0%,
+	#f2c40b 50%,
+	#f2c40b 51%,
+	#f0cf4a 100%
+);
+$silver: linear-gradient(
+	45deg,
+	#a9aeb1 0%,
+	#c2c7ca 50%,
+	#c2c7ca 51%,
+	#e9ecf0 100%
+);
+$bronze: linear-gradient(
+	45deg,
+	#6e4c35 0%,
+	#9f7f69 50%,
+	#9f7f69 51%,
+	#ffd9aa 100%
+);
+
+.card {
+	padding: 0.4rem;
+	color: black;
+	border-radius: 0.6rem 0.1rem;
+	// border: 0.15rem solid black;
+	// border-radius: 50% 50% 50% 50% / 12% 12% 88% 88%;
+	&.card-golden {
+		background: $gold;
+	}
+
+	&.card-silver {
+		background: $silver;
+	}
+
+	&.card-bronze {
+		background: $bronze;
+		color: white;
+	}
+}

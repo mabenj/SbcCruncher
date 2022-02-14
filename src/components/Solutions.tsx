@@ -2,7 +2,7 @@ import React from "react";
 import { ISolution } from "../interfaces";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Badge } from "primereact/badge";
-
+import { Skeleton } from "primereact/skeleton";
 import { Message } from "primereact/message";
 
 import "../styles/Solutions.scss";
@@ -83,10 +83,14 @@ export function Solutions({
 						))}
 						{displaySolutions.length === 0 && (
 							<tr>
-								{columnDefinitions.map((_, index) => (
-									<RatingCell key={index} value={0} />
-								))}
-								<PriceCell value={0} />
+								{columnDefinitions.map((_, index) =>
+									isCalculating ? (
+										<SkeletonCell key={index} />
+									) : (
+										<RatingCell key={index} value={0} />
+									)
+								)}
+								{isCalculating ? <SkeletonCell /> : <PriceCell value={0} />}
 							</tr>
 						)}
 					</tbody>
@@ -122,6 +126,10 @@ const Loading = () => {
 	);
 };
 
+const SkeletonCell = () => {
+	return <Cell type="skeleton" isHeader={false} value="" />;
+};
+
 const PriceCell = ({
 	isHeader = false,
 	value
@@ -147,17 +155,21 @@ const Cell = ({
 	isHeader,
 	value
 }: {
-	type: "rating" | "price";
+	type: "rating" | "price" | "skeleton";
 	isHeader: boolean;
 	value: string | number;
 }) => {
-	const className = type === "rating" ? "rating-cell" : "price-cell";
+	const className = `${type}-cell`;
+	const valueComponent =
+		type === "skeleton" ? <Skeleton>{value}</Skeleton> : <span>{value}</span>;
 	if (isHeader) {
-		return <th className={`${className}`}>{value}</th>;
+		return <th className={`${className}`}>{valueComponent}</th>;
 	} else {
 		return (
 			<td className={className}>
-				<span className={value === 0 ? "text-muted" : ""}>{value}</span>
+				<span className={value === 0 ? "text-muted" : ""}>
+					{valueComponent}
+				</span>
 			</td>
 		);
 	}
