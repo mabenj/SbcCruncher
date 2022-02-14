@@ -52,7 +52,7 @@ export function Sidebar() {
 						<Link
 							href="https://github.com/mabenj/SbcCruncher"
 							className="no-style-a">
-							<i className="fab fa-github"></i>&nbsp;mabenj
+							<i className="fab fa-github"></i>&nbsp;mabenjj
 						</Link>
 					</div>
 				</div>

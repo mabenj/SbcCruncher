@@ -26,7 +26,7 @@ const config: IConfig = {
 	allRatings: range(98, 47, -1),
 	tryRatings: range(98, 70, -1),
 	defaultTryMin: 81,
-	defaultTryMax: 86,
+	defaultTryMax: 87,
 	solverUpdateFrequencyMs: 300,
 	scrollToTopThreshold: 1000,
 	darkThemeName: "arya-blue",
