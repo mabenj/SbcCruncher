@@ -14,7 +14,8 @@ import {
 	Solutions,
 	TargetRatingInput,
 	TryRatingsRangeInput,
-	Container
+	Container,
+	Footer
 } from "./components/";
 /* eslint-disable import/no-webpack-loader-syntax */
 import Solver from "worker-loader!./solver/Solver.worker.ts";
@@ -205,6 +206,7 @@ function App() {
 					isCalculating={isCalculating}
 				/>
 			</form>
+			<Footer />
 		</Container>
 	);
 }

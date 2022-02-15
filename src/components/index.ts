@@ -12,3 +12,4 @@ export * from "./Container";
 export * from "./SingleRatingSelect";
 export * from "./MultiRatingSelect";
 export * from "./SingleRatingDropdown";
+export * from "./Footer";

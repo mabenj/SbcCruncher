@@ -17,7 +17,7 @@ export function ExistingRatingsInput({
 					value={value.length > 0 ? value : undefined}
 					onChange={onChange}
 				/>
-				<label htmlFor="existingRatings">Existing Player Ratings</label>
+				<label htmlFor="existingRatings">Existing Players</label>
 			</span>
 			<small>
 				Specify the ratings of the players you already possess and plan to use
