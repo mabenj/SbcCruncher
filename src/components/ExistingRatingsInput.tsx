@@ -91,6 +91,7 @@ export function ExistingRatingsInput({
             )}
             <div className="my-5">
                 <Button
+                    type="button"
                     icon="pi pi-plus"
                     className="p-button-rounded p-button-outlined"
                     label="Add a rating"
@@ -150,6 +151,7 @@ const RatingRow = ({
             </td>
             <td>
                 <Button
+                    type="button"
                     icon="pi pi-trash"
                     className="p-button-rounded p-button-danger p-button-text"
                     title="Delete"
@@ -180,7 +182,7 @@ const RatingSelect = ({
                 <RatingCard rating={value} />
             </div>
             <Card
-                className="absolute pt-1 z-5 shadow-4"
+                className="absolute mt-2 z-5 shadow-4"
                 style={{
                     maxWidth: "40%",
                     display: showOptions ? "block" : "none"
@@ -232,6 +234,7 @@ const QuantitySelect = ({
     return (
         <div className="flex justify-content-center align-items-center">
             <Button
+                type="button"
                 icon="pi pi-minus"
                 className="p-button-rounded p-button-text"
                 title="Remove one"
@@ -240,6 +243,7 @@ const QuantitySelect = ({
             />
             <span className="mx-3">{value}</span>
             <Button
+                type="button"
                 icon="pi pi-plus"
                 className="p-button-rounded p-button-text"
                 title="Add one"
