@@ -1,27 +1,39 @@
 import React from "react";
 import Config from "../Config";
-import { SingleRatingDropdown } from "./";
+import RatingCard from "./rating_cards/RatingCard";
 
 interface ITargetRatingInputProps {
-	value: number | undefined;
-	onChange: (newRating: number | undefined) => void;
+    value: number | undefined;
+    onChange: (newRating: number | undefined) => void;
 }
 
 export function TargetRatingInput({
-	value,
-	onChange
+    value,
+    onChange
 }: ITargetRatingInputProps) {
-	return (
-		<div className="p-field">
-			<span className="p-float-label p-fluid">
-				<SingleRatingDropdown
-					ratings={Config.allRatings}
-					value={value}
-					onChange={onChange}
-				/>
-				<label htmlFor="targetRating">Squad Target Rating</label>
-			</span>
-			<small>Specify the desired squad rating</small>
-		</div>
-	);
+    return (
+        <>
+            <div className="my-4">
+                <strong className="mr-2">Selected</strong>
+                <span>{value}</span>
+            </div>
+            <div className="flex flex-wrap">
+                {Config.allRatings.map((rating, index) => {
+                    return (
+                        <div key={index} className="my-2 mr-3 cursor-pointer">
+                            <span onClick={() => onChange(rating)}>
+                                <RatingCard
+                                    rating={rating}
+                                    selected={value === rating}
+                                />
+                            </span>
+                        </div>
+                    );
+                })}
+            </div>
+            <div className="my-2">
+                <small>Select the desired squad rating by clicking it</small>
+            </div>
+        </>
+    );
 }

@@ -12,7 +12,7 @@ export function Header() {
 		<div className="header-container">
 			<div>
 				<Brand />
-				<small className="p-m-1">
+				<small className="m-1">
 					A tool for calculating the most optimal player ratings and prices for
 					FIFA Ultimate Team SBCs
 				</small>
@@ -32,7 +32,7 @@ const Brand = () => {
 				<Image src="/logo.png" alt="SBC Cruncher logo" width="70px" />
 			</Link>
 			<Link href="/" className="no-style-a" openInSameTab>
-				<h1 className="p-m-2">SBC CRUNCHER</h1>
+				<h1 className="m-2">SBC CRUNCHER</h1>
 			</Link>
 		</div>
 	);

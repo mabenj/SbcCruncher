@@ -1,0 +1,61 @@
+// colors ripped from futbin :D
+$gold: linear-gradient(
+    45deg,
+    #c6a009 0%,
+    #f2c40b 50%,
+    #f2c40b 51%,
+    #f0cf4a 100%
+);
+$silver: linear-gradient(
+    45deg,
+    #a9aeb1 0%,
+    #c2c7ca 50%,
+    #c2c7ca 51%,
+    #e9ecf0 100%
+);
+$bronze: linear-gradient(
+    45deg,
+    #6e4c35 0%,
+    #9f7f69 50%,
+    #9f7f69 51%,
+    #ffd9aa 100%
+);
+
+.rating-card {
+    color: black;
+    // border-radius: 0.6rem 0.1rem;
+    border-radius: 0.2rem;
+    // border: 0.15rem solid black;
+    // border-radius: 50% 50% 50% 50% / 12% 12% 88% 88%;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.63);
+    filter: saturate(0.85);
+
+    &.rating-card-golden {
+        background: $gold;
+    }
+
+    &.rating-card-silver {
+        background: $silver;
+    }
+
+    &.rating-card-bronze {
+        background: $bronze;
+        color: white;
+    }
+
+    &.rating-card-selected {
+        font-weight: 600;
+        filter: saturate(0.85) brightness(1.15);
+        border: 3px solid var(--primary-color);
+        box-shadow: 0 0 4px var(--primary-color);
+    }
+
+    &:hover {
+        filter: saturate(0.85) brightness(1.1);
+    }
+}

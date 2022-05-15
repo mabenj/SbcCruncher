@@ -1,0 +1,49 @@
+$sm: 640px;
+$md: 720px;
+$lg: 960px;
+$xl: 1080px;
+
+.existing-ratings-table {
+    font-family: var(--font-family);
+    color: var(--text-color);
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    overflow: initial;
+
+    th,
+    td {
+        padding: 12px;
+    }
+
+    thead {
+        tr {
+            background-color: var(--primary-color);
+            color: var(--primary-color-text);
+        }
+    }
+
+    tbody {
+        &.striped {
+            tr:nth-child(odd) {
+                background-color: var(--surface-a);
+            }
+            tr:nth-child(even) {
+                background-color: var(--surface-b);
+            }
+        }
+
+        tr {
+            border-top: 1px solid var(--surface-200);
+            border-bottom: 1px solid var(--surface-200);
+        }
+
+        tr:hover {
+            background-color: var(--surface-100);
+        }
+    }
+
+    @media only screen and (max-width: $lg) {
+        overflow-x: auto;
+    }
+}

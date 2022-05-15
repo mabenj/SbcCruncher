@@ -56,7 +56,7 @@ export function Solutions({
 				}
 				loader={isCalculating ? <></> : <Loading />}
 				className="infinite-scroll">
-				<table className="p-mt-3 solutions-table">
+				<table className="mt-3 solutions-table">
 					<thead className="sticky-header">
 						<tr>
 							{columnDefinitions.map((cd, index) => (
@@ -101,7 +101,7 @@ export function Solutions({
 				<Message
 					severity="error"
 					text="No possible solutions exist — Try again with a different configuration"
-					className="p-my-5"
+					className="my-5"
 				/>
 			)}
 
@@ -110,7 +110,7 @@ export function Solutions({
 					severity="warn"
 					text={`Only the cheapest ${displaySolutions.length} solutions are shown
                     while calculating`}
-					className="p-my-5"
+					className="my-5"
 				/>
 			)}
 		</div>

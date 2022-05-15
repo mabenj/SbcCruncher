@@ -68,9 +68,9 @@ export function PricesInput({ ratings, onChange }: IPricesInputProps) {
 			<Toast ref={errorToast} />
 			<div className="p-field">
 				<label htmlFor="playerPrices">Player Prices</label>
-				<div id="playerPrices" className="p-grid p-mb-2">
+				<div id="playerPrices" className="p-grid mb-2">
 					{ratings.map((rating) => (
-						<div key={rating} className="p-col-12 p-lg-4 p-md-6">
+						<div key={rating} className="col-12 lg-4 md-6">
 							<div className="p-inputgroup">
 								<span className="p-inputgroup-addon">{rating}</span>
 								<InputNumber
@@ -93,7 +93,7 @@ export function PricesInput({ ratings, onChange }: IPricesInputProps) {
 				<span>
 					<Button
 						label={isFetching ? "Fetching..." : "Fetch from FUTBIN"}
-						className="p-mt-5 p-mb-2 p-button-secondary p-button-raised"
+						className="mt-5 mb-2 p-button-secondary p-button-raised"
 						onClick={handleFetchFutbin}
 						icon={
 							<>

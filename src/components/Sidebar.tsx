@@ -88,7 +88,7 @@ export function Sidebar() {
 							</li>
 						</ol>
 					</div>
-					<div className="p-my-4">
+					<div className="my-4">
 						<Link
 							href="https://github.com/mabenj/SbcCruncher"
 							className="no-style-a">
