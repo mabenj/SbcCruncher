@@ -1,4 +1,3 @@
-import { useAtom } from "jotai";
 import { Card } from "primereact/card";
 import { Divider } from "primereact/divider";
 import { ProgressBar } from "primereact/progressbar";
@@ -18,14 +17,9 @@ import {
     TargetRatingInput,
     TryRatingsRangeInput
 } from ".";
-import {
-    existingRatingsAtom,
-    targetRatingAtom,
-    tryRatingMaxAtom,
-    tryRatingMinAtom
-} from "../atoms";
 import Config from "../Config";
 import {
+    IExistingRating,
     IPriceInfo,
     ISolution,
     ISolverDataFetchRequest,
@@ -41,10 +35,16 @@ function App() {
     const [isCalculating, setIsCalculating] = useState(false);
     const [progressPercentage, setProgressPercentage] = useState(0);
 
-    const [targetRating, setTargetRating] = useAtom(targetRatingAtom);
-    const [existingRatings, setExistingRatings] = useAtom(existingRatingsAtom);
-    const [tryRatingMin, setTryRatingMin] = useAtom(tryRatingMinAtom);
-    const [tryRatingMax, setTryRatingMax] = useAtom(tryRatingMaxAtom);
+    // const [targetRating, setTargetRating] = useAtom(targetRatingAtom);
+    const [targetRating, setTargetRating] = useState<number | undefined>();
+    // const [existingRatings, setExistingRatings] = useAtom(existingRatingsAtom);
+    const [existingRatings, setExistingRatings] = useState<IExistingRating[]>(
+        []
+    );
+    // const [tryRatingMin, setTryRatingMin] = useAtom(tryRatingMinAtom);
+    const [tryRatingMin, setTryRatingMin] = useState(Config.defaultTryMin);
+    // const [tryRatingMax, setTryRatingMax] = useAtom(tryRatingMaxAtom);
+    const [tryRatingMax, setTryRatingMax] = useState(Config.defaultTryMax);
 
     const [prices, setPrices] = useState<IPriceInfo>({});
     const [solutions, setSolutions] = useState<ISolution[]>([]);
@@ -118,7 +118,7 @@ function App() {
             ratingsToTry: ratingsToTry,
             existingRatings:
                 existingRatings?.flatMap(({ rating, quantity }) =>
-                    new Array(rating).fill(quantity)
+                    new Array(quantity).fill(rating)
                 ) || [],
             targetRating: targetRating || -1,
             prices: prices
@@ -158,11 +158,11 @@ function App() {
                 <FormPanelWrapper title="Existing Players">
                     <ExistingRatingsInput
                         value={existingRatings || []}
-                        onChange={setExistingRatings}
+                        onChange={(nr) => (nr ? setExistingRatings(nr) : [])}
                     />
                 </FormPanelWrapper>
 
-                <FormPanelWrapper>
+                <FormPanelWrapper title="Range of Ratings to Try">
                     <TryRatingsRangeInput
                         valueOfMin={tryRatingMin}
                         valueOfMax={tryRatingMax}
@@ -173,7 +173,7 @@ function App() {
                     />
                 </FormPanelWrapper>
 
-                <FormPanelWrapper>
+                <FormPanelWrapper  title="Player Prices">
                     <PricesInput
                         ratings={range(tryRatingMin, tryRatingMax, 1)}
                         onChange={setPrices}

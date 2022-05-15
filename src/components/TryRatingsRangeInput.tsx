@@ -61,7 +61,6 @@ export function TryRatingsRangeInput({
 
     return (
         <div className="p-field">
-            <label htmlFor="ratingsToTry">Range of Ratings to Try</label>
             <div className="py-3">
                 <div className="grid">
                     <div className="lg-2 md-6 sm-12">

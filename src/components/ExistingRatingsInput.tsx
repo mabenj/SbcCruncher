@@ -1,6 +1,5 @@
 import { Button } from "primereact/button";
-import { Dropdown } from "primereact/dropdown";
-import { InputNumber } from "primereact/inputnumber";
+import { Card } from "primereact/card";
 import React, { useEffect, useState } from "react";
 import Config from "../Config";
 import { IExistingRating } from "../interfaces";
@@ -17,22 +16,8 @@ export function ExistingRatingsInput({
     onChange
 }: IExistingRatingsInputProps) {
     const [ratings, setRatings] = useState<IExistingRating[]>([]);
-    const [editIndex, setEditIndex] = useState(-1);
 
-    useEffect(() => {
-        setRatings(() => {
-            let count = 0;
-            const accepted: IExistingRating[] = [];
-            value.forEach((v) => {
-                count += v.quantity;
-                if (count > Config.maxExistingRatings) {
-                    return;
-                }
-                accepted.push(v);
-            });
-            return accepted;
-        });
-    }, [value]);
+    useEffect(() => setRatings(value), [value]);
 
     const getCurrentRatingsCount = (exceptRating?: number) => {
         return ratings.reduce(
@@ -43,8 +28,11 @@ export function ExistingRatingsInput({
     };
 
     const addRating = () => {
-        setEditIndex(ratings.length);
-        setRatings((prev) => [...prev, { rating: 75, quantity: 1 }]);
+        setRatings((prev) => {
+            const newRatings = [...prev, { rating: 75, quantity: 1 }];
+            onChange(newRatings);
+            return newRatings;
+        });
     };
 
     const handleDelete = (index: number) => {
@@ -56,19 +44,15 @@ export function ExistingRatingsInput({
         });
     };
 
-    const handleModification = (
+    const handleChange = (
+        index: number,
         newRating: number,
-        newQuantity: number,
-        index: number
+        newQuantity: number
     ) => {
         setRatings((prev) => {
-            prev[index] = {
-                ...prev[index],
-                rating: newRating,
-                quantity: newQuantity
-            };
+            prev[index] = { rating: newRating, quantity: newQuantity };
             const newRatings = [...prev];
-            onChange(newRatings.length > 0 ? newRatings : undefined);
+            onChange(newRatings);
             return newRatings;
         });
     };
@@ -91,16 +75,9 @@ export function ExistingRatingsInput({
                             key={index}
                             rating={r.rating}
                             quantity={r.quantity}
-                            isEditing={editIndex === index}
-                            onEditStart={() => setEditIndex(index)}
-                            onEditEnd={() => setEditIndex(-1)}
                             onDelete={() => handleDelete(index)}
-                            onModify={(newRating, newQuantity) =>
-                                handleModification(
-                                    newRating,
-                                    newQuantity,
-                                    index
-                                )
+                            onChange={(newRating, newQuantity) =>
+                                handleChange(index, newRating, newQuantity)
                             }
                             getRatingsCount={getCurrentRatingsCount}
                         />
@@ -117,10 +94,10 @@ export function ExistingRatingsInput({
                     icon="pi pi-plus"
                     className="p-button-rounded p-button-outlined"
                     label="Add a rating"
+                    title="Add an existing player rating"
                     onClick={() => addRating()}
                     disabled={
-                        getCurrentRatingsCount() >= Config.maxExistingRatings ||
-                        editIndex !== -1
+                        getCurrentRatingsCount() >= Config.maxExistingRatings
                     }
                 />
             </div>
@@ -135,44 +112,18 @@ export function ExistingRatingsInput({
 interface IRatingRowProps {
     rating: number;
     quantity: number;
-    isEditing: boolean;
-    onEditStart: () => void;
-    onEditEnd: () => void;
     onDelete: () => void;
-    onModify: (newRating: number, newQuantity: number) => void;
+    onChange: (newRating: number, newQuantity: number) => void;
     getRatingsCount: (exceptRating?: number) => number;
 }
 
 const RatingRow = ({
     rating,
     quantity,
-    isEditing,
-    onEditStart,
-    onEditEnd,
     onDelete,
-    onModify,
+    onChange,
     getRatingsCount
 }: IRatingRowProps) => {
-    const [editedRating, setEditedRating] = useState(rating);
-    const [editedQuantity, setEditedQuantity] = useState(quantity);
-    const [isInitialEdit, setIsInitialEdit] = useState(true);
-
-    const handleSave = () => {
-        onModify(editedRating, editedQuantity);
-        isInitialEdit && setIsInitialEdit(false);
-        onEditEnd();
-    };
-
-    const handleCancel = () => {
-        if (isInitialEdit) {
-            onDelete();
-        } else {
-            setEditedRating(rating);
-            setEditedQuantity(quantity);
-        }
-        onEditEnd();
-    };
-
     const getMaxQuantity = () => {
         const othersCount = getRatingsCount() - quantity;
         return Config.maxExistingRatings - othersCount;
@@ -182,87 +133,119 @@ const RatingRow = ({
         <tr
             style={{
                 height: "90px"
-            }}
-            className={
-                isEditing
-                    ? "border-2 border-double surface-border surface-hover"
-                    : ""
-            }>
+            }}>
             <td className="text-left">
-                {isEditing ? (
-                    <Dropdown
-                        value={editedRating}
-                        options={Config.allRatings}
-                        onChange={(e) => setEditedRating(Number(e.value))}
-                        placeholder="Select a rating"
-                        itemTemplate={(option) => (
-                            <RatingCard rating={option} />
-                        )}
-                        valueTemplate={(option) => (
-                            <RatingCard rating={option} />
-                        )}
-                        scrollHeight="300px"
-                    />
-                ) : (
-                    <span className="pointer-events-none">
-                        <RatingCard rating={rating} />
-                    </span>
-                )}
+                <RatingSelect
+                    value={rating}
+                    onChange={(newRating) => onChange(newRating, quantity)}
+                />
             </td>
             <td className="text-center">
-                {isEditing ? (
-                    <InputNumber
-                        value={editedQuantity}
-                        showButtons
-                        buttonLayout="horizontal"
-                        incrementButtonIcon="pi pi-plus"
-                        decrementButtonIcon="pi pi-minus"
-                        onChange={(e) =>
-                            setEditedQuantity((prev) => e.value || prev)
-                        }
-                        min={1}
-                        max={getMaxQuantity()}
-                        allowEmpty={false}
-                        inputStyle={{ width: "50px" }}
-                        inputClassName="text-center"
-                    />
-                ) : (
-                    quantity
-                )}
+                <QuantitySelect
+                    value={quantity}
+                    onChange={(newQuantity) => onChange(rating, newQuantity)}
+                    min={1}
+                    max={getMaxQuantity()}
+                />
             </td>
             <td>
-                {isEditing ? (
-                    <>
-                        <Button
-                            icon="pi pi-check"
-                            className="p-button-rounded p-button-success p-button-text mr-2"
-                            title="Save"
-                            onClick={() => handleSave()}
-                        />{" "}
-                        <Button
-                            icon="pi pi-times"
-                            className="p-button-rounded p-button-danger p-button-text"
-                            title="Cancel"
-                            onClick={() => handleCancel()}
-                        />
-                    </>
-                ) : (
-                    <>
-                        <Button
-                            icon="pi pi-pencil"
-                            className="p-button-rounded p-button-secondary p-button-text mr-2"
-                            title="Edit"
-                            onClick={() => onEditStart()}
-                        />{" "}
-                        <Button
-                            icon="pi pi-trash"
-                            className="p-button-rounded p-button-danger p-button-text"
-                            title="Delete"
-                            onClick={() => onDelete()}
-                        />
-                    </>
-                )}
+                <Button
+                    icon="pi pi-trash"
+                    className="p-button-rounded p-button-danger p-button-text"
+                    title="Delete"
+                    onClick={() => onDelete()}
+                />
             </td>
         </tr>
+    );
+};
+
+const RatingSelect = ({
+    value,
+    onChange
+}: {
+    value: number;
+    onChange: (newValue: number) => void;
+}) => {
+    const [showOptions, setShowOptions] = useState(false);
+
+    const setRating = (rating: number) => {
+        onChange(rating);
+        setShowOptions(false);
+    };
+
+    return (
+        <div tabIndex={0} onBlur={() => setShowOptions(false)}>
+            <div onClick={() => setShowOptions((prev) => !prev)}>
+                <RatingCard rating={value} />
+            </div>
+            <Card
+                className="absolute pt-1 z-5 shadow-4"
+                style={{
+                    maxWidth: "40%",
+                    display: showOptions ? "block" : "none"
+                }}>
+                <div className="flex flex-wrap gap-3">
+                    {Config.allRatings.map((rating, index) => {
+                        return (
+                            <div key={index}>
+                                <span onClick={() => setRating(rating)}>
+                                    <RatingCard
+                                        rating={rating}
+                                        selected={value === rating}
+                                    />
+                                </span>
+                            </div>
+                        );
+                    })}
+                </div>
+            </Card>
+        </div>
+    );
+};
+
+const QuantitySelect = ({
+    value,
+    onChange,
+    min,
+    max
+}: {
+    value: number;
+    onChange: (newValue: number) => void;
+    min: number;
+    max: number;
+}) => {
+    const increment = () => {
+        if (value >= max) {
+            return;
+        }
+        onChange(value + 1);
+    };
+
+    const decrement = () => {
+        if (value <= min) {
+            return;
+        }
+        onChange(value - 1);
+    };
+
+    return (
+        <div className="flex justify-content-center align-items-center">
+            <Button
+                icon="pi pi-minus"
+                className="p-button-rounded p-button-text"
+                title="Remove one"
+                onClick={() => decrement()}
+                disabled={min === value}
+            />
+            <span className="mx-3">{value}</span>
+            <Button
+                icon="pi pi-plus"
+                className="p-button-rounded p-button-text"
+                title="Add one"
+                onClick={() => increment()}
+                disabled={max === value}
+            />
+        </div>
     );
 };

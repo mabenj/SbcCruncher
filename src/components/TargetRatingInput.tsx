@@ -15,12 +15,12 @@ export function TargetRatingInput({
         <>
             <div className="my-4">
                 <strong className="mr-2">Selected</strong>
-                <span>{value}</span>
+                <span>{value || <em>none</em>}</span>
             </div>
-            <div className="flex flex-wrap">
+            <div className="flex flex-wrap gap-3">
                 {Config.allRatings.map((rating, index) => {
                     return (
-                        <div key={index} className="my-2 mr-3 cursor-pointer">
+                        <div key={index}>
                             <span onClick={() => onChange(rating)}>
                                 <RatingCard
                                     rating={rating}
