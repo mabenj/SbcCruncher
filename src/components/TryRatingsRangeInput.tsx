@@ -4,25 +4,25 @@ import React, { useEffect, useState } from "react";
 import Config from "../Config";
 import { useIsMobile } from "../hooks";
 import "../styles/TryRatingsRangeInput.scss";
-import { SingleRatingDropdown } from "./";
+import SingleRatingSelect from "./SingleRatingSelect";
 
 const { createSliderWithTooltip } = Slider;
 const Range = createSliderWithTooltip(Slider.Range);
 const { Handle } = Slider;
 
 interface IRatingsRangeInputProps {
-    valueOfMin: number;
-    valueOfMax: number;
-    onChange: (min: number, max: number) => void;
+    value: [min: number, max: number];
+    onChange: (newBoundaries: [min: number, max: number]) => void;
 }
 
 export function TryRatingsRangeInput({
-    valueOfMin,
-    valueOfMax,
+    value,
     onChange
 }: IRatingsRangeInputProps) {
     const [isMobile] = useIsMobile();
     const [marks, setMarks] = useState<Record<number, React.ReactNode>>();
+
+    const options = Config.tryRatings.sort();
 
     useEffect(() => {
         setMarks(() => getMarks(Config.tryRatings));
@@ -38,52 +38,61 @@ export function TryRatingsRangeInput({
             Config.tryRatings.find(
                 (rating) => rating === Math.max(...newRange)
             ) || Math.max(...Config.tryRatings);
-        onChange(min, max);
+        onChange([min, max]);
     };
 
-    const handleMinChange = (newValue: number | undefined) => {
-        newValue = newValue === undefined ? valueOfMin : newValue;
+    const handleMinChange = (newValue: number) => {
+        const currentMax = Math.max(...value);
         const range = [
             newValue,
-            newValue > valueOfMax ? newValue + 1 : valueOfMax
+            newValue > currentMax ? newValue + 1 : currentMax
         ];
         handleRangeChange(range);
     };
 
-    const handleMaxChange = (newValue: number | undefined) => {
-        newValue = newValue === undefined ? valueOfMax : newValue;
+    const handleMaxChange = (newValue: number) => {
+        const currentMin = Math.min(...value);
         const range = [
-            newValue < valueOfMin ? newValue - 1 : valueOfMin,
+            newValue < currentMin ? newValue - 1 : currentMin,
             newValue
         ];
         handleRangeChange(range);
     };
 
     return (
-        <div className="p-field">
-            <div className="py-3">
-                <div className="grid">
-                    <div className="lg-2 md-6 sm-12">
-                        <div className="p-inputgroup mb-3">
-                            <span className="p-inputgroup-addon">Min</span>
-                            <SingleRatingDropdown
-                                ratings={Config.tryRatings}
-                                value={valueOfMin}
-                                onChange={handleMinChange}
-                            />
-                        </div>
-                    </div>
-
-                    <div className="lg-2 md-6 sm-12">
-                        <div className="p-inputgroup mb-3">
-                            <span className="p-inputgroup-addon">Max</span>
-                            <SingleRatingDropdown
-                                ratings={Config.tryRatings}
-                                value={valueOfMax}
-                                onChange={handleMaxChange}
-                            />
-                        </div>
-                    </div>
+        <div>
+            <div>
+                <div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>From</th>
+                                <th style={{ minWidth: "4rem" }}></th>
+                                <th>To</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <SingleRatingSelect
+                                        value={value[0]}
+                                        options={options}
+                                        onChange={handleMinChange}
+                                    />
+                                </td>
+                                <td className="text-center">
+                                    <span className="pi pi-arrows-h"></span>
+                                </td>
+                                <td>
+                                    <SingleRatingSelect
+                                        value={value[1]}
+                                        options={options}
+                                        onChange={handleMaxChange}
+                                    />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
                 {!isMobile && (
                     <div className="slider py-4">
@@ -93,7 +102,7 @@ export function TryRatingsRangeInput({
                                 Config.defaultTryMin,
                                 Config.defaultTryMax
                             ]}
-                            value={[valueOfMin, valueOfMax]}
+                            value={value}
                             onChange={handleRangeChange}
                             min={Math.min(...Config.tryRatings)}
                             max={Math.max(...Config.tryRatings)}

@@ -1,6 +1,6 @@
 import React from "react";
 import Config from "../Config";
-import RatingCard from "./rating_cards/RatingCard";
+import RatingCard from "./RatingCard";
 
 interface ITargetRatingInputProps {
     value: number | undefined;

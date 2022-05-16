@@ -1,5 +1,5 @@
 import React from "react";
-import "../../styles/RatingCard.scss";
+import "../styles/RatingCard.scss";
 
 interface IRatingProps {
     rating: number;

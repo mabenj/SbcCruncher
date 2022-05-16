@@ -1,62 +1,51 @@
-import React, { useState, useRef, useEffect } from "react";
-import {
-	AutoComplete,
-	AutoCompleteCompleteMethodParams
-} from "primereact/autocomplete";
-import { useIsMobile } from "../hooks";
-
-import "../styles/SingleRatingSelect.scss";
+import { Card } from "primereact/card";
+import React, { useState } from "react";
+import RatingCard from "./RatingCard";
 
 interface ISingleRatingSelectProps {
-	ratings: number[];
-	value: number | undefined;
-	onChange: (newValue: number | undefined) => void;
+    value: number;
+    options: number[];
+    onChange: (newValue: number) => void;
 }
 
-export const SingleRatingSelect = ({
-	ratings,
-	value,
-	onChange
-}: ISingleRatingSelectProps) => {
-	const autoCompleteRef = useRef<AutoComplete>(null);
-	const [originalRatings] = useState(ratings.map((r) => r.toString()));
-	const [options, setOptions] = useState(originalRatings);
-	const [currentValue, setCurrentValue] = useState(value);
-	const [isMobile] = useIsMobile();
+export default function SingleRatingSelect({
+    value,
+    options,
+    onChange
+}: ISingleRatingSelectProps) {
+    const [showOptions, setShowOptions] = useState(false);
 
-	useEffect(() => setCurrentValue(value), [value]);
+    const setRating = (rating: number) => {
+        onChange(rating);
+        setShowOptions(false);
+    };
 
-	const searchOptions = (e: AutoCompleteCompleteMethodParams) => {
-		const filtered = originalRatings.filter((opt) => opt.startsWith(e.query));
-		setOptions(filtered);
-	};
-
-	const itemTemplate = (data: number) => {
-		const color = data > 74 ? "golden" : data > 64 ? "silver" : "bronze";
-		return <span className={`card card-${color}`}>{data}</span>;
-	};
-
-	return (
-		<AutoComplete
-			ref={autoCompleteRef}
-			forceSelection
-			dropdown
-			dropdownMode="blank"
-			value={currentValue}
-			suggestions={options}
-			completeMethod={searchOptions}
-			onChange={(e) => setCurrentValue(e.value)}
-			onSelect={(e) => onChange(Number(e.value))}
-			onBlur={() => {
-				if (!originalRatings.find((r) => r === currentValue?.toString())) {
-					setCurrentValue(value);
-				}
-			}}
-			scrollHeight="400px"
-			readOnly={isMobile}
-			itemTemplate={itemTemplate}
-			// @ts-ignore
-			onClick={(e) => autoCompleteRef.current?.onDropdownClick(e, "")}
-		/>
-	);
-};
+    return (
+        <div tabIndex={0} onBlur={() => setShowOptions(false)}>
+            <div onClick={() => setShowOptions((prev) => !prev)}>
+                <RatingCard rating={value} />
+            </div>
+            <Card
+                className="absolute mt-2 z-5 shadow-4"
+                style={{
+                    maxWidth: "40%",
+                    display: showOptions ? "block" : "none"
+                }}>
+                <div className="flex flex-wrap gap-3">
+                    {options.map((rating, index) => {
+                        return (
+                            <div key={index}>
+                                <span onClick={() => setRating(rating)}>
+                                    <RatingCard
+                                        rating={rating}
+                                        selected={value === rating}
+                                    />
+                                </span>
+                            </div>
+                        );
+                    })}
+                </div>
+            </Card>
+        </div>
+    );
+}

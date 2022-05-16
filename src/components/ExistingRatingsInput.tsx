@@ -1,10 +1,9 @@
 import { Button } from "primereact/button";
-import { Card } from "primereact/card";
 import React, { useEffect, useState } from "react";
 import Config from "../Config";
 import { IExistingRating } from "../interfaces";
 import "../styles/ExistingRatingsInput.scss";
-import RatingCard from "./rating_cards/RatingCard";
+import SingleRatingSelect from "./SingleRatingSelect";
 
 interface IExistingRatingsInputProps {
     value: IExistingRating[];
@@ -137,8 +136,9 @@ const RatingRow = ({
                 height: "90px"
             }}>
             <td className="text-left">
-                <RatingSelect
+                <SingleRatingSelect
                     value={rating}
+                    options={Config.allRatings}
                     onChange={(newRating) => onChange(newRating, quantity)}
                 />
             </td>
@@ -161,50 +161,6 @@ const RatingRow = ({
                 />
             </td>
         </tr>
-    );
-};
-
-const RatingSelect = ({
-    value,
-    onChange
-}: {
-    value: number;
-    onChange: (newValue: number) => void;
-}) => {
-    const [showOptions, setShowOptions] = useState(false);
-
-    const setRating = (rating: number) => {
-        onChange(rating);
-        setShowOptions(false);
-    };
-
-    return (
-        <div tabIndex={0} onBlur={() => setShowOptions(false)}>
-            <div onClick={() => setShowOptions((prev) => !prev)}>
-                <RatingCard rating={value} />
-            </div>
-            <Card
-                className="absolute mt-2 z-5 shadow-4"
-                style={{
-                    maxWidth: "40%",
-                    display: showOptions ? "block" : "none"
-                }}>
-                <div className="flex flex-wrap gap-3">
-                    {Config.allRatings.map((rating, index) => {
-                        return (
-                            <div key={index}>
-                                <span onClick={() => setRating(rating)}>
-                                    <RatingCard
-                                        rating={rating}
-                                        selected={value === rating}
-                                    />
-                                </span>
-                            </div>
-                        );
-                    })}
-                </div>
-            </Card>
-        </div>
     );
 };
 

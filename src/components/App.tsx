@@ -35,16 +35,14 @@ function App() {
     const [isCalculating, setIsCalculating] = useState(false);
     const [progressPercentage, setProgressPercentage] = useState(0);
 
-    // const [targetRating, setTargetRating] = useAtom(targetRatingAtom);
     const [targetRating, setTargetRating] = useState<number | undefined>();
-    // const [existingRatings, setExistingRatings] = useAtom(existingRatingsAtom);
     const [existingRatings, setExistingRatings] = useState<IExistingRating[]>(
         []
     );
-    // const [tryRatingMin, setTryRatingMin] = useAtom(tryRatingMinAtom);
-    const [tryRatingMin, setTryRatingMin] = useState(Config.defaultTryMin);
-    // const [tryRatingMax, setTryRatingMax] = useAtom(tryRatingMaxAtom);
-    const [tryRatingMax, setTryRatingMax] = useState(Config.defaultTryMax);
+    const [tryBoundaries, setTryBoundaries] = useState<[number, number]>([
+        Config.defaultTryMin,
+        Config.defaultTryMax
+    ]);
 
     const [prices, setPrices] = useState<IPriceInfo>({});
     const [solutions, setSolutions] = useState<ISolution[]>([]);
@@ -58,7 +56,7 @@ function App() {
         setSolutions([]);
         setSolutionsCount(null);
         setProgressPercentage(0);
-    }, [targetRating, existingRatings, tryRatingMin, tryRatingMax]);
+    }, [targetRating, existingRatings, tryBoundaries]);
 
     useEffect(() => {
         solver.onmessage = (message) => {
@@ -112,7 +110,7 @@ function App() {
         setSolutionsCount(null);
         setProgressPercentage(0);
         setIsCalculating(true);
-        const ratingsToTry = range(tryRatingMin, tryRatingMax, 1);
+        const ratingsToTry = range(tryBoundaries[0], tryBoundaries[1], 1);
         const request: ISolverWorkRequest = {
             discriminator: "SOLVER-START",
             ratingsToTry: ratingsToTry,
@@ -164,18 +162,16 @@ function App() {
 
                 <FormPanelWrapper title="Range of Ratings to Try">
                     <TryRatingsRangeInput
-                        valueOfMin={tryRatingMin}
-                        valueOfMax={tryRatingMax}
-                        onChange={(min, max) => {
-                            setTryRatingMin(min);
-                            setTryRatingMax(max);
-                        }}
+                        value={tryBoundaries}
+                        onChange={(newBoundaries: [min: number, max: number]) =>
+                            setTryBoundaries(newBoundaries)
+                        }
                     />
                 </FormPanelWrapper>
 
-                <FormPanelWrapper  title="Player Prices">
+                <FormPanelWrapper title="Player Prices">
                     <PricesInput
-                        ratings={range(tryRatingMin, tryRatingMax, 1)}
+                        ratings={range(tryBoundaries[0], tryBoundaries[1], 1)}
                         onChange={setPrices}
                     />
                 </FormPanelWrapper>
@@ -201,7 +197,11 @@ function App() {
                 <Solutions
                     displaySolutions={solutions}
                     targetRating={targetRating}
-                    columnDefinitions={range(tryRatingMin, tryRatingMax, 1)}
+                    columnDefinitions={range(
+                        tryBoundaries[0],
+                        tryBoundaries[1],
+                        1
+                    )}
                     totalSolutionsCount={solutionsCount}
                     fetchMoreSolutions={fetchMoreSolutions}
                     isCalculating={isCalculating}
