@@ -3011,7 +3011,7 @@ colorette@^2.0.10:
 
 "combinatorics@https://github.com/omedusyo/combinatorics.git":
   version "1.0.0"
-  resolved "git+ssh://git@github.com/omedusyo/combinatorics.git#419048631536147f457e64b6f21ec668179fd83e"
+  resolved "https://github.com/omedusyo/combinatorics.git#419048631536147f457e64b6f21ec668179fd83e"
 
 combined-stream@^1.0.8:
   version "1.0.8"

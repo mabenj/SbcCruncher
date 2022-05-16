@@ -13,7 +13,7 @@
         "@types/react-dom": "^16.9.14",
         "axios": "^0.25.0",
         "bootstrap": "5.1.3",
-        "combinatorics": "https://github.com/omedusyo/combinatorics.git",
+        "combinatorics": "https://github.com/omedusyo/combinatorics",
         "cross-env": "^7.0.3",
         "dotenv": "^15.0.0",
         "jotai": "^1.5.3",
