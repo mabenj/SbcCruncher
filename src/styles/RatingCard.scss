@@ -22,41 +22,66 @@ $bronze: linear-gradient(
 );
 
 .rating-card {
-    color: black;
-    // border-radius: 0.6rem 0.1rem;
-    border-radius: 0.2rem;
-    // border: 0.15rem solid black;
-    // border-radius: 50% 50% 50% 50% / 12% 12% 88% 88%;
-    width: 2.5rem;
-    height: 2.5rem;
-    display: flex;
-    justify-content: center;
     align-items: center;
-    text-shadow: 0 0 1px rgba(0, 0, 0, 0.63);
-    filter: saturate(0.85);
+    appearance: none;
+    border-radius: 4px;
+    border-width: 0;
+    box-sizing: border-box;
+    color: black;
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.63);
     cursor: pointer;
+    display: inline-flex;
+    width: 2.7rem;
+    height: 2.7rem;
+    justify-content: center;
+    line-height: 1;
+    list-style: none;
+    overflow: hidden;
+    padding-left: 16px;
+    padding-right: 16px;
+    position: relative;
+    text-align: left;
+    text-decoration: none;
+    transition: box-shadow 0.15s, transform 0.15s;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    will-change: box-shadow, transform;
+    font-size: 18px;
 
     &.rating-card-golden {
         background: $gold;
+        border: 1px solid #9b7d04;
+        box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,
+            rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #9b7d04 0 -3px 0 inset;
     }
 
     &.rating-card-silver {
         background: $silver;
+        border: 1px solid #7f8385;
+        box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,
+            rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #7f8385 0 -3px 0 inset;
     }
 
     &.rating-card-bronze {
         background: $bronze;
         color: white;
+        border: 1px solid #6e4c35;
+        box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,
+            rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #6e4c35 0 -3px 0 inset;
     }
 
     &.rating-card-selected {
         font-weight: 600;
-        filter: saturate(0.85) brightness(1.15);
+        filter: brightness(1.15);
         border: 3px solid var(--primary-color);
-        box-shadow: 0 0 4px var(--primary-color);
+        box-shadow: 0 2px 4px var(--primary-color);
+        transform: translateY(-1px);
     }
 
     &:hover {
-        filter: saturate(0.85) brightness(1.1);
+        filter: brightness(1.1);
+        transform: translateY(-1px);
     }
 }

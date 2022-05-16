@@ -94,12 +94,13 @@ export function ExistingRatingsInput({
                     type="button"
                     icon="pi pi-plus"
                     className="p-button-rounded p-button-outlined"
-                    label="Add a rating"
-                    title="Add an existing player rating"
+                    label="Add Rating"
                     onClick={() => addRating()}
                     disabled={
                         getCurrentRatingsCount() >= Config.maxExistingRatings
                     }
+                    tooltip="Add an existing player rating"
+                    tooltipOptions={{ showDelay: 500, position: "left" }}
                 />
             </div>
             <div className="my-2">
@@ -154,7 +155,8 @@ const RatingRow = ({
                     type="button"
                     icon="pi pi-trash"
                     className="p-button-rounded p-button-danger p-button-text"
-                    title="Delete"
+                    tooltip="Delete"
+                    tooltipOptions={{ position: "right", showDelay: 500 }}
                     onClick={() => onDelete()}
                 />
             </td>
@@ -237,7 +239,8 @@ const QuantitySelect = ({
                 type="button"
                 icon="pi pi-minus"
                 className="p-button-rounded p-button-text"
-                title="Remove one"
+                tooltip="Remove one"
+                tooltipOptions={{ position: "left", showDelay: 500 }}
                 onClick={() => decrement()}
                 disabled={min === value}
             />
@@ -246,7 +249,8 @@ const QuantitySelect = ({
                 type="button"
                 icon="pi pi-plus"
                 className="p-button-rounded p-button-text"
-                title="Add one"
+                tooltip="Add one"
+                tooltipOptions={{ position: "right", showDelay: 500 }}
                 onClick={() => increment()}
                 disabled={max === value}
             />

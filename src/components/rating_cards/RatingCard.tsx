@@ -10,7 +10,7 @@ export default function RatingCard({ rating, selected }: IRatingProps) {
     const color = rating > 74 ? "golden" : rating > 64 ? "silver" : "bronze";
     return (
         <div
-            className={`shadow-3 rating-card rating-card-${color} ${
+            className={`rating-card rating-card-${color} ${
                 selected && "rating-card-selected"
             }`}
             title={rating === 69 ? "nice" : ""}>
