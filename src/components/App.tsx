@@ -1,5 +1,6 @@
 import { Card } from "primereact/card";
 import { Divider } from "primereact/divider";
+import { Message } from "primereact/message";
 import { ProgressBar } from "primereact/progressbar";
 import { ScrollTop } from "primereact/scrolltop";
 import React, { useEffect, useState } from "react";
@@ -189,6 +190,14 @@ function App() {
                     }}
                 />
 
+                <div
+                    className="my-4"
+                    style={{ visibility: targetRating ? "hidden" : "visible" }}>
+                    <Message
+                        severity="error"
+                        text="Target rating is not specified (required)"></Message>
+                </div>
+
                 <ProgressBar
                     className="my-6"
                     value={Math.floor(progressPercentage)}
@@ -226,7 +235,7 @@ const FormPanelWrapper = ({
     return (
         <Card
             // title={<span className="font-medium text-lg">{header}</span>}
-            className={`my-5 px-3 ${className}`}>
+            className={`my-8 px-3 ${className}`}>
             {title && (
                 <>
                     <div className="font-medium text-lg">{title}</div>

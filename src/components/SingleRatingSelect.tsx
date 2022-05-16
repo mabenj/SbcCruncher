@@ -26,7 +26,7 @@ export default function SingleRatingSelect({
                 <RatingCard rating={value} />
             </div>
             <Card
-                className="absolute mt-2 z-5 shadow-4"
+                className="absolute mt-2 z-5 shadow-4 surface-50"
                 style={{
                     maxWidth: "40%",
                     display: showOptions ? "block" : "none"
