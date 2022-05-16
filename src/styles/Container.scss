@@ -4,16 +4,16 @@ $lg: 960px;
 $xl: 1080px;
 
 .main-container {
-	display: flex;
-	justify-content: center;
-	max-width: 100vw;
+    display: flex;
+    justify-content: center;
+    max-width: 100vw;
 
-	.children {
-		padding: 1rem;
-		width: 70%;
+    .children {
+        padding: 1rem;
+        width: 70%;
 
-		@media only screen and (max-width: $md) {
-			width: 100%;
-		}
-	}
+        @media only screen and (max-width: $xl) {
+            width: 100%;
+        }
+    }
 }

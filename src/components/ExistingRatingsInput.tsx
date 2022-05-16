@@ -65,7 +65,7 @@ export function ExistingRatingsInput({
                     <tr>
                         <th className="text-left">Rating</th>
                         <th className="text-center">Quantity</th>
-                        <th style={{ width: "10%", minWidth: "8rem" }}></th>
+                        <th style={{ width: "10%", minWidth: "4rem" }}></th>
                     </tr>
                 </thead>
                 <tbody>
