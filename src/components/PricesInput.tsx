@@ -9,6 +9,8 @@ import { fetchFutbinPrices } from "../services/FutbinPrices.service";
 import { getItemOrNull, setItem } from "../services/LocalStorage.service";
 import { Link } from "./";
 
+const SHOULD_MERGE_PRICES = true; // TODO: get as user input
+
 interface IPricesInputProps {
     ratings: number[];
     onChange: (priceInfo: IPriceInfo) => void;
@@ -53,7 +55,12 @@ export function PricesInput({ ratings, onChange }: IPricesInputProps) {
             });
         }
         if (prices && !errorMessage) {
-            setPrices(prices);
+            console.log({ prices });
+            setPrices(
+                SHOULD_MERGE_PRICES
+                    ? (prev) => ({ ...prev, ...prices })
+                    : prices
+            );
         }
         setIsFetching(false);
         ReactGA.event({
@@ -68,23 +75,25 @@ export function PricesInput({ ratings, onChange }: IPricesInputProps) {
     return (
         <>
             <Toast ref={errorToast} />
-            <div className="p-field">
-                <div id="playerPrices" className="p-grid mb-2">
+            <div>
+                <div className="grid">
                     {ratings.map((rating) => (
-                        <div key={rating} className="col-12 lg-4 md-6">
+                        <div
+                            key={"price_" + rating}
+                            className="col-12 lg:col-4 md:col-6">
                             <div className="p-inputgroup">
                                 <span className="p-inputgroup-addon">
                                     {rating}
                                 </span>
                                 <InputNumber
                                     placeholder=""
-                                    value={prices[rating]}
+                                    value={prices[rating] || 0}
                                     onChange={(e) =>
                                         handlePriceChange(rating, e.value)
                                     }
                                     showButtons
                                     min={0}
-                                    step={1000}
+                                    step={500}
                                     useGrouping={false}
                                 />
                             </div>

@@ -195,7 +195,7 @@ function App() {
                     style={{ visibility: targetRating ? "hidden" : "visible" }}>
                     <Message
                         severity="error"
-                        text="Target rating is not specified (required)"></Message>
+                        text="Target rating is not specified — It is required"></Message>
                 </div>
 
                 <ProgressBar
@@ -233,9 +233,7 @@ const FormPanelWrapper = ({
     title?: string;
 }) => {
     return (
-        <Card
-            // title={<span className="font-medium text-lg">{header}</span>}
-            className={`my-8 px-3 ${className}`}>
+        <Card className={`my-8 px-3 ${className}`}>
             {title && (
                 <>
                     <div className="font-medium text-lg">{title}</div>
