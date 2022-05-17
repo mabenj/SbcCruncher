@@ -119,9 +119,8 @@ a.no-style-a {
             align-items: center;
             background-color: #007bff;
             border-radius: 9999px;
-            // box-shadow: #003e80 2px 2px, #4da3ff 4px 4px;
-            border: 1px solid var(--text-color);
-            box-shadow: 0 0 5px var(--text-color);
+            border: 1px solid #005ab9;
+            box-shadow: 4px 3px 0 #004fa3;
         }
 
         h1 {
