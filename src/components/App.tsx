@@ -1,3 +1,4 @@
+import { BlockUI } from "primereact/blockui";
 import { Card } from "primereact/card";
 import { Divider } from "primereact/divider";
 import { Message } from "primereact/message";
@@ -29,6 +30,7 @@ import {
 } from "../interfaces";
 import "../styles/App.scss";
 import { range } from "../util/utils";
+import { Link } from "./Link";
 
 function App() {
     const [solver, setSolver] = useState(new Solver());
@@ -147,21 +149,25 @@ function App() {
             </div>
 
             <form noValidate onSubmit={calculate}>
-                <FormPanelWrapper title="Target Rating">
+                <FormPanelWrapper title="Target Rating" id="targetRating">
                     <TargetRatingInput
                         value={targetRating}
                         onChange={setTargetRating}
                     />
                 </FormPanelWrapper>
 
-                <FormPanelWrapper title="Existing Players">
+                <FormPanelWrapper
+                    title="Existing Players"
+                    blocked={!targetRating}>
                     <ExistingRatingsInput
                         value={existingRatings || []}
                         onChange={(nr) => (nr ? setExistingRatings(nr) : [])}
                     />
                 </FormPanelWrapper>
 
-                <FormPanelWrapper title="Range of Ratings to Try">
+                <FormPanelWrapper
+                    title="Range of Ratings to Try"
+                    blocked={!targetRating}>
                     <TryRatingsRangeInput
                         value={tryBoundaries}
                         onChange={(newBoundaries: [min: number, max: number]) =>
@@ -170,7 +176,7 @@ function App() {
                     />
                 </FormPanelWrapper>
 
-                <FormPanelWrapper title="Player Prices">
+                <FormPanelWrapper title="Player Prices" blocked={!targetRating}>
                     <PricesInput
                         ratings={range(tryBoundaries[0], tryBoundaries[1], 1)}
                         onChange={setPrices}
@@ -226,22 +232,47 @@ export default App;
 const FormPanelWrapper = ({
     children,
     className,
-    title
+    title,
+    blocked,
+    id
 }: {
     children: React.ReactNode;
     className?: string;
     title?: string;
+    blocked?: boolean;
+    id?: string;
 }) => {
     return (
-        <Card className={`my-8 px-3 ${className}`}>
-            {title && (
-                <>
-                    <div className="font-medium text-lg">{title}</div>
-                    <Divider />
-                </>
-            )}
+        <div id={id}>
+            <BlockUI
+                blocked={blocked}
+                className="block-mask"
+                template={
+                    <div className="text-center text-white">
+                        <div className="pi pi-lock text-4xl"></div>
+                        <div>
+                            Specify a{" "}
+                            <Link
+                                href="#targetRating"
+                                openInSameTab
+                                style={{ textShadow: "" }}>
+                                Target Rating
+                            </Link>{" "}
+                            to Continue
+                        </div>
+                    </div>
+                }>
+                <Card className={`lg:my-8 p-0 m-0 lg:px-4 ${className}`}>
+                    {title && (
+                        <>
+                            <div className="font-medium text-lg">{title}</div>
+                            <Divider />
+                        </>
+                    )}
 
-            {children}
-        </Card>
+                    {children}
+                </Card>
+            </BlockUI>
+        </div>
     );
 };

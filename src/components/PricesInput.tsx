@@ -95,6 +95,7 @@ export function PricesInput({ ratings, onChange }: IPricesInputProps) {
                                     min={0}
                                     step={500}
                                     useGrouping={false}
+                                    onFocus={(event) => event.target.select()}
                                 />
                             </div>
                         </div>

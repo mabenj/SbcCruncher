@@ -20,6 +20,7 @@ $bronze: linear-gradient(
     #9f7f69 51%,
     #ffd9aa 100%
 );
+$active-ring: rgb(41, 41, 41);
 
 .rating-card {
     align-items: center;
@@ -75,8 +76,8 @@ $bronze: linear-gradient(
     &.rating-card-selected {
         font-weight: 600;
         filter: brightness(1.15);
-        border: 3px solid var(--primary-color);
-        box-shadow: 0 2px 4px var(--primary-color);
+        border: 3px solid $active-ring;
+        box-shadow: 0 2px 4px $active-ring;
         transform: translateY(-1px);
     }
 

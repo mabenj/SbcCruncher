@@ -12,7 +12,7 @@ export function TargetRatingInput({
     onChange
 }: ITargetRatingInputProps) {
     return (
-        <>
+        <div>
             <div className="my-4">
                 <strong className="mr-2">Selected</strong>
                 <span>{value || <em>none</em>}</span>
@@ -31,9 +31,9 @@ export function TargetRatingInput({
                     );
                 })}
             </div>
-            <div className="my-2">
-                <small>Select the desired squad rating by clicking it</small>
+            <div className="mt-4">
+                <small>Select the desired squad rating</small>
             </div>
-        </>
+        </div>
     );
 }

@@ -103,8 +103,10 @@ export function ExistingRatingsInput({
                 />
             </div>
             <div className="my-2">
-                Specify the ratings of the players you already possess and plan
-                to use in the SBC <em>(Fodder)</em>
+                <small>
+                    Specify the ratings of the players you already possess and
+                    plan to use in the SBC <em>(Fodder)</em>
+                </small>
             </div>
         </>
     );

@@ -11,8 +11,10 @@ $xl: 1080px;
     .children {
         padding: 1rem;
         width: 70%;
+        max-width: 1200px;
 
         @media only screen and (max-width: $xl) {
+            padding: 0.7rem;
             width: 100%;
         }
     }

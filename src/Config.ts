@@ -31,7 +31,7 @@ const config: IConfig = {
     defaultTryMax: 86,
     solverUpdateFrequencyMs: 300,
     scrollToTopThreshold: 1000,
-    darkThemeName: "arya-blue",
+    darkThemeName: "vela-blue",
     lightThemeName: "saga-blue",
     isDarkThemeStorageKey: "SBC_CRUNCHER_IS_DARK"
 };
