@@ -36,10 +36,7 @@ export default function SingleRatingSelect({
                         return (
                             <div key={index}>
                                 <span onClick={() => setRating(rating)}>
-                                    <RatingCard
-                                        rating={rating}
-                                        selected={value === rating}
-                                    />
+                                    <RatingCard rating={rating} />
                                 </span>
                             </div>
                         );

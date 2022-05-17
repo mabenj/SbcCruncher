@@ -1,21 +1,21 @@
+import "primeflex/primeflex.css";
+import "primeicons/primeicons.css"; //icons
+import "primereact/resources/primereact.min.css"; //core css
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./components/App";
 // import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 // import reportWebVitals from "./reportWebVitals";
 import ReactGA from "react-ga";
-
-import "primereact/resources/primereact.min.css"; //core css
-import "primeicons/primeicons.css"; //icons
-import "primeflex/primeflex.css";
+import App from "./components/App";
+import "./styles/styles.scss";
 
 ReactGA.initialize(process.env.REACT_APP_GA || "");
 
 ReactDOM.render(
-	<React.StrictMode>
-		<App />
-	</React.StrictMode>,
-	document.getElementById("root")
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>,
+    document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change

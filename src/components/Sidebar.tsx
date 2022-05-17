@@ -1,7 +1,6 @@
 import { Button } from "primereact/button";
 import { Sidebar as PrimeSidebar } from "primereact/sidebar";
 import React, { useState } from "react";
-import "../styles/Sidebar.scss";
 import { Link } from "./";
 
 export function Sidebar() {
@@ -25,7 +24,7 @@ export function Sidebar() {
                 visible={show}
                 onHide={() => setShow(false)}
                 className="p-sidebar-md">
-                <div className="body">
+                <div className="sidebar-body">
                     <div>
                         <h3>Usage</h3>
                         <ol>

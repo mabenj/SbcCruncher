@@ -28,7 +28,6 @@ import {
     ISolverWorkRequest,
     ISolverWorkResult
 } from "../interfaces";
-import "../styles/App.scss";
 import { range } from "../util/utils";
 import { Link } from "./Link";
 

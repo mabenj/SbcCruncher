@@ -1,31 +1,30 @@
 import React from "react";
-
-import "../styles/Spinner.scss";
+import "../styles/spinners.scss";
 
 const Ellipsis = () => {
-	return (
-		<div className="lds-ellipsis">
-			<div></div>
-			<div></div>
-			<div></div>
-			<div></div>
-		</div>
-	);
+    return (
+        <div className="lds-ellipsis">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    );
 };
 
 const Hourglass = () => {
-	return <div className="lds-hourglass"></div>;
+    return <div className="lds-hourglass"></div>;
 };
 
 const Ring = () => {
-	return (
-		<div className="lds-ring">
-			<div></div>
-			<div></div>
-			<div></div>
-			<div></div>
-		</div>
-	);
+    return (
+        <div className="lds-ring">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    );
 };
 
 const Spinner = () => <Ring />;

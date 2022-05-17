@@ -3,7 +3,6 @@ import "rc-slider/assets/index.css";
 import React, { useEffect, useState } from "react";
 import Config from "../Config";
 import { useIsMobile } from "../hooks";
-import "../styles/TryRatingsRangeInput.scss";
 import SingleRatingSelect from "./SingleRatingSelect";
 
 const { createSliderWithTooltip } = Slider;
@@ -95,7 +94,7 @@ export function TryRatingsRangeInput({
                     </table>
                 </div>
                 {!isMobile && (
-                    <div className="slider py-4">
+                    <div className="try-rating-slider py-4">
                         <Range
                             step={1}
                             defaultValue={[
@@ -137,7 +136,7 @@ const handle = (props: any) => {
 const getMarks = (ratingOptions: number[]): Record<number, React.ReactNode> => {
     const result: Record<number, React.ReactNode> = {};
     ratingOptions.forEach((rating) => {
-        result[rating] = <span className="mark">{rating}</span>;
+        result[rating] = <span className="try-rating-mark">{rating}</span>;
     });
     return result;
 };
