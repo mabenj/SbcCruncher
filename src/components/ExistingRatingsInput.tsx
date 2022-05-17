@@ -2,7 +2,6 @@ import { Button } from "primereact/button";
 import React, { useEffect, useState } from "react";
 import Config from "../Config";
 import { IExistingRating } from "../interfaces";
-import "../styles/ExistingRatingsInput.scss";
 import SingleRatingSelect from "./SingleRatingSelect";
 
 interface IExistingRatingsInputProps {

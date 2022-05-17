@@ -4,7 +4,6 @@ import { Skeleton } from "primereact/skeleton";
 import React from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { ISolution } from "../interfaces";
-import "../styles/Solutions.scss";
 import Spinner from "./Spinner";
 
 interface ISolutionsProps {
