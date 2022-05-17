@@ -23,24 +23,25 @@ export function Sidebar() {
             <PrimeSidebar
                 visible={show}
                 onHide={() => setShow(false)}
+                showCloseIcon={false}
                 className="p-sidebar-md">
                 <div className="sidebar-body">
                     <div>
-                        <h3>Usage</h3>
+                        <h3>How to Use</h3>
                         <ol>
                             <li>
                                 <p>
-                                    Enter a target rating you would want to
-                                    achieve in the{" "}
-                                    <strong>Squad Target Rating</strong> field
-                                    (e.g. 86)
+                                    Specify your desired target rating by
+                                    clicking the corresponding card in the{" "}
+                                    <strong>Target Rating</strong> section (e.g.
+                                    86)
                                 </p>
                             </li>
                             <li>
                                 <p>
                                     Enter the ratings of the players you already
-                                    own and plan to use in the squad into the{" "}
-                                    <strong>Existing Players</strong> field
+                                    own and plan to use in the squad in the{" "}
+                                    <strong>Existing Players</strong> section
                                     (Optional)
                                 </p>
                             </li>
@@ -48,40 +49,36 @@ export function Sidebar() {
                                 <p>
                                     In the{" "}
                                     <strong>Range of Ratings to Try</strong>{" "}
-                                    section, specify the minimum and maximum
-                                    ratings to use in the resulting player
-                                    rating combinations.
+                                    section, specify the range of ratings to use
+                                    when calculating the solutions.
                                 </p>
                                 <p>
-                                    For example, with a minimum of 81 and a
-                                    maximum of 84, the resulting player rating
-                                    combinations will be calculated from ratings
-                                    81, 82, 83 and 84, plus from the ratings you
-                                    specified in the{" "}
-                                    <strong>Existing Players</strong> field.
+                                    For example, with a range{" "}
+                                    <strong>from</strong> 81 <strong>to</strong>{" "}
+                                    84, the resulting player rating combinations
+                                    will be calculated from ratings 81, 82, 83
+                                    and 84, plus from the ratings you specified
+                                    in the <strong>Existing Players</strong>{" "}
+                                    section.
                                 </p>
                             </li>
                             <li>
                                 <p>
                                     In the <strong>Player Prices</strong>{" "}
-                                    section you can specify the price in coins
+                                    section you can specify the price, in coins,
                                     for each of the ratings specified in the{" "}
                                     <strong>Range of Ratings to Try</strong>{" "}
-                                    section. You can also fetch the price data
-                                    directly from FUTBIN's{" "}
+                                    section.
+                                </p>
+                                <p>
+                                    You can also fetch the price data directly
+                                    from FUTBIN's{" "}
                                     <Link href="https://www.futbin.com/stc/cheapest">
                                         cheapest player by rating
                                     </Link>{" "}
                                     page by clicking the{" "}
                                     <strong>Fetch from FUTBIN</strong> button.
-                                    The price of the cheapest player for each
-                                    rating will then be used to populate the
-                                    price fields. (Optional)
                                 </p>
-                                <strong>
-                                    Note! Currently only the prices for ratings
-                                    81 - 98 are available from FUTBIN
-                                </strong>
                             </li>
                             <li>
                                 <p>
@@ -91,19 +88,19 @@ export function Sidebar() {
                                     <strong>Solutions</strong> table.
                                 </p>
                                 <p>
-                                    Each row in the table represents the ratings
-                                    of the remaining players you need to acquire
+                                    Each row in the table represents a group of
+                                    remaining player ratings you need to acquire
                                     in order to achieve the specified target
                                     rating.
                                 </p>
                             </li>
                         </ol>
                     </div>
-                    <div className="my-4">
+                    <div className="github-link">
                         <Link
                             href="https://github.com/mabenj/SbcCruncher"
                             className="no-style-a">
-                            <i className="fab fa-github"></i>&nbsp;mabenj
+                            <i className="fab fa-github mr-3"></i>mabenj
                         </Link>
                     </div>
                 </div>

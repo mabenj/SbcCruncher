@@ -25,9 +25,15 @@ export function Header() {
 
 const Brand = () => {
     return (
-        <div className="header-brand">
+        <div className="header-brand mb-4">
             <Link href="/" className="no-style-a" openInSameTab>
-                <Image src="/logo.png" alt="SBC Cruncher logo" width="70px" />
+                <Image
+                    src="/logo.png"
+                    alt="SBC Cruncher logo"
+                    width="65px"
+                    className="logo"
+                />
+                {/* <div className="logo">S</div> */}
             </Link>
             <Link href="/" className="no-style-a" openInSameTab>
                 <h1 className="m-2">SBC CRUNCHER</h1>

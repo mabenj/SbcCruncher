@@ -111,6 +111,19 @@ a.no-style-a {
         column-gap: 20px;
         max-width: 100vw;
 
+        .logo {
+            width: 70px;
+            height: 70px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #007bff;
+            border-radius: 9999px;
+            // box-shadow: #003e80 2px 2px, #4da3ff 4px 4px;
+            border: 1px solid var(--text-color);
+            box-shadow: 0 0 5px var(--text-color);
+        }
+
         h1 {
             color: white;
             -webkit-text-stroke: 1px rgb(65, 65, 65);
@@ -129,6 +142,21 @@ a.no-style-a {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
+    h3 {
+        padding-left: 15px;
+    }
+
+    li {
+        width: 85%;
+        line-height: 2;
+        margin-bottom: 2rem;
+        padding-left: 15px;
+    }
+
+    .github-link {
+        padding-left: 15px;
+    }
 }
 
 .existing-ratings-table {
