@@ -11,17 +11,17 @@ html {
 
     scrollbar-width: thin;
     scrollbar-color: var(--primary-color) transparent;
+}
 
-    &::-webkit-scrollbar {
-        width: 0.4vw;
-    }
-    &::-webkit-scrollbar-thumb {
-        background-color: var(--primary-color);
-        border-radius: 9999px;
-    }
-    &::-webkit-scrollbar-track {
-        background-color: transparent;
-    }
+::-webkit-scrollbar {
+    width: 0.4vw;
+}
+::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color);
+    border-radius: 9999px;
+}
+::-webkit-scrollbar-track {
+    background-color: transparent;
 }
 
 body {
@@ -219,7 +219,7 @@ a.no-style-a {
             border-bottom: 1px solid var(--surface-200);
         }
 
-        tr:hover {
+        tr:not(.no-hover):hover {
             background-color: var(--surface-hover);
         }
     }

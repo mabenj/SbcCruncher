@@ -81,7 +81,7 @@ export function ExistingRatingsInput({
                         />
                     ))}
                     {ratings.length > 0 && (
-                        <tr className="border-none border-top-3">
+                        <tr className="border-none border-top-3 no-hover">
                             <td></td>
                             <td className="text-center">
                                 <strong className="absolute right-50 mr-4 md:mr-0">
