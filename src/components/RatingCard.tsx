@@ -10,11 +10,12 @@ export default function RatingCard({ rating, selected }: IRatingProps) {
     const color = rating > 74 ? "golden" : rating > 64 ? "silver" : "bronze";
     return (
         <div
-            className={`rating-card rating-card-${color} ${
-                selected && "rating-card-selected"
-            }`}
+            className={`
+            rating-card rating-card-${color} 
+            ${selected && "rating-card-selected"}
+            `}
             title={rating === 69 ? "nice" : ""}>
-            {rating}
+            <div>{rating}</div>
         </div>
     );
 }

@@ -248,7 +248,7 @@ const FormPanelWrapper = ({
                 className="block-mask"
                 template={
                     <div className="text-center text-white">
-                        <div className="pi pi-lock text-4xl"></div>
+                        <div className="pi pi-ban mb-3 text-4xl"></div>
                         <div>
                             Specify a{" "}
                             <Link

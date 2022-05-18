@@ -21,14 +21,16 @@ export default function SingleRatingSelect({
     };
 
     return (
-        <div tabIndex={0} onBlur={() => setShowOptions(false)}>
+        <div
+            tabIndex={0}
+            onBlur={() => setShowOptions(false)}
+            className="rating-select-container">
             <div onClick={() => setShowOptions((prev) => !prev)}>
                 <RatingCard rating={value} />
             </div>
             <Card
-                className="absolute mt-2 z-5 shadow-4 surface-50"
+                className="dropdown-panel shadow-4"
                 style={{
-                    maxWidth: "40%",
                     display: showOptions ? "block" : "none"
                 }}>
                 <div className="flex flex-wrap gap-3">
@@ -36,7 +38,10 @@ export default function SingleRatingSelect({
                         return (
                             <div key={index}>
                                 <span onClick={() => setRating(rating)}>
-                                    <RatingCard rating={rating} />
+                                    <RatingCard
+                                        rating={rating}
+                                        selected={rating === value}
+                                    />
                                 </span>
                             </div>
                         );
