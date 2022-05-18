@@ -33,7 +33,7 @@ export function Solutions({
             </h2>
             <small>
                 Each row in this table represents a group of player ratings you
-                must aquire in order to achieve the target rating
+                must acquire in order to achieve the target rating
                 {targetRating && (
                     <>
                         {" "}

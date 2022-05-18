@@ -139,7 +139,7 @@ export function PricesInput({ ratings, onChange }: IPricesInputProps) {
                 <br />
                 <small>
                     <strong>Note!</strong> Only the prices for ratings 81 - 98
-                    are available from FUTBIN.
+                    are available from FUTBIN
                 </small>
             </div>
         </>

@@ -61,12 +61,12 @@ export function TryRatingsRangeInput({
     return (
         <div>
             <div>
-                <div>
+                <div className="flex justify-content-center">
                     <table>
                         <thead>
                             <tr>
                                 <th>From</th>
-                                <th style={{ minWidth: "4rem" }}></th>
+                                <th style={{ width: "6rem" }}></th>
                                 <th>To</th>
                             </tr>
                         </thead>
@@ -111,10 +111,12 @@ export function TryRatingsRangeInput({
                     </div>
                 )}
             </div>
-            <small>
-                Specify the minimum and maximum ratings to use when calculating
-                the possible rating combinations
-            </small>
+            <div className="mt-5">
+                <small>
+                    Specify the minimum and maximum ratings to use when
+                    calculating the possible rating combinations
+                </small>
+            </div>
         </div>
     );
 }

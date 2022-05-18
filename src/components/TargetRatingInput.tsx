@@ -13,9 +13,13 @@ export function TargetRatingInput({
 }: ITargetRatingInputProps) {
     return (
         <div>
-            <div className="my-4">
-                <strong className="mr-2">Selected</strong>
-                <span>{value || <em>none</em>}</span>
+            <div className="my-4 flex align-items-center">
+                <strong className="mr-3">
+                    {value ? "Selected" : "Not Selected"}
+                </strong>
+                <span className="text-4xl" style={{ opacity: value ? 1 : 0 }}>
+                    {value || -1}
+                </span>
             </div>
             <div className="flex flex-wrap gap-3">
                 {Config.allRatings.map((rating, index) => {

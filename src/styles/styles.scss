@@ -40,6 +40,13 @@ body {
     background-size: cover;
 }
 
+/* touch screen */
+@media (hover: none) {
+    .p-tooltip {
+        display: none;
+    }
+}
+
 button:disabled {
     cursor: not-allowed !important;
     pointer-events: all !important;

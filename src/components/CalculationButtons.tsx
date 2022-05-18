@@ -25,7 +25,7 @@ export function CalculationButtons({
             <Button
                 type="submit"
                 label={isCalculating ? "Calculating..." : "Calculate"}
-                className="mr-2 p-button-raised"
+                className="mr-2 p-button-raised text-xl"
                 disabled={disabled}
                 icon={
                     <div className="mr-2">
@@ -42,7 +42,7 @@ export function CalculationButtons({
                 tooltipOptions={{ position: "top", showDelay: 500 }}></Button>
             <Button
                 label="Stop"
-                className="p-button-danger p-button-raised"
+                className="p-button-danger p-button-raised text-xl"
                 disabled={!isCalculating}
                 onClick={handleStop}
                 icon={

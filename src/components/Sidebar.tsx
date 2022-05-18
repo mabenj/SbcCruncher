@@ -33,8 +33,8 @@ export function Sidebar() {
                                 <p>
                                     Specify your desired target rating by
                                     clicking the corresponding card in the{" "}
-                                    <strong>Target Rating</strong> section (e.g.
-                                    86)
+                                    <strong>Target Rating</strong> section
+                                    (Required)
                                 </p>
                             </li>
                             <li>
@@ -77,7 +77,9 @@ export function Sidebar() {
                                         cheapest player by rating
                                     </Link>{" "}
                                     page by clicking the{" "}
-                                    <strong>Fetch from FUTBIN</strong> button.
+                                    <strong>Fetch FUTBIN</strong> button. It
+                                    will scrape the price of the cheapeast
+                                    player for each rating.
                                 </p>
                             </li>
                             <li>

@@ -80,6 +80,18 @@ export function ExistingRatingsInput({
                             getRatingsCount={getCurrentRatingsCount}
                         />
                     ))}
+                    {ratings.length > 0 && (
+                        <tr className="border-none border-top-3">
+                            <td></td>
+                            <td className="text-center">
+                                <strong className="absolute right-50 mr-4 md:mr-0">
+                                    Total
+                                </strong>
+                                <span>{getCurrentRatingsCount()}</span>
+                            </td>
+                            <td></td>
+                        </tr>
+                    )}
                 </tbody>
             </table>
             {ratings.length === 0 && (
@@ -97,7 +109,7 @@ export function ExistingRatingsInput({
                     disabled={
                         getCurrentRatingsCount() >= Config.maxExistingRatings
                     }
-                    tooltip="Add an existing player rating"
+                    tooltip="Add a player rating"
                     tooltipOptions={{ showDelay: 500, position: "top" }}
                 />
             </div>
