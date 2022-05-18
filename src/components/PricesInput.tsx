@@ -7,7 +7,6 @@ import Config from "../Config";
 import { IPriceInfo } from "../interfaces";
 import { fetchFutbinPrices } from "../services/FutbinPrices.service";
 import { getItemOrNull, setItem } from "../services/LocalStorage.service";
-import { Link } from "./";
 
 const SHOULD_MERGE_PRICES = true; // TODO: get as user input
 
@@ -101,42 +100,48 @@ export function PricesInput({ ratings, onChange }: IPricesInputProps) {
                         </div>
                     ))}
                 </div>
-                <small>Specify the price for each rating</small>
             </div>
 
             <div>
                 <span>
-                    <Button
-                        label={isFetching ? "Fetching..." : "Fetch from FUTBIN"}
-                        className="mt-5 mb-2 p-button-secondary p-button-raised"
-                        onClick={handleFetchFutbin}
-                        icon={
-                            <>
-                                <i className="fas fa-redo-alt"></i>&nbsp;
-                            </>
-                        }
-                        loading={isFetching}
-                        tooltip="Fetch prices"
-                        tooltipOptions={{ position: "top" }}
-                    />
+                    <div className="mt-3 p-buttonset">
+                        <Button
+                            type="button"
+                            label={isFetching ? "Fetching..." : "Fetch FUTBIN"}
+                            className="p-button-rounded p-button-outlined"
+                            onClick={handleFetchFutbin}
+                            icon={<span className="pi pi-sync mr-2"></span>}
+                            loading={isFetching}
+                            tooltip="Fetch prices from FUTBIN"
+                            tooltipOptions={{
+                                position: "top",
+
+                                showDelay: 500
+                            }}
+                        />
+                        <Button
+                            type="button"
+                            label="Clear"
+                            icon="pi pi-times"
+                            className="p-button-rounded p-button-outlined"
+                            onClick={() => setPrices({})}
+                            tooltip="Set prices to 0"
+                            tooltipOptions={{
+                                position: "top",
+                                showDelay: 500
+                            }}
+                        />
+                    </div>
                 </span>
             </div>
-            <small>
-                Fetching the prices from FUTBIN will scrape the price data from
-                FUTBIN's{" "}
-                <Link href="https://www.futbin.com/stc/cheapest">
-                    cheapest players by rating
-                </Link>{" "}
-                page. The price of the cheapest player of each rating will be
-                used here. <br />
+            <div className="mt-4">
+                <small>Specify the price for each rating</small>
                 <br />
-            </small>
-            <small>
-                <strong>
-                    Note! Only the prices for ratings 81 - 98 are available from
-                    FUTBIN.
-                </strong>
-            </small>
+                <small>
+                    <strong>Note!</strong> Only the prices for ratings 81 - 98
+                    are available from FUTBIN.
+                </small>
+            </div>
         </>
     );
 }

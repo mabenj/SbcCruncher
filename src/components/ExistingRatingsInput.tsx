@@ -98,7 +98,7 @@ export function ExistingRatingsInput({
                         getCurrentRatingsCount() >= Config.maxExistingRatings
                     }
                     tooltip="Add an existing player rating"
-                    tooltipOptions={{ showDelay: 500, position: "left" }}
+                    tooltipOptions={{ showDelay: 500, position: "top" }}
                 />
             </div>
             <div className="my-2">
@@ -157,7 +157,7 @@ const RatingRow = ({
                     icon="pi pi-trash"
                     className="p-button-rounded p-button-danger p-button-text"
                     tooltip="Delete"
-                    tooltipOptions={{ position: "right", showDelay: 500 }}
+                    tooltipOptions={{ position: "top", showDelay: 500 }}
                     onClick={() => onDelete()}
                 />
             </td>
