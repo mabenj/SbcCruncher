@@ -18,6 +18,8 @@ import { range } from "../util/utils";
 import ConfigurationForm from "./ConfigurationForm";
 PrimeReact.ripple = true;
 
+const CALCULATION_END_DELAY_MS = 1000;
+
 function App() {
     const [solver, setSolver] = useState(new Solver());
 
@@ -40,7 +42,10 @@ function App() {
             switch (result.status) {
                 //@ts-ignore
                 case "DONE": {
-                    setIsCalculating(false);
+                    setTimeout(() => {
+                        setIsCalculating(false);
+                        setProgressPercentage(0);
+                    }, CALCULATION_END_DELAY_MS);
                     /* falls through */
                 }
                 case "IN_PROGRESS": {
@@ -153,7 +158,8 @@ function App() {
                 className="fixed top-0 w-full"
                 style={{
                     height: "4px",
-                    backgroundColor: "transparent"
+                    backgroundColor: "transparent",
+                    visibility: isCalculating ? "visible" : "hidden"
                 }}
             />
         </>
