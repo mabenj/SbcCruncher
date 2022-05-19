@@ -54,7 +54,6 @@ export function PricesInput({ ratings, onChange }: IPricesInputProps) {
             });
         }
         if (prices && !errorMessage) {
-            console.log({ prices });
             setPrices(
                 SHOULD_MERGE_PRICES
                     ? (prev) => ({ ...prev, ...prices })
@@ -124,6 +123,7 @@ export function PricesInput({ ratings, onChange }: IPricesInputProps) {
                             label="Clear"
                             icon="pi pi-times"
                             className="p-button-rounded p-button-outlined w-4 md:w-auto"
+                            disabled={isFetching}
                             onClick={() => setPrices({})}
                             tooltip="Set prices to 0"
                             tooltipOptions={{

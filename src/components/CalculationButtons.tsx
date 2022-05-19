@@ -25,10 +25,11 @@ export function CalculationButtons({
 
     return (
         <div className="px-3">
+            {isCalculating.toString()}
             <div className={`flex flex-wrap gap-3 ${className}`}>
                 <Button
                     type="submit"
-                    label={isCalculating ? "Calculating..." : "Calculate"}
+                    label={isCalculating ? "Calculating" : "Calculate"}
                     className="mr-2 p-button-raised text-xl w-full md:w-auto mx-2 md:mx-0"
                     disabled={disabled}
                     icon={
@@ -38,7 +39,7 @@ export function CalculationButtons({
                     }
                     loading={isCalculating}
                     loadingIcon={
-                        <div className="mr-2">
+                        <div className="mr-3">
                             <Spinner.Hourglass />
                         </div>
                     }

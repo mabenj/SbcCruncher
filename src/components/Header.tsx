@@ -7,7 +7,7 @@ import { Link, Sidebar } from "./";
 
 export function Header() {
     return (
-        <div className="header-container">
+        <div className="header-container my-4">
             <div>
                 <Brand />
                 <small className="m-1">

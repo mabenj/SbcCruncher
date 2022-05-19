@@ -8,7 +8,6 @@ import Spinner from "./Spinner";
 
 interface ISolutionsProps {
     displaySolutions: ISolution[];
-    targetRating: number | undefined;
     columnDefinitions: number[];
     totalSolutionsCount: number | null; // null means that calculation has not started yet
     isCalculating: boolean;
@@ -17,7 +16,6 @@ interface ISolutionsProps {
 
 export function Solutions({
     displaySolutions,
-    targetRating,
     columnDefinitions,
     totalSolutionsCount,
     isCalculating,
@@ -34,12 +32,6 @@ export function Solutions({
             <small>
                 Each row in this table represents a group of player ratings you
                 must acquire in order to achieve the target rating
-                {targetRating && (
-                    <>
-                        {" "}
-                        of <strong>{targetRating}</strong>
-                    </>
-                )}
             </small>
 
             <InfiniteScroll
