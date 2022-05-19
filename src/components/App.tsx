@@ -16,7 +16,6 @@ import {
 } from "../interfaces";
 import { range } from "../util/utils";
 import ConfigurationForm from "./ConfigurationForm";
-// PrimeReact.inputStyle = "todo"
 PrimeReact.ripple = true;
 
 function App() {
@@ -27,7 +26,9 @@ function App() {
 
     const [solutions, setSolutions] = useState<ISolution[]>([]);
     const [solutionsCount, setSolutionsCount] = useState<number | null>(null);
-    const [solutionColumns, setSolutionColumns] = useState<number[]>([]);
+    const [solutionColumns, setSolutionColumns] = useState<number[]>(
+        range(Config.defaultTryMin, Config.defaultTryMax)
+    );
 
     useEffect(() => {
         ReactGA.pageview(window.location.pathname);

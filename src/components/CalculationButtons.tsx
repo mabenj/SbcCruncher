@@ -25,7 +25,6 @@ export function CalculationButtons({
 
     return (
         <div className="px-3">
-            {isCalculating.toString()}
             <div className={`flex flex-wrap gap-3 ${className}`}>
                 <Button
                     type="submit"
