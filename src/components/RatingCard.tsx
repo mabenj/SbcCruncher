@@ -1,6 +1,6 @@
+import { Ripple } from "primereact/ripple";
 import React from "react";
 import "../styles/rating-card.scss";
-
 interface IRatingProps {
     rating: number;
     selected?: boolean;
@@ -16,6 +16,7 @@ export default function RatingCard({ rating, selected }: IRatingProps) {
             `}
             title={rating === 69 ? "nice" : ""}>
             <div>{rating}</div>
+            <Ripple />
         </div>
     );
 }

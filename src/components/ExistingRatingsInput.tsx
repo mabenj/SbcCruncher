@@ -103,7 +103,7 @@ export function ExistingRatingsInput({
                 <Button
                     type="button"
                     icon="pi pi-plus"
-                    className="p-button-rounded p-button-outlined"
+                    className="p-button-rounded p-button-outlined w-full md:w-auto"
                     label="Add Rating"
                     onClick={() => addRating()}
                     disabled={

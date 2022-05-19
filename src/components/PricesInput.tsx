@@ -108,7 +108,7 @@ export function PricesInput({ ratings, onChange }: IPricesInputProps) {
                         <Button
                             type="button"
                             label={isFetching ? "Fetching..." : "Fetch FUTBIN"}
-                            className="p-button-rounded p-button-outlined"
+                            className="p-button-rounded p-button-outlined w-8 md:w-auto"
                             onClick={handleFetchFutbin}
                             icon={<span className="pi pi-sync mr-2"></span>}
                             loading={isFetching}
@@ -123,7 +123,7 @@ export function PricesInput({ ratings, onChange }: IPricesInputProps) {
                             type="button"
                             label="Clear"
                             icon="pi pi-times"
-                            className="p-button-rounded p-button-outlined"
+                            className="p-button-rounded p-button-outlined w-4 md:w-auto"
                             onClick={() => setPrices({})}
                             tooltip="Set prices to 0"
                             tooltipOptions={{

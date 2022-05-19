@@ -1,7 +1,7 @@
+import PrimeReact from "primereact/api";
 import { BlockUI } from "primereact/blockui";
 import { Card } from "primereact/card";
 import { Divider } from "primereact/divider";
-import { Message } from "primereact/message";
 import { ProgressBar } from "primereact/progressbar";
 import { ScrollTop } from "primereact/scrolltop";
 import React, { useEffect, useState } from "react";
@@ -30,6 +30,8 @@ import {
 } from "../interfaces";
 import { range } from "../util/utils";
 import { Link } from "./Link";
+// PrimeReact.inputStyle = "todo"
+PrimeReact.ripple = true;
 
 function App() {
     const [solver, setSolver] = useState(new Solver());
@@ -193,15 +195,12 @@ function App() {
                             return prev;
                         });
                     }}
+                    errorMessage={
+                        targetRating
+                            ? undefined
+                            : "Target rating is not specified — It is required"
+                    }
                 />
-
-                <div
-                    className="my-4"
-                    style={{ visibility: targetRating ? "hidden" : "visible" }}>
-                    <Message
-                        severity="error"
-                        text="Target rating is not specified — It is required"></Message>
-                </div>
 
                 <ProgressBar
                     className="my-6"
