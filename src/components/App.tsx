@@ -117,6 +117,18 @@ function App() {
         solver && solver.postMessage(request);
     };
 
+    const stopSolver = () => {
+        if (!isCalculating) {
+            return;
+        }
+        setSolver((prev) => {
+            prev && prev.terminate();
+            prev = new Solver();
+            setIsCalculating(false);
+            return prev;
+        });
+    };
+
     return (
         <>
             <Container>
@@ -128,15 +140,9 @@ function App() {
                         setSolutions([]);
                         setSolutionsCount(null);
                         setProgressPercentage(0);
+                        stopSolver();
                     }}
-                    stopPressed={() => {
-                        setSolver((prev) => {
-                            prev && prev.terminate();
-                            prev = new Solver();
-                            setIsCalculating(false);
-                            return prev;
-                        });
-                    }}
+                    stopPressed={() => stopSolver()}
                     tryBoundsChanged={(newBounds) =>
                         setSolutionColumns(range(newBounds[0], newBounds[1]))
                     }
