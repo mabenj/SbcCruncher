@@ -120,12 +120,12 @@ export function PricesInput({ ratings, onChange }: IPricesInputProps) {
                         />
                         <Button
                             type="button"
-                            label="Clear"
+                            label="Clear All"
                             icon="pi pi-times"
                             className="p-button-rounded p-button-outlined w-4 md:w-auto"
                             disabled={isFetching}
                             onClick={() => setPrices({})}
-                            tooltip="Set prices to 0"
+                            tooltip="Set all prices to 0"
                             tooltipOptions={{
                                 position: "top",
                                 showDelay: 500

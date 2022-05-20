@@ -33,6 +33,11 @@ export function ExistingRatingsInput({
         });
     };
 
+    const clearRatings = () => {
+        setRatings([]);
+        onChange([]);
+    };
+
     const handleDelete = (index: number) => {
         setRatings((prev) => {
             prev.splice(index, 1);
@@ -100,18 +105,30 @@ export function ExistingRatingsInput({
                 </div>
             )}
             <div className="my-5">
-                <Button
-                    type="button"
-                    icon="pi pi-plus"
-                    className="p-button-rounded p-button-outlined w-full md:w-auto"
-                    label="Add Rating"
-                    onClick={() => addRating()}
-                    disabled={
-                        getCurrentRatingsCount() >= Config.maxExistingRatings
-                    }
-                    tooltip="Add a player rating"
-                    tooltipOptions={{ showDelay: 500, position: "top" }}
-                />
+                <div className="mt-3 p-buttonset">
+                    <Button
+                        type="button"
+                        icon="pi pi-plus"
+                        className="p-button-rounded p-button-outlined w-8 md:w-auto"
+                        label="Add Rating"
+                        onClick={() => addRating()}
+                        disabled={
+                            getCurrentRatingsCount() >=
+                            Config.maxExistingRatings
+                        }
+                        tooltip="Add a player rating"
+                        tooltipOptions={{ showDelay: 500, position: "top" }}
+                    />
+                    <Button
+                        type="button"
+                        icon="pi pi-times"
+                        className="p-button-rounded p-button-outlined w-4 md:w-auto"
+                        label="Clear All"
+                        onClick={() => clearRatings()}
+                        tooltip="Clear all player ratings"
+                        tooltipOptions={{ showDelay: 500, position: "top" }}
+                    />
+                </div>
             </div>
             <div className="my-2">
                 <small>
