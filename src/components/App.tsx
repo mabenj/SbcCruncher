@@ -21,7 +21,7 @@ PrimeReact.ripple = true;
 const CALCULATION_END_DELAY_MS = 1000;
 
 function App() {
-    const [solver, setSolver] = useState(new Solver());
+    const [solver, setSolver] = useState<Solver>();
 
     const [isCalculating, setIsCalculating] = useState(false);
     const [progressPercentage, setProgressPercentage] = useState(0);
@@ -33,10 +33,14 @@ function App() {
     );
 
     useEffect(() => {
+        setSolver(new Solver());
         ReactGA.pageview(window.location.pathname);
     }, []);
 
     useEffect(() => {
+        if (!solver) {
+            return;
+        }
         solver.onmessage = (message) => {
             const result = message.data as ISolverWorkResult;
             switch (result.status) {
@@ -97,7 +101,7 @@ function App() {
             ratingsToTry,
             prices
         };
-        solver.postMessage(request);
+        solver && solver.postMessage(request);
         ReactGA.event({
             category: "CALCULATE",
             action: "CALCULATE_PRESSED",
@@ -110,7 +114,7 @@ function App() {
             discriminator: "SOLVER-FETCH",
             fromIndex
         };
-        solver.postMessage(request);
+        solver && solver.postMessage(request);
     };
 
     return (
@@ -127,7 +131,7 @@ function App() {
                     }}
                     stopPressed={() => {
                         setSolver((prev) => {
-                            prev.terminate();
+                            prev && prev.terminate();
                             prev = new Solver();
                             setIsCalculating(false);
                             return prev;
