@@ -1,7 +1,7 @@
 import { Button } from "primereact/button";
 import { Sidebar as PrimeSidebar } from "primereact/sidebar";
 import React, { useState } from "react";
-import { Link } from "./";
+import { Link } from "./Link";
 
 export function Sidebar() {
     const [show, setShow] = useState(false);

@@ -1,7 +1,7 @@
 import axios from "axios";
-import { IPriceInfo } from "../interfaces";
 import { sleep } from "../util/utils";
 import Config from "../Config";
+import { IPriceInfo } from "../interfaces/PriceInfo.interface";
 
 const FUTBIN_URL = "https://www.futbin.com/stc/cheapest";
 

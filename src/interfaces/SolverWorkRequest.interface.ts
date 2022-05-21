@@ -1,15 +1,15 @@
-import { IPriceInfo } from "./";
+import { IPriceInfo } from "./PriceInfo.interface";
 
 export interface ISolverWorkRequest {
-	discriminator: "SOLVER-START";
-	ratingsToTry: number[];
-	targetRating: number;
-	existingRatings: number[];
-	prices: IPriceInfo;
+    discriminator: "SOLVER-START";
+    ratingsToTry: number[];
+    targetRating: number;
+    existingRatings: number[];
+    prices: IPriceInfo;
 }
 
 export function instanceOfISolverWorkRequest(
-	object: any
+    object: any
 ): object is ISolverWorkRequest {
-	return object.discriminator === "SOLVER-START";
+    return object.discriminator === "SOLVER-START";
 }

@@ -3,7 +3,7 @@ import { Message } from "primereact/message";
 import { Skeleton } from "primereact/skeleton";
 import React from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { ISolution } from "../interfaces";
+import { ISolution } from "../interfaces/Solution.interface";
 import Spinner from "./Spinner";
 
 interface ISolutionsProps {

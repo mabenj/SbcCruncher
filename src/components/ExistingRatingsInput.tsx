@@ -1,7 +1,7 @@
 import { Button } from "primereact/button";
 import React, { useEffect, useState } from "react";
 import Config from "../Config";
-import { IExistingRating } from "../interfaces";
+import { IExistingRating } from "../interfaces/ExistingRating.interface";
 import SingleRatingSelect from "./SingleRatingSelect";
 
 interface IExistingRatingsInputProps {
@@ -109,7 +109,7 @@ export function ExistingRatingsInput({
                     <Button
                         type="button"
                         icon="pi pi-plus"
-                        className="p-button-rounded p-button-outlined w-8 md:w-auto"
+                        className="p-button-rounded p-button-outlined w-7 md:w-auto"
                         label="Add Rating"
                         onClick={() => addRating()}
                         disabled={
@@ -122,7 +122,7 @@ export function ExistingRatingsInput({
                     <Button
                         type="button"
                         icon="pi pi-times"
-                        className="p-button-rounded p-button-outlined w-4 md:w-auto"
+                        className="p-button-rounded p-button-outlined w-5 md:w-auto"
                         label="Clear All"
                         onClick={() => clearRatings()}
                         tooltip="Clear all player ratings"

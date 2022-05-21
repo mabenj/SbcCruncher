@@ -2,17 +2,16 @@ import { BlockUI } from "primereact/blockui";
 import { Card } from "primereact/card";
 import { Divider } from "primereact/divider";
 import React, { useEffect, useState } from "react";
-import {
-    CalculationButtons,
-    ExistingRatingsInput,
-    PricesInput,
-    TargetRatingInput,
-    TryRatingsRangeInput
-} from ".";
 import Config from "../Config";
-import { IExistingRating, IPriceInfo } from "../interfaces";
+import { IExistingRating } from "../interfaces/ExistingRating.interface";
+import { IPriceInfo } from "../interfaces/PriceInfo.interface";
 import { range } from "../util/utils";
+import { CalculationButtons } from "./CalculationButtons";
+import { ExistingRatingsInput } from "./ExistingRatingsInput";
 import { Link } from "./Link";
+import { PricesInput } from "./PricesInput";
+import { TargetRatingInput } from "./TargetRatingInput";
+import { TryRatingsRangeInput } from "./TryRatingsRangeInput";
 
 interface IConfigurationFormProps {
     calculate: (

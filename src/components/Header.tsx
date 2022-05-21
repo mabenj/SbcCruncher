@@ -3,7 +3,8 @@ import { InputSwitch, InputSwitchChangeParams } from "primereact/inputswitch";
 import React, { useEffect, useState } from "react";
 import Config from "../Config";
 import LocalStorage from "../services/LocalStorage.service";
-import { Link, Sidebar } from "./";
+import { Link } from "./Link";
+import { Sidebar } from "./Sidebar";
 
 export function Header() {
     return (

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from ".";
+import { Link } from "./Link";
 
 export const Footer = () => {
     return (

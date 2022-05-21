@@ -4,7 +4,7 @@ import { Toast } from "primereact/toast";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import ReactGA from "react-ga";
 import Config from "../Config";
-import { IPriceInfo } from "../interfaces";
+import { IPriceInfo } from "../interfaces/PriceInfo.interface";
 import { fetchFutbinPrices } from "../services/FutbinPrices.service";
 import { getItemOrNull, setItem } from "../services/LocalStorage.service";
 
@@ -107,14 +107,13 @@ export function PricesInput({ ratings, onChange }: IPricesInputProps) {
                         <Button
                             type="button"
                             label={isFetching ? "Fetching..." : "Fetch FUTBIN"}
-                            className="p-button-rounded p-button-outlined w-8 md:w-auto"
+                            className="p-button-rounded p-button-outlined w-7 md:w-auto"
                             onClick={handleFetchFutbin}
                             icon={<span className="pi pi-sync mr-2"></span>}
                             loading={isFetching}
                             tooltip="Fetch prices from FUTBIN"
                             tooltipOptions={{
                                 position: "top",
-
                                 showDelay: 500
                             }}
                         />
@@ -122,7 +121,7 @@ export function PricesInput({ ratings, onChange }: IPricesInputProps) {
                             type="button"
                             label="Clear All"
                             icon="pi pi-times"
-                            className="p-button-rounded p-button-outlined w-4 md:w-auto"
+                            className="p-button-rounded p-button-outlined w-5 md:w-auto"
                             disabled={isFetching}
                             onClick={() => setPrices({})}
                             tooltip="Set all prices to 0"

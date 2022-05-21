@@ -2,7 +2,7 @@ import Slider, { SliderTooltip } from "rc-slider";
 import "rc-slider/assets/index.css";
 import React, { useEffect, useState } from "react";
 import Config from "../Config";
-import { useIsMobile } from "../hooks";
+import { useIsMobile } from "../hooks/useIsMobile";
 import SingleRatingSelect from "./SingleRatingSelect";
 
 const { createSliderWithTooltip } = Slider;
