@@ -16,6 +16,10 @@ interface IConfig {
     readonly darkThemeName: string;
     readonly lightThemeName: string;
     readonly isDarkThemeStorageKey: string;
+    readonly pricesLastUpdatedStorageKey: string;
+    readonly tryRangeWarningThreshold: number;
+    readonly oldPricesWarningThreshold: number;
+    readonly shouldMergeOldPrices: boolean;
 }
 
 const config: IConfig = {
@@ -33,7 +37,11 @@ const config: IConfig = {
     scrollToTopThreshold: 500,
     darkThemeName: "vela-blue",
     lightThemeName: "saga-blue",
-    isDarkThemeStorageKey: "SBC_CRUNCHER_IS_DARK"
+    isDarkThemeStorageKey: "SBC_CRUNCHER_IS_DARK",
+    pricesLastUpdatedStorageKey: "SBC_CRUNCHER_PRICES_UPDATED_AT",
+    tryRangeWarningThreshold: 10,
+    oldPricesWarningThreshold: 1,
+    shouldMergeOldPrices: true
 };
 
 export default config;

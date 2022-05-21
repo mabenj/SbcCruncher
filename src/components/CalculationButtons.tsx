@@ -67,7 +67,7 @@ export function CalculationButtons({
                 className="my-4 flex justify-content-center md:block"
                 style={{ visibility: errorMessage ? "visible" : "hidden" }}>
                 <Message
-                    severity="error"
+                    severity="warn"
                     text={errorMessage}
                     className="p-3"></Message>
             </div>

@@ -1,74 +1,37 @@
 import { Button } from "primereact/button";
 import { InputNumber } from "primereact/inputnumber";
 import { Toast } from "primereact/toast";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import ReactGA from "react-ga";
+import React, { useEffect, useRef } from "react";
 import Config from "../Config";
-import { IPriceInfo } from "../interfaces/PriceInfo.interface";
-import { fetchFutbinPrices } from "../services/FutbinPrices.service";
-import { getItemOrNull, setItem } from "../services/LocalStorage.service";
-
-const SHOULD_MERGE_PRICES = true; // TODO: get as user input
+import { usePrices } from "../hooks/usePrices";
+import {
+    hoursToMilliseconds,
+    millisecondsSince,
+    timeSince
+} from "../util/utils";
+import InlineTextWarning from "./InlineTextWarning";
 
 interface IPricesInputProps {
     ratings: number[];
-    onChange: (priceInfo: IPriceInfo) => void;
 }
 
-export function PricesInput({ ratings, onChange }: IPricesInputProps) {
+export function PricesInput({ ratings }: IPricesInputProps) {
+    const [pricesState, getPrice, setPrice, fetchPrices, clearPrices] =
+        usePrices(Config.shouldMergeOldPrices);
     const errorToast = useRef<Toast>(null);
-    const [prices, setPrices] = useState<IPriceInfo>(
-        getItemOrNull<IPriceInfo>(Config.priceDataStorageKey) || {}
-    );
-    const [isFetching, setIsFetching] = useState(false);
 
     useEffect(() => {
-        if (prices) {
-            setItem(Config.priceDataStorageKey, prices);
-            onChange(prices);
+        if (!pricesState.fetchError) {
+            return;
         }
-    }, [onChange, prices]);
-
-    const handlePriceChange = (rating: number, newPrice: number | null) => {
-        if (newPrice === null) {
-            setPrices((prev) => {
-                const clone = { ...prev };
-                delete clone[rating];
-                return clone;
-            });
-        } else {
-            setPrices((prev) => ({ ...prev, [rating]: newPrice }));
-        }
-    };
-
-    const handleFetchFutbin = useCallback(async (e: React.MouseEvent) => {
-        e.preventDefault();
-        setIsFetching(true);
-        const [prices, errorMessage] = await fetchFutbinPrices();
-        if (errorMessage && errorToast.current !== null) {
+        errorToast.current !== null &&
             errorToast.current.show({
                 severity: "error",
                 summary: "Could not fetch price data from FUTBIN",
-                detail: errorMessage,
+                detail: pricesState.fetchError,
                 life: 3000
             });
-        }
-        if (prices && !errorMessage) {
-            setPrices(
-                SHOULD_MERGE_PRICES
-                    ? (prev) => ({ ...prev, ...prices })
-                    : prices
-            );
-        }
-        setIsFetching(false);
-        ReactGA.event({
-            category: "FUTBIN",
-            action: "FUTBIN_FETCH",
-            label: errorMessage
-                ? `FUTBIN_ERROR=${errorMessage}`
-                : "FUTBIN_SUCCESS"
-        });
-    }, []);
+    });
 
     return (
         <>
@@ -85,10 +48,8 @@ export function PricesInput({ ratings, onChange }: IPricesInputProps) {
                                 </span>
                                 <InputNumber
                                     placeholder=""
-                                    value={prices[rating] || 0}
-                                    onChange={(e) =>
-                                        handlePriceChange(rating, e.value)
-                                    }
+                                    value={getPrice(rating) || 0}
+                                    onChange={(e) => setPrice(rating, e.value)}
                                     showButtons
                                     min={0}
                                     step={500}
@@ -103,14 +64,29 @@ export function PricesInput({ ratings, onChange }: IPricesInputProps) {
 
             <div>
                 <span>
+                    <InlineTextWarning
+                        show={
+                            millisecondsSince(pricesState.lastUpdated) >
+                            hoursToMilliseconds(
+                                Config.oldPricesWarningThreshold
+                            )
+                        }>
+                        Prices last updated {timeSince(pricesState.lastUpdated)}{" "}
+                        ago
+                    </InlineTextWarning>
+
                     <div className="mt-3 p-buttonset">
                         <Button
                             type="button"
-                            label={isFetching ? "Fetching..." : "Fetch FUTBIN"}
+                            label={
+                                pricesState.isFetching
+                                    ? "Fetching..."
+                                    : "Fetch FUTBIN"
+                            }
                             className="p-button-rounded p-button-outlined w-7 md:w-auto"
-                            onClick={handleFetchFutbin}
+                            onClick={() => fetchPrices()}
                             icon={<span className="pi pi-sync mr-2"></span>}
-                            loading={isFetching}
+                            loading={pricesState.isFetching}
                             tooltip="Fetch prices from FUTBIN"
                             tooltipOptions={{
                                 position: "top",
@@ -122,8 +98,8 @@ export function PricesInput({ ratings, onChange }: IPricesInputProps) {
                             label="Clear All"
                             icon="pi pi-times"
                             className="p-button-rounded p-button-outlined w-5 md:w-auto"
-                            disabled={isFetching}
-                            onClick={() => setPrices({})}
+                            disabled={pricesState.isFetching}
+                            onClick={() => clearPrices()}
                             tooltip="Set all prices to 0"
                             tooltipOptions={{
                                 position: "top",

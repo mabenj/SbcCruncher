@@ -3,6 +3,7 @@ import "rc-slider/assets/index.css";
 import React, { useEffect, useState } from "react";
 import Config from "../Config";
 import { useIsMobile } from "../hooks/useIsMobile";
+import InlineTextWarning from "./InlineTextWarning";
 import SingleRatingSelect from "./SingleRatingSelect";
 
 const { createSliderWithTooltip } = Slider;
@@ -116,6 +117,14 @@ export function TryRatingsRangeInput({
                     Specify the minimum and maximum ratings to use when
                     calculating the possible rating combinations
                 </small>
+                <InlineTextWarning
+                    show={
+                        Math.abs(value[0] - value[1]) >
+                        Config.tryRangeWarningThreshold
+                    }>
+                    <strong>Note!</strong> Large rating ranges might take a long
+                    time to calculate
+                </InlineTextWarning>
             </div>
         </div>
     );
