@@ -29,10 +29,7 @@ export default function RatingSelect({
             <div onClick={toggleOverlay}>
                 <RatingCard rating={value} />
             </div>
-            <OverlayPanel
-                ref={op}
-                breakpoints={{ "960px": "75vw", "640px": "100vw" }}
-                style={{ width: "450px" }}>
+            <OverlayPanel ref={op} className="rating-select-overlay-panel">
                 <div className="rating-select-overlay-content">
                     {options.map((rating, index) => {
                         return (
