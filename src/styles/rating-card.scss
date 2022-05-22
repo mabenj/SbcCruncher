@@ -90,6 +90,12 @@ $bronze: linear-gradient(
         box-shadow: var(--focus-ring);
     }
 
+    &.rating-card-dimmed {
+        box-shadow: var(--focus-ring);
+        filter: brightness(0.8);
+        border: 2px dotted var(--primary-color);
+    }
+
     &:hover {
         filter: brightness(1.1);
         transform: translateY(-1px);

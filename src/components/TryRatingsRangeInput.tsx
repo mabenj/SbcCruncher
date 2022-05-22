@@ -76,6 +76,7 @@ export function TryRatingsRangeInput({
                                 <td>
                                     <RatingSelect
                                         value={value[0]}
+                                        otherValue={value[1]}
                                         options={options}
                                         onChange={handleMinChange}
                                     />
@@ -86,6 +87,7 @@ export function TryRatingsRangeInput({
                                 <td>
                                     <RatingSelect
                                         value={value[1]}
+                                        otherValue={value[0]}
                                         options={options}
                                         onChange={handleMaxChange}
                                     />

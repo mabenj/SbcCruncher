@@ -1,15 +1,18 @@
 import { OverlayPanel } from "primereact/overlaypanel";
 import React, { useRef } from "react";
+import { inBetween } from "../util/utils";
 import RatingCard from "./RatingCard";
 
 interface IRatingSelectProps {
     value: number;
+    otherValue?: number;
     options: number[];
     onChange: (newValue: number) => void;
 }
 
 export default function RatingSelect({
     value,
+    otherValue,
     options,
     onChange
 }: IRatingSelectProps) {
@@ -40,6 +43,15 @@ export default function RatingSelect({
                                     <RatingCard
                                         rating={rating}
                                         selected={rating === value}
+                                        dimmed={
+                                            otherValue
+                                                ? inBetween(
+                                                      rating,
+                                                      value,
+                                                      otherValue
+                                                  ) || otherValue === rating
+                                                : false
+                                        }
                                     />
                                 </span>
                             </div>

@@ -8,9 +8,10 @@ const BRONZE_HIGHEST = 64;
 interface IRatingProps {
     rating: number;
     selected?: boolean;
+    dimmed?: boolean;
 }
 
-export default function RatingCard({ rating, selected }: IRatingProps) {
+export default function RatingCard({ rating, selected, dimmed }: IRatingProps) {
     const color =
         rating > SILVER_HIGHEST
             ? "golden"
@@ -22,6 +23,7 @@ export default function RatingCard({ rating, selected }: IRatingProps) {
             className={`
             rating-card rating-card-${color} 
             ${selected && "rating-card-selected"}
+            ${dimmed && "rating-card-dimmed"}
             `}
             title={rating === 69 ? "nice" : ""}>
             <div>{rating}</div>
