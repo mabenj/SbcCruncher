@@ -1,42 +1,44 @@
-import { Card } from "primereact/card";
-import React, { useState } from "react";
+import { OverlayPanel } from "primereact/overlaypanel";
+import React, { useRef } from "react";
 import RatingCard from "./RatingCard";
 
-interface ISingleRatingSelectProps {
+interface IRatingSelectProps {
     value: number;
     options: number[];
     onChange: (newValue: number) => void;
 }
 
-export default function SingleRatingSelect({
+export default function RatingSelect({
     value,
     options,
     onChange
-}: ISingleRatingSelectProps) {
-    const [showOptions, setShowOptions] = useState(false);
+}: IRatingSelectProps) {
+    const op = useRef<OverlayPanel>(null);
 
     const setRating = (rating: number) => {
         onChange(rating);
-        setShowOptions(false);
+        op.current?.hide();
+    };
+
+    const toggleOverlay = (e: React.MouseEvent) => {
+        op.current?.toggle(e);
     };
 
     return (
-        <div
-            tabIndex={0}
-            onBlur={() => setShowOptions(false)}
-            className="rating-select-container">
-            <div onClick={() => setShowOptions((prev) => !prev)}>
+        <div>
+            <div onClick={toggleOverlay}>
                 <RatingCard rating={value} />
             </div>
-            <Card
-                className="dropdown-panel shadow-4"
-                style={{
-                    display: showOptions ? "block" : "none"
-                }}>
-                <div className="flex flex-wrap gap-3">
+            <OverlayPanel
+                ref={op}
+                breakpoints={{ "960px": "75vw", "640px": "100vw" }}
+                style={{ width: "450px" }}>
+                <div className="rating-select-overlay-content">
                     {options.map((rating, index) => {
                         return (
-                            <div key={index}>
+                            <div
+                                key={index}
+                                className="flex justify-content-center align-items-center">
                                 <span onClick={() => setRating(rating)}>
                                     <RatingCard
                                         rating={rating}
@@ -47,7 +49,7 @@ export default function SingleRatingSelect({
                         );
                     })}
                 </div>
-            </Card>
+            </OverlayPanel>
         </div>
     );
 }

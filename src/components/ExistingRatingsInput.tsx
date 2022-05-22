@@ -2,7 +2,7 @@ import { Button } from "primereact/button";
 import React, { useEffect, useState } from "react";
 import Config from "../Config";
 import { IExistingRating } from "../interfaces/ExistingRating.interface";
-import SingleRatingSelect from "./SingleRatingSelect";
+import RatingSelect from "./RatingSelect";
 
 interface IExistingRatingsInputProps {
     value: IExistingRating[];
@@ -166,7 +166,7 @@ const RatingRow = ({
                 height: "90px"
             }}>
             <td className="text-left">
-                <SingleRatingSelect
+                <RatingSelect
                     value={rating}
                     options={Config.allRatings}
                     onChange={(newRating) => onChange(newRating, quantity)}

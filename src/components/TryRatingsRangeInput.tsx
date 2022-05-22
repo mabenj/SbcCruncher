@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Config from "../Config";
 import { useIsMobile } from "../hooks/useIsMobile";
 import InlineTextWarning from "./InlineTextWarning";
-import SingleRatingSelect from "./SingleRatingSelect";
+import RatingSelect from "./RatingSelect";
 
 const { createSliderWithTooltip } = Slider;
 const Range = createSliderWithTooltip(Slider.Range);
@@ -74,7 +74,7 @@ export function TryRatingsRangeInput({
                         <tbody>
                             <tr>
                                 <td>
-                                    <SingleRatingSelect
+                                    <RatingSelect
                                         value={value[0]}
                                         options={options}
                                         onChange={handleMinChange}
@@ -84,7 +84,7 @@ export function TryRatingsRangeInput({
                                     <span className="pi pi-arrows-h"></span>
                                 </td>
                                 <td>
-                                    <SingleRatingSelect
+                                    <RatingSelect
                                         value={value[1]}
                                         options={options}
                                         onChange={handleMaxChange}

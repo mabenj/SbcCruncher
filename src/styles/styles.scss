@@ -329,16 +329,8 @@ a.no-style-a {
     color: var(--text-color);
 }
 
-.rating-select-container {
-    .dropdown-panel {
-        position: absolute;
-        margin-top: 0.2em;
-        z-index: 100;
-        background-color: var(--surface-50);
-        width: 56%;
-
-        @media only screen and (max-width: $lg) {
-            width: 80%;
-        }
-    }
+.rating-select-overlay-content {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: repeat(6, 1fr);
 }
