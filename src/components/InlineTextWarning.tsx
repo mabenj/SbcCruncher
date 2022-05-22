@@ -13,7 +13,7 @@ export default function InlineTextWarning({
         <div
             style={{ opacity: show ? 1 : 0 }}
             className="transition-all transition-duration-200">
-            <small className="text-yellow-500">
+            <small className="text-yellow-500 opacity-70">
                 <em>{children}</em>
             </small>
         </div>
