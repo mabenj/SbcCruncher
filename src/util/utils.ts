@@ -104,5 +104,5 @@ export function millisecondsSince(date: Date) {
 export function inBetween(value: number, endPoint1: number, endPoint2: number) {
     const min = Math.min(endPoint1, endPoint2);
     const max = Math.max(endPoint1, endPoint2);
-    return value > min && value < max;
+    return value >= min && value <= max;
 }

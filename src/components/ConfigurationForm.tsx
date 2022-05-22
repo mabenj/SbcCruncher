@@ -34,7 +34,7 @@ export default function ConfigurationForm({
     tryBoundsChanged,
     isCalculating
 }: IConfigurationFormProps) {
-    const [targetRating, setTargetRating] = useState<number | undefined>();
+    const [targetRating, setTargetRating] = useState<number | undefined>(84);
     const [existingRatings, setExistingRatings] = useState<IExistingRating[]>(
         []
     );

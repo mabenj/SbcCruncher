@@ -31,15 +31,15 @@ const config: IConfig = {
     priceFetchCooldownMs: 1000,
     allRatings: range(99, 47, -1),
     tryRatings: range(99, 70, -1),
-    defaultTryMin: 81,
-    defaultTryMax: 86,
+    defaultTryMin: 80,
+    defaultTryMax: 90,
     solverUpdateFrequencyMs: 300,
     scrollToTopThreshold: 500,
     darkThemeName: "vela-blue",
     lightThemeName: "saga-blue",
     isDarkThemeStorageKey: "SBC_CRUNCHER_IS_DARK",
     pricesLastUpdatedStorageKey: "SBC_CRUNCHER_PRICES_UPDATED_AT",
-    tryRangeWarningThreshold: 10,
+    tryRangeWarningThreshold: 15,
     oldPricesWarningThreshold: 1,
     shouldMergeOldPrices: true
 };

@@ -32,7 +32,7 @@ export function Sidebar() {
                             <li>
                                 <p>
                                     Specify your desired target rating by
-                                    clicking the corresponding card in the{" "}
+                                    clicking a rating card in the{" "}
                                     <strong>Target Rating</strong> section
                                     (Required)
                                 </p>
@@ -40,7 +40,7 @@ export function Sidebar() {
                             <li>
                                 <p>
                                     Enter the ratings of the players you already
-                                    own and plan to use in the squad in the{" "}
+                                    own and plan to use in the SBC in the{" "}
                                     <strong>Existing Players</strong> section
                                     (Optional)
                                 </p>
@@ -53,13 +53,14 @@ export function Sidebar() {
                                     when calculating the solutions.
                                 </p>
                                 <p>
-                                    For example, with a range{" "}
-                                    <strong>from</strong> 81 <strong>to</strong>{" "}
-                                    84, the resulting player rating combinations
-                                    will be calculated from ratings 81, 82, 83
-                                    and 84, plus from the ratings you specified
-                                    in the <strong>Existing Players</strong>{" "}
-                                    section.
+                                    For example, with a range from{" "}
+                                    <strong>81</strong> to <strong>84</strong>,
+                                    the resulting player rating combinations
+                                    will be calculated from ratings{" "}
+                                    <strong>81</strong>, <strong>82</strong>,{" "}
+                                    <strong>83</strong> and <strong>84</strong>,
+                                    plus from the ratings you specified in the{" "}
+                                    <strong>Existing Players</strong> section.
                                 </p>
                             </li>
                             <li>
