@@ -128,6 +128,11 @@ const FormPanelWrapper = ({
     blocked?: boolean;
     id?: string;
 }) => {
+    const scrollToTargetRating = () => {
+        const elem = document.getElementById("targetRating");
+        elem?.scrollIntoView();
+    };
+
     return (
         <section id={id}>
             <BlockUI
@@ -139,7 +144,8 @@ const FormPanelWrapper = ({
                         <div>
                             Specify a{" "}
                             <Link
-                                href="#targetRating"
+                                href=""
+                                clicked={scrollToTargetRating}
                                 openInSameTab
                                 style={{ textShadow: "" }}>
                                 Target Rating
