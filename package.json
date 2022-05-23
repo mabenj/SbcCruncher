@@ -42,13 +42,15 @@
         "@types/react": "^16.14.23",
         "@types/react-dom": "^16.9.14",
         "dotenv": "^15.0.0",
+        "react-snap": "^1.23.0",
         "typescript": "^4.5.5"
     },
     "scripts": {
         "start": "react-scripts start",
         "build": "cross-env REACT_APP_COMMIT_REF=$COMMIT_REF react-scripts build",
         "test": "react-scripts test",
-        "eject": "react-scripts eject"
+        "eject": "react-scripts eject",
+        "postbuild": "react-snap"
     },
     "eslintConfig": {
         "extends": [
