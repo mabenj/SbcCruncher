@@ -35,7 +35,6 @@ export function PricesInput({ ratings }: IPricesInputProps) {
 
     return (
         <>
-            <Toast ref={errorToast} />
             <div>
                 <div className="grid">
                     {ratings.map((rating) => (
@@ -117,6 +116,7 @@ export function PricesInput({ ratings }: IPricesInputProps) {
                     are available from FUTBIN
                 </small>
             </div>
+            <Toast ref={errorToast} />
         </>
     );
 }

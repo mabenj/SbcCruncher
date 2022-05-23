@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Config from "../Config";
 import LocalStorage from "../services/LocalStorage.service";
 import { Link } from "./Link";
+import NoPrerender from "./NoPrerender";
 import { Sidebar } from "./Sidebar";
 
 export function Header() {
@@ -17,7 +18,9 @@ export function Header() {
                 </small>
             </div>
             <div className="header-options">
-                <ThemeToggle />
+                <NoPrerender>
+                    <ThemeToggle />
+                </NoPrerender>
                 <Sidebar />
             </div>
         </div>
