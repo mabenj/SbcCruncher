@@ -47,7 +47,7 @@ export const usePrices = (mergeNewWithOld: boolean = true) => {
     const fetchPrices = useCallback(async () => {
         setIsFetching(true);
         const [prices, errorMessage] = await fetchFutbinPrices();
-        errorMessage && setFetchError(errorMessage);
+        setFetchError(errorMessage);
         if (prices && !errorMessage) {
             setPrices(
                 mergeNewWithOld ? (prev) => ({ ...prev, ...prices }) : prices

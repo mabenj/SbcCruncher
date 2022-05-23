@@ -31,7 +31,7 @@ export function PricesInput({ ratings }: IPricesInputProps) {
                 detail: pricesState.fetchError,
                 life: 3000
             });
-    });
+    }, [pricesState.fetchError]);
 
     return (
         <>
