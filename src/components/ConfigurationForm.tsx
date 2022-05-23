@@ -151,7 +151,7 @@ const FormPanelWrapper = ({
                 <Card className={`mb-5 lg:my-8 lg:px-4 ${className}`}>
                     {title && (
                         <>
-                            <div className="font-medium text-lg">{title}</div>
+                            <h3 className="font-medium text-lg">{title}</h3>
                             <Divider />
                         </>
                     )}
