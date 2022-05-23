@@ -129,7 +129,7 @@ const FormPanelWrapper = ({
     id?: string;
 }) => {
     return (
-        <div id={id}>
+        <section id={id}>
             <BlockUI
                 blocked={blocked}
                 className="block-mask"
@@ -159,6 +159,6 @@ const FormPanelWrapper = ({
                     {children}
                 </Card>
             </BlockUI>
-        </div>
+        </section>
     );
 };

@@ -25,7 +25,7 @@ export function Sidebar() {
                 onHide={() => setShow(false)}
                 showCloseIcon={false}
                 className="p-sidebar-md">
-                <div className="sidebar-body">
+                <aside className="sidebar-body">
                     <div>
                         <h3>How to Use</h3>
                         <ol>
@@ -106,7 +106,7 @@ export function Sidebar() {
                             <i className="fab fa-github mr-3"></i>mabenj
                         </Link>
                     </div>
-                </div>
+                </aside>
             </PrimeSidebar>
         </>
     );
