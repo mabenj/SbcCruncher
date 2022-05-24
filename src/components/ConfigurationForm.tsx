@@ -3,7 +3,6 @@ import { Card } from "primereact/card";
 import { Divider } from "primereact/divider";
 import React, { useEffect, useState } from "react";
 import Config from "../Config";
-import { usePrices } from "../hooks/usePrices";
 import { IExistingRating } from "../interfaces/ExistingRating.interface";
 import { IPriceInfo } from "../interfaces/PriceInfo.interface";
 import { range } from "../util/utils";
@@ -42,12 +41,12 @@ export default function ConfigurationForm({
         Config.defaultTryMin,
         Config.defaultTryMax
     ]);
-    const [pricesState] = usePrices();
+    const [prices, setPrices] = useState<IPriceInfo>({});
 
     useEffect(() => {
         configChanged();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [targetRating, existingRatings, tryBounds, pricesState.allPrices]);
+    }, [targetRating, existingRatings, tryBounds, prices]);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -59,12 +58,7 @@ export default function ConfigurationForm({
                 new Array(quantity).fill(rating)
             ) || [];
         const ratingsToTry = range(tryBounds[0], tryBounds[1]);
-        calculate(
-            targetRating,
-            existingRatingsFlat,
-            ratingsToTry,
-            pricesState.allPrices
-        );
+        calculate(targetRating, existingRatingsFlat, ratingsToTry, prices);
     };
 
     const handleTryBoundsChange = (newBounds: [min: number, max: number]) => {
@@ -98,7 +92,11 @@ export default function ConfigurationForm({
             </FormPanelWrapper>
 
             <FormPanelWrapper title="Player Prices" blocked={!targetRating}>
-                <PricesInput ratings={range(tryBounds[0], tryBounds[1], 1)} />
+                <PricesInput
+                    ratings={range(tryBounds[0], tryBounds[1], 1)}
+                    currentPrices={prices}
+                    onChange={(newPrices) => setPrices(newPrices)}
+                />
             </FormPanelWrapper>
 
             <CalculationButtons

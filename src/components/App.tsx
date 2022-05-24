@@ -25,6 +25,10 @@ function App() {
         ReactGA.pageview(window.location.pathname);
     }, []);
 
+    const configChanged = () => {
+        resetState();
+    };
+
     return (
         <>
             <Container>
@@ -32,7 +36,7 @@ function App() {
 
                 <ConfigurationForm
                     calculate={calculate}
-                    configChanged={() => resetState()}
+                    configChanged={configChanged}
                     stopPressed={() => stopSolver()}
                     tryBoundsChanged={(newBounds) =>
                         setSolutionColumns(range(newBounds[0], newBounds[1]))

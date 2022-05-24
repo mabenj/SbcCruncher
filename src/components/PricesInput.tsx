@@ -4,6 +4,7 @@ import { Toast } from "primereact/toast";
 import React, { useEffect, useRef } from "react";
 import Config from "../Config";
 import { usePrices } from "../hooks/usePrices";
+import { IPriceInfo } from "../interfaces/PriceInfo.interface";
 import {
     hoursToMilliseconds,
     millisecondsSince,
@@ -13,9 +14,15 @@ import InlineTextWarning from "./InlineTextWarning";
 
 interface IPricesInputProps {
     ratings: number[];
+    currentPrices: IPriceInfo;
+    onChange: (newPrices: IPriceInfo) => void;
 }
 
-export function PricesInput({ ratings }: IPricesInputProps) {
+export function PricesInput({
+    ratings,
+    currentPrices,
+    onChange
+}: IPricesInputProps) {
     const [pricesState, getPrice, setPrice, fetchPrices, clearPrices] =
         usePrices(Config.shouldMergeOldPrices);
     const errorToast = useRef<Toast>(null);
@@ -33,6 +40,11 @@ export function PricesInput({ ratings }: IPricesInputProps) {
             });
     }, [pricesState.fetchError]);
 
+    const handleSetPrice = (rating: number, price: number) => {
+        currentPrices[rating] = price;
+        onChange(currentPrices);
+    };
+
     return (
         <>
             <div>
@@ -47,8 +59,10 @@ export function PricesInput({ ratings }: IPricesInputProps) {
                                 </span>
                                 <InputNumber
                                     placeholder=""
-                                    value={getPrice(rating) || 0}
-                                    onChange={(e) => setPrice(rating, e.value)}
+                                    value={currentPrices[rating] || 0}
+                                    onChange={(e) =>
+                                        handleSetPrice(rating, e.value || 0)
+                                    }
                                     showButtons
                                     min={0}
                                     step={500}
