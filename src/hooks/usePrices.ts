@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
-import ReactGA from "react-ga";
 import Config from "../Config";
 import { IPriceInfo } from "../interfaces/PriceInfo.interface";
 import { fetchFutbinPrices } from "../services/FutbinPrices.service";
 import { getItemOrNull, setItem } from "../services/LocalStorage.service";
+import { useAnalytics } from "./useAnalytics";
 
 export const usePrices = (mergeNewWithOld: boolean = true) => {
+    const { event } = useAnalytics();
     const [prices, setPrices] = useState<IPriceInfo>(
         getItemOrNull<IPriceInfo>(Config.priceDataStorageKey) || {}
     );
@@ -55,14 +56,13 @@ export const usePrices = (mergeNewWithOld: boolean = true) => {
             updateLastUpdatedAt();
         }
         setIsFetching(false);
-        ReactGA.event({
-            category: "FUTBIN",
+        event({
             action: "FUTBIN_FETCH",
-            label: errorMessage
+            details: errorMessage
                 ? `FUTBIN_ERROR=${errorMessage}`
                 : "FUTBIN_SUCCESS"
         });
-    }, [mergeNewWithOld]);
+    }, [event, mergeNewWithOld]);
 
     const clearPrices = () => {
         setPrices({});

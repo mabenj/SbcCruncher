@@ -5,11 +5,8 @@ import React from "react";
 import { hydrate, render } from "react-dom";
 // import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 // import reportWebVitals from "./reportWebVitals";
-import ReactGA from "react-ga";
 import App from "./components/App";
 import "./styles/styles.scss";
-
-ReactGA.initialize(process.env.REACT_APP_GA || "");
 
 const rootElement = document.getElementById("root");
 if (rootElement?.hasChildNodes()) {

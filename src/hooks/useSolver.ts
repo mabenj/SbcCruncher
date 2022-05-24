@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import ReactGA from "react-ga";
 /* eslint-disable import/no-webpack-loader-syntax */
 import Solver from "worker-loader!../workers/Solver.worker.ts";
 import { IPriceInfo } from "../interfaces/PriceInfo.interface";
@@ -7,10 +6,13 @@ import { ISolution } from "../interfaces/Solution.interface";
 import { ISolverDataFetchRequest } from "../interfaces/SolverDataFetchRequest.interface";
 import { ISolverWorkRequest } from "../interfaces/SolverWorkRequest.interface";
 import { ISolverWorkResult } from "../interfaces/SolverWorkResult.interface";
+import { useAnalytics } from "./useAnalytics";
 
 const CALCULATION_END_DELAY_MS = 1000;
 
 export const useSolver = () => {
+    const { event } = useAnalytics();
+
     const [solver, setSolver] = useState<Solver>();
 
     const [isCalculating, setIsCalculating] = useState(false);
@@ -67,14 +69,13 @@ export const useSolver = () => {
         };
         solver.onerror = (error) => {
             console.error("SOLVER WORKER ERROR", error);
-            ReactGA.event({
-                category: "ERROR",
-                action: "SOLVER_MESSAGE",
-                label: "SOLVER"
+            event({
+                action: "SOLVER_ERROR",
+                details: error
             });
             setIsCalculating(false);
         };
-    }, [solver]);
+    }, [event, solver]);
 
     const calculate = (
         targetRating: number,
@@ -94,10 +95,9 @@ export const useSolver = () => {
             prices
         };
         solver && solver.postMessage(request);
-        ReactGA.event({
-            category: "CALCULATE",
+        event({
             action: "CALCULATE_PRESSED",
-            label: "CALCULATE"
+            details: request
         });
     };
 

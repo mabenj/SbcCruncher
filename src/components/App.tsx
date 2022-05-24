@@ -1,8 +1,8 @@
 import PrimeReact from "primereact/api";
 import { ScrollTop } from "primereact/scrolltop";
 import React, { useEffect, useState } from "react";
-import ReactGA from "react-ga";
 import Config from "../Config";
+import { useAnalytics } from "../hooks/useAnalytics";
 import { useSolver } from "../hooks/useSolver";
 import { range } from "../util/utils";
 import ConfigurationForm from "./ConfigurationForm";
@@ -14,6 +14,8 @@ import { Solutions } from "./Solutions";
 PrimeReact.ripple = true;
 
 function App() {
+    const { pageView } = useAnalytics();
+
     const [solverState, calculate, stopSolver, fetchSolutions, resetState] =
         useSolver();
 
@@ -22,7 +24,8 @@ function App() {
     );
 
     useEffect(() => {
-        ReactGA.pageview(window.location.pathname);
+        pageView(window.location.pathname);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const configChanged = () => {
