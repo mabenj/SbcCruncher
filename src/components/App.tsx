@@ -28,10 +28,6 @@ function App() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const configChanged = () => {
-        resetState();
-    };
-
     return (
         <>
             <Container>
@@ -39,7 +35,7 @@ function App() {
 
                 <ConfigurationForm
                     calculate={calculate}
-                    configChanged={configChanged}
+                    configChanged={() => resetState()}
                     stopPressed={() => stopSolver()}
                     tryBoundsChanged={(newBounds) =>
                         setSolutionColumns(range(newBounds[0], newBounds[1]))

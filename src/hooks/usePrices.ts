@@ -70,7 +70,7 @@ export const usePrices = (mergeNewWithOld: boolean = true) => {
     };
 
     const pricesState = {
-        allPrices: { ...prices },
+        allPrices: prices,
         lastUpdated: lastUpdated ? new Date(lastUpdated) : new Date(),
         isFetching,
         fetchError
