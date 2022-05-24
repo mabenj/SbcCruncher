@@ -19,13 +19,15 @@ export const useSolver = () => {
     const [solutions, setSolutions] = useState<ISolution[]>([]);
     const [solutionsCount, setSolutionsCount] = useState<number | null>(null);
 
+    const [originalTitle] = useState(document.title);
+
     useEffect(() => setSolver(new Solver()), []);
 
     useEffect(() => {
         document.title = isCalculating
             ? `SBC Cruncher (Solving ${Math.floor(progressPercent)}%)`
-            : "SBC Cruncher";
-    }, [isCalculating, progressPercent]);
+            : originalTitle;
+    }, [isCalculating, originalTitle, progressPercent]);
 
     useEffect(() => {
         if (!solver) {
