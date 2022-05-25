@@ -1,60 +1,21 @@
-import { useCallback, useEffect, useState } from "react";
+import axios from "axios";
+import { useCallback, useState } from "react";
 import Config from "../Config";
 import { IPriceInfo } from "../interfaces/PriceInfo.interface";
-import { fetchFutbinPrices } from "../services/FutbinPrices.service";
-import { getItemOrNull, setItem } from "../services/LocalStorage.service";
+import { sleep } from "../util/utils";
 import { useAnalytics } from "./useAnalytics";
 
-export const usePrices = (mergeNewWithOld: boolean = true) => {
-    const { event } = useAnalytics();
-    const [prices, setPrices] = useState<IPriceInfo>(
-        getItemOrNull<IPriceInfo>(Config.priceDataStorageKey) || {}
-    );
-    const [lastUpdated, setLastUpdated] = useState<number | null>(
-        getItemOrNull<number>(Config.pricesLastUpdatedStorageKey)
-    );
+const FUTBIN_URL = "https://www.futbin.com/stc/cheapest";
+
+export const usePrices = () => {
     const [isFetching, setIsFetching] = useState(false);
     const [fetchError, setFetchError] = useState("");
+    const { event } = useAnalytics();
 
-    useEffect(() => {
-        if (prices) {
-            setItem(Config.priceDataStorageKey, prices);
-        }
-    }, [prices]);
-
-    const updateLastUpdatedAt = () => {
-        const updateTime = Date.now();
-        setLastUpdated(updateTime);
-        setItem(Config.pricesLastUpdatedStorageKey, updateTime);
-    };
-
-    const getPrice = (rating: number) => {
-        return prices[rating];
-    };
-
-    const setPrice = (rating: number, newPrice: number | null) => {
-        if (newPrice === null) {
-            setPrices((prev) => {
-                const clone = { ...prev };
-                delete clone[rating];
-                return clone;
-            });
-        } else {
-            setPrices((prev) => ({ ...prev, [rating]: newPrice }));
-        }
-        updateLastUpdatedAt();
-    };
-
-    const fetchPrices = useCallback(async () => {
+    const fetchPrices = useCallback(async (): Promise<IPriceInfo> => {
         setIsFetching(true);
         const [prices, errorMessage] = await fetchFutbinPrices();
         setFetchError(errorMessage);
-        if (prices && !errorMessage) {
-            setPrices(
-                mergeNewWithOld ? (prev) => ({ ...prev, ...prices }) : prices
-            );
-            updateLastUpdatedAt();
-        }
         setIsFetching(false);
         event({
             action: "FUTBIN_FETCH",
@@ -62,19 +23,64 @@ export const usePrices = (mergeNewWithOld: boolean = true) => {
                 ? `FUTBIN_ERROR=${errorMessage}`
                 : "FUTBIN_SUCCESS"
         });
-    }, [event, mergeNewWithOld]);
+        return prices && errorMessage ? {} : prices;
+    }, [event]);
 
-    const clearPrices = () => {
-        setPrices({});
-        updateLastUpdatedAt();
+    return {
+        fetchPrices,
+        fetchError,
+        isFetching
     };
-
-    const pricesState = {
-        allPrices: prices,
-        lastUpdated: lastUpdated ? new Date(lastUpdated) : new Date(),
-        isFetching,
-        fetchError
-    };
-
-    return [pricesState, getPrice, setPrice, fetchPrices, clearPrices] as const;
 };
+
+async function fetchFutbinPrices(): Promise<[IPriceInfo, string]> {
+    const prices: IPriceInfo = {};
+    let errorMessage = "";
+    let attempts = 0;
+    while (attempts < Config.maxPriceFetchAttempts) {
+        try {
+            const html = (await axios.get<string>(FUTBIN_URL)).data;
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, "text/html");
+
+            const ratingGroups = doc.querySelectorAll(".top-stc-players-col");
+
+            for (let i = 0; i < ratingGroups.length; i++) {
+                const rating = Number(
+                    ratingGroups[i]
+                        .querySelector(".top-players-stc-title>span>span")
+                        ?.innerHTML.trim()
+                );
+                const playerPrices: number[] = Array.from(
+                    ratingGroups[i].querySelectorAll(".price-holder-row>span")
+                ).map((span) => parsePrice(span.textContent?.trim()));
+
+                if (rating) {
+                    prices[rating] = Math.min(...playerPrices);
+                }
+            }
+            errorMessage = "";
+            break;
+        } catch (error: unknown) {
+            console.warn("Could not fetch player prices: ", error);
+            if (typeof error === "string") {
+                errorMessage = error;
+            } else if (error instanceof Error) {
+                errorMessage = error.message;
+            } else {
+                errorMessage = "Unknown error";
+            }
+            attempts++;
+            await sleep(Config.priceFetchCooldownMs);
+        }
+    }
+    return [prices, errorMessage];
+}
+
+function parsePrice(text: string | undefined): number {
+    if (!text) return 0;
+    const isThousand = text.endsWith("K");
+    const isMillion = text.endsWith("M");
+    const num = parseFloat(text);
+    return isThousand ? 1000 * num : isMillion ? 1000000 * num : num;
+}

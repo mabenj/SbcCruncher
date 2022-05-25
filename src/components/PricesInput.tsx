@@ -3,35 +3,53 @@ import { InputNumber } from "primereact/inputnumber";
 import { Toast } from "primereact/toast";
 import React, { useEffect, useRef } from "react";
 import Config from "../Config";
+import useLocalStorage from "../hooks/useLocalStorage";
 import { usePrices } from "../hooks/usePrices";
-import {
-    hoursToMilliseconds,
-    millisecondsSince,
-    timeSince
-} from "../util/utils";
+import useUpdateEffect from "../hooks/useUpdateEffect";
+import { IPriceInfo } from "../interfaces/PriceInfo.interface";
+import { hoursToMilliseconds, timeSince } from "../util/utils";
 import InlineTextWarning from "./InlineTextWarning";
 
 interface IPricesInputProps {
     ratings: number[];
+    prices: IPriceInfo;
+    onChange: (newPrices: IPriceInfo) => void;
 }
 
-export function PricesInput({ ratings }: IPricesInputProps) {
-    const [pricesState, getPrice, setPrice, fetchPrices, clearPrices] =
-        usePrices(Config.shouldMergeOldPrices);
+export function PricesInput({ ratings, prices, onChange }: IPricesInputProps) {
+    const { fetchPrices, isFetching, fetchError } = usePrices();
+    const [lastUpdated, setLastUpdated] = useLocalStorage(
+        Config.pricesLastUpdatedStorageKey,
+        Date.now()
+    );
     const errorToast = useRef<Toast>(null);
 
+    useUpdateEffect(() => {
+        setLastUpdated(Date.now());
+    }, [prices, setLastUpdated]);
+
     useEffect(() => {
-        if (!pricesState.fetchError) {
+        if (!fetchError) {
             return;
         }
         errorToast.current !== null &&
             errorToast.current.show({
                 severity: "error",
                 summary: "Could not fetch price data from FUTBIN",
-                detail: pricesState.fetchError,
+                detail: fetchError,
                 life: 3000
             });
-    }, [pricesState.fetchError]);
+    }, [fetchError]);
+
+    const handlePriceChange = (rating: number, price: number) => {
+        const clonedPrices = { ...prices };
+        clonedPrices[rating] = price;
+        onChange(clonedPrices);
+    };
+
+    const clearPrices = () => {
+        onChange({});
+    };
 
     return (
         <>
@@ -47,8 +65,10 @@ export function PricesInput({ ratings }: IPricesInputProps) {
                                 </span>
                                 <InputNumber
                                     placeholder=""
-                                    value={getPrice(rating) || 0}
-                                    onChange={(e) => setPrice(rating, e.value)}
+                                    value={prices[rating] || 0}
+                                    onChange={(e) =>
+                                        handlePriceChange(rating, e.value || 0)
+                                    }
                                     showButtons
                                     min={0}
                                     step={500}
@@ -65,27 +85,23 @@ export function PricesInput({ ratings }: IPricesInputProps) {
                 <span>
                     <InlineTextWarning
                         show={
-                            millisecondsSince(pricesState.lastUpdated) >
+                            Date.now() - lastUpdated >
                             hoursToMilliseconds(
                                 Config.oldPricesWarningThreshold
                             )
                         }>
-                        Prices last updated {timeSince(pricesState.lastUpdated)}{" "}
+                        Prices last updated {timeSince(new Date(lastUpdated))}{" "}
                         ago
                     </InlineTextWarning>
 
                     <div className="mt-3 p-buttonset">
                         <Button
                             type="button"
-                            label={
-                                pricesState.isFetching
-                                    ? "Fetching..."
-                                    : "Fetch FUTBIN"
-                            }
+                            label={isFetching ? "Fetching..." : "Fetch FUTBIN"}
                             className="p-button-rounded p-button-outlined w-7 md:w-auto"
                             onClick={() => fetchPrices()}
                             icon={<span className="pi pi-sync mr-2"></span>}
-                            loading={pricesState.isFetching}
+                            loading={isFetching}
                             tooltip="Fetch prices from FUTBIN"
                             tooltipOptions={{
                                 position: "top",
@@ -97,7 +113,7 @@ export function PricesInput({ ratings }: IPricesInputProps) {
                             label="Clear All"
                             icon="pi pi-times"
                             className="p-button-rounded p-button-outlined w-5 md:w-auto"
-                            disabled={pricesState.isFetching}
+                            disabled={isFetching}
                             onClick={() => clearPrices()}
                             tooltip="Set all prices to 0"
                             tooltipOptions={{

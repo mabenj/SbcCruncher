@@ -1,8 +1,8 @@
 import { Image } from "primereact/image";
 import { InputSwitch, InputSwitchChangeParams } from "primereact/inputswitch";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Config from "../Config";
-import LocalStorage from "../services/LocalStorage.service";
+import useLocalStorage from "../hooks/useLocalStorage";
 import { Link } from "./Link";
 import NoPrerender from "./NoPrerender";
 import { Sidebar } from "./Sidebar";
@@ -47,7 +47,10 @@ const Brand = () => {
 };
 
 const ThemeToggle = () => {
-    const [isDark, setIsDark] = useState(getIsDarkInitial());
+    const [isDark, setIsDark] = useLocalStorage(
+        Config.isDarkThemeStorageKey,
+        getIsDarkInitial()
+    );
 
     useEffect(() => {
         let themeLink = document.getElementById("app-theme") as HTMLLinkElement;
@@ -56,7 +59,6 @@ const ThemeToggle = () => {
                 isDark ? Config.darkThemeName : Config.lightThemeName
             }/theme.css`;
         }
-        LocalStorage.setItem(Config.isDarkThemeStorageKey, isDark);
     }, [isDark]);
 
     const handleThemeToggle = (e: InputSwitchChangeParams) => {
@@ -77,11 +79,5 @@ const ThemeToggle = () => {
 };
 
 const getIsDarkInitial = () => {
-    const storedIsDark = LocalStorage.getItemOrNull<boolean>(
-        Config.isDarkThemeStorageKey
-    );
-    if (storedIsDark === null) {
-        return window.matchMedia("(prefers-color-scheme: dark)").matches;
-    }
-    return storedIsDark;
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
 };
