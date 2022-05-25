@@ -12,7 +12,9 @@ export const usePrices = () => {
     const [fetchError, setFetchError] = useState("");
     const { event } = useAnalytics();
 
-    const fetchPrices = useCallback(async (): Promise<IPriceInfo> => {
+    const fetchPrices = useCallback(async (): Promise<
+        IPriceInfo | undefined
+    > => {
         setIsFetching(true);
         const [prices, errorMessage] = await fetchFutbinPrices();
         setFetchError(errorMessage);
@@ -23,7 +25,7 @@ export const usePrices = () => {
                 ? `FUTBIN_ERROR=${errorMessage}`
                 : "FUTBIN_SUCCESS"
         });
-        return prices && errorMessage ? {} : prices;
+        return prices;
     }, [event]);
 
     return {
@@ -33,8 +35,8 @@ export const usePrices = () => {
     };
 };
 
-async function fetchFutbinPrices(): Promise<[IPriceInfo, string]> {
-    const prices: IPriceInfo = {};
+async function fetchFutbinPrices(): Promise<[IPriceInfo | undefined, string]> {
+    let prices: IPriceInfo | undefined;
     let errorMessage = "";
     let attempts = 0;
     while (attempts < Config.maxPriceFetchAttempts) {
@@ -42,6 +44,7 @@ async function fetchFutbinPrices(): Promise<[IPriceInfo, string]> {
             const html = (await axios.get<string>(FUTBIN_URL)).data;
             const parser = new DOMParser();
             const doc = parser.parseFromString(html, "text/html");
+            prices = {};
 
             const ratingGroups = doc.querySelectorAll(".top-stc-players-col");
 
@@ -62,6 +65,7 @@ async function fetchFutbinPrices(): Promise<[IPriceInfo, string]> {
             errorMessage = "";
             break;
         } catch (error: unknown) {
+            prices = undefined;
             console.warn("Could not fetch player prices: ", error);
             if (typeof error === "string") {
                 errorMessage = error;

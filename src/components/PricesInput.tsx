@@ -47,6 +47,11 @@ export function PricesInput({ ratings, prices, onChange }: IPricesInputProps) {
         onChange(clonedPrices);
     };
 
+    const handleFetchPrices = async () => {
+        const prices = await fetchPrices();
+        prices && onChange(prices);
+    };
+
     const clearPrices = () => {
         onChange({});
     };
@@ -99,7 +104,7 @@ export function PricesInput({ ratings, prices, onChange }: IPricesInputProps) {
                             type="button"
                             label={isFetching ? "Fetching..." : "Fetch FUTBIN"}
                             className="p-button-rounded p-button-outlined w-7 md:w-auto"
-                            onClick={() => fetchPrices()}
+                            onClick={handleFetchPrices}
                             icon={<span className="pi pi-sync mr-2"></span>}
                             loading={isFetching}
                             tooltip="Fetch prices from FUTBIN"
