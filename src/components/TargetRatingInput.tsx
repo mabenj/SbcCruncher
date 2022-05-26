@@ -25,7 +25,7 @@ export function TargetRatingInput({
     };
 
     return (
-        <div>
+        <div className="target-rating-container">
             <div className="my-4 flex align-items-center">
                 <strong className="mr-3">
                     {value ? "Selected" : "Not Selected"}
@@ -34,7 +34,7 @@ export function TargetRatingInput({
                     {value || -1}
                 </span>
             </div>
-            <div className="flex flex-wrap gap-3">
+            <div className="options">
                 {Config.allRatings.map((rating, index) => {
                     return (
                         <div key={index}>

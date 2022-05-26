@@ -369,3 +369,16 @@ a.no-style-a {
         }
     }
 }
+
+.target-rating-container {
+    .options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+
+        @media only screen and (max-width: $md) {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    }
+}
