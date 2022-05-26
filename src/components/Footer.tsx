@@ -4,7 +4,7 @@ import { Link } from "./Link";
 export const Footer = () => {
     return (
         <footer>
-            <small className="flex flex-column justify-content-center align-items-center">
+            <small className="flex flex-column justify-content-center align-items-center text-center">
                 <div className="m-1 text-muted">
                     The idea for SBC Cruncher was inspired by{" "}
                     <Link href="https://www.github.com/elmaano/sbc">
