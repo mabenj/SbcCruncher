@@ -1,14 +1,15 @@
 import { Button } from "primereact/button";
 import { Sidebar as PrimeSidebar } from "primereact/sidebar";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useAnalytics } from "../hooks/useAnalytics";
+import useUpdateEffect from "../hooks/useUpdateEffect";
 import { Link } from "./Link";
 
 export function Sidebar() {
     const [show, setShow] = useState(false);
     const { event } = useAnalytics();
 
-    useEffect(
+    useUpdateEffect(
         () => event({ action: "SIDEBAR_TOGGLE", details: { opened: show } }),
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [show]
