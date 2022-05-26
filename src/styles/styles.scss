@@ -15,6 +15,7 @@ html {
 
 ::-webkit-scrollbar {
     width: 0.4vw;
+    min-width: 5px;
 }
 ::-webkit-scrollbar-thumb {
     background-color: var(--primary-color);
@@ -356,6 +357,8 @@ a.no-style-a {
         width: 100vw;
         .rating-select-overlay-content {
             grid-template-columns: repeat(9, 1fr);
+            max-height: 300px;
+            overflow-y: auto;
         }
     }
 
