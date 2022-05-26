@@ -67,6 +67,11 @@ export function factorial(num: number): number {
     return rval;
 }
 
+export function hoursSince(date: Date) {
+    const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
+    return seconds / 60 / 60;
+}
+
 export function timeSince(date: Date) {
     const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
     let interval = seconds / 31536000;

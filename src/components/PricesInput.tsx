@@ -8,8 +8,9 @@ import useLocalStorage from "../hooks/useLocalStorage";
 import { usePrices } from "../hooks/usePrices";
 import useUpdateEffect from "../hooks/useUpdateEffect";
 import { IPriceInfo } from "../interfaces/PriceInfo.interface";
-import { hoursToMilliseconds, timeSince } from "../util/utils";
+import { hoursSince, timeSince } from "../util/utils";
 import InlineTextWarning from "./InlineTextWarning";
+import NoPrerender from "./NoPrerender";
 
 interface IPricesInputProps {
     ratings: number[];
@@ -28,7 +29,7 @@ export function PricesInput({ ratings, prices, onChange }: IPricesInputProps) {
 
     useUpdateEffect(() => {
         setLastUpdated(Date.now());
-    }, [prices, setLastUpdated]);
+    }, [prices]);
 
     useEffect(() => {
         if (!fetchError) {
@@ -91,17 +92,16 @@ export function PricesInput({ ratings, prices, onChange }: IPricesInputProps) {
 
             <div>
                 <span>
-                    <InlineTextWarning
-                        show={
-                            Date.now() - lastUpdated >
-                            hoursToMilliseconds(
+                    <NoPrerender>
+                        <InlineTextWarning
+                            show={
+                                hoursSince(new Date(lastUpdated)) >
                                 Config.oldPricesWarningThreshold
-                            )
-                        }>
-                        Prices last updated {timeSince(new Date(lastUpdated))}{" "}
-                        ago
-                    </InlineTextWarning>
-
+                            }>
+                            Prices last updated{" "}
+                            {timeSince(new Date(lastUpdated))} ago
+                        </InlineTextWarning>
+                    </NoPrerender>
                     <div className="mt-3 p-buttonset">
                         <Button
                             type="button"

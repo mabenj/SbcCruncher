@@ -11,7 +11,10 @@ export default function InlineTextWarning({
 }: IInlineTextWarningProps) {
     return (
         <div
-            style={{ opacity: show ? 1 : 0 }}
+            style={{
+                opacity: show ? 1 : 0,
+                visibility: show ? "visible" : "hidden"
+            }}
             className="transition-all transition-duration-200">
             <small className="text-yellow-500">
                 <em>{children}</em>
