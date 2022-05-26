@@ -71,7 +71,7 @@ export const useSolver = () => {
             console.error("SOLVER WORKER ERROR", error);
             event({
                 action: "SOLVER_ERROR",
-                details: error
+                details: { error }
             });
             setIsCalculating(false);
         };
@@ -97,7 +97,7 @@ export const useSolver = () => {
         solver && solver.postMessage(request);
         event({
             action: "CALCULATE_PRESSED",
-            details: request
+            details: { config: request }
         });
     };
 

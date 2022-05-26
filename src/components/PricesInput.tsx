@@ -3,6 +3,7 @@ import { InputNumber } from "primereact/inputnumber";
 import { Toast } from "primereact/toast";
 import React, { useEffect, useRef } from "react";
 import Config from "../Config";
+import { useAnalytics } from "../hooks/useAnalytics";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { usePrices } from "../hooks/usePrices";
 import useUpdateEffect from "../hooks/useUpdateEffect";
@@ -23,6 +24,7 @@ export function PricesInput({ ratings, prices, onChange }: IPricesInputProps) {
         Date.now()
     );
     const errorToast = useRef<Toast>(null);
+    const { event } = useAnalytics();
 
     useUpdateEffect(() => {
         setLastUpdated(Date.now());
@@ -54,6 +56,7 @@ export function PricesInput({ ratings, prices, onChange }: IPricesInputProps) {
 
     const clearPrices = () => {
         onChange({});
+        event({ action: "CLEAR_PRICES" });
     };
 
     return (

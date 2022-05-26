@@ -1,6 +1,7 @@
 import { Button } from "primereact/button";
 import { Message } from "primereact/message";
 import React from "react";
+import { useAnalytics } from "../hooks/useAnalytics";
 import Spinner from "./Spinner";
 
 interface ICalculationButtonsProps {
@@ -18,9 +19,12 @@ export function CalculationButtons({
     className,
     errorMessage
 }: ICalculationButtonsProps) {
+    const {event} = useAnalytics()
+
     const handleStop = (e: React.MouseEvent) => {
         e.preventDefault();
         onStopPressed();
+        event({action: "STOP_CALCULATION"})
     };
 
     return (

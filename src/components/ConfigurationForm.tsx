@@ -151,7 +151,7 @@ const FormPanelWrapper = ({
                             Specify a{" "}
                             <Link
                                 href=""
-                                clicked={scrollToTargetRating}
+                                onClick={scrollToTargetRating}
                                 openInSameTab
                                 style={{ textShadow: "" }}>
                                 Target Rating

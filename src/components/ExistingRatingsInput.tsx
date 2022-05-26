@@ -1,6 +1,7 @@
 import { Button } from "primereact/button";
 import React, { useEffect, useState } from "react";
 import Config from "../Config";
+import { useAnalytics } from "../hooks/useAnalytics";
 import { IExistingRating } from "../interfaces/ExistingRating.interface";
 import RatingSelect from "./RatingSelect";
 
@@ -14,6 +15,7 @@ export function ExistingRatingsInput({
     onChange
 }: IExistingRatingsInputProps) {
     const [ratings, setRatings] = useState<IExistingRating[]>([]);
+    const { event } = useAnalytics();
 
     useEffect(() => setRatings(value), [value]);
 
@@ -31,11 +33,13 @@ export function ExistingRatingsInput({
             onChange(newRatings);
             return newRatings;
         });
+        event({ action: "ADD_EXISTING_ROW" });
     };
 
     const clearRatings = () => {
         setRatings([]);
         onChange([]);
+        event({ action: "CLEAR_ALL_EXISTING" });
     };
 
     const handleDelete = (index: number) => {
@@ -45,6 +49,7 @@ export function ExistingRatingsInput({
             onChange(newRatings.length > 0 ? newRatings : undefined);
             return newRatings;
         });
+        event({ action: "CLEAR_EXISTING_ROW" });
     };
 
     const handleChange = (

@@ -1,7 +1,8 @@
 import Slider, { SliderTooltip } from "rc-slider";
 import "rc-slider/assets/index.css";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Config from "../Config";
+import { useAnalytics } from "../hooks/useAnalytics";
 import { useIsMobile } from "../hooks/useIsMobile";
 import InlineTextWarning from "./InlineTextWarning";
 import RatingSelect from "./RatingSelect";
@@ -21,8 +22,9 @@ export function TryRatingsRangeInput({
 }: IRatingsRangeInputProps) {
     const [isMobile] = useIsMobile();
     const [marks, setMarks] = useState<Record<number, React.ReactNode>>();
+    const { event } = useAnalytics();
 
-    const options = Config.tryRatings.sort();
+    const options = useMemo(() => Config.tryRatings.sort(), []);
 
     useEffect(() => {
         setMarks(() => getMarks(Config.tryRatings));
@@ -43,20 +45,14 @@ export function TryRatingsRangeInput({
 
     const handleMinChange = (newValue: number) => {
         const currentMax = Math.max(...value);
-        const range = [
-            newValue,
-            newValue > currentMax ? newValue + 1 : currentMax
-        ];
-        handleRangeChange(range);
+        handleRangeChange([newValue, currentMax]);
+        event({ action: "SET_MIN", details: { min: newValue } });
     };
 
     const handleMaxChange = (newValue: number) => {
         const currentMin = Math.min(...value);
-        const range = [
-            newValue < currentMin ? newValue - 1 : currentMin,
-            newValue
-        ];
-        handleRangeChange(range);
+        handleRangeChange([currentMin, newValue]);
+        event({ action: "SET_MAX", details: { max: newValue } });
     };
 
     return (

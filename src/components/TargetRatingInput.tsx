@@ -1,5 +1,6 @@
 import React from "react";
 import Config from "../Config";
+import { useAnalytics } from "../hooks/useAnalytics";
 import RatingCard from "./RatingCard";
 
 interface ITargetRatingInputProps {
@@ -11,6 +12,16 @@ export function TargetRatingInput({
     value,
     onChange
 }: ITargetRatingInputProps) {
+    const { event } = useAnalytics();
+
+    const setRating = (rating: number) => {
+        onChange(rating);
+        event({
+            action: "SET_TARGET",
+            details: { rating }
+        });
+    };
+
     return (
         <div>
             <div className="my-4 flex align-items-center">
@@ -25,7 +36,7 @@ export function TargetRatingInput({
                 {Config.allRatings.map((rating, index) => {
                     return (
                         <div key={index}>
-                            <span onClick={() => onChange(rating)}>
+                            <span onClick={() => setRating(rating)}>
                                 <RatingCard
                                     rating={rating}
                                     selected={value === rating}

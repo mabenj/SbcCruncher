@@ -1,4 +1,5 @@
 import React from "react";
+import { useAnalytics } from "../hooks/useAnalytics";
 
 interface ILinkProps {
     href?: string;
@@ -6,7 +7,7 @@ interface ILinkProps {
     className?: string;
     openInSameTab?: boolean;
     style?: React.CSSProperties;
-    clicked?: () => void;
+    onClick?: () => void;
 }
 
 export function Link({
@@ -15,13 +16,16 @@ export function Link({
     className,
     openInSameTab = false,
     style,
-    clicked
+    onClick
 }: ILinkProps) {
+    const { event } = useAnalytics();
+
     const handleClick = (e: React.MouseEvent) => {
-        if (clicked) {
+        if (onClick) {
             e.preventDefault();
-            clicked();
+            onClick();
         }
+        event({ action: "LINK_CLICK", details: { href } });
     };
 
     return (

@@ -2,6 +2,7 @@ import { Image } from "primereact/image";
 import { InputSwitch, InputSwitchChangeParams } from "primereact/inputswitch";
 import React, { useEffect } from "react";
 import Config from "../Config";
+import { useAnalytics } from "../hooks/useAnalytics";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { Link } from "./Link";
 import NoPrerender from "./NoPrerender";
@@ -51,6 +52,7 @@ const ThemeToggle = () => {
         Config.isDarkThemeStorageKey,
         getIsDarkInitial()
     );
+    const { event } = useAnalytics();
 
     useEffect(() => {
         let themeLink = document.getElementById("app-theme") as HTMLLinkElement;
@@ -63,6 +65,10 @@ const ThemeToggle = () => {
 
     const handleThemeToggle = (e: InputSwitchChangeParams) => {
         setIsDark(e.value);
+        event({
+            action: "TOGGLE_THEME",
+            details: { theme: e.value ? "dark" : "light" }
+        });
     };
 
     return (
