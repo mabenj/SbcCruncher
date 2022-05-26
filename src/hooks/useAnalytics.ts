@@ -13,14 +13,12 @@ if (navigator.userAgent !== "ReactSnap") {
 
 export const useAnalytics = () => {
     const pageView = (path: string) => {
-        console.log({ path });
         if (navigator.userAgent === "ReactSnap") {
             return;
         }
         ReactGA.pageview(path);
     };
     const event = (event: IAnalyticsEvent) => {
-        console.log({ event });
         if (navigator.userAgent === "ReactSnap") {
             return;
         }
