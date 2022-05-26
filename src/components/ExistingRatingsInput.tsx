@@ -2,6 +2,8 @@ import { Button } from "primereact/button";
 import React, { useEffect, useState } from "react";
 import Config from "../Config";
 import { useAnalytics } from "../hooks/useAnalytics";
+import useDebounce from "../hooks/useDebounce";
+import useUpdateEffect from "../hooks/useUpdateEffect";
 import { IExistingRating } from "../interfaces/ExistingRating.interface";
 import RatingSelect from "./RatingSelect";
 
@@ -15,9 +17,20 @@ export function ExistingRatingsInput({
     onChange
 }: IExistingRatingsInputProps) {
     const [ratings, setRatings] = useState<IExistingRating[]>([]);
+    const debouncedRatings = useDebounce(value, Config.analyticsDebounceMs);
     const { event } = useAnalytics();
 
     useEffect(() => setRatings(value), [value]);
+
+    useUpdateEffect(() => {
+        event({
+            category: "EXISTING_RATINGS",
+            action: "SET_RATINGS",
+            details: { ratings },
+            value: getCurrentRatingsCount()
+        });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [debouncedRatings]);
 
     const getCurrentRatingsCount = (exceptRating?: number) => {
         return ratings.reduce(
@@ -33,13 +46,13 @@ export function ExistingRatingsInput({
             onChange(newRatings);
             return newRatings;
         });
-        event({ action: "ADD_EXISTING_ROW" });
+        event({ category: "EXISTING_RATINGS", action: "ADD_ROW" });
     };
 
     const clearRatings = () => {
         setRatings([]);
         onChange([]);
-        event({ action: "CLEAR_ALL_EXISTING" });
+        event({ category: "EXISTING_RATINGS", action: "CLEAR_ALL" });
     };
 
     const handleDelete = (index: number) => {
@@ -49,7 +62,7 @@ export function ExistingRatingsInput({
             onChange(newRatings.length > 0 ? newRatings : undefined);
             return newRatings;
         });
-        event({ action: "CLEAR_EXISTING_ROW" });
+        event({ category: "EXISTING_RATINGS", action: "DELETE_ROW" });
     };
 
     const handleChange = (

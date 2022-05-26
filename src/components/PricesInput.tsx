@@ -56,7 +56,7 @@ export function PricesInput({ ratings, prices, onChange }: IPricesInputProps) {
 
     const clearPrices = () => {
         onChange({});
-        event({ action: "CLEAR_PRICES" });
+        event({ category: "PRICES", action: "CLEAR_ALL" });
     };
 
     return (

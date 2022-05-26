@@ -17,8 +17,10 @@ export function TargetRatingInput({
     const setRating = (rating: number) => {
         onChange(rating);
         event({
-            action: "SET_TARGET",
-            details: { rating }
+            category: "TARGET_RATING",
+            action: "SELECT",
+            details: { rating },
+            value: rating
         });
     };
 

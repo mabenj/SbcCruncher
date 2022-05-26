@@ -3,7 +3,9 @@ import "rc-slider/assets/index.css";
 import React, { useEffect, useMemo, useState } from "react";
 import Config from "../Config";
 import { useAnalytics } from "../hooks/useAnalytics";
+import useDebounce from "../hooks/useDebounce";
 import { useIsMobile } from "../hooks/useIsMobile";
+import useUpdateEffect from "../hooks/useUpdateEffect";
 import InlineTextWarning from "./InlineTextWarning";
 import RatingSelect from "./RatingSelect";
 
@@ -20,8 +22,9 @@ export function TryRatingsRangeInput({
     value,
     onChange
 }: IRatingsRangeInputProps) {
-    const [isMobile] = useIsMobile();
     const [marks, setMarks] = useState<Record<number, React.ReactNode>>();
+    const debouncedBounds = useDebounce(value, Config.analyticsDebounceMs);
+    const [isMobile] = useIsMobile();
     const { event } = useAnalytics();
 
     const options = useMemo(() => Config.tryRatings.sort(), []);
@@ -29,6 +32,16 @@ export function TryRatingsRangeInput({
     useEffect(() => {
         setMarks(() => getMarks(Config.tryRatings));
     }, []);
+
+    useUpdateEffect(() => {
+        event({
+            category: "TRY_RATINGS",
+            action: "SET_BOUNDS",
+            details: { min: Math.min(...value), max: Math.max(...value) },
+            value: Math.abs(value[0] - value[1])
+        });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [debouncedBounds]);
 
     const handleRangeChange = (newRange: number[]) => {
         newRange.sort();
@@ -46,13 +59,23 @@ export function TryRatingsRangeInput({
     const handleMinChange = (newValue: number) => {
         const currentMax = Math.max(...value);
         handleRangeChange([newValue, currentMax]);
-        event({ action: "SET_MIN", details: { min: newValue } });
+        event({
+            category: "TRY_RATINGS",
+            action: "SET_MIN",
+            details: { min: newValue },
+            value: newValue
+        });
     };
 
     const handleMaxChange = (newValue: number) => {
         const currentMin = Math.min(...value);
         handleRangeChange([currentMin, newValue]);
-        event({ action: "SET_MAX", details: { max: newValue } });
+        event({
+            category: "TRY_RATINGS",
+            action: "SET_MAX",
+            details: { max: newValue },
+            value: newValue
+        });
     };
 
     return (

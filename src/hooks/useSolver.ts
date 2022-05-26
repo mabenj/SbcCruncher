@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 /* eslint-disable import/no-webpack-loader-syntax */
 import Solver from "worker-loader!../workers/Solver.worker.ts";
 import { IPriceInfo } from "../interfaces/PriceInfo.interface";
@@ -21,15 +21,15 @@ export const useSolver = () => {
     const [solutions, setSolutions] = useState<ISolution[]>([]);
     const [solutionsCount, setSolutionsCount] = useState<number | null>(null);
 
-    const [originalTitle] = useState(document.title);
+    const originalTitle = useRef(document.title);
 
     useEffect(() => setSolver(new Solver()), []);
 
     useEffect(() => {
         document.title = isCalculating
             ? `SBC Cruncher (Solving ${Math.floor(progressPercent)}%)`
-            : originalTitle;
-    }, [isCalculating, originalTitle, progressPercent]);
+            : originalTitle.current;
+    }, [isCalculating, progressPercent]);
 
     useEffect(() => {
         if (!solver) {
@@ -44,6 +44,11 @@ export const useSolver = () => {
                         setIsCalculating(false);
                         setProgressPercent(0);
                     }, CALCULATION_END_DELAY_MS);
+                    event({
+                        category: "SOLVER",
+                        action: "CALCULATION_SUCCESS",
+                        details: { solutions: result.totalSolutionCount }
+                    });
                     /* falls through */
                 }
                 case "IN_PROGRESS": {
@@ -70,7 +75,8 @@ export const useSolver = () => {
         solver.onerror = (error) => {
             console.error("SOLVER WORKER ERROR", error);
             event({
-                action: "SOLVER_ERROR",
+                category: "SOLVER",
+                action: "ERROR",
                 details: { error }
             });
             setIsCalculating(false);
@@ -96,7 +102,8 @@ export const useSolver = () => {
         };
         solver && solver.postMessage(request);
         event({
-            action: "CALCULATE_PRESSED",
+            category: "SOLVER",
+            action: "CALCULATE",
             details: { config: request }
         });
     };

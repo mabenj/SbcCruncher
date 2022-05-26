@@ -20,8 +20,9 @@ export const usePrices = () => {
         setFetchError(errorMessage);
         setIsFetching(false);
         event({
-            action: errorMessage ? `FUTBIN_FETCH_FAIL` : "FUTBIN_FETCH_SUCCESS",
-            details: errorMessage ? { errorMessage } : undefined
+            category: "PRICES",
+            action: errorMessage ? `FETCH_FAIL` : "FETCH_SUCCESS",
+            details: errorMessage ? { error: errorMessage } : undefined
         });
         return prices;
     }, [event]);

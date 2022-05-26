@@ -10,7 +10,12 @@ export function Sidebar() {
     const { event } = useAnalytics();
 
     useUpdateEffect(
-        () => event({ action: "SIDEBAR_TOGGLE", details: { opened: show } }),
+        () =>
+            event({
+                category: "SIDEBAR",
+                action: "TOGGLE",
+                details: { opened: show }
+            }),
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [show]
     );

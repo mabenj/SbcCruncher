@@ -66,7 +66,8 @@ const ThemeToggle = () => {
     const handleThemeToggle = (e: InputSwitchChangeParams) => {
         setIsDark(e.value);
         event({
-            action: "TOGGLE_THEME",
+            category: "APP_THEME",
+            action: "TOGGLE",
             details: { theme: e.value ? "dark" : "light" }
         });
     };

@@ -20,6 +20,7 @@ interface IConfig {
     readonly tryRangeWarningThreshold: number;
     readonly oldPricesWarningThreshold: number;
     readonly shouldMergeOldPrices: boolean;
+    readonly analyticsDebounceMs: number;
 }
 
 const config: IConfig = {
@@ -41,7 +42,8 @@ const config: IConfig = {
     pricesLastUpdatedStorageKey: "SBC_CRUNCHER_PRICES_UPDATED_AT",
     tryRangeWarningThreshold: 15,
     oldPricesWarningThreshold: 1,
-    shouldMergeOldPrices: true
+    shouldMergeOldPrices: true,
+    analyticsDebounceMs: 1000
 };
 
 export default config;

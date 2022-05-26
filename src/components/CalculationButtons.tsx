@@ -19,12 +19,12 @@ export function CalculationButtons({
     className,
     errorMessage
 }: ICalculationButtonsProps) {
-    const {event} = useAnalytics()
+    const { event } = useAnalytics();
 
     const handleStop = (e: React.MouseEvent) => {
         e.preventDefault();
         onStopPressed();
-        event({action: "STOP_CALCULATION"})
+        event({ category: "SOLVER", action: "STOP" });
     };
 
     return (
