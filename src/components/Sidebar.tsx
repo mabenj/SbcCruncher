@@ -2,11 +2,13 @@ import { Button } from "primereact/button";
 import { Sidebar as PrimeSidebar } from "primereact/sidebar";
 import React, { useState } from "react";
 import { useAnalytics } from "../hooks/useAnalytics";
+import { useIsMobile } from "../hooks/useIsMobile";
 import useUpdateEffect from "../hooks/useUpdateEffect";
 import { Link } from "./Link";
 
 export function Sidebar() {
     const [show, setShow] = useState(false);
+    const isMobile = useIsMobile();
     const { event } = useAnalytics();
 
     useUpdateEffect(
@@ -37,7 +39,8 @@ export function Sidebar() {
             <PrimeSidebar
                 visible={show}
                 onHide={() => setShow(false)}
-                showCloseIcon={false}
+                showCloseIcon={isMobile}
+                fullScreen={isMobile}
                 className="p-sidebar-md">
                 <aside className="sidebar-body">
                     <div>

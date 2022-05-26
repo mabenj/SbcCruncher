@@ -24,7 +24,7 @@ export function TryRatingsRangeInput({
 }: IRatingsRangeInputProps) {
     const [marks, setMarks] = useState<Record<number, React.ReactNode>>();
     const debouncedBounds = useDebounce(value, Config.analyticsDebounceMs);
-    const [isMobile] = useIsMobile();
+    const isMobile = useIsMobile();
     const { event } = useAnalytics();
 
     const options = useMemo(() => Config.tryRatings.sort(), []);

@@ -10,15 +10,15 @@ import { Sidebar } from "./Sidebar";
 
 export function Header() {
     return (
-        <div className="header-container my-4">
-            <header>
+        <div className="header-container">
+            <header className="">
                 <Brand />
-                <small className="m-1">
+                <small className="m-1 mb-3">
                     A tool for calculating the most optimal player ratings and
                     prices for FIFA Ultimate Team SBCs
                 </small>
             </header>
-            <div className="header-options">
+            <div className="header-options my-3">
                 <NoPrerender>
                     <ThemeToggle />
                 </NoPrerender>
