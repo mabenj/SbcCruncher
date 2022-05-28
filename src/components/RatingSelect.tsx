@@ -1,7 +1,5 @@
 import { OverlayPanel } from "primereact/overlaypanel";
-import { ScrollPanel } from "primereact/scrollpanel";
 import React, { useRef } from "react";
-import { useIsMobile } from "../hooks/useIsMobile";
 import { inBetween } from "../util/utils";
 import MobileScrollPanel from "./MobileScrollPanel";
 import RatingCard from "./RatingCard";
