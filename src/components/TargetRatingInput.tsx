@@ -1,6 +1,7 @@
 import React from "react";
 import Config from "../Config";
 import { useAnalytics } from "../hooks/useAnalytics";
+import MobileScrollPanel from "./MobileScrollPanel";
 import RatingCard from "./RatingCard";
 
 interface ITargetRatingInputProps {
@@ -34,20 +35,22 @@ export function TargetRatingInput({
                     {value || -1}
                 </span>
             </div>
-            <div className="options">
-                {Config.allRatings.map((rating, index) => {
-                    return (
-                        <div key={index}>
-                            <span onClick={() => setRating(rating)}>
-                                <RatingCard
-                                    rating={rating}
-                                    selected={value === rating}
-                                />
-                            </span>
-                        </div>
-                    );
-                })}
-            </div>
+            <MobileScrollPanel>
+                <div className="options">
+                    {Config.allRatings.map((rating, index) => {
+                        return (
+                            <div key={index}>
+                                <span onClick={() => setRating(rating)}>
+                                    <RatingCard
+                                        rating={rating}
+                                        selected={value === rating}
+                                    />
+                                </span>
+                            </div>
+                        );
+                    })}
+                </div>
+            </MobileScrollPanel>
             <div className="mt-4">
                 <small>Select the desired squad rating</small>
             </div>

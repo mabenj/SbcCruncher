@@ -1,6 +1,9 @@
 import { OverlayPanel } from "primereact/overlaypanel";
+import { ScrollPanel } from "primereact/scrollpanel";
 import React, { useRef } from "react";
+import { useIsMobile } from "../hooks/useIsMobile";
 import { inBetween } from "../util/utils";
+import MobileScrollPanel from "./MobileScrollPanel";
 import RatingCard from "./RatingCard";
 
 interface IRatingSelectProps {
@@ -33,31 +36,33 @@ export default function RatingSelect({
                 <RatingCard rating={value} />
             </div>
             <OverlayPanel ref={op} className="rating-select-overlay-panel">
-                <div className="rating-select-overlay-content">
-                    {options.map((rating, index) => {
-                        return (
-                            <div
-                                key={index}
-                                className="flex justify-content-center align-items-center">
-                                <span onClick={() => setRating(rating)}>
-                                    <RatingCard
-                                        rating={rating}
-                                        selected={rating === value}
-                                        dimmed={
-                                            otherValue
-                                                ? inBetween(
-                                                      rating,
-                                                      value,
-                                                      otherValue
-                                                  ) || otherValue === rating
-                                                : false
-                                        }
-                                    />
-                                </span>
-                            </div>
-                        );
-                    })}
-                </div>
+                <MobileScrollPanel>
+                    <div className="rating-select-overlay-content">
+                        {options.map((rating, index) => {
+                            return (
+                                <div
+                                    key={index}
+                                    className="flex justify-content-center align-items-center">
+                                    <span onClick={() => setRating(rating)}>
+                                        <RatingCard
+                                            rating={rating}
+                                            selected={rating === value}
+                                            dimmed={
+                                                otherValue
+                                                    ? inBetween(
+                                                          rating,
+                                                          value,
+                                                          otherValue
+                                                      ) || otherValue === rating
+                                                    : false
+                                            }
+                                        />
+                                    </span>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </MobileScrollPanel>
             </OverlayPanel>
         </div>
     );
