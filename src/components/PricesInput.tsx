@@ -1,7 +1,7 @@
 import { Button } from "primereact/button";
 import { InputNumber } from "primereact/inputnumber";
 import { Toast } from "primereact/toast";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Config from "../Config";
 import { useAnalytics } from "../hooks/useAnalytics";
 import useLocalStorage from "../hooks/useLocalStorage";
@@ -24,11 +24,13 @@ export function PricesInput({ ratings, prices, onChange }: IPricesInputProps) {
         Config.pricesLastUpdatedStorageKey,
         Date.now()
     );
+    const [showWarning, setShowWarning] = useState(false);
     const errorToast = useRef<Toast>(null);
     const { event } = useAnalytics();
 
     useUpdateEffect(() => {
         setLastUpdated(Date.now());
+        setShowWarning(true);
     }, [prices]);
 
     useEffect(() => {
@@ -69,7 +71,12 @@ export function PricesInput({ ratings, prices, onChange }: IPricesInputProps) {
                             key={"price_" + rating}
                             className="col-12 lg:col-4 md:col-6">
                             <div className="p-inputgroup">
-                                <span className="p-inputgroup-addon">
+                                <span
+                                    className={`p-inputgroup-addon ${
+                                        showWarning && !prices[rating]
+                                            ? "text-yellow-500"
+                                            : ""
+                                    }`}>
                                     {rating}
                                 </span>
                                 <InputNumber
@@ -83,6 +90,14 @@ export function PricesInput({ ratings, prices, onChange }: IPricesInputProps) {
                                     step={500}
                                     useGrouping={false}
                                     onFocus={(event) => event.target.select()}
+                                    tooltip={
+                                        showWarning && !prices[rating]
+                                            ? "Are you sure the price is 0 ?"
+                                            : undefined
+                                    }
+                                    tooltipOptions={{
+                                        position: "top"
+                                    }}
                                 />
                             </div>
                         </div>

@@ -16,7 +16,8 @@ export default function ProgressBar({
             style={{
                 height: "4px",
                 backgroundColor: "transparent",
-                visibility: hidden ? "hidden" : "visible"
+                visibility: hidden ? "hidden" : "visible",
+                zIndex: 99999
             }}
         />
     );
