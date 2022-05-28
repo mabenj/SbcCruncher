@@ -23,6 +23,7 @@
         "primeicons",
         "primereact",
         "Scroller",
+        "scrollpanel",
         "scrolltop"
     ]
 }
