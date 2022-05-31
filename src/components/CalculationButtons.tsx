@@ -24,7 +24,7 @@ export function CalculationButtons({
     const handleStop = (e: React.MouseEvent) => {
         e.preventDefault();
         onStopPressed();
-        event({ category: "SOLVER", action: "STOP" });
+        event({ category: "SOLVER", action: "STOP_SOLVER" });
     };
 
     return (

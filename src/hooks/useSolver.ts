@@ -47,7 +47,7 @@ export const useSolver = () => {
                     event({
                         category: "SOLVER",
                         action: "CALCULATION_SUCCESS",
-                        details: { solutions: result.totalSolutionCount }
+                        details: { solutions_count: result.totalSolutionCount }
                     });
                     /* falls through */
                 }
@@ -76,8 +76,8 @@ export const useSolver = () => {
             console.error("SOLVER WORKER ERROR", error);
             event({
                 category: "SOLVER",
-                action: "ERROR",
-                details: { error }
+                action: "SOLVER_ERROR",
+                details: { solver_error: error }
             });
             setIsCalculating(false);
         };
@@ -103,8 +103,14 @@ export const useSolver = () => {
         solver && solver.postMessage(request);
         event({
             category: "SOLVER",
-            action: "CALCULATE",
-            details: { config: request }
+            action: "START_CALCULATE",
+            details: {
+                calculation_config: {
+                    target: targetRating,
+                    existing_ratings: existingRatings,
+                    try_ratings: ratingsToTry
+                }
+            }
         });
     };
 

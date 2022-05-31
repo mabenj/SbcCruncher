@@ -67,7 +67,7 @@ const ThemeToggle = () => {
         setIsDark(e.value);
         event({
             category: "APP_THEME",
-            action: "TOGGLE",
+            action: "TOGGLE_THEME",
             details: { theme: e.value ? "dark" : "light" }
         });
     };

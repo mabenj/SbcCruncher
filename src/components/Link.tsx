@@ -25,7 +25,7 @@ export function Link({
             e.preventDefault();
             onClick();
         }
-        event({ category: "LINK", action: "CLICK", details: { href } });
+        event({ category: "LINK", action: "LINK_CLICK", details: { href } });
     };
 
     return (

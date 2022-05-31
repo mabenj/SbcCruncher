@@ -36,9 +36,11 @@ export function TryRatingsRangeInput({
     useUpdateEffect(() => {
         event({
             category: "TRY_RATINGS",
-            action: "SET_BOUNDS",
-            details: { min: Math.min(...value), max: Math.max(...value) },
-            value: Math.abs(value[0] - value[1])
+            action: "SET_TRY_RATINGS",
+            details: {
+                try_min: Math.min(...value),
+                try_max: Math.max(...value)
+            }
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [debouncedBounds]);
@@ -61,9 +63,8 @@ export function TryRatingsRangeInput({
         handleRangeChange([newValue, currentMax]);
         event({
             category: "TRY_RATINGS",
-            action: "SET_MIN",
-            details: { min: newValue },
-            value: newValue
+            action: "SET_TRY_MIN",
+            details: { try_min: newValue }
         });
     };
 
@@ -72,9 +73,8 @@ export function TryRatingsRangeInput({
         handleRangeChange([currentMin, newValue]);
         event({
             category: "TRY_RATINGS",
-            action: "SET_MAX",
-            details: { max: newValue },
-            value: newValue
+            action: "SET_TRY_MAX",
+            details: { try_max: newValue }
         });
     };
 

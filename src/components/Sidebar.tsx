@@ -15,8 +15,8 @@ export function Sidebar() {
         () =>
             event({
                 category: "SIDEBAR",
-                action: "TOGGLE",
-                details: { opened: show }
+                action: "TOGGLE_SIDEBAR",
+                details: { sidebar_opened: show }
             }),
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [show]

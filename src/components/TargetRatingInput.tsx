@@ -18,8 +18,8 @@ export function TargetRatingInput({
         onChange(rating);
         event({
             category: "TARGET_RATING",
-            action: "SELECT",
-            details: { rating },
+            action: "SELECT_TARGET_RATING",
+            details: { target_rating: rating },
             value: rating
         });
     };

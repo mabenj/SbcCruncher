@@ -21,7 +21,7 @@ export const usePrices = () => {
         setIsFetching(false);
         event({
             category: "PRICES",
-            action: errorMessage ? `FETCH_FAIL` : "FETCH_SUCCESS",
+            action: errorMessage ? `FETCH_PRICES_FAIL` : "FETCH_PRICES_SUCCESS",
             details: errorMessage ? { error: errorMessage } : undefined
         });
         return prices;

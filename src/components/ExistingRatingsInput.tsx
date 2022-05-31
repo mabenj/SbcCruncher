@@ -25,9 +25,8 @@ export function ExistingRatingsInput({
     useUpdateEffect(() => {
         event({
             category: "EXISTING_RATINGS",
-            action: "SET_RATINGS",
-            details: { ratings },
-            value: getCurrentRatingsCount()
+            action: "SET_EXISTING_RATINGS",
+            details: { existing_ratings: ratings }
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [debouncedRatings]);
@@ -46,13 +45,19 @@ export function ExistingRatingsInput({
             onChange(newRatings);
             return newRatings;
         });
-        event({ category: "EXISTING_RATINGS", action: "ADD_ROW" });
+        event({
+            category: "EXISTING_RATINGS",
+            action: "ADD_EXISTING_RATINGS_ROW"
+        });
     };
 
     const clearRatings = () => {
         setRatings([]);
         onChange([]);
-        event({ category: "EXISTING_RATINGS", action: "CLEAR_ALL" });
+        event({
+            category: "EXISTING_RATINGS",
+            action: "CLEAR_ALL_EXISTING_RATINGS"
+        });
     };
 
     const handleDelete = (index: number) => {
@@ -62,7 +67,10 @@ export function ExistingRatingsInput({
             onChange(newRatings.length > 0 ? newRatings : undefined);
             return newRatings;
         });
-        event({ category: "EXISTING_RATINGS", action: "DELETE_ROW" });
+        event({
+            category: "EXISTING_RATINGS",
+            action: "DELETE_EXISTING_RATINGS_ROW"
+        });
     };
 
     const handleChange = (
