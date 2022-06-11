@@ -412,9 +412,9 @@ a.no-style-a {
 }
 
 .bmc-btn {
-    transition: transform 0.15s;
+    transition: filter 0.15s;
 }
 
 .bmc-btn:hover {
-    filter: brightness(0.95);
+    filter: brightness(0.9);
 }
