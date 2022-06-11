@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useAnalytics } from "../hooks/useAnalytics";
 import { useIsMobile } from "../hooks/useIsMobile";
 import useUpdateEffect from "../hooks/useUpdateEffect";
+import BMCButton from "./BMCButton";
 import { Link } from "./Link";
 
 export function Sidebar() {
@@ -96,8 +97,8 @@ export function Sidebar() {
                                     </Link>{" "}
                                     page by clicking the{" "}
                                     <strong>Fetch FUTBIN</strong> button. It
-                                    will scrape the price of the cheapeast
-                                    player for each rating.
+                                    will scrape the price of the cheapest player
+                                    for each rating.
                                 </p>
                             </li>
                             <li>
@@ -116,12 +117,15 @@ export function Sidebar() {
                             </li>
                         </ol>
                     </div>
-                    <div className="github-link">
+                    <div className="links-container">
                         <Link
                             href="https://github.com/mabenj/SbcCruncher"
                             className="no-style-a">
-                            <i className="fab fa-github mr-3"></i>mabenj
+                            <i className="fab fa-github mr-2"></i>mabenj
                         </Link>
+                        <span className="ml-5">
+                            <BMCButton width={130} btnLocation="sidebar" />
+                        </span>
                     </div>
                 </aside>
             </PrimeSidebar>

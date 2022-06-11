@@ -132,6 +132,12 @@ a.no-style-a {
     align-items: flex-start;
     flex-wrap: wrap;
 
+    .header-theme-toggle {
+        display: flex;
+        align-items: center;
+        column-gap: 10px;
+    }
+
     .header-options {
         display: flex;
         align-items: center;
@@ -189,13 +195,15 @@ a.no-style-a {
     }
 
     li {
-        width: 85%;
+        width: 90%;
         line-height: 2;
-        margin-bottom: 2rem;
+        margin-bottom: 1.7rem;
         padding-left: 15px;
     }
 
-    .github-link {
+    .links-container {
+        display: flex;
+        align-items: center;
         padding-left: 15px;
     }
 }
@@ -398,7 +406,15 @@ a.no-style-a {
             &::after {
                 content: "";
                 flex: auto;
-              }
+            }
         }
     }
+}
+
+.bmc-btn {
+    transition: transform 0.15s;
+}
+
+.bmc-btn:hover {
+    filter: brightness(0.95);
 }

@@ -1,11 +1,11 @@
+import { Button } from "primereact/button";
 import { Image } from "primereact/image";
-import { InputSwitch, InputSwitchChangeParams } from "primereact/inputswitch";
 import React, { useEffect } from "react";
 import Config from "../Config";
 import { useAnalytics } from "../hooks/useAnalytics";
 import useLocalStorage from "../hooks/useLocalStorage";
+import BMCButton from "./BMCButton";
 import { Link } from "./Link";
-import NoPrerender from "./NoPrerender";
 import { Sidebar } from "./Sidebar";
 
 export function Header() {
@@ -18,11 +18,14 @@ export function Header() {
                     prices for FIFA Ultimate Team SBCs
                 </small>
             </header>
-            <div className="header-options my-3">
-                <NoPrerender>
-                    <ThemeToggle />
-                </NoPrerender>
-                <Sidebar />
+            <div className="my-3 w-full md:w-auto">
+                <div className="flex justify-content-between align-items-center gap-4 mb-3">
+                    <BMCButton width={150} btnLocation="toolbar" />
+                    <div className="flex gap-2">
+                        <ThemeToggle />
+                        <Sidebar />
+                    </div>
+                </div>
             </div>
         </div>
     );
@@ -38,7 +41,6 @@ const Brand = () => {
                     width="65px"
                     className="logo"
                 />
-                {/* <div className="logo">S</div> */}
             </Link>
             <Link href="/" className="no-style-a" openInSameTab>
                 <h1 className="m-2">SBC CRUNCHER</h1>
@@ -63,25 +65,26 @@ const ThemeToggle = () => {
         }
     }, [isDark]);
 
-    const handleThemeToggle = (e: InputSwitchChangeParams) => {
-        setIsDark(e.value);
-        event({
-            category: "APP_THEME",
-            action: "TOGGLE_THEME",
-            details: { theme: e.value ? "dark" : "light" }
+    const toggleTheme = () => {
+        setIsDark((prev) => {
+            const newVal = !prev;
+            event({
+                category: "APP_THEME",
+                action: "TOGGLE_THEME",
+                details: { theme: newVal ? "dark" : "light" }
+            });
+            return newVal;
         });
     };
 
     return (
-        <span className="header-theme-toggle">
-            <i className="pi pi-moon"></i>
-            <InputSwitch
-                checked={isDark}
-                onChange={handleThemeToggle}
-                tooltip={`Switch to ${isDark ? "light" : "dark"} theme`}
-                tooltipOptions={{ position: "bottom" }}
-            />
-        </span>
+        <Button
+            icon={`pi pi-${isDark ? "sun" : "moon"}`}
+            className="p-button-rounded p-button-text p-button-plain"
+            onClick={() => toggleTheme()}
+            tooltip={`Switch to ${isDark ? "light" : "dark"} theme`}
+            tooltipOptions={{ position: "bottom" }}
+        />
     );
 };
 
