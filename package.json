@@ -1,73 +1,35 @@
 {
-    "name": "sbc-cruncher",
-    "version": "0.1.0",
-    "private": true,
-    "dependencies": {
-        "axios": "^0.25.0",
-        "combinatorics": "https://github.com/omedusyo/combinatorics",
-        "cross-env": "^7.0.3",
-        "primeflex": "^3.2.0",
-        "primeicons": "^5.0.0",
-        "primereact": "^7.2.0",
-        "rc-slider": "^9.7.5",
-        "react": "^17.0.2",
-        "react-dom": "^17.0.2",
-        "react-ga": "^3.3.0",
-        "react-infinite-scroll-component": "^6.1.0",
-        "react-scripts": "5.0.0",
-        "react-select": "^5.3.2",
-        "sass": "^1.49.7",
-        "web-vitals": "^0.2.4",
-        "workbox-background-sync": "^5.1.4",
-        "workbox-broadcast-update": "^5.1.4",
-        "workbox-cacheable-response": "^5.1.4",
-        "workbox-core": "^5.1.4",
-        "workbox-expiration": "^5.1.4",
-        "workbox-google-analytics": "^5.1.4",
-        "workbox-navigation-preload": "^5.1.4",
-        "workbox-precaching": "^5.1.4",
-        "workbox-range-requests": "^5.1.4",
-        "workbox-routing": "^5.1.4",
-        "workbox-strategies": "^5.1.4",
-        "workbox-streams": "^5.1.4",
-        "worker-loader": "^3.0.8"
-    },
-    "devDependencies": {
-        "@testing-library/jest-dom": "^5.16.2",
-        "@testing-library/react": "^11.2.7",
-        "@testing-library/user-event": "^12.8.3",
-        "@types/axios": "^0.14.0",
-        "@types/jest": "^26.0.24",
-        "@types/node": "^12.20.43",
-        "@types/react": "^16.14.23",
-        "@types/react-dom": "^16.9.14",
-        "dotenv": "^15.0.0",
-        "react-snap": "^1.23.0",
-        "typescript": "^4.5.5"
-    },
-    "scripts": {
-        "start": "react-scripts start",
-        "build": "cross-env REACT_APP_COMMIT_REF=$COMMIT_REF react-scripts build",
-        "test": "react-scripts test",
-        "eject": "react-scripts eject",
-        "postbuild": "react-snap"
-    },
-    "eslintConfig": {
-        "extends": [
-            "react-app",
-            "react-app/jest"
-        ]
-    },
-    "browserslist": {
-        "production": [
-            ">0.2%",
-            "not dead",
-            "not op_mini all"
-        ],
-        "development": [
-            "last 1 chrome version",
-            "last 1 firefox version",
-            "last 1 safari version"
-        ]
-    }
+  "name": "sbc-cruncher",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "combinatorics": "https://github.com/omedusyo/combinatorics",
+    "next": "12.1.6",
+    "primeflex": "^3.2.1",
+    "primeicons": "^5.0.0",
+    "primereact": "^8.1.1",
+    "rc-slider": "9.7.5",
+    "react": "18.1.0",
+    "react-dom": "18.1.0",
+    "react-ga": "^3.3.0",
+    "react-infinite-scroll-component": "^6.1.0",
+    "sharp": "^0.30.6"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/node": "17.0.42",
+    "@types/react": "18.0.12",
+    "@types/react-dom": "18.0.5",
+    "eslint": "8.17.0",
+    "eslint-config-next": "12.1.6",
+    "sass": "^1.52.3",
+    "typescript": "4.7.3"
+  }
 }

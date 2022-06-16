@@ -1,0 +1,21 @@
+@import "../../styles/variables.scss";
+
+.target-rating-container {
+    .options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+
+        @media only screen and (max-width: $md) {
+            justify-content: space-between;
+            padding-right: 5px;
+            max-height: 300px;
+            overflow-y: auto;
+
+            &::after {
+                content: "";
+                flex: auto;
+            }
+        }
+    }
+}

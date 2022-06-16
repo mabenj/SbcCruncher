@@ -1,0 +1,37 @@
+@import "../../styles/variables.scss";
+
+.existing-ratings-table {
+    font-family: var(--font-family);
+    color: var(--text-color);
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    overflow: initial;
+
+    th,
+    td {
+        padding: 12px;
+    }
+
+    thead {
+        tr {
+            background-color: var(--primary-color);
+            color: var(--primary-color-text);
+        }
+    }
+
+    tbody {
+        tr {
+            border-top: 1px solid var(--surface-200);
+            border-bottom: 1px solid var(--surface-200);
+        }
+
+        tr:not(.no-hover):hover {
+            background-color: var(--surface-hover);
+        }
+    }
+
+    @media only screen and (max-width: $lg) {
+        overflow-x: auto;
+    }
+}

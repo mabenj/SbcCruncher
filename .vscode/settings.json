@@ -15,6 +15,7 @@
         "jotai",
         "mabenj",
         "Meowwww",
+        "msapplication",
         "multiselect",
         "multisets",
         "Offcanvas",
@@ -23,8 +24,18 @@
         "primeflex",
         "primeicons",
         "primereact",
+        "realfavicongenerator",
         "Scroller",
         "scrollpanel",
         "scrolltop"
-    ]
+    ],
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.patterns": {
+        "*.ts": "${capture}.js",
+        "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
+        "*.jsx": "${capture}.js",
+        "*.tsx": "${capture}.ts, ${capture}.module.scss",
+        "tsconfig.json": "tsconfig.*.json",
+        "package.json": "package-lock.json, yarn.lock"
+    }
 }
