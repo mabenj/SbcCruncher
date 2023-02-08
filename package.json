@@ -9,27 +9,19 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "axios": "^0.27.2",
-    "combinatorics": "https://github.com/omedusyo/combinatorics",
-    "next": "12.1.6",
-    "primeflex": "^3.2.1",
-    "primeicons": "^5.0.0",
-    "primereact": "^8.1.1",
-    "rc-slider": "9.7.5",
-    "react": "18.1.0",
-    "react-dom": "18.1.0",
-    "react-ga": "^3.3.0",
-    "react-infinite-scroll-component": "^6.1.0",
-    "sharp": "^0.30.6"
-  },
-  "devDependencies": {
-    "@types/axios": "^0.14.0",
-    "@types/node": "17.0.42",
-    "@types/react": "18.0.12",
-    "@types/react-dom": "18.0.5",
-    "eslint": "8.17.0",
-    "eslint-config-next": "12.1.6",
-    "sass": "^1.52.3",
-    "typescript": "4.7.3"
+    "@chakra-ui/react": "^2.4.9",
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@next/font": "13.1.6",
+    "@types/node": "18.13.0",
+    "@types/react": "18.0.27",
+    "@types/react-dom": "18.0.10",
+    "eslint": "8.33.0",
+    "eslint-config-next": "13.1.6",
+    "framer-motion": "^9.0.2",
+    "next": "13.1.6",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "typescript": "4.9.5"
   }
 }
