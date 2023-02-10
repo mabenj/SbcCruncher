@@ -1,6 +1,6 @@
 import { Button } from "primereact/button";
 import { Image } from "primereact/image";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import Config from "../Config";
 import { useAnalytics } from "../hooks/useAnalytics";
 import useLocalStorage from "../hooks/useLocalStorage";
@@ -20,6 +20,13 @@ export function Header() {
             </header>
             <div className="my-3 w-full md:w-auto">
                 <div className="flex justify-content-between align-items-center gap-4 mb-3">
+                    <Button
+                        className="p-button-text"
+                        onClick={() =>
+                            window.open("https://sbccruncher.cc", "_self")
+                        }>
+                        <strong>New site</strong>
+                    </Button>
                     <BMCButton width={150} btnLocation="toolbar" />
                     <div className="flex gap-2">
                         <ThemeToggle />
