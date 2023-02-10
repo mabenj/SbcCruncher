@@ -6,7 +6,7 @@ import { Nunito } from "@next/font/google";
 import Head from "next/head";
 
 // TODO https://stackoverflow.com/questions/60411351/how-to-use-google-analytics-with-next-js-app
-// TODO manifest.json
+// TODO google site verification old site
 
 const font = Nunito({
     subsets: ["latin"]
@@ -40,6 +40,7 @@ const HtmlHead = () => (
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
+        <link rel="manifest" href="manifest.json" />
 
         <meta
             name="google-site-verification"
