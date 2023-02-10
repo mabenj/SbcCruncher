@@ -7,6 +7,7 @@ import {
     PopoverContent,
     PopoverTrigger
 } from "@chakra-ui/react";
+import HoverTooltip from "./HoverTooltip";
 import RatingCard from "./RatingCard";
 import RatingCardCarouselSelect from "./RatingCardCarouselSelect";
 
@@ -26,8 +27,18 @@ export default function RatingCardInput(props: RatingCardInputProps) {
             {({ onClose }) => (
                 <>
                     <PopoverTrigger>
-                        <Box tabIndex={0} role="button" maxW="max-content">
-                            <RatingCard rating={props.rating} actionable />
+                        <Box display="inline-block">
+                            <HoverTooltip label="Click to change">
+                                <Box
+                                    tabIndex={0}
+                                    role="button"
+                                    maxW="max-content">
+                                    <RatingCard
+                                        rating={props.rating}
+                                        actionable
+                                    />
+                                </Box>
+                            </HoverTooltip>
                         </Box>
                     </PopoverTrigger>
                     <PopoverContent

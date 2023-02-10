@@ -2,6 +2,7 @@ import { SQUAD_SIZE } from "@/constants";
 import { useConfig } from "@/context/ConfigContext";
 import { AddIcon, DeleteIcon, MinusIcon } from "@chakra-ui/icons";
 import {
+    Box,
     Button,
     ButtonGroup,
     Flex,
@@ -84,105 +85,95 @@ export default function ExistingPlayers() {
 
     return (
         <>
-            <TableContainer overflowX="hidden">
-                <Table>
-                    <Thead>
-                        <Tr>
-                            <Th textAlign="center">Rating</Th>
-                            <Th textAlign="center">Quantity</Th>
-                            <Th></Th>
-                        </Tr>
-                    </Thead>
-                    <Tbody>
-                        {config.existingRatings.length === 0 ? (
+            {config.existingRatings.length === 0 ? (
+                <Box color="gray.500">No ratings specified</Box>
+            ) : (
+                <TableContainer overflowX="hidden">
+                    <Table>
+                        <Thead>
                             <Tr>
-                                <Td colSpan={3} color="gray.500">
-                                    No ratings specified
-                                </Td>
+                                <Th textAlign="center">Rating</Th>
+                                <Th textAlign="center">Quantity</Th>
+                                <Th></Th>
                             </Tr>
-                        ) : (
-                            <>
-                                {config.existingRatings.map(
-                                    ({ rating, count }, i) => (
-                                        <Tr key={i}>
-                                            <Td px={0}>
-                                                <Flex justifyContent="center">
-                                                    <RatingCardInput
-                                                        rating={rating}
-                                                        onChange={(newRating) =>
-                                                            setRating(
-                                                                i,
-                                                                newRating
-                                                            )
-                                                        }
-                                                    />
-                                                </Flex>
-                                            </Td>
-                                            <Td px={0}>
-                                                <Flex
-                                                    justifyContent="center"
-                                                    alignItems="center"
-                                                    gap={3}>
-                                                    <HoverTooltip label="Remove one">
-                                                        <IconButton
-                                                            variant="ghost"
-                                                            size="xs"
-                                                            aria-label="Increment"
-                                                            icon={<MinusIcon />}
-                                                            onClick={setRatingCount(
-                                                                i,
-                                                                count - 1
-                                                            )}
-                                                            isDisabled={
-                                                                count === 1
-                                                            }
-                                                        />
-                                                    </HoverTooltip>
-                                                    {count}
-                                                    <HoverTooltip label="Add one">
-                                                        <IconButton
-                                                            variant="ghost"
-                                                            size="xs"
-                                                            aria-label="Increment"
-                                                            icon={<AddIcon />}
-                                                            onClick={setRatingCount(
-                                                                i,
-                                                                count + 1
-                                                            )}
-                                                            isDisabled={
-                                                                totalPlayers ===
-                                                                PLAYER_LIMIT
-                                                            }
-                                                        />
-                                                    </HoverTooltip>
-                                                </Flex>
-                                            </Td>
-                                            <Td px={0}>
-                                                <HoverTooltip label="Delete">
+                        </Thead>
+                        <Tbody>
+                            {config.existingRatings.map(
+                                ({ rating, count }, i) => (
+                                    <Tr key={i}>
+                                        <Td px={0}>
+                                            <Flex justifyContent="center">
+                                                <RatingCardInput
+                                                    rating={rating}
+                                                    onChange={(newRating) =>
+                                                        setRating(i, newRating)
+                                                    }
+                                                />
+                                            </Flex>
+                                        </Td>
+                                        <Td px={0}>
+                                            <Flex
+                                                justifyContent="center"
+                                                alignItems="center"
+                                                gap={3}>
+                                                <HoverTooltip label="Remove one">
                                                     <IconButton
                                                         variant="ghost"
-                                                        size="sm"
-                                                        colorScheme="red"
-                                                        aria-label="delete"
-                                                        icon={<DeleteIcon />}
-                                                        onClick={removeRatingAt(
-                                                            i
-                                                        )}></IconButton>
+                                                        size="xs"
+                                                        aria-label="Increment"
+                                                        icon={<MinusIcon />}
+                                                        onClick={setRatingCount(
+                                                            i,
+                                                            count - 1
+                                                        )}
+                                                        isDisabled={count === 1}
+                                                    />
                                                 </HoverTooltip>
-                                            </Td>
-                                        </Tr>
-                                    )
-                                )}
-                                <Tr>
-                                    <Td>Total</Td>
-                                    <Td textAlign="center">{totalPlayers}</Td>
-                                    <Td></Td>
-                                </Tr>
-                            </>
-                        )}
-                    </Tbody>
-                </Table>
-            </TableContainer>
+                                                {count}
+                                                <HoverTooltip label="Add one">
+                                                    <IconButton
+                                                        variant="ghost"
+                                                        size="xs"
+                                                        aria-label="Increment"
+                                                        icon={<AddIcon />}
+                                                        onClick={setRatingCount(
+                                                            i,
+                                                            count + 1
+                                                        )}
+                                                        isDisabled={
+                                                            totalPlayers ===
+                                                            PLAYER_LIMIT
+                                                        }
+                                                    />
+                                                </HoverTooltip>
+                                            </Flex>
+                                        </Td>
+                                        <Td px={0}>
+                                            <HoverTooltip label="Delete">
+                                                <IconButton
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    colorScheme="red"
+                                                    aria-label="delete"
+                                                    icon={<DeleteIcon />}
+                                                    onClick={removeRatingAt(
+                                                        i
+                                                    )}></IconButton>
+                                            </HoverTooltip>
+                                        </Td>
+                                    </Tr>
+                                )
+                            )}
+                            <Tr>
+                                <Td>Total</Td>
+                                <Td textAlign="center">{totalPlayers}</Td>
+                                <Td></Td>
+                            </Tr>
+                        </Tbody>
+                    </Table>
+                </TableContainer>
+            )}
+
             <Flex justifyContent={["center", null, "flex-start"]}>
                 <ButtonGroup colorScheme="gray" variant="solid" mt={10}>
                     <HoverTooltip label="Add a player rating">

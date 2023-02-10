@@ -12,7 +12,11 @@ interface ExternalLinkProps {
 
 export default function ExternalLink(props: ExternalLinkProps) {
     return (
-        <Link href={props.href} isExternal _hover={{ textDecoration: "none" }}>
+        <Link
+            href={props.href}
+            isExternal
+            _hover={{ textDecoration: "none" }}
+            display="inline">
             <Box display="inline-flex" alignItems="center" gap={1}>
                 <Box display="inline" color="brand.400" className={styles.link}>
                     {props.children}

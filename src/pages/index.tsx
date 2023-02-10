@@ -6,6 +6,7 @@ import { Nunito } from "@next/font/google";
 import Head from "next/head";
 
 // TODO https://stackoverflow.com/questions/60411351/how-to-use-google-analytics-with-next-js-app
+// TODO manifest.json
 
 const font = Nunito({
     subsets: ["latin"]
@@ -52,7 +53,7 @@ const HtmlHead = () => (
         />
         <meta
             property="og:description"
-            content="SBC Cruncher calculates the cheapest player rating combinations for FIFA Ultimate Team SBCs based on FUTBIN price data"
+            content="Calculate the cheapest player rating combinations for FIFA Ultimate Team SBCs based on FUTBIN price data"
         />
         <meta property="og:site_name" content="SBC Cruncher" />
         <meta property="og:type" content="website" />

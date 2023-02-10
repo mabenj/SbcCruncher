@@ -19,7 +19,7 @@ import Icon from "@mdi/react";
 import { useEffect, useState } from "react";
 import HoverTooltip from "./ui/HoverTooltip";
 
-const PRICE_STORAGE_KEY = "priceMap";
+const PRICE_STORAGE_KEY = "SBCCRUNCHER.PRICEMAP";
 const PRICES_STALE_WARN_THRESHOLD_MS = 300_000;
 const MAX_PRICE_FETCH_ATTEMPTS = 10;
 const PRICE_FETCH_COOLDOWN_MS = 1000;
@@ -86,13 +86,11 @@ export default function PlayerPrices() {
             toast({
                 status: "error",
                 title: "Price fetch failed",
-                variant: "subtle",
                 description: errorMessage
             });
         } else {
             toast({
                 status: "success",
-                variant: "subtle",
                 description: "Price fetch success"
             });
             setAllPrices(prices);

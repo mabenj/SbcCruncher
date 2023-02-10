@@ -19,6 +19,7 @@ import {
 import { Nunito } from "@next/font/google";
 import Image from "next/image";
 import Link from "next/link";
+import React from "react";
 import ExternalLink from "./ExternalLink";
 import HoverTooltip from "./HoverTooltip";
 
@@ -135,84 +136,86 @@ const HelpDrawer = ({
             isOpen={isOpen}
             size={["full", "full", "full", "lg", "lg"]}>
             <DrawerOverlay />
-            <DrawerContent>
+            <DrawerContent className={font.className}>
                 <DrawerCloseButton />
-                <DrawerHeader>How to use</DrawerHeader>
-                <DrawerBody>
-                    <OrderedList spacing={7}>
+                <DrawerHeader>How to use SBC Cruncher</DrawerHeader>
+                <DrawerBody pl={10} pr={20}>
+                    <OrderedList
+                        spacing={7}
+                        lineHeight={1.8}
+                        letterSpacing={0.3}>
                         <ListItem pl={4}>
-                            <p>
-                                Specify your desired target rating by clicking a
-                                rating card in the{" "}
-                                <strong>Target Rating</strong> section
-                                (Required)
-                            </p>
+                            <Text>
+                                <strong>Choose your target rating</strong>: Go
+                                to the <Em>Target Rating</Em> section and select
+                                a rating card to specify your desired target
+                                rating.
+                            </Text>
                         </ListItem>
                         <ListItem pl={4}>
-                            <p>
-                                Enter the ratings of the players you already own
-                                and plan to use in the SBC in the{" "}
-                                <strong>Existing Players</strong> section
-                                (Optional)
-                            </p>
+                            <Text>
+                                <strong>Enter existing player ratings</strong>:
+                                If you have players you plan to use in the SBC,
+                                go to the <Em>Existing Players</Em> section and
+                                enter their ratings.
+                            </Text>
                         </ListItem>
                         <ListItem pl={4}>
-                            <p>
-                                In the <strong>Range of Ratings to Try</strong>{" "}
-                                section, specify the range of ratings to use
-                                when calculating the solutions.
-                            </p>
+                            <Text>
+                                <strong>Set the range of ratings</strong>: In
+                                the <Em>Range of Ratings to Try</Em> section,
+                                specify the range of ratings you want to use for
+                                calculating solutions.
+                            </Text>
+                            <Text mt={2}>
+                                For instance, if you set a range from{" "}
+                                <Em>81</Em> to <Em>84</Em>, SBC Cruncher will
+                                generate player rating combinations from{" "}
+                                <Em>81</Em>, <Em>82</Em>, <Em>83</Em>,{" "}
+                                <Em>84</Em>, and the ratings you entered in the{" "}
+                                <Em>Existing Players</Em> section.
+                            </Text>
                         </ListItem>
                         <ListItem pl={4}>
-                            <p>
-                                For example, with a range from{" "}
-                                <strong>81</strong> to <strong>84</strong>, the
-                                resulting player rating combinations will be
-                                calculated from ratings <strong>81</strong>,{" "}
-                                <strong>82</strong>, <strong>83</strong> and{" "}
-                                <strong>84</strong>, plus from the ratings you
-                                specified in the{" "}
-                                <strong>Existing Players</strong> section.
-                            </p>
-                        </ListItem>
-                        <ListItem pl={4}>
-                            <p>
-                                In the <strong>Player Prices</strong> section
-                                you can specify the price, in coins, for each of
-                                the ratings specified in the{" "}
-                                <strong>Range of Ratings to Try</strong>{" "}
-                                section.
-                            </p>
-                            <br />
-                            <p>
-                                You can also fetch the price data directly from
-                                FUTBIN&apos;s{" "}
+                            <Text>
+                                <strong>Set player prices</strong>: In the{" "}
+                                <Em>Player Prices</Em> section, you can specify
+                                the price of each rating in coins.
+                            </Text>
+                            <Text mt={2}>
+                                You can also fetch the prices directly from{" "}
+                                <Em>FUTBIN</Em>&apos;s{" "}
                                 <ExternalLink href="https://www.futbin.com/stc/cheapest">
                                     cheapest player by rating
                                 </ExternalLink>{" "}
-                                page by clicking the{" "}
-                                <strong>Fetch FUTBIN</strong> button. It will
-                                scrape the price of the cheapest player for each
-                                rating.
-                            </p>
+                                page by clicking the <Em>Fetch FUTBIN</Em>{" "}
+                                button. This will automatically fill the prices
+                                with the current prices listed in{" "}
+                                <Em>FUTBIN</Em>.
+                            </Text>
                         </ListItem>
                         <ListItem pl={4}>
-                            <p>
-                                Lastly, press the <strong>Calculate</strong>{" "}
-                                button and wait for player rating combination
-                                solutions to appear in the{" "}
-                                <strong>Solutions</strong> table.
-                            </p>
-                            <br />
-                            <p>
-                                Each row in the table represents a group of
-                                remaining player ratings you need to acquire in
-                                order to achieve the specified target rating.
-                            </p>
+                            <Text>
+                                <strong>Get solutions</strong>: Finally, press
+                                the <Em>Calculate</Em> button and wait for the
+                                solutions to appear at the bottom of the page.
+                            </Text>
+                            <Text mt={2}>
+                                Each solution will show the player ratings you
+                                need to acquire to reach your target rating.
+                            </Text>
                         </ListItem>
                     </OrderedList>
                 </DrawerBody>
             </DrawerContent>
         </Drawer>
+    );
+};
+
+const Em = ({ children }: { children: React.ReactNode }) => {
+    return (
+        <Box display="inline" fontWeight="semibold" fontStyle="italic">
+            {children}
+        </Box>
     );
 };
