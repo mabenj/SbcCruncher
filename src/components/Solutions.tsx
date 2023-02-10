@@ -16,7 +16,6 @@ import {
     Thead,
     Tr
 } from "@chakra-ui/react";
-import AccentedCard from "./ui/AccentedCard";
 
 const NUMBER_FORMATTER = new Intl.NumberFormat();
 
@@ -81,6 +80,9 @@ const SOLUTIONS = [
         ]
     }
 ];
+
+// TODO skeletons
+// TODO pagination [<- Prev] Page 2 [Next ->]
 
 export default function Solutions() {
     const solutionsCount = 189883;
