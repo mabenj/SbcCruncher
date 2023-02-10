@@ -6,7 +6,6 @@ import { Nunito } from "@next/font/google";
 import Head from "next/head";
 
 // TODO https://stackoverflow.com/questions/60411351/how-to-use-google-analytics-with-next-js-app
-// TODO workbox workers
 
 const font = Nunito({
     subsets: ["latin"]

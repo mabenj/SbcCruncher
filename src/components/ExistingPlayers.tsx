@@ -184,11 +184,7 @@ export default function ExistingPlayers() {
                 </Table>
             </TableContainer>
             <Flex justifyContent={["center", null, "flex-start"]}>
-                <ButtonGroup
-                    colorScheme="brand"
-                    variant="outline"
-                    isAttached
-                    mt={10}>
+                <ButtonGroup colorScheme="gray" variant="solid" mt={10}>
                     <HoverTooltip label="Add a player rating">
                         <Button
                             leftIcon={<Icon path={mdiPlus} size={0.8} />}

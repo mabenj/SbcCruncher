@@ -143,11 +143,7 @@ export default function PlayerPrices() {
                 )}
 
             <Flex justifyContent={["center", null, "flex-start"]}>
-                <ButtonGroup
-                    colorScheme="brand"
-                    variant="outline"
-                    isAttached
-                    mt={10}>
+                <ButtonGroup colorScheme="gray" variant="solid" mt={10}>
                     <HoverTooltip label="Fetch prices from FUTBIN">
                         <Button
                             leftIcon={<Icon path={mdiRefresh} size={0.8} />}
