@@ -1,0 +1,7 @@
+.tooltip {
+    visibility: hidden;
+
+    @media (hover: hover) {
+        visibility: visible;
+    }
+}

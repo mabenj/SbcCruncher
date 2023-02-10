@@ -1,27 +1,33 @@
 {
-  "name": "sbc-cruncher",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@chakra-ui/react": "^2.4.9",
-    "@emotion/react": "^11.10.5",
-    "@emotion/styled": "^11.10.5",
-    "@next/font": "13.1.6",
-    "@types/node": "18.13.0",
-    "@types/react": "18.0.27",
-    "@types/react-dom": "18.0.10",
-    "eslint": "8.33.0",
-    "eslint-config-next": "13.1.6",
-    "framer-motion": "^9.0.2",
-    "next": "13.1.6",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "typescript": "4.9.5"
-  }
+    "name": "sbc-cruncher",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
+    },
+    "dependencies": {
+        "@chakra-ui/icons": "^2.0.17",
+        "@chakra-ui/react": "^2.4.9",
+        "@emotion/react": "^11.10.5",
+        "@emotion/styled": "^11.10.5",
+        "@mdi/js": "^7.1.96",
+        "@mdi/react": "^1.6.1",
+        "@next/font": "13.1.6",
+        "@types/node": "18.13.0",
+        "@types/react": "18.0.27",
+        "@types/react-dom": "18.0.10",
+        "eslint": "8.33.0",
+        "eslint-config-next": "13.1.6",
+        "framer-motion": "^9.0.2",
+        "next": "13.1.6",
+        "react": "18.2.0",
+        "react-dom": "18.2.0",
+        "typescript": "4.9.5"
+    },
+    "devDependencies": {
+        "sass": "^1.58.0"
+    }
 }

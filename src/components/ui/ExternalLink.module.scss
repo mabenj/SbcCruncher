@@ -1,0 +1,30 @@
+@import "@/styles/variables.scss";
+
+$gradient: linear-gradient($brand-color, $brand-color);
+
+$gradient2: linear-gradient(
+    110deg,
+    $brand-color,
+    white 30% 60%,
+    $brand-color 80%
+);
+
+.link {
+    // padding-bottom: 2px;
+    // padding-top: 2px;
+    // background: $gradient;
+    // background-size: 100% 1px;
+    // background-repeat: no-repeat;
+    // background-position: left bottom;
+    // transition: background-size 200ms ease;
+    cursor: pointer;
+
+    // color: $brand-color;
+    font-weight: 700;
+
+    &:hover {
+        filter: grayscale(50%);
+        // background-size: 100% 3px;
+        text-decoration: none !important;
+    }
+}

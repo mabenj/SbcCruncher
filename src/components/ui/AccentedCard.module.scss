@@ -1,0 +1,6 @@
+@import "../../styles/variables.scss";
+
+.card {
+    border: 1px solid transparent;
+    border-image: linear-gradient($brand-color, transparent) 1;
+}
