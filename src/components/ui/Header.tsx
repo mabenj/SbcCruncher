@@ -139,7 +139,7 @@ const HelpDrawer = ({
             <DrawerContent className={font.className}>
                 <DrawerCloseButton />
                 <DrawerHeader>How to use SBC Cruncher</DrawerHeader>
-                <DrawerBody pl={10} pr={20}>
+                <DrawerBody pl={10} pr={20} pb="7rem">
                     <OrderedList
                         spacing={7}
                         lineHeight={1.8}
