@@ -92,7 +92,7 @@ export const useSolver = () => {
                 description: "Calculation complete"
             });
             setIsSolving(false);
-            setProgress(0);
+            setProgress(e.data.progress);
             setSolutions(e.data.solutions);
             setSolutionsFound(e.data.solutionsFound);
         } else {

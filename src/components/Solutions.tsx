@@ -4,6 +4,9 @@ import { Solution } from "@/types/solution.interface";
 import { range } from "@/utilities";
 import { NotAllowedIcon } from "@chakra-ui/icons";
 import {
+    Alert,
+    AlertIcon,
+    Badge,
     Box,
     Button,
     Card,
@@ -29,6 +32,7 @@ import { mdiCalculator } from "@mdi/js";
 import Icon from "@mdi/react";
 import { useEffect, useState } from "react";
 import HoverTooltip from "./ui/HoverTooltip";
+import MutedSmall from "./ui/MutedSmall";
 
 const NUMBER_FORMATTER = new Intl.NumberFormat();
 const PAGE_SIZE = 12;
@@ -88,22 +92,43 @@ export default function Solutions() {
             </Flex>
             <Box mx={3} pt={10}>
                 <Heading>Solutions</Heading>
-                <Stat mt={6}>
-                    <StatLabel>Total Found</StatLabel>
-                    <StatNumber>
-                        {NUMBER_FORMATTER.format(solutionsFound)}
-                    </StatNumber>
-                    <StatHelpText>
-                        {!isSolving && solutions.length > 0 && (
+                {progress === 0 && (
+                    <Box mt={3}>
+                        <MutedSmall>
+                            Press calculate to generate solutions
+                        </MutedSmall>
+                    </Box>
+                )}
+                {progress > 0 && (
+                    <Stat mt={6}>
+                        <StatLabel>Total Found</StatLabel>
+                        <StatNumber>
+                            {NUMBER_FORMATTER.format(solutionsFound)}
+                        </StatNumber>
+                        <StatHelpText
+                            visibility={
+                                !isSolving && solutions.length > 0
+                                    ? "visible"
+                                    : "hidden"
+                            }>
                             <span>
                                 Cheapest{" "}
-                                {NUMBER_FORMATTER.format(solutions[0].price)}{" "}
+                                {NUMBER_FORMATTER.format(solutions[0]?.price)}{" "}
                                 coins
                             </span>
-                        )}
-                    </StatHelpText>
-                </Stat>
+                        </StatHelpText>
+                    </Stat>
+                )}
             </Box>
+
+            {!isSolving && progress >= 100 && solutionsFound === 0 && (
+                <Alert status="error">
+                    <AlertIcon />
+                    No possible solutions exist. Try again with a different
+                    configuration.
+                </Alert>
+            )}
+
             <SimpleGrid minChildWidth="15.5rem" spacing={5}>
                 {isSolving &&
                     range(0, 5).map((i) => (
@@ -126,6 +151,9 @@ export default function Solutions() {
                                     (pageIndex * PAGE_SIZE + (i + 1))
                                 }
                                 solution={solution}
+                                isCheapest={
+                                    solution.price === solutions[0].price
+                                }
                             />
                         ))}
             </SimpleGrid>
@@ -174,25 +202,37 @@ export default function Solutions() {
 
 const SolutionCard = ({
     solution,
-    label
+    label,
+    isCheapest
 }: {
     solution?: Solution;
     label?: string;
+    isCheapest?: boolean;
 }) => {
     return (
         <Card>
             <CardBody>
-                <Heading size="sm">{label}</Heading>
-                <Box>
-                    <Skeleton
-                        w={solution ? "auto" : "8rem"}
-                        h={solution ? "auto" : "0.8rem"}
-                        mt={1}
-                        isLoaded={!!solution}
-                        fadeDuration={1}>
-                        {NUMBER_FORMATTER.format(solution?.price ?? 0)} coins
-                    </Skeleton>
-                </Box>
+                <Flex justifyContent="space-between">
+                    <div>
+                        <Heading size="sm">{label}</Heading>
+                        <Box>
+                            <Skeleton
+                                w={solution ? "auto" : "8rem"}
+                                h={solution ? "auto" : "0.8rem"}
+                                mt={1}
+                                isLoaded={!!solution}
+                                fadeDuration={1}>
+                                {NUMBER_FORMATTER.format(solution?.price ?? 0)}{" "}
+                                coins
+                            </Skeleton>
+                        </Box>
+                    </div>
+                    {isCheapest && (
+                        <div>
+                            <Badge colorScheme="green">Cheapest</Badge>
+                        </div>
+                    )}
+                </Flex>
                 <TableContainer mt={4}>
                     <Table size="sm">
                         <Thead>

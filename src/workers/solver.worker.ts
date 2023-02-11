@@ -10,7 +10,7 @@ import {
 import { multisets } from "combinatorics";
 
 const UPDATE_INTERVAL_MS = 20;
-const MAX_SOLUTIONS_TO_RETURN = 500
+const MAX_SOLUTIONS_TO_RETURN = 500;
 
 const ctx: Worker = self as any;
 
@@ -32,11 +32,22 @@ ctx.onmessage = async (e: MessageEvent<SolverRequest>) => {
 
     for (const combination of combinations) {
         processedCombinations++;
-        const squadRatings = [...existingRatings, ...combination];
-        const rating = getRating(squadRatings);
-        if (rating !== targetRating) {
+        const elapsed = Date.now() - lastUpdate;
+        if (elapsed >= UPDATE_INTERVAL_MS) {
+            const response: SolverResponse = {
+                done: false,
+                progress: (processedCombinations / totalCombinations) * 100,
+                solutionsFound: solutions.length,
+                solutions: []
+            };
+            ctx.postMessage(response);
+            lastUpdate = Date.now();
+        }
+
+        if (getRating([...existingRatings, ...combination]) < targetRating) {
             continue;
         }
+
         const ratingCounts = combination.reduce((acc, curr) => {
             acc[curr] = (acc[curr] || 0) + 1;
             return acc;
@@ -49,18 +60,6 @@ ctx.onmessage = async (e: MessageEvent<SolverRequest>) => {
             price: calculatePrice(combination, priceByRating),
             squad: squad
         });
-
-        const elapsed = Date.now() - lastUpdate;
-        if (elapsed >= UPDATE_INTERVAL_MS) {
-            const response: SolverResponse = {
-                done: false,
-                progress: (processedCombinations / totalCombinations) * 100,
-                solutionsFound: solutions.length,
-                solutions: []
-            };
-            ctx.postMessage(response);
-            lastUpdate = Date.now();
-        }
     }
 
     solutions.sort((a, b) => a.price - b.price);
