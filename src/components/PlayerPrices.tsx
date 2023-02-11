@@ -146,6 +146,7 @@ export default function PlayerPrices() {
                         <Button
                             leftIcon={<Icon path={mdiRefresh} size={0.8} />}
                             onClick={fetchPrices}
+                            loadingText="Fetching"
                             isLoading={isFetchingPrices}>
                             Fetch FUTBIN
                         </Button>
@@ -154,7 +155,7 @@ export default function PlayerPrices() {
                         <Button
                             leftIcon={<Icon path={mdiClose} size={0.8} />}
                             onClick={clearAllPrices}>
-                            Clear all
+                            Reset
                         </Button>
                     </HoverTooltip>
                 </ButtonGroup>

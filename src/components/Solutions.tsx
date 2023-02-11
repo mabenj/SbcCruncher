@@ -27,7 +27,7 @@ import {
 } from "@chakra-ui/react";
 import { mdiCalculator } from "@mdi/js";
 import Icon from "@mdi/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import HoverTooltip from "./ui/HoverTooltip";
 
 const NUMBER_FORMATTER = new Intl.NumberFormat();
@@ -36,6 +36,8 @@ const PAGE_SIZE = 12;
 // TODO pagination [<- Prev] Page 2 [Next ->]
 
 export default function Solutions() {
+    const [pageIndex, setPageIndex] = useState(0);
+
     const [config] = useConfig();
     const {
         solutions,
@@ -54,6 +56,8 @@ export default function Solutions() {
         onClearSolutions();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [config]);
+
+    useEffect(() => setPageIndex(0), [isSolving]);
 
     return (
         <>
@@ -102,7 +106,7 @@ export default function Solutions() {
                     </StatHelpText>
                 </Stat>
             </Box>
-            <SimpleGrid minChildWidth="15.5rem" spacing={5} mt={10}>
+            <SimpleGrid minChildWidth="15.5rem" spacing={5}>
                 {isSolving &&
                     range(0, 5).map((i) => (
                         <SolutionCard
@@ -112,15 +116,45 @@ export default function Solutions() {
                     ))}
                 {!isSolving &&
                     solutions
-                        .slice(0, PAGE_SIZE)
+                        .slice(
+                            pageIndex * PAGE_SIZE,
+                            pageIndex * PAGE_SIZE + PAGE_SIZE
+                        )
                         .map((solution, i) => (
                             <SolutionCard
                                 key={"solution_" + i}
-                                label={"Solution " + (i + 1)}
+                                label={
+                                    "Solution " +
+                                    (pageIndex * PAGE_SIZE + (i + 1))
+                                }
                                 solution={solution}
                             />
                         ))}
             </SimpleGrid>
+
+            {!isSolving && solutionsTotalCount > PAGE_SIZE && (
+                <Flex justifyContent="center" alignItems="center" gap={10}>
+                    <Button
+                        visibility={pageIndex === 0 ? "hidden" : "visible"}
+                        colorScheme="gray"
+                        onClick={() => setPageIndex((prev) => prev - 1)}>
+                        Prev
+                    </Button>
+                    <span>Page {pageIndex + 1}</span>
+                    <Button
+                        visibility={
+                            pageIndex + 1 >=
+                            Math.ceil(solutionsTotalCount / PAGE_SIZE)
+                                ? "hidden"
+                                : "visible"
+                        }
+                        colorScheme="gray"
+                        onClick={() => setPageIndex((prev) => prev + 1)}>
+                        Next
+                    </Button>
+                </Flex>
+            )}
+
             {isSolving && (
                 <Box position="absolute" top={0} left={0} right={0} p={0} m={0}>
                     <Progress

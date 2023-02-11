@@ -184,13 +184,15 @@ export default function ExistingPlayers() {
                             Add rating
                         </Button>
                     </HoverTooltip>
-                    <HoverTooltip label="Clear all player ratings">
-                        <Button
-                            leftIcon={<Icon path={mdiClose} size={0.8} />}
-                            onClick={clearAllRatings}>
-                            Clear all
-                        </Button>
-                    </HoverTooltip>
+                    {config.existingRatings.length > 0 && (
+                        <HoverTooltip label="Clear all player ratings">
+                            <Button
+                                leftIcon={<Icon path={mdiClose} size={0.8} />}
+                                onClick={clearAllRatings}>
+                                Reset
+                            </Button>
+                        </HoverTooltip>
+                    )}
                 </ButtonGroup>
             </Flex>
         </>

@@ -63,7 +63,7 @@ async function run(
         }));
         _currentSolutions.push({
             price: calculatePrice(combination, priceMap),
-            squad: []
+            squad: squad
         });
         _currentSolutions.sort((a, b) => a.price - b.price);
 
