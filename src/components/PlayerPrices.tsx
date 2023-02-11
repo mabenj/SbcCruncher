@@ -45,7 +45,7 @@ export default function PlayerPrices() {
         const storedPricesJson = localStorage.getItem(PRICE_STORAGE_KEY);
         if (storedPricesJson) {
             const storedPrices = JSON.parse(storedPricesJson) as StoredPrices;
-            setAllPrices(storedPrices.priceMap);
+            setAllPrices(storedPrices.priceMap, storedPrices.timestamp);
             setPricesLastModified(storedPrices.timestamp);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -56,11 +56,13 @@ export default function PlayerPrices() {
         priceNum =
             isNaN(priceNum) || typeof priceNum !== "number" ? 0 : priceNum;
         config.ratingPriceMap[rating] = priceNum;
-        setAllPrices(config.ratingPriceMap);
+        setAllPrices(config.ratingPriceMap, Date.now());
     };
 
-    const setAllPrices = (prices: Record<number, number>) => {
-        const timestamp = Date.now();
+    const setAllPrices = (
+        prices: Record<number, number>,
+        timestamp: number
+    ) => {
         setPricesLastModified(timestamp);
         setConfig((prev) => {
             const prevPrices = prev.ratingPriceMap;
@@ -93,12 +95,12 @@ export default function PlayerPrices() {
                 status: "success",
                 description: "Price fetch success"
             });
-            setAllPrices(prices);
+            setAllPrices(prices, Date.now());
         }
     };
 
     const clearAllPrices = () => {
-        setAllPrices({ ...EMPTY_PRICES });
+        setAllPrices({ ...EMPTY_PRICES }, Date.now());
     };
 
     return (
