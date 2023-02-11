@@ -1,25 +1,18 @@
 import { ConfigProvider } from "@/context/ConfigContext";
-import { NotAllowedIcon } from "@chakra-ui/icons";
 import {
     Box,
-    Button,
-    Card,
     CardBody,
     CardFooter,
     CardHeader,
-    Flex,
     Heading,
     Stack
 } from "@chakra-ui/react";
-import { mdiCalculator } from "@mdi/js";
-import Icon from "@mdi/react";
 import ExistingPlayers from "../ExistingPlayers";
 import PlayerPrices from "../PlayerPrices";
 import RatingRange from "../RatingRange";
 import Solutions from "../Solutions";
 import TargetRating from "../TargetRating";
 import AccentedCard from "./AccentedCard";
-import HoverTooltip from "./HoverTooltip";
 import MutedSmall from "./MutedSmall";
 
 export default function Main() {
@@ -86,34 +79,7 @@ export default function Main() {
                     </CardFooter>
                 </AccentedCard>
 
-                <Flex justifyContent="center" alignItems="center" gap={2}>
-                    <HoverTooltip label="Calculate the cheapest SBC solution">
-                        <Button
-                            size="lg"
-                            colorScheme="brand"
-                            leftIcon={<Icon path={mdiCalculator} size={1} />}
-                            loadingText="Calculating"
-                            isDisabled={false}
-                            isLoading={false}>
-                            Calculate
-                        </Button>
-                    </HoverTooltip>
-                    <HoverTooltip label="Stop calculating">
-                        <Button
-                            size="lg"
-                            colorScheme="red"
-                            variant="outline"
-                            leftIcon={<NotAllowedIcon />}
-                            isDisabled={false}
-                            onClick={() => console.log("stop")}>
-                            Stop
-                        </Button>
-                    </HoverTooltip>
-                </Flex>
-
-                <Box pt={10}>
-                    <Solutions />
-                </Box>
+                <Solutions />
             </Stack>
         </ConfigProvider>
     );

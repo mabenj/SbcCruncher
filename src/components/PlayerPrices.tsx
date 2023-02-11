@@ -113,7 +113,7 @@ export default function PlayerPrices() {
                             </HoverTooltip>
                         </InputLeftAddon>
                         <Input
-                            type="text"
+                            type="tel"
                             inputMode="numeric"
                             pattern="[0-9]"
                             value={config.ratingPriceMap[rating] || ""}
