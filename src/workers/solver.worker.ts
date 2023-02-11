@@ -1,50 +1,34 @@
 import { SQUAD_SIZE } from "@/constants";
 import { Solution } from "@/types/solution.interface";
-import { SolverResult } from "@/types/solver-result.interface";
+import { SolverRequest } from "@/types/solver-request.interface";
+import { SolverResponse } from "@/types/solver-response.interface";
 import {
     calculatePrice,
     getNumberOfCombinationsWithRepetitions,
     getRating
 } from "@/utilities";
 import { multisets } from "combinatorics";
-import { Observable, Subject } from "observable-fns";
-import { expose } from "threads/worker";
 
-const _resultSubject = new Subject<SolverResult>();
-const _currentSolutions: Solution[] = [];
+const UPDATE_INTERVAL_MS = 20;
+const MAX_SOLUTIONS_TO_RETURN = 500
 
-const solver = {
-    getResult$() {
-        return Observable.from(_resultSubject);
-    },
-    solve(
-        targetRating: number,
-        existingRatings: number[],
-        ratingRange: number[],
-        priceMap: Record<number, number>
-    ) {
-        run(targetRating, existingRatings, ratingRange, priceMap).then(
-            () => _resultSubject.complete(),
-            (error) => _resultSubject.error(error)
-        );
-    }
-};
+const ctx: Worker = self as any;
 
-async function run(
-    targetRating: number,
-    existingRatings: number[],
-    ratingRange: number[],
-    priceMap: Record<number, number>
-) {
+ctx.onmessage = async (e: MessageEvent<SolverRequest>) => {
+    const { targetRating, existingRatings, ratingsToTry, priceByRating } =
+        e.data;
+    const solutions: Solution[] = [];
+
     const totalCombinations = getNumberOfCombinationsWithRepetitions(
-        ratingRange.length,
+        ratingsToTry.length,
         SQUAD_SIZE - existingRatings.length
     );
     const combinations = multisets(
-        ratingRange,
+        ratingsToTry,
         SQUAD_SIZE - existingRatings.length
     );
     let processedCombinations = 0;
+    let lastUpdate = Date.now();
 
     for (const combination of combinations) {
         processedCombinations++;
@@ -61,28 +45,32 @@ async function run(
             rating: +rating,
             count: ratingCounts[+rating]
         }));
-        _currentSolutions.push({
-            price: calculatePrice(combination, priceMap),
+        solutions.push({
+            price: calculatePrice(combination, priceByRating),
             squad: squad
         });
-        _currentSolutions.sort((a, b) => a.price - b.price);
 
-        const result: SolverResult = {
-            progress: (processedCombinations / totalCombinations) * 100,
-            solutions: [],
-            solutionsTotalCount: _currentSolutions.length
-        };
-        _resultSubject.next(result);
+        const elapsed = Date.now() - lastUpdate;
+        if (elapsed >= UPDATE_INTERVAL_MS) {
+            const response: SolverResponse = {
+                done: false,
+                progress: (processedCombinations / totalCombinations) * 100,
+                solutionsFound: solutions.length,
+                solutions: []
+            };
+            ctx.postMessage(response);
+            lastUpdate = Date.now();
+        }
     }
 
-    const result: SolverResult = {
-        progress: (processedCombinations / totalCombinations) * 100,
-        solutions: _currentSolutions,
-        solutionsTotalCount: _currentSolutions.length
+    solutions.sort((a, b) => a.price - b.price);
+    const response: SolverResponse = {
+        done: true,
+        progress: 100,
+        solutionsFound: solutions.length,
+        solutions: solutions.slice(0, MAX_SOLUTIONS_TO_RETURN)
     };
-    _resultSubject.next(result);
-}
+    ctx.postMessage(response);
+};
 
-export type SolverWorker = typeof solver;
-
-expose(solver);
+export {};

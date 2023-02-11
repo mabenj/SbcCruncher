@@ -33,15 +33,13 @@ import HoverTooltip from "./ui/HoverTooltip";
 const NUMBER_FORMATTER = new Intl.NumberFormat();
 const PAGE_SIZE = 12;
 
-// TODO pagination [<- Prev] Page 2 [Next ->]
-
 export default function Solutions() {
     const [pageIndex, setPageIndex] = useState(0);
 
     const [config] = useConfig();
     const {
         solutions,
-        solutionsTotalCount,
+        solutionsFound,
         isSolving,
         progress,
         onSolve,
@@ -93,7 +91,7 @@ export default function Solutions() {
                 <Stat mt={6}>
                     <StatLabel>Total Found</StatLabel>
                     <StatNumber>
-                        {NUMBER_FORMATTER.format(solutionsTotalCount)}
+                        {NUMBER_FORMATTER.format(solutionsFound)}
                     </StatNumber>
                     <StatHelpText>
                         {!isSolving && solutions.length > 0 && (
@@ -132,7 +130,7 @@ export default function Solutions() {
                         ))}
             </SimpleGrid>
 
-            {!isSolving && solutionsTotalCount > PAGE_SIZE && (
+            {!isSolving && solutionsFound > PAGE_SIZE && (
                 <Flex justifyContent="center" alignItems="center" gap={10}>
                     <Button
                         visibility={pageIndex === 0 ? "hidden" : "visible"}
@@ -144,7 +142,7 @@ export default function Solutions() {
                     <Button
                         visibility={
                             pageIndex + 1 >=
-                            Math.ceil(solutionsTotalCount / PAGE_SIZE)
+                            Math.ceil(solutionsFound / PAGE_SIZE)
                                 ? "hidden"
                                 : "visible"
                         }
