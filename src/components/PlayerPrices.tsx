@@ -91,7 +91,7 @@ export default function PlayerPrices() {
             toast({
                 status: "error",
                 title: "Price fetch failed",
-                description: "Try again after a while (" + errorMessage + ")"
+                description: "Try again after a while"
             });
             eventTracker("fetch_fail", errorMessage);
         } else {
