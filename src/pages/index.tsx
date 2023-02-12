@@ -7,8 +7,6 @@ import { Nunito } from "@next/font/google";
 import Head from "next/head";
 import { useEffect } from "react";
 
-// TODO google site verification old site
-
 const font = Nunito({
     subsets: ["latin"]
 });
