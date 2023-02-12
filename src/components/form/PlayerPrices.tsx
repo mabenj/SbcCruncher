@@ -219,5 +219,13 @@ function parsePrice(text: string | undefined) {
     const isThousand = text.endsWith("K");
     const isMillion = text.endsWith("M");
     const num = parseFloat(text);
-    return isThousand ? 1000 * num : isMillion ? 1000000 * num : num;
+    const result = isThousand ? 1000 * num : isMillion ? 1_000_000 * num : num;
+    if (
+        isNaN(result) ||
+        result === Number.POSITIVE_INFINITY ||
+        result === Number.NEGATIVE_INFINITY
+    ) {
+        throw new Error("Error parsing price '" + text + "'");
+    }
+    return result;
 }
