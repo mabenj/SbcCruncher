@@ -37,7 +37,7 @@ export default function PlayerPrices() {
     const [isFetchingPrices, setIsFetchingPrices] = useState(false);
     const toast = useToast();
 
-    const eventTracker = useEventTracker("Prices")
+    const eventTracker = useEventTracker("Prices");
 
     const ratingRange = range(
         Math.min(...config.tryRatingMinMax),
@@ -91,22 +91,22 @@ export default function PlayerPrices() {
             toast({
                 status: "error",
                 title: "Price fetch failed",
-                description: errorMessage
+                description: "Try again after a while (" + errorMessage + ")"
             });
-            eventTracker("fetch_fail", errorMessage)
+            eventTracker("fetch_fail", errorMessage);
         } else {
             toast({
                 status: "success",
                 description: "Price fetch success"
             });
             setAllPrices(prices, Date.now());
-            eventTracker("fetch_ok")
+            eventTracker("fetch_ok");
         }
     };
 
     const clearAllPrices = () => {
         setAllPrices({ ...EMPTY_PRICES }, Date.now());
-        eventTracker("clear_all")
+        eventTracker("clear_all");
     };
 
     return (
