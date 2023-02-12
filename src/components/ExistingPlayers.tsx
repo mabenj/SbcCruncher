@@ -1,7 +1,7 @@
 import { SQUAD_SIZE } from "@/constants";
 import { useConfig } from "@/context/ConfigContext";
 import { useEventTracker } from "@/hooks/useEventTracker";
-import { AddIcon, DeleteIcon, MinusIcon } from "@chakra-ui/icons";
+import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import {
     Box,
     Button,
@@ -16,7 +16,7 @@ import {
     Thead,
     Tr
 } from "@chakra-ui/react";
-import { mdiClose, mdiPlus } from "@mdi/js";
+import { mdiClose, mdiPlus, mdiTrashCanOutline } from "@mdi/js";
 import Icon from "@mdi/react";
 import HoverTooltip from "./ui/HoverTooltip";
 import RatingCardInput from "./ui/RatingCardInput";
@@ -162,7 +162,14 @@ export default function ExistingPlayers() {
                                                     variant="ghost"
                                                     size="sm"
                                                     aria-label="delete"
-                                                    icon={<DeleteIcon />}
+                                                    icon={
+                                                        <Icon
+                                                            path={
+                                                                mdiTrashCanOutline
+                                                            }
+                                                            size={0.8}
+                                                        />
+                                                    }
                                                     onClick={removeRatingAt(
                                                         i
                                                     )}></IconButton>
