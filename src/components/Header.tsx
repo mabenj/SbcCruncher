@@ -9,6 +9,8 @@ import { Link } from "./Link";
 import { Sidebar } from "./Sidebar";
 
 export function Header() {
+    const { event } = useAnalytics();
+
     return (
         <div className="header-container">
             <header className="">
@@ -22,9 +24,13 @@ export function Header() {
                 <div className="flex justify-content-between align-items-center gap-4 mb-3">
                     <Button
                         className="p-button-text"
-                        onClick={() =>
-                            window.open("https://sbccruncher.cc", "_self")
-                        }>
+                        onClick={() => {
+                            event({
+                                category: "HEADER",
+                                action: "NAV_NEW_SITE"
+                            });
+                            window.open("https://sbccruncher.cc", "_self");
+                        }}>
                         <strong>New site</strong>
                     </Button>
                     <BMCButton width={150} btnLocation="toolbar" />
