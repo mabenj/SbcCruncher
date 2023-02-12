@@ -1,5 +1,3 @@
-import { SQUAD_SIZE } from "./constants";
-
 const FORMATTER = new Intl.RelativeTimeFormat(undefined, {
     numeric: "auto"
 });
@@ -50,31 +48,4 @@ export function getErrorMessage(error: unknown) {
 
 export function randomInt(min: number, max: number) {
     return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
-export function getNumberOfCombinationsWithRepetitions(n: number, k: number) {
-    return factorial(n + k - 1) / (factorial(n - 1) * factorial(k));
-}
-
-export function factorial(num: number): number {
-    let rval = 1;
-    for (let i = 2; i <= num; i++) rval = rval * i;
-    return rval;
-}
-
-export function getRating(ratings: number[]): number {
-    const sum = ratings.reduce((acc, curr) => acc + curr, 0);
-    const avg = sum / ratings.length;
-    const excess = ratings.reduce((acc, curr) => {
-        if (curr <= avg) {
-            return acc;
-        }
-        return acc + curr - avg;
-    }, 0);
-    const rating = Math.round(sum + excess) / SQUAD_SIZE;
-    return Math.floor(rating);
-}
-
-export function calculatePrice(ratings: number[], priceByRating: Record<number, number>){
-    return ratings.reduce((acc, curr) => acc + (priceByRating[curr] || 0), 0)
 }

@@ -2,12 +2,7 @@ import { SQUAD_SIZE } from "@/constants";
 import { Solution } from "@/types/solution.interface";
 import { SolverRequest } from "@/types/solver-request.interface";
 import { SolverResponse } from "@/types/solver-response.interface";
-import {
-    calculatePrice,
-    getNumberOfCombinationsWithRepetitions,
-    getRating
-} from "@/utilities";
-import { multisets } from "combinatorics";
+import { SolverHelper } from "./solver-helper";
 
 const UPDATE_INTERVAL_MS = 20;
 const MAX_SOLUTIONS_TO_RETURN = 500;
@@ -19,11 +14,12 @@ ctx.onmessage = async (e: MessageEvent<SolverRequest>) => {
         e.data;
     const solutions: Solution[] = [];
 
-    const totalCombinations = getNumberOfCombinationsWithRepetitions(
-        ratingsToTry.length,
-        SQUAD_SIZE - existingRatings.length
-    );
-    const combinations = multisets(
+    const totalCombinations =
+        SolverHelper.getNumberOfCombinationsWithRepetitions(
+            ratingsToTry.length,
+            SQUAD_SIZE - existingRatings.length
+        );
+    const combinations = SolverHelper.multisets(
         ratingsToTry,
         SQUAD_SIZE - existingRatings.length
     );
@@ -44,7 +40,11 @@ ctx.onmessage = async (e: MessageEvent<SolverRequest>) => {
             lastUpdate = Date.now();
         }
 
-        if (getRating([...existingRatings, ...combination]) < targetRating) {
+        const rating = SolverHelper.getRating([
+            ...existingRatings,
+            ...combination
+        ]);
+        if (rating < targetRating) {
             continue;
         }
 
@@ -57,7 +57,7 @@ ctx.onmessage = async (e: MessageEvent<SolverRequest>) => {
             count: ratingCounts[+rating]
         }));
         solutions.push({
-            price: calculatePrice(combination, priceByRating),
+            price: SolverHelper.calculatePrice(combination, priceByRating),
             squad: squad
         });
     }
@@ -71,5 +71,3 @@ ctx.onmessage = async (e: MessageEvent<SolverRequest>) => {
     };
     ctx.postMessage(response);
 };
-
-export {};

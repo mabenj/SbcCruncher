@@ -163,7 +163,7 @@ export default function Solutions() {
             {!isSolving && solutionsFound > PAGE_SIZE && (
                 <Flex justifyContent="center" alignItems="center" gap={10}>
                     <Button
-                        visibility={pageIndex === 0 ? "hidden" : "visible"}
+                        isDisabled={pageIndex === 0}
                         colorScheme="gray"
                         onClick={() =>
                             setPageIndex((prev) => {
@@ -176,11 +176,9 @@ export default function Solutions() {
                     </Button>
                     <span>Page {pageIndex + 1}</span>
                     <Button
-                        visibility={
+                        isDisabled={
                             pageIndex + 1 >=
                             Math.ceil(solutionsFound / PAGE_SIZE)
-                                ? "hidden"
-                                : "visible"
                         }
                         colorScheme="gray"
                         onClick={() =>

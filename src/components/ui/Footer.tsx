@@ -46,7 +46,7 @@ export default function Footer() {
                     direction={["column", null, null, "row"]}
                     justifyContent="space-evenly"
                     fontSize="sm"
-                    gap={8}>
+                    gap="3rem">
                     <VStack>
                         <Heading as="h3" size="md">
                             Donate
@@ -65,23 +65,6 @@ export default function Footer() {
                                     />
                                 </Box>
                             </Link>
-                        </Flex>
-                    </VStack>
-
-                    <VStack>
-                        <Heading as="h3" size="md">
-                            Source Code
-                        </Heading>
-                        <Flex
-                            gap={2}
-                            py={2}
-                            onClick={() => eventTracker("github_click")}>
-                            <Icon path={mdiGithub} size={1}></Icon>
-                            <ExternalLink
-                                href="https://github.com/mabenj/SbcCruncher"
-                                useIcon>
-                                github.com/mabenj/SbcCruncher
-                            </ExternalLink>
                         </Flex>
                     </VStack>
 
@@ -107,29 +90,30 @@ export default function Footer() {
                 </Flex>
                 <Flex
                     direction="column"
-                    gap={2}
+                    gap={5}
                     fontSize="sm"
-                    textAlign="center">
+                    textAlign="center"
+                    mt={20}>
                     <div onClick={() => eventTracker("brute_forcer_click")}>
                         <MutedSmall>
                             The idea for SBC Cruncher was inspired by{" "}
-                            <ExternalLink
-                                href="https://elmaano.github.io/sbc/"
-                                useIcon>
+                            <ExternalLink href="https://elmaano.github.io/sbc/">
                                 SBC Rating Brute Forcer
                             </ExternalLink>
                         </MutedSmall>
                     </div>
-                    <div onClick={() => eventTracker("formula_click")}>
-                        <MutedSmall>
-                            The squad ratings are calculated based on{" "}
-                            <ExternalLink
-                                href="https://www.reddit.com/r/FIFA/comments/5osq7k/new_overall_rating_figured_out/"
-                                useIcon>
-                                u_ChairmanMeowwww&apos;s formula
-                            </ExternalLink>
-                        </MutedSmall>
-                    </div>
+                    <Flex
+                        gap={2}
+                        py={2}
+                        onClick={() => eventTracker("github_click")}
+                        justifyContent="center"
+                        alignItems="center">
+                        <span>© {new Date().getFullYear()}</span>
+                        <Icon path={mdiGithub} size={1}></Icon>
+                        <ExternalLink href="https://github.com/mabenj/SbcCruncher">
+                            mabenj
+                        </ExternalLink>
+                    </Flex>
                 </Flex>
             </Flex>
             <ContactForm isOpen={isFormOpen} onClose={onFormClose} />
