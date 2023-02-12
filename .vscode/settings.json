@@ -3,7 +3,9 @@
         "arya",
         "blockui",
         "buttonset",
+        "Chakra",
         "COOLDOWN",
+        "Cristiano",
         "datatable",
         "elmaano",
         "FIFA",
@@ -15,16 +17,31 @@
         "jotai",
         "mabenj",
         "Meowwww",
+        "metaurl",
+        "msapplication",
         "multiselect",
         "multisets",
         "Offcanvas",
         "overlaypanel",
         "pageview",
+        "PRICEMAP",
         "primeflex",
         "primeicons",
         "primereact",
+        "realfavicongenerator",
+        "Ronaldo",
+        "SBCCRUNCHER",
         "Scroller",
         "scrollpanel",
         "scrolltop"
-    ]
+    ],
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.patterns": {
+        "*.ts": "${capture}.js",
+        "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
+        "*.jsx": "${capture}.js",
+        "*.tsx": "${capture}.ts, ${capture}.module.scss",
+        "tsconfig.json": "tsconfig.*.json",
+        "package.json": "package-lock.json, yarn.lock"
+    }
 }
