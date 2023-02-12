@@ -64,9 +64,9 @@ function handleRequest(request: SolverRequest) {
                 price: SolverHelper.calculatePrice(combination, priceByRating),
                 squad: squad
             });
-            solutions.sort((a, b) => a.price - b.price);
         }
 
+        solutions.sort((a, b) => a.price - b.price);
         const response: SolverResponse = {
             status: "ok",
             done: true,
