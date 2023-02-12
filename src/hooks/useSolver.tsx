@@ -104,22 +104,22 @@ export const useSolver = () => {
             return;
         }
         if (e.data.done) {
-            const elapsedMs = performance.now() - startTimeRef.current;
-            console.log(`Solved in ${prettyMilliseconds(elapsedMs)}`);
+            const elapsed = prettyMilliseconds(
+                performance.now() - startTimeRef.current,
+                { verbose: true }
+            );
+            console.log(`Solved in ${elapsed}`);
             toast({
                 status: "success",
-                description: `Calculation completed in ${prettyMilliseconds(
-                    elapsedMs,
-                    { verbose: true }
-                )}`
+                description: `Calculation completed in ${elapsed}`
             });
             setIsSolving(false);
             setProgress(e.data.progress);
             setSolutions(e.data.solutions);
             setSolutionsFound(e.data.solutionsFound);
             eventTracker(
-                `solve_success=${elapsedMs}ms`,
-                `solutions=${e.data.solutionsFound}|ms=${elapsedMs}`,
+                `solve_success=${elapsed}`,
+                `solutions=${e.data.solutionsFound}|t=${elapsed}`,
                 e.data.solutionsFound
             );
         } else {
