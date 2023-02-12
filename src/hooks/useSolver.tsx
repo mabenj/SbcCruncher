@@ -114,7 +114,9 @@ export const useSolver = () => {
 
             eventTracker(
                 `solve_success`,
-                `solutions=${e.data.solutionsFound}|time=${elapsed}|target=${
+                `price=${e.data.solutions[0]?.price}|solutions=${
+                    e.data.solutionsFound
+                }|time=${elapsed}|target=${
                     latestConfigRef.current?.targetRating
                 }|existing=${latestConfigRef.current?.existingRatings
                     .map(({ rating, count }) => count + "x" + rating)
