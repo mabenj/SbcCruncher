@@ -25,6 +25,7 @@ import {
 import { mdiEmailFastOutline, mdiGithub } from "@mdi/js";
 import Icon from "@mdi/react";
 import Image from "next/image";
+import { useState } from "react";
 import ExternalLink from "../ui/ExternalLink";
 import MutedSmall from "../ui/MutedSmall";
 
@@ -122,10 +123,12 @@ export default function Footer() {
 }
 
 const ContactForm = (props: { isOpen: boolean; onClose: () => any }) => {
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const toast = useToast();
     const eventTracker = useEventTracker("Contact form");
 
     const handleSubmit = async (e: React.SyntheticEvent) => {
+        setIsSubmitting(true);
         e.preventDefault();
         const target = e.target as typeof e.target & {
             name: { value: string };
@@ -148,7 +151,7 @@ const ContactForm = (props: { isOpen: boolean; onClose: () => any }) => {
             });
             if (response.ok) {
                 toast({
-                    description: "Submission successful",
+                    description: "Message sent",
                     status: "success"
                 });
                 props.onClose();
@@ -166,7 +169,7 @@ const ContactForm = (props: { isOpen: boolean; onClose: () => any }) => {
         } catch (error) {
             const message = getErrorMessage(error);
             toast({
-                title: "Submission not successful",
+                title: "Message could not be sent",
                 description: message,
                 status: "error"
             });
@@ -174,6 +177,8 @@ const ContactForm = (props: { isOpen: boolean; onClose: () => any }) => {
                 "contact_form_submit_error",
                 message || JSON.stringify(error)
             );
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -199,7 +204,7 @@ const ContactForm = (props: { isOpen: boolean; onClose: () => any }) => {
                                     type="text"
                                     id="name"
                                     required
-                                    placeholder="Mr. Cristiano CR7"
+                                    placeholder="Mr. Cristiano"
                                     variant="filled"
                                 />
                             </FormControl>
@@ -235,8 +240,12 @@ const ContactForm = (props: { isOpen: boolean; onClose: () => any }) => {
                             }}>
                             Cancel
                         </Button>
-                        <Button type="submit" colorScheme="brand">
-                            Submit
+                        <Button
+                            type="submit"
+                            colorScheme="brand"
+                            isLoading={isSubmitting}
+                            loadingText="Sending">
+                            Send
                         </Button>
                     </ModalFooter>
                 </form>
