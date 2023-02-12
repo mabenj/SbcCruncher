@@ -17,6 +17,7 @@ export const useSolver = () => {
     const [progress, setProgress] = useState(0);
 
     const startTimeRef = useRef(0);
+    const latestConfigRef = useRef<SolverConfig | null>(null);
     const solverRef = useRef<Worker | null>(null);
 
     const toast = useToast();
@@ -76,16 +77,9 @@ export const useSolver = () => {
             priceByRating: config.ratingPriceMap
         };
         solverRef.current.postMessage(message);
+        latestConfigRef.current = config;
         startTimeRef.current = performance.now();
         setIsSolving(true);
-        eventTracker(
-            "solve_start",
-            `target=${config.targetRating}|existing=${config.existingRatings
-                .map(({ rating, count }) => count + "x" + rating)
-                .join(",")}|minMax=${config.tryRatingMinMax[0]}, ${
-                config.tryRatingMinMax[1]
-            }`
-        );
     };
 
     const onStopSolve = async () => {
@@ -117,10 +111,16 @@ export const useSolver = () => {
             setProgress(e.data.progress);
             setSolutions(e.data.solutions);
             setSolutionsFound(e.data.solutionsFound);
+
             eventTracker(
                 `solve_success=${elapsed}`,
-                `solutions=${e.data.solutionsFound}|t=${elapsed}`,
-                e.data.solutionsFound
+                `solutions=${e.data.solutionsFound}|time=${elapsed}|target=${
+                    latestConfigRef.current?.targetRating
+                }|existing=${latestConfigRef.current?.existingRatings
+                    .map(({ rating, count }) => count + "x" + rating)
+                    .join(",")}|minMax=${
+                    latestConfigRef.current?.tryRatingMinMax[0]
+                },${latestConfigRef.current?.tryRatingMinMax[1]}`
             );
         } else {
             setProgress(e.data.progress);
