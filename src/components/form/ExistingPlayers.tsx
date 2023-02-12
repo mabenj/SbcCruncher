@@ -18,8 +18,8 @@ import {
 } from "@chakra-ui/react";
 import { mdiClose, mdiPlus, mdiTrashCanOutline } from "@mdi/js";
 import Icon from "@mdi/react";
-import HoverTooltip from "./ui/HoverTooltip";
-import RatingCardInput from "./ui/RatingCardInput";
+import HoverTooltip from "../ui/HoverTooltip";
+import RatingCardInput from "../ui/RatingCardInput";
 
 const PLAYER_LIMIT = SQUAD_SIZE - 1;
 const DEFAULT_RATING = 83;

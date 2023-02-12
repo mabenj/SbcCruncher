@@ -25,8 +25,8 @@ import {
 import { mdiEmailFastOutline, mdiGithub } from "@mdi/js";
 import Icon from "@mdi/react";
 import Image from "next/image";
-import ExternalLink from "./ExternalLink";
-import MutedSmall from "./MutedSmall";
+import ExternalLink from "../ui/ExternalLink";
+import MutedSmall from "../ui/MutedSmall";
 
 const FORM_URL = "https://formbold.com/s/94NmX";
 
@@ -170,7 +170,10 @@ const ContactForm = (props: { isOpen: boolean; onClose: () => any }) => {
                 description: message,
                 status: "error"
             });
-            eventTracker("contact_form_submit_error", message || JSON.stringify(error));
+            eventTracker(
+                "contact_form_submit_error",
+                message || JSON.stringify(error)
+            );
         }
     };
 

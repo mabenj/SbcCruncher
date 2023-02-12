@@ -2,7 +2,7 @@ import { ALL_RATINGS } from "@/constants";
 import { useConfig } from "@/context/ConfigContext";
 import { useEventTracker } from "@/hooks/useEventTracker";
 import { Flex, Text } from "@chakra-ui/react";
-import RatingCardCarouselSelect from "./ui/RatingCardCarouselSelect";
+import RatingCardCarouselSelect from "../ui/RatingCardCarouselSelect";
 
 export default function TargetRating() {
     const [config, setConfig] = useConfig();

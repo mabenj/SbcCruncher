@@ -21,8 +21,8 @@ import { Nunito } from "@next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import ExternalLink from "./ExternalLink";
-import HoverTooltip from "./HoverTooltip";
+import ExternalLink from "../ui/ExternalLink";
+import HoverTooltip from "../ui/HoverTooltip";
 
 const font = Nunito({
     subsets: ["latin"]
@@ -36,7 +36,7 @@ export default function Header() {
         onClose: onHelpClose
     } = useDisclosure();
 
-    const eventTracker = useEventTracker("Header")
+    const eventTracker = useEventTracker("Header");
 
     return (
         <Box px={2} pt={5}>
@@ -73,14 +73,13 @@ export default function Header() {
                         <Button
                             variant="ghost"
                             size="sm"
-                            onClick={() =>{
-                                eventTracker("nav_old_site")
+                            onClick={() => {
+                                eventTracker("nav_old_site");
                                 window.open(
                                     "https://old.sbccruncher.cc/",
                                     "_self"
-                                    )
-                                }
-                            }>
+                                );
+                            }}>
                             Old site
                         </Button>
                     </HoverTooltip>
@@ -104,8 +103,11 @@ export default function Header() {
                                     : "Dark mode"
                             }
                             onClick={() => {
-                                eventTracker("set_theme", colorMode === "dark" ? "light" : "dark")
-                                toggleColorMode()
+                                eventTracker(
+                                    "set_theme",
+                                    colorMode === "dark" ? "light" : "dark"
+                                );
+                                toggleColorMode();
                             }}
                         />
                     </HoverTooltip>
@@ -116,8 +118,8 @@ export default function Header() {
                             icon={<QuestionOutlineIcon />}
                             aria-label="Help"
                             onClick={() => {
-                                eventTracker("open_help")
-                                onHelpOpen()
+                                eventTracker("open_help");
+                                onHelpOpen();
                             }}
                         />
                     </HoverTooltip>

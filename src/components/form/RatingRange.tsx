@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { mdiArrowTopLeftBottomRight } from "@mdi/js";
 import Icon from "@mdi/react";
-import RatingCardInput from "./ui/RatingCardInput";
+import RatingCardInput from "../ui/RatingCardInput";
 
 const WARNING_THRESHOLD = 15;
 

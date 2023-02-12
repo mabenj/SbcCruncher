@@ -1,6 +1,6 @@
-import Footer from "@/components/ui/Footer";
-import Header from "@/components/ui/Header";
-import Main from "@/components/ui/Main";
+import Footer from "@/components/layout/Footer";
+import Header from "@/components/layout/Header";
+import Main from "@/components/layout/Main";
 import { usePageview } from "@/hooks/usePageview";
 import { Container } from "@chakra-ui/react";
 import { Nunito } from "@next/font/google";

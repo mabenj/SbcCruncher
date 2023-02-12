@@ -7,13 +7,13 @@ import {
     Heading,
     Stack
 } from "@chakra-ui/react";
-import ExistingPlayers from "../ExistingPlayers";
-import PlayerPrices from "../PlayerPrices";
-import RatingRange from "../RatingRange";
-import Solutions from "../Solutions";
-import TargetRating from "../TargetRating";
-import AccentedCard from "./AccentedCard";
-import MutedSmall from "./MutedSmall";
+import ExistingPlayers from "../form/ExistingPlayers";
+import PlayerPrices from "../form/PlayerPrices";
+import RatingRange from "../form/RatingRange";
+import Solutions from "../form/Solutions";
+import TargetRating from "../form/TargetRating";
+import AccentedCard from "../ui/AccentedCard";
+import MutedSmall from "../ui/MutedSmall";
 
 export default function Main() {
     return (

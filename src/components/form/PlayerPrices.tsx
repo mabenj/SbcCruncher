@@ -18,7 +18,7 @@ import {
 import { mdiClose, mdiRefresh } from "@mdi/js";
 import Icon from "@mdi/react";
 import { useEffect, useState } from "react";
-import HoverTooltip from "./ui/HoverTooltip";
+import HoverTooltip from "../ui/HoverTooltip";
 
 const PRICE_STORAGE_KEY = "SBCCRUNCHER.PRICEMAP";
 const PRICES_STALE_WARN_THRESHOLD_MS = 300_000;

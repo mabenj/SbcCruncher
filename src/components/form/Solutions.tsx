@@ -32,8 +32,8 @@ import {
 import { mdiCalculator } from "@mdi/js";
 import Icon from "@mdi/react";
 import { useEffect, useState } from "react";
-import HoverTooltip from "./ui/HoverTooltip";
-import MutedSmall from "./ui/MutedSmall";
+import HoverTooltip from "../ui/HoverTooltip";
+import MutedSmall from "../ui/MutedSmall";
 
 const NUMBER_FORMATTER = new Intl.NumberFormat();
 const PAGE_SIZE = 12;
