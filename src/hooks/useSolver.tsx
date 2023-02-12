@@ -78,11 +78,11 @@ export const useSolver = () => {
         setIsSolving(true);
         eventTracker(
             "start",
-            JSON.stringify({
-                target: config.targetRating,
-                existing: config.existingRatings,
-                minMax: config.tryRatingMinMax
-            })
+            `target=${config.targetRating}|existing=${config.existingRatings
+                .map(({ rating, count }) => count + "x" + rating)
+                .join(",")}|minMax=${config.tryRatingMinMax[0]}, ${
+                config.tryRatingMinMax[1]
+            }`
         );
     };
 
