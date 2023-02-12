@@ -213,8 +213,7 @@ const ContactForm = (props: { isOpen: boolean; onClose: () => any }) => {
                                 <Input
                                     type="email"
                                     id="email"
-                                    required
-                                    placeholder="siuu@gmail.com"
+                                    placeholder="siuu@gmail.com (Optional)"
                                     variant="filled"
                                 />
                             </FormControl>
