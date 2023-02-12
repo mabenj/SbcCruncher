@@ -40,8 +40,8 @@ export default function RatingRange() {
             }));
             eventTracker(
                 isSlider
-                    ? `set_slider_range=${min},${max}`
-                    : `set_card_range=${min},${max}`,
+                    ? `range_slider=${min},${max}`
+                    : `range_card=${min},${max}`,
                 min + "-" + max
             );
         };

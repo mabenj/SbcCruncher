@@ -113,7 +113,7 @@ export const useSolver = () => {
             setSolutionsFound(e.data.solutionsFound);
 
             eventTracker(
-                `solve_success=${elapsed}`,
+                `solve_success`,
                 `solutions=${e.data.solutionsFound}|time=${elapsed}|target=${
                     latestConfigRef.current?.targetRating
                 }|existing=${latestConfigRef.current?.existingRatings

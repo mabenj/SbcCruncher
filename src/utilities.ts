@@ -43,7 +43,8 @@ export function sleep(ms: number) {
 
 export function getErrorMessage(error: unknown) {
     if (error instanceof Error) return error.message;
-    return String(error);
+    const str = String(error)
+    return str === "Undefined" ? undefined : str;
 }
 
 export function randomInt(min: number, max: number) {

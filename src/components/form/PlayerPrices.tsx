@@ -204,7 +204,7 @@ async function fetchFutbinPrices() {
         } catch (error) {
             prices = {};
             console.error("Could not fetch player prices: ", error);
-            errorMessage = getErrorMessage(error);
+            errorMessage = getErrorMessage(error) || "";
             await sleep(PRICE_FETCH_COOLDOWN_MS);
         }
     }

@@ -60,7 +60,7 @@ export default function ExistingPlayers() {
             return { ...prev, existingRatings: [...prevRatings] };
         });
         eventTracker(
-            "set_existing_rating=" + rating,
+            "existing_rating=" + rating,
             rating.toString(),
             rating
         );
@@ -71,7 +71,7 @@ export default function ExistingPlayers() {
             setConfig((prev) => {
                 const ratings = prev.existingRatings;
                 ratings.splice(index, 1);
-                eventTracker("delete_existing_rating");
+                eventTracker("existing_rating_delete");
                 return {
                     ...prev,
                     existingRatings: [...ratings]
@@ -81,7 +81,7 @@ export default function ExistingPlayers() {
 
     const clearAllRatings = () => {
         setConfig((prev) => ({ ...prev, existingRatings: [] }));
-        eventTracker("clear_existing_ratings");
+        eventTracker("existing_rating_clear_all");
     };
 
     const addRating = () => {
@@ -92,7 +92,7 @@ export default function ExistingPlayers() {
                 { rating: DEFAULT_RATING, count: 1 }
             ]
         }));
-        eventTracker("add_existing_rating");
+        eventTracker("existing_rating_add");
     };
 
     return (
