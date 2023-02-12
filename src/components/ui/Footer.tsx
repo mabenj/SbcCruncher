@@ -55,7 +55,7 @@ export default function Footer() {
                             <Link
                                 href="https://www.buymeacoffee.com/mabenj"
                                 isExternal
-                                onClick={() => eventTracker("bmc_click")}>
+                                onClick={() => eventTracker("donate_click")}>
                                 <Box position="relative" h="2.7rem" w="10rem">
                                     <Image
                                         src="/bmc-button.svg"
@@ -79,7 +79,7 @@ export default function Footer() {
                                 variant="ghost"
                                 color="brand.400"
                                 onClick={() => {
-                                    eventTracker("form_open");
+                                    eventTracker("contact_form_open");
                                     onFormOpen();
                                 }}
                                 fontWeight="700">
@@ -153,7 +153,7 @@ const ContactForm = (props: { isOpen: boolean; onClose: () => any }) => {
                 });
                 props.onClose();
                 eventTracker(
-                    "submit_ok",
+                    "contact_form_submit",
                     JSON.stringify({
                         name,
                         email,
@@ -170,7 +170,7 @@ const ContactForm = (props: { isOpen: boolean; onClose: () => any }) => {
                 description: message,
                 status: "error"
             });
-            eventTracker("submit_error", message);
+            eventTracker("contact_form_submit_error", message || JSON.stringify(error));
         }
     };
 
@@ -178,7 +178,7 @@ const ContactForm = (props: { isOpen: boolean; onClose: () => any }) => {
         <Modal
             isOpen={props.isOpen}
             onClose={() => {
-                eventTracker("form_close");
+                eventTracker("contact_form_close");
                 props.onClose();
             }}
             size={["full", null, "lg", "md"]}>
@@ -227,7 +227,7 @@ const ContactForm = (props: { isOpen: boolean; onClose: () => any }) => {
                             variant="ghost"
                             mr={3}
                             onClick={() => {
-                                eventTracker("submit_cancel");
+                                eventTracker("contact_form_cancel");
                                 props.onClose();
                             }}>
                             Cancel

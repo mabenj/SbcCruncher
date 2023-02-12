@@ -168,7 +168,7 @@ export default function Solutions() {
                         onClick={() =>
                             setPageIndex((prev) => {
                                 const next = prev - 1;
-                                eventTracker("paginate", next.toString(), next);
+                                eventTracker("paginate=" + next, next.toString(), next);
                                 return next;
                             })
                         }>
@@ -184,7 +184,7 @@ export default function Solutions() {
                         onClick={() =>
                             setPageIndex((prev) => {
                                 const next = prev + 1;
-                                eventTracker("paginate", next.toString(), next);
+                                eventTracker("paginate=" + next, next.toString(), next);
                                 return next;
                             })
                         }>

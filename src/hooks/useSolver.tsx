@@ -79,7 +79,7 @@ export const useSolver = () => {
         startTimeRef.current = performance.now();
         setIsSolving(true);
         eventTracker(
-            "start",
+            "solve_start",
             `target=${config.targetRating}|existing=${config.existingRatings
                 .map(({ rating, count }) => count + "x" + rating)
                 .join(",")}|minMax=${config.tryRatingMinMax[0]}, ${
@@ -90,7 +90,7 @@ export const useSolver = () => {
 
     const onStopSolve = async () => {
         resetWorker();
-        eventTracker("stop");
+        eventTracker("solve_stop");
     };
 
     const onClearSolutions = async () => {
@@ -118,7 +118,7 @@ export const useSolver = () => {
             setSolutions(e.data.solutions);
             setSolutionsFound(e.data.solutionsFound);
             eventTracker(
-                "success",
+                `solve_success=${elapsedMs}ms`,
                 `solutions=${e.data.solutionsFound}|ms=${elapsedMs}`,
                 e.data.solutionsFound
             );
@@ -137,7 +137,7 @@ export const useSolver = () => {
             description: message
         });
         resetWorker();
-        eventTracker("error", message);
+        eventTracker("solve_error", message || JSON.stringify(e));
     };
 
     const checkIsWorkerSupported = () => {
@@ -148,7 +148,7 @@ export const useSolver = () => {
             status: "error",
             description: "Your browser does not support Web Workers"
         });
-        eventTracker("unsupported", navigator.userAgent);
+        eventTracker("worker_unsupported", navigator.userAgent);
         return false;
     };
 

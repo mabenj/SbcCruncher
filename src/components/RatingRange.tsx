@@ -38,7 +38,12 @@ export default function RatingRange() {
                 ...prev,
                 tryRatingMinMax: [newMin, newMax]
             }));
-            eventTracker(isSlider ? "set_slider" : "set_card", min + "-" + max);
+            eventTracker(
+                isSlider
+                    ? `set_slider_range=${min},${max}`
+                    : `set_card_range=${min},${max}`,
+                min + "-" + max
+            );
         };
 
     return (

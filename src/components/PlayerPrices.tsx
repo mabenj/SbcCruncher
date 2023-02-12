@@ -93,20 +93,20 @@ export default function PlayerPrices() {
                 title: "Price fetch failed",
                 description: "Try again after a while"
             });
-            eventTracker("fetch_fail", errorMessage);
+            eventTracker("price_fetch_fail", errorMessage);
         } else {
             toast({
                 status: "success",
                 description: "Price fetch success"
             });
             setAllPrices(prices, Date.now());
-            eventTracker("fetch_ok");
+            eventTracker("price_fetch_ok");
         }
     };
 
     const clearAllPrices = () => {
         setAllPrices({ ...EMPTY_PRICES }, Date.now());
-        eventTracker("clear_all");
+        eventTracker("price_clear_all");
     };
 
     return (
