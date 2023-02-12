@@ -9,65 +9,81 @@ const MAX_SOLUTIONS_TO_RETURN = 500;
 
 const ctx: Worker = self as any;
 
-ctx.onmessage = async (e: MessageEvent<SolverRequest>) => {
-    const { targetRating, existingRatings, ratingsToTry, priceByRating } =
-        e.data;
-    const solutions: Solution[] = [];
+ctx.onmessage = (e: MessageEvent<SolverRequest>) => handleRequest(e.data);
 
-    const totalCombinations =
-        SolverHelper.getNumberOfCombinationsWithRepetitions(
-            ratingsToTry.length,
+function handleRequest(request: SolverRequest) {
+    try {
+        const { targetRating, existingRatings, ratingsToTry, priceByRating } =
+            request;
+        const solutions: Solution[] = [];
+
+        const totalCombinations =
+            SolverHelper.getNumberOfCombinationsWithRepetitions(
+                ratingsToTry.length,
+                SQUAD_SIZE - existingRatings.length
+            );
+        const combinations = SolverHelper.multisets(
+            ratingsToTry,
             SQUAD_SIZE - existingRatings.length
         );
-    const combinations = SolverHelper.multisets(
-        ratingsToTry,
-        SQUAD_SIZE - existingRatings.length
-    );
-    let processedCombinations = 0;
-    let lastUpdate = performance.now();
+        let processedCombinations = 0;
+        let lastUpdate = performance.now();
 
-    for (const combination of combinations) {
-        processedCombinations++;
-        const elapsed = performance.now() - lastUpdate;
-        if (elapsed >= UPDATE_INTERVAL_MS) {
-            const response: SolverResponse = {
-                done: false,
-                progress: (processedCombinations / totalCombinations) * 100,
-                solutionsFound: solutions.length,
-                solutions: []
-            };
-            ctx.postMessage(response);
-            lastUpdate = performance.now();
+        for (const combination of combinations) {
+            processedCombinations++;
+            const elapsed = performance.now() - lastUpdate;
+            if (elapsed >= UPDATE_INTERVAL_MS) {
+                const response: SolverResponse = {
+                    status: "ok",
+                    done: false,
+                    progress: (processedCombinations / totalCombinations) * 100,
+                    solutionsFound: solutions.length,
+                    solutions: []
+                };
+                ctx.postMessage(response);
+                lastUpdate = performance.now();
+            }
+
+            const rating = SolverHelper.getRating([
+                ...existingRatings,
+                ...combination
+            ]);
+            if (rating < targetRating) {
+                continue;
+            }
+
+            const ratingCounts = combination.reduce((acc, curr) => {
+                acc[curr] = (acc[curr] || 0) + 1;
+                return acc;
+            }, {} as Record<number, number>);
+            const squad = Object.keys(ratingCounts).map((rating) => ({
+                rating: +rating,
+                count: ratingCounts[+rating]
+            }));
+            solutions.push({
+                price: SolverHelper.calculatePrice(combination, priceByRating),
+                squad: squad
+            });
+            solutions.sort((a, b) => a.price - b.price);
         }
 
-        const rating = SolverHelper.getRating([
-            ...existingRatings,
-            ...combination
-        ]);
-        if (rating < targetRating) {
-            continue;
-        }
-
-        const ratingCounts = combination.reduce((acc, curr) => {
-            acc[curr] = (acc[curr] || 0) + 1;
-            return acc;
-        }, {} as Record<number, number>);
-        const squad = Object.keys(ratingCounts).map((rating) => ({
-            rating: +rating,
-            count: ratingCounts[+rating]
-        }));
-        solutions.push({
-            price: SolverHelper.calculatePrice(combination, priceByRating),
-            squad: squad
-        });
+        const response: SolverResponse = {
+            status: "ok",
+            done: true,
+            progress: 100,
+            solutionsFound: solutions.length,
+            solutions: solutions.slice(0, MAX_SOLUTIONS_TO_RETURN)
+        };
+        ctx.postMessage(response);
+    } catch (error) {
+        const response: SolverResponse = {
+            status: "error",
+            error: error,
+            done: true,
+            progress: 100,
+            solutionsFound: 0,
+            solutions: []
+        };
+        ctx.postMessage(response);
     }
-
-    solutions.sort((a, b) => a.price - b.price);
-    const response: SolverResponse = {
-        done: true,
-        progress: 100,
-        solutionsFound: solutions.length,
-        solutions: solutions.slice(0, MAX_SOLUTIONS_TO_RETURN)
-    };
-    ctx.postMessage(response);
-};
+}

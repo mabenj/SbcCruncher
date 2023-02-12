@@ -99,6 +99,10 @@ export const useSolver = () => {
     };
 
     const handleResponse = (e: MessageEvent<SolverResponse>) => {
+        if (e.data.status === "error") {
+            handleError(e.data.error);
+            return;
+        }
         if (e.data.done) {
             const elapsedMs = performance.now() - startTimeRef.current;
             console.log(`Solved in ${prettyMilliseconds(elapsedMs)}`);
@@ -124,9 +128,9 @@ export const useSolver = () => {
         }
     };
 
-    const handleError = async (e: ErrorEvent) => {
+    const handleError = async (e: ErrorEvent | unknown) => {
+        const message = getErrorMessage(e instanceof ErrorEvent ? e.error : e);
         console.error(e);
-        const message = getErrorMessage(e.error);
         toast({
             status: "error",
             title: "Calculation error",

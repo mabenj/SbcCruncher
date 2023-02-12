@@ -1,8 +1,10 @@
 import { Solution } from "./solution.interface";
 
-export interface SolverResponse{
+export interface SolverResponse {
+    status: "ok" | "error";
     progress: number;
-    solutions: Solution[],
+    solutions: Solution[];
     solutionsFound: number;
     done: boolean;
+    error?: unknown;
 }
