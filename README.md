@@ -1,38 +1,21 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# ![SBC Cruncher banner](public/banner_low.png)
 
-## Getting Started
+[![Netlify Status](https://api.netlify.com/api/v1/badges/315ab81c-01ff-4ee7-bccd-c0cc092b7ad2/deploy-status)](https://app.netlify.com/sites/sbccruncher/deploys)
 
-First, run the development server:
+[SBC Cruncher](https://sbccruncher.cc) is a website that helps you find the cheapest player ratings to reach a specific target rating. This is particularly useful for completing FIFA Ultimate Team SBCs, as it allows you to specify the ratings of the players you already have and plan to use in the SBC. It also has the capability to automatically retrieve player rating prices from FUTBIN, removing the need for manual input of prices for each rating.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+## How it works
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+_tl;dr brute force_
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+1. Given the existing player ratings and the range of ratings to try, all possible combinations of these ratings are computed. In other words, all possible teams made up of the existing ratings plus all the possible _multisubsets_ (unordered sets with repetition of elements) of the ratings to try.
+2. All rating combinations that have a rating lower than the target are then filtered out.
+3. Lastly, each combination of ratings is assigned a price based on the user or FUTBIN-defined prices, after which, it is only a matter of displaying the cheapest of combination of ratings to the user.
+   
+See [solver.worker.ts](src/workers/solver.worker.ts) for more details.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## Tech used
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Next.js, TypeScript
+- Web Workers
+- Chakra UI
