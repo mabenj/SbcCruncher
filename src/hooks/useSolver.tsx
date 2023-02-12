@@ -4,6 +4,7 @@ import { SolverRequest } from "@/types/solver-request.interface";
 import { SolverResponse } from "@/types/solver-response.interface";
 import { getErrorMessage, range } from "@/utilities";
 import { useToast } from "@chakra-ui/react";
+import prettyMilliseconds from "pretty-ms";
 import { useEffect, useRef, useState } from "react";
 import { useEventTracker } from "./useEventTracker";
 
@@ -15,6 +16,7 @@ export const useSolver = () => {
     const [isSolving, setIsSolving] = useState(false);
     const [progress, setProgress] = useState(0);
 
+    const startTimeRef = useRef(0);
     const solverRef = useRef<Worker | null>(null);
 
     const toast = useToast();
@@ -58,7 +60,6 @@ export const useSolver = () => {
         }
 
         resetState();
-        console.time(TIMER_KEY);
         const existingRatings = config.existingRatings.flatMap(
             ({ count, rating }) =>
                 Array.from({ length: count }).fill(rating) as number[]
@@ -75,6 +76,7 @@ export const useSolver = () => {
             priceByRating: config.ratingPriceMap
         };
         solverRef.current.postMessage(message);
+        startTimeRef.current = performance.now();
         setIsSolving(true);
         eventTracker(
             "start",
@@ -98,10 +100,14 @@ export const useSolver = () => {
 
     const handleResponse = (e: MessageEvent<SolverResponse>) => {
         if (e.data.done) {
-            console.timeEnd(TIMER_KEY);
+            const elapsedMs = performance.now() - startTimeRef.current;
+            console.log(`Solved in ${prettyMilliseconds(elapsedMs)}`);
             toast({
                 status: "success",
-                description: "Calculation complete"
+                description: `Calculation completed in ${prettyMilliseconds(
+                    elapsedMs,
+                    { verbose: true }
+                )}`
             });
             setIsSolving(false);
             setProgress(e.data.progress);
@@ -109,7 +115,7 @@ export const useSolver = () => {
             setSolutionsFound(e.data.solutionsFound);
             eventTracker(
                 "success",
-                `solutions=${e.data.solutionsFound}`,
+                `solutions=${e.data.solutionsFound}|ms=${elapsedMs}`,
                 e.data.solutionsFound
             );
         } else {

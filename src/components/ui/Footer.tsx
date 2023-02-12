@@ -108,7 +108,7 @@ export default function Footer() {
                         onClick={() => eventTracker("github_click")}
                         justifyContent="center"
                         alignItems="center">
-                        <span>© {new Date().getFullYear()}</span>
+                        <Box color="gray.500">© {new Date().getFullYear()}</Box>
                         <Icon path={mdiGithub} size={1}></Icon>
                         <ExternalLink href="https://github.com/mabenj/SbcCruncher">
                             mabenj

@@ -24,11 +24,11 @@ ctx.onmessage = async (e: MessageEvent<SolverRequest>) => {
         SQUAD_SIZE - existingRatings.length
     );
     let processedCombinations = 0;
-    let lastUpdate = Date.now();
+    let lastUpdate = performance.now();
 
     for (const combination of combinations) {
         processedCombinations++;
-        const elapsed = Date.now() - lastUpdate;
+        const elapsed = performance.now() - lastUpdate;
         if (elapsed >= UPDATE_INTERVAL_MS) {
             const response: SolverResponse = {
                 done: false,
@@ -37,7 +37,7 @@ ctx.onmessage = async (e: MessageEvent<SolverRequest>) => {
                 solutions: []
             };
             ctx.postMessage(response);
-            lastUpdate = Date.now();
+            lastUpdate = performance.now();
         }
 
         const rating = SolverHelper.getRating([
