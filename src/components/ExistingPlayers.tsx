@@ -1,5 +1,6 @@
 import { SQUAD_SIZE } from "@/constants";
 import { useConfig } from "@/context/ConfigContext";
+import { useEventTracker } from "@/hooks/useEventTracker";
 import { AddIcon, DeleteIcon, MinusIcon } from "@chakra-ui/icons";
 import {
     Box,
@@ -25,6 +26,9 @@ const DEFAULT_RATING = 83;
 
 export default function ExistingPlayers() {
     const [config, setConfig] = useConfig();
+
+    const eventTracker = useEventTracker("Existing players");
+
     const totalPlayers = config.existingRatings
         .map(({ count }) => count)
         .reduce((acc, curr) => acc + curr, 0);
@@ -55,6 +59,7 @@ export default function ExistingPlayers() {
             }
             return { ...prev, existingRatings: [...prevRatings] };
         });
+        eventTracker("set_rating", rating.toString(), rating);
     };
 
     const removeRatingAt = (index: number) => {
@@ -62,6 +67,7 @@ export default function ExistingPlayers() {
             setConfig((prev) => {
                 const ratings = prev.existingRatings;
                 ratings.splice(index, 1);
+                eventTracker("delete_rating");
                 return {
                     ...prev,
                     existingRatings: [...ratings]
@@ -71,6 +77,7 @@ export default function ExistingPlayers() {
 
     const clearAllRatings = () => {
         setConfig((prev) => ({ ...prev, existingRatings: [] }));
+        eventTracker("clear_ratings");
     };
 
     const addRating = () => {
@@ -81,6 +88,7 @@ export default function ExistingPlayers() {
                 { rating: DEFAULT_RATING, count: 1 }
             ]
         }));
+        eventTracker("add_rating");
     };
 
     return (
@@ -153,7 +161,6 @@ export default function ExistingPlayers() {
                                                 <IconButton
                                                     variant="ghost"
                                                     size="sm"
-                                                    colorScheme="red"
                                                     aria-label="delete"
                                                     icon={<DeleteIcon />}
                                                     onClick={removeRatingAt(

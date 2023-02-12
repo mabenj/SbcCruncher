@@ -5,6 +5,7 @@ import { SolverResponse } from "@/types/solver-response.interface";
 import { getErrorMessage, range } from "@/utilities";
 import { useToast } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
+import { useEventTracker } from "./useEventTracker";
 
 const TIMER_KEY = "SOLVER";
 
@@ -17,6 +18,8 @@ export const useSolver = () => {
     const solverRef = useRef<Worker | null>(null);
 
     const toast = useToast();
+
+    const eventTracker = useEventTracker("Solver");
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => initWorker(), []);
@@ -73,10 +76,19 @@ export const useSolver = () => {
         };
         solverRef.current.postMessage(message);
         setIsSolving(true);
+        eventTracker(
+            "start",
+            JSON.stringify({
+                target: config.targetRating,
+                existing: config.existingRatings,
+                minMax: config.tryRatingMinMax
+            })
+        );
     };
 
     const onStopSolve = async () => {
         resetWorker();
+        eventTracker("stop");
     };
 
     const onClearSolutions = async () => {
@@ -95,6 +107,11 @@ export const useSolver = () => {
             setProgress(e.data.progress);
             setSolutions(e.data.solutions);
             setSolutionsFound(e.data.solutionsFound);
+            eventTracker(
+                "success",
+                `solutions=${e.data.solutionsFound}`,
+                e.data.solutionsFound
+            );
         } else {
             setProgress(e.data.progress);
             setSolutionsFound(e.data.solutionsFound);
@@ -103,12 +120,14 @@ export const useSolver = () => {
 
     const handleError = async (e: ErrorEvent) => {
         console.error(e);
+        const message = getErrorMessage(e.error);
         toast({
             status: "error",
             title: "Calculation error",
-            description: getErrorMessage(e.error)
+            description: message
         });
         resetWorker();
+        eventTracker("error", message);
     };
 
     const checkIsWorkerSupported = () => {
@@ -119,6 +138,7 @@ export const useSolver = () => {
             status: "error",
             description: "Your browser does not support Web Workers"
         });
+        eventTracker("unsupported", navigator.userAgent);
         return false;
     };
 

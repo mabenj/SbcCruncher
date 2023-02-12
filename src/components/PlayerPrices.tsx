@@ -1,5 +1,6 @@
 import { EMPTY_PRICES } from "@/constants";
 import { useConfig } from "@/context/ConfigContext";
+import { useEventTracker } from "@/hooks/useEventTracker";
 import { getErrorMessage, range, sleep, timeAgo } from "@/utilities";
 import {
     Alert,
@@ -35,6 +36,8 @@ export default function PlayerPrices() {
     const [pricesLastModified, setPricesLastModified] = useState(-1);
     const [isFetchingPrices, setIsFetchingPrices] = useState(false);
     const toast = useToast();
+
+    const eventTracker = useEventTracker("Prices")
 
     const ratingRange = range(
         Math.min(...config.tryRatingMinMax),
@@ -90,17 +93,20 @@ export default function PlayerPrices() {
                 title: "Price fetch failed",
                 description: errorMessage
             });
+            eventTracker("fetch_fail", errorMessage)
         } else {
             toast({
                 status: "success",
                 description: "Price fetch success"
             });
             setAllPrices(prices, Date.now());
+            eventTracker("fetch_ok")
         }
     };
 
     const clearAllPrices = () => {
         setAllPrices({ ...EMPTY_PRICES }, Date.now());
+        eventTracker("clear_all")
     };
 
     return (

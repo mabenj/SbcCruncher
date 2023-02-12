@@ -1,3 +1,4 @@
+import { useEventTracker } from "@/hooks/useEventTracker";
 import { MoonIcon, QuestionOutlineIcon, SunIcon } from "@chakra-ui/icons";
 import {
     Box,
@@ -35,6 +36,8 @@ export default function Header() {
         onClose: onHelpClose
     } = useDisclosure();
 
+    const eventTracker = useEventTracker("Header")
+
     return (
         <Box px={2} pt={5}>
             <Flex
@@ -70,11 +73,13 @@ export default function Header() {
                         <Button
                             variant="ghost"
                             size="sm"
-                            onClick={() =>
+                            onClick={() =>{
+                                eventTracker("nav_old_site")
                                 window.open(
                                     "https://old.sbccruncher.cc/",
                                     "_self"
-                                )
+                                    )
+                                }
                             }>
                             Old site
                         </Button>
@@ -98,7 +103,10 @@ export default function Header() {
                                     ? "Light mode"
                                     : "Dark mode"
                             }
-                            onClick={toggleColorMode}
+                            onClick={() => {
+                                eventTracker("set_theme", colorMode === "dark" ? "light" : "dark")
+                                toggleColorMode()
+                            }}
                         />
                     </HoverTooltip>
                     <HoverTooltip label="How to use">
@@ -107,7 +115,10 @@ export default function Header() {
                             variant="ghost"
                             icon={<QuestionOutlineIcon />}
                             aria-label="Help"
-                            onClick={onHelpOpen}
+                            onClick={() => {
+                                eventTracker("open_help")
+                                onHelpOpen()
+                            }}
                         />
                     </HoverTooltip>
                 </Flex>

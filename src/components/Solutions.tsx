@@ -1,4 +1,5 @@
 import { useConfig } from "@/context/ConfigContext";
+import { useEventTracker } from "@/hooks/useEventTracker";
 import { useSolver } from "@/hooks/useSolver";
 import { Solution } from "@/types/solution.interface";
 import { range } from "@/utilities";
@@ -39,7 +40,6 @@ const PAGE_SIZE = 12;
 
 export default function Solutions() {
     const [pageIndex, setPageIndex] = useState(0);
-
     const [config] = useConfig();
     const {
         solutions,
@@ -50,6 +50,8 @@ export default function Solutions() {
         onStopSolve,
         onClearSolutions
     } = useSolver();
+
+    const eventTracker = useEventTracker("Solutions");
 
     useEffect(() => {
         if (solutions.length === 0) {
@@ -163,7 +165,13 @@ export default function Solutions() {
                     <Button
                         visibility={pageIndex === 0 ? "hidden" : "visible"}
                         colorScheme="gray"
-                        onClick={() => setPageIndex((prev) => prev - 1)}>
+                        onClick={() =>
+                            setPageIndex((prev) => {
+                                const next = prev - 1;
+                                eventTracker("paginate", next.toString(), next);
+                                return next;
+                            })
+                        }>
                         Prev
                     </Button>
                     <span>Page {pageIndex + 1}</span>
@@ -175,7 +183,13 @@ export default function Solutions() {
                                 : "visible"
                         }
                         colorScheme="gray"
-                        onClick={() => setPageIndex((prev) => prev + 1)}>
+                        onClick={() =>
+                            setPageIndex((prev) => {
+                                const next = prev + 1;
+                                eventTracker("paginate", next.toString(), next);
+                                return next;
+                            })
+                        }>
                         Next
                     </Button>
                 </Flex>

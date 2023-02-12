@@ -1,5 +1,6 @@
 import { TRY_RATINGS } from "@/constants";
 import { useConfig } from "@/context/ConfigContext";
+import { useEventTracker } from "@/hooks/useEventTracker";
 import { range } from "@/utilities";
 import {
     Alert,
@@ -21,17 +22,24 @@ const WARNING_THRESHOLD = 15;
 
 export default function RatingRange() {
     const [config, setConfig] = useConfig();
+    const eventTracker = useEventTracker("Rating range");
+
     const min = Math.min(...config.tryRatingMinMax);
     const max = Math.max(...config.tryRatingMinMax);
 
-    const handleRangeChange = (range: [number, number]) => {
-        const newMin = Math.min(...range);
-        const newMax = Math.max(...range);
-        if (newMin === min && newMax === max) {
-            return;
-        }
-        setConfig((prev) => ({ ...prev, tryRatingMinMax: [newMin, newMax] }));
-    };
+    const handleRangeChange =
+        (isSlider: boolean) => (range: [number, number]) => {
+            const newMin = Math.min(...range);
+            const newMax = Math.max(...range);
+            if (newMin === min && newMax === max) {
+                return;
+            }
+            setConfig((prev) => ({
+                ...prev,
+                tryRatingMinMax: [newMin, newMax]
+            }));
+            eventTracker(isSlider ? "set_slider" : "set_card", min + "-" + max);
+        };
 
     return (
         <Stack spacing={10}>
@@ -42,7 +50,9 @@ export default function RatingRange() {
                     <RatingCardInput
                         customRange={TRY_RATINGS}
                         rating={min}
-                        onChange={(newVal) => handleRangeChange([newVal, max])}
+                        onChange={(newVal) =>
+                            handleRangeChange(false)([newVal, max])
+                        }
                         selection={range(min, max)}
                         reverseOptions
                     />
@@ -55,7 +65,9 @@ export default function RatingRange() {
                     <RatingCardInput
                         customRange={TRY_RATINGS}
                         rating={max}
-                        onChange={(newVal) => handleRangeChange([newVal, min])}
+                        onChange={(newVal) =>
+                            handleRangeChange(false)([newVal, min])
+                        }
                         selection={range(min, max)}
                         reverseOptions
                     />
@@ -68,7 +80,7 @@ export default function RatingRange() {
                 step={1}
                 colorScheme="brand"
                 value={[min, max]}
-                onChange={handleRangeChange}>
+                onChange={handleRangeChange(true)}>
                 <RangeSliderTrack>
                     <RangeSliderFilledTrack bg="brand.500" />
                 </RangeSliderTrack>

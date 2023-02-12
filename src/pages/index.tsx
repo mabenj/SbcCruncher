@@ -1,11 +1,12 @@
 import Footer from "@/components/ui/Footer";
 import Header from "@/components/ui/Header";
 import Main from "@/components/ui/Main";
+import { usePageview } from "@/hooks/usePageview";
 import { Container } from "@chakra-ui/react";
 import { Nunito } from "@next/font/google";
 import Head from "next/head";
+import { useEffect } from "react";
 
-// TODO https://stackoverflow.com/questions/60411351/how-to-use-google-analytics-with-next-js-app
 // TODO google site verification old site
 
 const font = Nunito({
@@ -13,6 +14,14 @@ const font = Nunito({
 });
 
 export default function Home() {
+    const pageview = usePageview();
+
+    useEffect(
+        () => pageview(window.location.pathname + window.location.search),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        []
+    );
+
     return (
         <>
             <HtmlHead />
@@ -44,7 +53,7 @@ const HtmlHead = () => (
 
         <meta
             name="google-site-verification"
-            content="k5Shx6P2PcuHEhWQ_DYgw6k1L562FAY-V0N1dAPuc1Y"
+            content={process.env.NEXT_PUBLIC_SITE_VERIFICATION}
         />
 
         {/* <!-- OG tags --> */}
