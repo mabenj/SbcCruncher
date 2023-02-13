@@ -46,6 +46,9 @@ export default function ExistingPlayers() {
                 const prevRatings = prev.existingRatings;
                 if (prevRatings[index]) {
                     prevRatings[index].count = count;
+                    eventTracker(
+                        `existing_rating=${count}x${prevRatings[index].rating}`
+                    );
                 }
                 return { ...prev, existingRatings: prevRatings };
             });
@@ -59,11 +62,7 @@ export default function ExistingPlayers() {
             }
             return { ...prev, existingRatings: [...prevRatings] };
         });
-        eventTracker(
-            "existing_rating=" + rating,
-            rating.toString(),
-            rating
-        );
+        eventTracker("existing_rating=" + rating, rating.toString(), rating);
     };
 
     const removeRatingAt = (index: number) => {

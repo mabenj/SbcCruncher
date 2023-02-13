@@ -6,10 +6,10 @@ import RatingCardCarouselSelect from "../ui/RatingCardCarouselSelect";
 
 export default function TargetRating() {
     const [config, setConfig] = useConfig();
-    const eventTracker = useEventTracker("Target rating")
+    const eventTracker = useEventTracker("Target rating");
 
     const setRating = (rating: number) => {
-        eventTracker("target=" + rating, rating.toString(), rating)
+        eventTracker("target=" + rating, rating.toString(), rating);
         setConfig((prev) => ({ ...prev, targetRating: rating }));
     };
 

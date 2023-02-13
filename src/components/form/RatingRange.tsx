@@ -19,10 +19,11 @@ import Icon from "@mdi/react";
 import RatingCardInput from "../ui/RatingCardInput";
 
 const WARNING_THRESHOLD = 15;
+const DEBOUNCE_MS = 2000
 
 export default function RatingRange() {
     const [config, setConfig] = useConfig();
-    const eventTracker = useEventTracker("Rating range");
+    const eventTracker = useEventTracker("Rating range", DEBOUNCE_MS);
 
     const min = Math.min(...config.tryRatingMinMax);
     const max = Math.max(...config.tryRatingMinMax);
