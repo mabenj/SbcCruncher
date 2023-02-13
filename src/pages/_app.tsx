@@ -12,7 +12,7 @@ if (
 }
 
 // get rid of service workers from previous versions
-if (typeof window !== "undefined" && "navigator" in Window) {
+if (typeof window !== "undefined" && "navigator" in window) {
     navigator.serviceWorker.getRegistrations().then((registrations) =>
         registrations.forEach((r) => {
             r.unregister();
@@ -20,6 +20,7 @@ if (typeof window !== "undefined" && "navigator" in Window) {
                 category: "Service worker",
                 action: "unregister"
             });
+            console.log("Service worker unregistered");
         })
     );
 }
