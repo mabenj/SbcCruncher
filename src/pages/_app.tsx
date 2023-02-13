@@ -11,6 +11,19 @@ if (
     ReactGA.initialize(process.env.NEXT_PUBLIC_ANALYTICS_ID);
 }
 
+// get rid of service workers from previous versions
+if (typeof window !== "undefined" && "navigator" in Window) {
+    navigator.serviceWorker.getRegistrations().then((registrations) =>
+        registrations.forEach((r) => {
+            r.unregister();
+            ReactGA.event({
+                category: "Service worker",
+                action: "unregister"
+            });
+        })
+    );
+}
+
 export default function App({ Component, pageProps }: AppProps) {
     return (
         <ChakraProvider theme={theme}>
