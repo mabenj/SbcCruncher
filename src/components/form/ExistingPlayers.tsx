@@ -23,11 +23,12 @@ import RatingCardInput from "../ui/RatingCardInput";
 
 const PLAYER_LIMIT = SQUAD_SIZE - 1;
 const DEFAULT_RATING = 83;
+const DEBOUNCE_MS = 4000;
 
 export default function ExistingPlayers() {
     const [config, setConfig] = useConfig();
 
-    const eventTracker = useEventTracker("Existing players");
+    const eventTracker = useEventTracker("Existing players", DEBOUNCE_MS);
 
     const totalPlayers = config.existingRatings
         .map(({ count }) => count)

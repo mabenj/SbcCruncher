@@ -19,7 +19,7 @@ import Icon from "@mdi/react";
 import RatingCardInput from "../ui/RatingCardInput";
 
 const WARNING_THRESHOLD = 15;
-const DEBOUNCE_MS = 2000
+const DEBOUNCE_MS = 4000;
 
 export default function RatingRange() {
     const [config, setConfig] = useConfig();
