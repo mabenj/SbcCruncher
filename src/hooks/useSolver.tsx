@@ -131,6 +131,7 @@ export const useSolver = () => {
     };
 
     const handleError = async (e: ErrorEvent | unknown) => {
+        eventTracker("solve_error", JSON.stringify(e));
         const message = getErrorMessage(e instanceof ErrorEvent ? e.error : e);
         console.error(e);
         toast({
@@ -139,7 +140,6 @@ export const useSolver = () => {
             description: message
         });
         resetWorker();
-        eventTracker("solve_error", message || JSON.stringify(e));
     };
 
     const checkIsWorkerSupported = () => {
