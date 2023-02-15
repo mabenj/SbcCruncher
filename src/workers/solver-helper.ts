@@ -1,17 +1,18 @@
 import { SQUAD_SIZE } from "@/constants";
-import { multisets } from "combinatorics";
 
 export class SolverHelper {
-    static getNumberOfCombinationsWithRepetitions(n: number, k: number) {
+    static getMultisubsetsCount(setLength: number, n: number) {
         return (
-            this.factorial(n + k - 1) /
-            (this.factorial(n - 1) * this.factorial(k))
+            this.factorial(setLength + n - 1) /
+            (this.factorial(setLength - 1) * this.factorial(n))
         );
     }
 
     static factorial(num: number) {
         let rval = 1;
-        for (let i = 2; i <= num; i++) rval = rval * i;
+        for (let i = 2; i <= num; i++) {
+            rval = rval * i;
+        }
         return rval;
     }
 
@@ -29,17 +30,39 @@ export class SolverHelper {
         return Math.floor(rating);
     }
 
-    static calculatePrice(
-        ratings: number[],
-        priceByRating: Record<number, number>
-    ) {
+    static getPrice(ratings: number[], priceByRating: Record<number, number>) {
         return ratings.reduce(
             (acc, curr) => acc + (priceByRating[curr] || 0),
             0
         );
     }
 
-    static multisets(set: number[], k: number) {
-        return multisets(set, k);
+    /**
+     * Calculates all the multisubsets of length n of a set
+     * @param set set
+     * @param n multisubset length
+     * @returns Iterable of multisubsets
+     */
+    static getMultisubsets<T>(set: Array<T>, n: number) {
+        return multisubsetsImpl(set, n);
+    }
+}
+
+function* multisubsetsImpl<T>(set: Array<T>, n: number): Iterable<Array<T>> {
+    if (n === 0) {
+        yield [];
+    } else if (set.length > 0) {
+        const [x, rest] = [set[0], set.slice(1)];
+        for (let i = 0; i < n; i++) {
+            yield* prependNTimes(x, multisubsetsImpl(rest, i), n - i);
+        }
+        yield* multisubsetsImpl(rest, n);
+    }
+}
+
+function* prependNTimes<T>(a: T, xss: Iterable<Array<T>>, n: number) {
+    const as = Array.from<T>({ length: n }).fill(a);
+    for (let xs of xss) {
+        yield [...as, ...xs];
     }
 }

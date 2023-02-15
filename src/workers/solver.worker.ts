@@ -17,12 +17,11 @@ function handleRequest(request: SolverRequest) {
             request;
         const solutions: Solution[] = [];
 
-        const totalCombinations =
-            SolverHelper.getNumberOfCombinationsWithRepetitions(
-                ratingsToTry.length,
-                SQUAD_SIZE - existingRatings.length
-            );
-        const combinations = SolverHelper.multisets(
+        const totalCombinations = SolverHelper.getMultisubsetsCount(
+            ratingsToTry.length,
+            SQUAD_SIZE - existingRatings.length
+        );
+        const combinations = SolverHelper.getMultisubsets(
             ratingsToTry,
             SQUAD_SIZE - existingRatings.length
         );
@@ -61,7 +60,7 @@ function handleRequest(request: SolverRequest) {
                 count: ratingCounts[+rating]
             }));
             solutions.push({
-                price: SolverHelper.calculatePrice(combination, priceByRating),
+                price: SolverHelper.getPrice(combination, priceByRating),
                 squad: squad
             });
         }
