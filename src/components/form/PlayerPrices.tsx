@@ -24,6 +24,7 @@ const PRICE_STORAGE_KEY = "SBCCRUNCHER.PRICEMAP";
 const PRICES_STALE_WARN_THRESHOLD_MS = 300_000;
 const MAX_PRICE_FETCH_ATTEMPTS = 10;
 const PRICE_FETCH_COOLDOWN_MS = 1000;
+const DEBOUNCE_MS = 3000;
 const FUTBIN_URL = "https://www.futbin.com/stc/cheapest";
 
 interface StoredPrices {
@@ -37,7 +38,7 @@ export default function PlayerPrices() {
     const [isFetchingPrices, setIsFetchingPrices] = useState(false);
     const toast = useToast();
 
-    const eventTracker = useEventTracker("Prices");
+    const eventTracker = useEventTracker("Prices", DEBOUNCE_MS);
 
     const ratingRange = range(
         Math.min(...config.tryRatingMinMax),
@@ -60,6 +61,7 @@ export default function PlayerPrices() {
             isNaN(priceNum) || typeof priceNum !== "number" ? 0 : priceNum;
         config.ratingPriceMap[rating] = priceNum;
         setAllPrices(config.ratingPriceMap, Date.now());
+        eventTracker("price_set_single", rating + "=" + price);
     };
 
     const setAllPrices = (
