@@ -42,8 +42,9 @@ export function sleep(ms: number) {
 }
 
 export function getErrorMessage(error: unknown) {
-    if (error instanceof Error) return error.message;
-    const str = String(error)
+    if (error instanceof Error || error instanceof ErrorEvent)
+        return error.message;
+    const str = String(error);
     return str === "Undefined" ? undefined : str;
 }
 
