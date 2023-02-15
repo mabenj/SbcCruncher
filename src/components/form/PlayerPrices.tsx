@@ -61,7 +61,7 @@ export default function PlayerPrices() {
             isNaN(priceNum) || typeof priceNum !== "number" ? 0 : priceNum;
         config.ratingPriceMap[rating] = priceNum;
         setAllPrices(config.ratingPriceMap, Date.now());
-        eventTracker("price_set_single", rating + "=" + price);
+        eventTracker("price_set_single=" + rating + "x" + price);
     };
 
     const setAllPrices = (
