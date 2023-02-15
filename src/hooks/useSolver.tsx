@@ -8,8 +8,6 @@ import prettyMilliseconds from "pretty-ms";
 import { useEffect, useRef, useState } from "react";
 import { useEventTracker } from "./useEventTracker";
 
-const TIMER_KEY = "SOLVER";
-
 export const useSolver = () => {
     const [solutions, setSolutions] = useState<Solution[]>([]);
     const [solutionsFound, setSolutionsFound] = useState(0);
