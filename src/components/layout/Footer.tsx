@@ -91,10 +91,24 @@ export default function Footer() {
                 </Flex>
                 <Flex
                     direction="column"
+                    alignItems="center"
                     gap={5}
                     fontSize="sm"
                     textAlign="center"
                     mt={20}>
+                    <Box position="relative" h="3.6rem" w="10rem">
+                        <Link
+                            href="https://play.google.com/store/apps/details?id=cc.sbccruncher.twa&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1"
+                            isExternal
+                            onClick={() => eventTracker("google_play_click")}>
+                            <Image
+                                alt="Get it on Google Play"
+                                src="/images/google-play.png"
+                                fill
+                                style={{ objectFit: "contain" }}
+                            />
+                        </Link>
+                    </Box>
                     <div onClick={() => eventTracker("brute_forcer_click")}>
                         <MutedSmall>
                             The idea for SBC Cruncher was inspired by{" "}
