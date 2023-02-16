@@ -290,7 +290,6 @@ async function fetchExternalPrices(dataSource: DataSource, platform: Platform) {
             const html = await res.text();
             const parser = PARSER_FACTORY[dataSource];
             cheapestByRating = parser(html);
-            console.log(cheapestByRating);
 
             errorMessage = "";
             break;

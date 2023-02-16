@@ -1,6 +1,5 @@
 export class FutwizParser {
     static fromHtml(html: string) {
-        console.log("täällä", html);
         const cheapestByRating: Record<number, number> = {};
 
         const domParser = new DOMParser();
@@ -9,7 +8,6 @@ export class FutwizParser {
         const ratingColumns = doc.querySelectorAll(
             ".col-4[style='padding-right:0px;']"
         );
-        console.log({ ratingColumns });
         ratingColumns.forEach((column) => {
             const rating = parseInt(
                 column.querySelector(".title")?.innerHTML.trim() ?? "-1"
