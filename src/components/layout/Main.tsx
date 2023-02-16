@@ -73,7 +73,7 @@ export default function Main() {
                             <Box mb={2}>Specify the price for each rating</Box>
                             <span>
                                 <strong>Note!</strong> Only the prices for
-                                ratings 81 - 98 are available from FUTBIN
+                                ratings 81 - 98 are available from Futbin and 82 - 98 from Futwiz
                             </span>
                         </MutedSmall>
                     </CardFooter>

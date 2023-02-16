@@ -3,7 +3,13 @@ import { useConfig } from "@/context/ConfigContext";
 import { FutbinParser } from "@/external-prices/FutbinParser";
 import { FutwizParser } from "@/external-prices/FutwizParser";
 import { useEventTracker } from "@/hooks/useEventTracker";
-import { getErrorMessage, range, sleep, timeAgo } from "@/utilities";
+import {
+    capitalize,
+    getErrorMessage,
+    range,
+    sleep,
+    timeAgo
+} from "@/utilities";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import {
     Alert,
@@ -12,15 +18,17 @@ import {
     Button,
     ButtonGroup,
     Flex,
+    HStack,
+    IconButton,
     Input,
     InputGroup,
     InputLeftAddon,
     Menu,
     MenuButton,
     MenuDivider,
-    MenuGroup,
-    MenuItem,
+    MenuItemOption,
     MenuList,
+    MenuOptionGroup,
     SimpleGrid,
     useToast
 } from "@chakra-ui/react";
@@ -31,8 +39,8 @@ import HoverTooltip from "../ui/HoverTooltip";
 
 const PRICE_STORAGE_KEY = "SBCCRUNCHER.PRICEMAP";
 const PRICES_STALE_WARN_THRESHOLD_MS = 300_000;
-const MAX_PRICE_FETCH_ATTEMPTS = 5;
-const PRICE_FETCH_COOLDOWN_MS = 3_000;
+const MAX_PRICE_FETCH_ATTEMPTS = 3;
+const PRICE_FETCH_COOLDOWN_MS = 2_000;
 const DEBOUNCE_MS = 3000;
 
 const URLS = {
@@ -57,6 +65,8 @@ export default function PlayerPrices() {
     const [config, setConfig] = useConfig();
     const [pricesLastModified, setPricesLastModified] = useState(-1);
     const [isFetchingPrices, setIsFetchingPrices] = useState(false);
+    const [dataSource, setDataSource] = useState<DataSource>("futwiz"); // TODO: use local storage
+    const [platform, setPlatform] = useState<Platform>("console"); // TODO: use local storage
 
     const toast = useToast();
 
@@ -106,7 +116,7 @@ export default function PlayerPrices() {
         });
     };
 
-    const fetchPrices = async (dataSource: DataSource, platform: Platform) => {
+    const fetchPrices = async () => {
         setIsFetchingPrices(true);
         try {
             const prices = await fetchExternalPrices(dataSource, platform);
@@ -115,14 +125,17 @@ export default function PlayerPrices() {
                 status: "success",
                 description: "Price fetch success"
             });
-            eventTracker("price_fetch_ok");
+            eventTracker("price_fetch_ok=" + dataSource + "-" + platform);
         } catch (error) {
             toast({
                 status: "error",
                 title: "Price fetch failed",
                 description: "Wait for a few minutes and try again"
             });
-            eventTracker("price_fetch_fail", getErrorMessage(error));
+            eventTracker(
+                "price_fetch_error=" + dataSource + "-" + platform,
+                getErrorMessage(error)
+            );
         } finally {
             setIsFetchingPrices(false);
         }
@@ -174,56 +187,80 @@ export default function PlayerPrices() {
 
             <Flex justifyContent={["center", null, "flex-start"]}>
                 <ButtonGroup colorScheme="gray" variant="solid" mt={10}>
-                    <Menu>
-                        <Button
-                            as={MenuButton}
-                            isLoading={isFetchingPrices}
-                            loadingText="Fetching"
-                            rightIcon={<ChevronDownIcon />}>
-                            Auto-fill
-                        </Button>
-                        <MenuList>
-                            <MenuGroup>
-                                <MenuItem
-                                    display="flex"
-                                    justifyContent="space-between"
-                                    onClick={() =>
-                                        fetchPrices("futbin", "console")
-                                    }>
-                                    <span>Futbin</span>
-                                    <HoverTooltip label="Console market">
-                                        <Icon path={mdiController} size={0.7} />
-                                    </HoverTooltip>
-                                </MenuItem>
-                                <MenuItem
-                                    display="flex"
-                                    justifyContent="space-between"
-                                    onClick={() =>
-                                        fetchPrices("futwiz", "console")
-                                    }>
-                                    <span>Futwiz</span>
-                                    <HoverTooltip label="Console market">
-                                        <Icon path={mdiController} size={0.7} />
-                                    </HoverTooltip>
-                                </MenuItem>
-                            </MenuGroup>
-                            <MenuDivider />
-                            <MenuGroup>
-                                <MenuItem
-                                    display="flex"
-                                    justifyContent="space-between"
-                                    onClick={() => fetchPrices("futwiz", "pc")}>
-                                    <span>Futwiz</span>
-                                    <HoverTooltip label="PC market">
-                                        <Icon
-                                            path={mdiDesktopTowerMonitor}
-                                            size={0.7}
-                                        />
-                                    </HoverTooltip>
-                                </MenuItem>
-                            </MenuGroup>
-                        </MenuList>
-                    </Menu>
+                    <ButtonGroup isAttached>
+                        <HoverTooltip
+                            label={`Fetch ${platform} market prices from ${capitalize(
+                                dataSource
+                            )}`}>
+                            <Button
+                                isLoading={isFetchingPrices}
+                                loadingText="Fetching data"
+                                onClick={fetchPrices}>
+                                Auto-fill
+                            </Button>
+                        </HoverTooltip>
+
+                        <Menu>
+                            <HoverTooltip label="Auto-fill options">
+                                <IconButton
+                                    as={MenuButton}
+                                    aria-label="Auto-fill options"
+                                    icon={<ChevronDownIcon />}
+                                />
+                            </HoverTooltip>
+
+                            <MenuList>
+                                <MenuOptionGroup type="radio" value={platform}>
+                                    <MenuItemOption
+                                        value="console"
+                                        onClick={() => setPlatform("console")}>
+                                        <HStack justifyContent="space-between">
+                                            <span>Console</span>
+                                            <HoverTooltip label="Console market">
+                                                <Icon
+                                                    path={mdiController}
+                                                    size={0.7}
+                                                />
+                                            </HoverTooltip>
+                                        </HStack>
+                                    </MenuItemOption>
+                                    <MenuItemOption
+                                        value="pc"
+                                        isDisabled={dataSource === "futbin"}
+                                        onClick={() => setPlatform("pc")}>
+                                        <HStack justifyContent="space-between">
+                                            <span>PC</span>
+                                            <HoverTooltip label="PC market">
+                                                <Icon
+                                                    path={
+                                                        mdiDesktopTowerMonitor
+                                                    }
+                                                    size={0.7}
+                                                />
+                                            </HoverTooltip>
+                                        </HStack>
+                                    </MenuItemOption>
+                                </MenuOptionGroup>
+                                <MenuDivider />
+                                <MenuOptionGroup
+                                    type="radio"
+                                    value={dataSource}>
+                                    <MenuItemOption
+                                        value="futwiz"
+                                        onClick={() => setDataSource("futwiz")}>
+                                        Futwiz
+                                    </MenuItemOption>
+                                    <MenuItemOption
+                                        value="futbin"
+                                        isDisabled={platform === "pc"}
+                                        onClick={() => setDataSource("futbin")}>
+                                        Futbin
+                                    </MenuItemOption>
+                                </MenuOptionGroup>
+                            </MenuList>
+                        </Menu>
+                    </ButtonGroup>
+
                     <HoverTooltip label="Set all prices to 0">
                         <Button
                             leftIcon={<Icon path={mdiClose} size={0.8} />}

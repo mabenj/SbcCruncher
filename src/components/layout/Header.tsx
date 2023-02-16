@@ -197,14 +197,16 @@ const HelpDrawer = ({
                             </Text>
                             <Text mt={2}>
                                 You can also fetch the prices directly from{" "}
-                                <Em>FUTBIN</Em>&apos;s{" "}
                                 <ExternalLink href="https://www.futbin.com/stc/cheapest">
-                                    cheapest player by rating
+                                    Futbin
                                 </ExternalLink>{" "}
-                                page by clicking the <Em>Fetch FUTBIN</Em>{" "}
-                                button. This will automatically fill the prices
-                                with the current prices listed in{" "}
-                                <Em>FUTBIN</Em>.
+                                or{" "}
+                                <ExternalLink href="https://www.futwiz.com/en/lowest-price-ratings">
+                                    Futwiz
+                                </ExternalLink>{" "}
+                                by clicking the <Em>Auto-fill</Em> button. This
+                                will automatically fetch and fill the prices with the
+                                current prices listed in <Em>Futbin</Em> or <Em>Futwiz</Em>.
                             </Text>
                         </ListItem>
                         <ListItem pl={4}>

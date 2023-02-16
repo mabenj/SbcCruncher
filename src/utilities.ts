@@ -51,3 +51,7 @@ export function getErrorMessage(error: unknown) {
 export function randomInt(min: number, max: number) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
+
+export function capitalize(text: string) {
+    return text.at(0)?.toUpperCase() + text.slice(1);
+}
