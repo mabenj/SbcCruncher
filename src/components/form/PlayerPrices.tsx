@@ -120,20 +120,23 @@ export default function PlayerPrices() {
         setIsFetchingPrices(true);
         try {
             const prices = await fetchExternalPrices(dataSource, platform);
-            setAllPrices(prices, Date.now());
+            const priceCount = Object.keys(prices).length;
+            setAllPrices({ ...EMPTY_PRICES, ...prices }, Date.now());
             toast({
                 status: "success",
-                description: "Price fetch success"
+                description: `Fetched prices for ${priceCount} ratings`
             });
-            eventTracker("price_fetch_ok=" + dataSource + "-" + platform);
+            eventTracker(
+                `price_fetch_ok=${dataSource}-${platform}x${priceCount}`
+            );
         } catch (error) {
             toast({
                 status: "error",
-                title: "Price fetch failed",
+                title: "Could not fetch price data",
                 description: "Wait for a few minutes and try again"
             });
             eventTracker(
-                "price_fetch_error=" + dataSource + "-" + platform,
+                `price_fetch_error=${dataSource}-${platform}`,
                 getErrorMessage(error)
             );
         } finally {
@@ -290,6 +293,10 @@ async function fetchExternalPrices(dataSource: DataSource, platform: Platform) {
             const html = await res.text();
             const parser = PARSER_FACTORY[dataSource];
             cheapestByRating = parser(html);
+
+            if (Object.keys(cheapestByRating).length === 0) {
+                throw new Error("No prices could be parsed");
+            }
 
             errorMessage = "";
             break;

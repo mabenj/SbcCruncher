@@ -5,7 +5,7 @@ export const RATING_MIN = 47;
 export const RATING_MAX = 99;
 export const SQUAD_SIZE = 11;
 export const ALL_RATINGS = range(RATING_MIN, RATING_MAX);
-export const TRY_RATINGS = range(70, RATING_MAX);
+export const TRY_RATINGS = range(75, RATING_MAX);
 
 export const EMPTY_PRICES = range(RATING_MIN, RATING_MAX).reduce(
     (acc, curr) => {
@@ -18,6 +18,6 @@ export const EMPTY_PRICES = range(RATING_MIN, RATING_MAX).reduce(
 export const DEFAULT_CONFIG: SolverConfig = {
     targetRating: 83,
     existingRatings: [],
-    tryRatingMinMax: [81, 91],
+    tryRatingMinMax: [82, 92],
     ratingPriceMap: EMPTY_PRICES
 };
