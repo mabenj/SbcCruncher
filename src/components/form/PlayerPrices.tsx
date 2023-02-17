@@ -33,11 +33,7 @@ import {
     SimpleGrid,
     useToast
 } from "@chakra-ui/react";
-import {
-    mdiClose,
-    mdiDesktopTowerMonitor,
-    mdiGamepadVariantOutline
-} from "@mdi/js";
+import { mdiClose, mdiDesktopTowerMonitor, mdiGamepadVariant } from "@mdi/js";
 import Icon from "@mdi/react";
 import { useEffect, useState } from "react";
 import HoverTooltip from "../ui/HoverTooltip";
@@ -219,7 +215,7 @@ export default function PlayerPrices() {
                                 leftIcon={
                                     platform === "console" ? (
                                         <Icon
-                                            path={mdiGamepadVariantOutline}
+                                            path={mdiGamepadVariant}
                                             size={1}
                                         />
                                     ) : (
@@ -251,9 +247,7 @@ export default function PlayerPrices() {
                                             <span>Console</span>
                                             <HoverTooltip label="Console market">
                                                 <Icon
-                                                    path={
-                                                        mdiGamepadVariantOutline
-                                                    }
+                                                    path={mdiGamepadVariant}
                                                     size={0.7}
                                                 />
                                             </HoverTooltip>
