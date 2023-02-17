@@ -71,23 +71,21 @@ export default function Footer() {
                         </HoverTooltip>
                     </Link>
 
-                    <Box position="relative" h="3.8rem" w="10rem">
+                    <Link
+                        href="https://play.google.com/store/apps/details?id=cc.sbccruncher.twa"
+                        isExternal
+                        onClick={() => eventTracker("google_play_click")}>
                         <HoverTooltip label="Google Play">
-                            <Link
-                                href="https://play.google.com/store/apps/details?id=cc.sbccruncher.twa&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1"
-                                isExternal
-                                onClick={() =>
-                                    eventTracker("google_play_click")
-                                }>
+                            <Box position="relative" h="2.7rem" w="10rem">
                                 <Image
-                                    alt="Get it on Google Play"
                                     src="/images/google-play.png"
+                                    alt="Get it on Google Play"
                                     fill
                                     style={{ objectFit: "contain" }}
                                 />
-                            </Link>
+                            </Box>
                         </HoverTooltip>
-                    </Box>
+                    </Link>
 
                     <HoverTooltip label="Open message form">
                         <Button
