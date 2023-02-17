@@ -51,7 +51,7 @@ export default function Header() {
                         alignItems="center"
                         cursor="pointer">
                         <Image
-                            src="/logo.png"
+                            src="/images/logo.png"
                             alt="SBC Cruncher logo"
                             width={40}
                             height={40}
@@ -205,8 +205,9 @@ const HelpDrawer = ({
                                     Futwiz
                                 </ExternalLink>{" "}
                                 by clicking the <Em>Auto-fill</Em> button. This
-                                will automatically fetch and fill the prices with the
-                                current prices listed in <Em>Futbin</Em> or <Em>Futwiz</Em>.
+                                will automatically fetch and fill the prices
+                                with the current prices listed in{" "}
+                                <Em>Futbin</Em> or <Em>Futwiz</Em>.
                             </Text>
                         </ListItem>
                         <ListItem pl={4}>

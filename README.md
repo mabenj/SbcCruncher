@@ -1,4 +1,4 @@
-![SBC Cruncher banner](public/banner_low.png)
+![SBC Cruncher banner](public/images/banner_low.png)
 
 <h1 align="center">SBC Cruncher</h1>
 

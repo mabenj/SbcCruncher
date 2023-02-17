@@ -136,6 +136,7 @@ async function fetchExternalPrices(priceProvider: PriceProvider) {
     const url = baseUrl + "?" + query;
     if (Date.now() - cache[url]?.lastModified < CACHE_MAX_AGE_MS) {
         await sleep(DUMMY_DELAY_MS);
+        console.log("HIT");
         return { priceMap: cache[url].priceMap, cacheHit: true };
     }
 

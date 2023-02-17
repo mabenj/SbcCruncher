@@ -47,8 +47,14 @@ export default function Footer() {
                 gap={5}
                 fontSize="sm"
                 textAlign="center"
-                my={20}>
-                <Flex direction={["column", null, "row"]} alignItems="center" columnGap={5} rowGap={2} mb={10}>
+                mt="20rem"
+                mb="3rem">
+                <Flex
+                    direction={["column", null, "row"]}
+                    alignItems="center"
+                    columnGap={5}
+                    rowGap={2}
+                    mb={10}>
                     <Link
                         href="https://www.buymeacoffee.com/mabenj"
                         isExternal
@@ -56,7 +62,7 @@ export default function Footer() {
                         <HoverTooltip label="Donate">
                             <Box position="relative" h="2.7rem" w="10rem">
                                 <Image
-                                    src="/bmc-button.svg"
+                                    src="/images/bmc-button.svg"
                                     alt="Buy me a coffee"
                                     fill
                                     style={{ objectFit: "contain" }}
