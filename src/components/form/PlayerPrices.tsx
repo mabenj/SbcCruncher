@@ -289,7 +289,9 @@ async function fetchExternalPrices(dataSource: DataSource, platform: Platform) {
             if (dataSource !== "futbin") {
                 query.append("platform", platform);
             }
-            const res = await fetch(baseUrl + "?" + query);
+            const res = await fetch(baseUrl + "?" + query, {
+                cache: "default"
+            });
             const html = await res.text();
             const parser = PARSER_FACTORY[dataSource];
             cheapestByRating = parser(html);
