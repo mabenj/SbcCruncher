@@ -9,7 +9,7 @@ const PRICE_FETCH_MAX_ATTEMPTS = 3;
 const PRICE_FETCH_COOLDOWN_MS = 2000;
 const TRACKER_DEBOUNCE_MS = 3000;
 const DUMMY_DELAY_MS = 500;
-const CACHE_MAX_AGE_MS = 3_600_00; // 1h
+const CACHE_MAX_AGE_MS = 3_600_000; // 1h
 
 const URLS = {
     Futbin: "https://www.futbin.com/stc/cheapest",
@@ -134,9 +134,9 @@ async function fetchExternalPrices(priceProvider: PriceProvider) {
         query.append("platform", priceProvider.platform.toLowerCase());
     }
     const url = baseUrl + "?" + query;
-    if (Date.now() - cache[url]?.lastModified < CACHE_MAX_AGE_MS) {
+    const age = Date.now() - cache[url]?.lastModified;
+    if (!isNaN(age) && age < CACHE_MAX_AGE_MS) {
         await sleep(DUMMY_DELAY_MS);
-        console.log("HIT");
         return { priceMap: cache[url].priceMap, cacheHit: true };
     }
 
