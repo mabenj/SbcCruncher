@@ -82,6 +82,7 @@ export const useSolver = () => {
 
     const onStopSolve = async () => {
         resetWorker();
+        resetState();
         eventTracker("solve_stop");
     };
 
@@ -100,7 +101,6 @@ export const useSolver = () => {
                 performance.now() - startTimeRef.current,
                 { verbose: true }
             );
-            console.log(`Solved in ${elapsed}`);
             toast({
                 status: "success",
                 description: `Calculation completed in ${elapsed}`

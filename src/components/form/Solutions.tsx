@@ -27,7 +27,8 @@ import {
     Td,
     Th,
     Thead,
-    Tr
+    Tr,
+    useToast
 } from "@chakra-ui/react";
 import { mdiCalculator } from "@mdi/js";
 import Icon from "@mdi/react";
@@ -52,12 +53,20 @@ export default function Solutions() {
     } = useSolver();
 
     const eventTracker = useEventTracker("Solutions");
+    const toast = useToast();
 
     useEffect(() => {
-        if (solutions.length === 0) {
-            return;
+        if (isSolving) {
+            onStopSolve();
+            toast({
+                status: "error",
+                title: "Calculation stopped",
+                description: "Configuration changed"
+            });
         }
-        onClearSolutions();
+        if (solutionsFound > 0) {
+            onClearSolutions();
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [config]);
 
@@ -168,7 +177,11 @@ export default function Solutions() {
                         onClick={() =>
                             setPageIndex((prev) => {
                                 const next = prev - 1;
-                                eventTracker("paginate=" + next, next.toString(), next);
+                                eventTracker(
+                                    "paginate=" + next,
+                                    next.toString(),
+                                    next
+                                );
                                 return next;
                             })
                         }>
@@ -184,7 +197,11 @@ export default function Solutions() {
                         onClick={() =>
                             setPageIndex((prev) => {
                                 const next = prev + 1;
-                                eventTracker("paginate=" + next, next.toString(), next);
+                                eventTracker(
+                                    "paginate=" + next,
+                                    next.toString(),
+                                    next
+                                );
                                 return next;
                             })
                         }>
