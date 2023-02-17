@@ -3,6 +3,7 @@ import { useConfig } from "@/context/ConfigContext";
 import { FutbinParser } from "@/external-prices/FutbinParser";
 import { FutwizParser } from "@/external-prices/FutwizParser";
 import { useEventTracker } from "@/hooks/useEventTracker";
+import useLocalStorage from "@/hooks/useLocalStorage";
 import {
     capitalize,
     getErrorMessage,
@@ -34,7 +35,6 @@ import {
 } from "@chakra-ui/react";
 import {
     mdiClose,
-    mdiControllerClassicOutline,
     mdiDesktopTowerMonitor,
     mdiGamepadVariantOutline
 } from "@mdi/js";
@@ -42,18 +42,24 @@ import Icon from "@mdi/react";
 import { useEffect, useState } from "react";
 import HoverTooltip from "../ui/HoverTooltip";
 
-const PRICE_STORAGE_KEY = "SBCCRUNCHER.PRICE.CURRENT";
-const PRICES_STALE_WARN_THRESHOLD_MS = 300_000;
-const MAX_PRICE_FETCH_ATTEMPTS = 3;
+const PRICE_FETCH_MAX_ATTEMPTS = 3;
 const PRICE_FETCH_COOLDOWN_MS = 2_000;
-const DEBOUNCE_MS = 3000;
+const EVENT_DEBOUNCE_MS = 3000;
+const PRICE_MAP_OLD_THRESHOLD_MS = 300_000;
 
 const URLS = {
     futbin: "https://www.futbin.com/stc/cheapest",
     futwiz: "/api/futwiz-cheapest"
 };
 
-const PARSER_FACTORY = {
+const STORAGE_KEYS = {
+    platform: "prices.platform",
+    dataSource: "prices.dataSource",
+    priceMap: "prices.current",
+    cache: "prices.cache"
+};
+
+const PARSERS = {
     futbin: FutbinParser.fromHtml,
     futwiz: FutwizParser.fromHtml
 };
@@ -70,12 +76,18 @@ export default function PlayerPrices() {
     const [config, setConfig] = useConfig();
     const [pricesLastModified, setPricesLastModified] = useState(-1);
     const [isFetchingPrices, setIsFetchingPrices] = useState(false);
-    const [dataSource, setDataSource] = useState<DataSource>("futwiz"); // TODO: use local storage
-    const [platform, setPlatform] = useState<Platform>("console"); // TODO: use local storage
+    const [dataSource, setDataSource] = useLocalStorage(
+        STORAGE_KEYS.dataSource,
+        "futwiz" as DataSource
+    );
+    const [platform, setPlatform] = useLocalStorage(
+        STORAGE_KEYS.platform,
+        "console" as Platform
+    );
 
     const toast = useToast();
 
-    const eventTracker = useEventTracker("Prices", DEBOUNCE_MS);
+    const eventTracker = useEventTracker("Prices", EVENT_DEBOUNCE_MS);
 
     const ratingRange = range(
         Math.min(...config.tryRatingMinMax),
@@ -83,7 +95,7 @@ export default function PlayerPrices() {
     );
 
     useEffect(() => {
-        const storedPricesJson = localStorage.getItem(PRICE_STORAGE_KEY);
+        const storedPricesJson = localStorage.getItem(STORAGE_KEYS.priceMap);
         if (storedPricesJson) {
             const storedPrices = JSON.parse(storedPricesJson) as StoredPrices;
             setAllPrices(storedPrices.priceMap, storedPrices.timestamp);
@@ -114,7 +126,7 @@ export default function PlayerPrices() {
                 timestamp
             };
             localStorage.setItem(
-                PRICE_STORAGE_KEY,
+                STORAGE_KEYS.priceMap,
                 JSON.stringify(storedPrices)
             );
             return { ...prev, ratingPriceMap: newPrices };
@@ -181,7 +193,7 @@ export default function PlayerPrices() {
 
             {pricesLastModified > 0 &&
                 Date.now() - pricesLastModified >
-                    PRICES_STALE_WARN_THRESHOLD_MS && (
+                    PRICE_MAP_OLD_THRESHOLD_MS && (
                     <Box mt={5}>
                         <Alert status="info">
                             <AlertIcon />
@@ -221,7 +233,7 @@ export default function PlayerPrices() {
                             </Button>
                         </HoverTooltip>
 
-                        <Menu>
+                        <Menu closeOnSelect={false}>
                             <HoverTooltip label="Auto-fill options">
                                 <IconButton
                                     as={MenuButton}
@@ -298,11 +310,10 @@ export default function PlayerPrices() {
 }
 
 async function fetchExternalPrices(dataSource: DataSource, platform: Platform) {
-    const CACHE_STORAGE_KEY = "SBCCRUNCHER.PRICE.CACHE";
     const PRICE_MAX_AGE_MS = 3_600_000; // 1h
     const GIMMICK_MS = 500; // 1h
 
-    const cacheJson = localStorage.getItem(CACHE_STORAGE_KEY);
+    const cacheJson = localStorage.getItem(STORAGE_KEYS.cache);
     const cache = cacheJson
         ? (JSON.parse(cacheJson) as {
               [url: string]: {
@@ -323,12 +334,12 @@ async function fetchExternalPrices(dataSource: DataSource, platform: Platform) {
         return cache[url].priceMap;
     }
 
-    const htmlParser = PARSER_FACTORY[dataSource];
+    const htmlParser = PARSERS[dataSource];
     let cheapestByRating: Record<number, number> = {};
     let errorMessage = "";
     let attempts = 0;
 
-    while (attempts++ < MAX_PRICE_FETCH_ATTEMPTS) {
+    while (attempts++ < PRICE_FETCH_MAX_ATTEMPTS) {
         try {
             const res = await fetch(url);
             const html = await res.text();
@@ -359,6 +370,6 @@ async function fetchExternalPrices(dataSource: DataSource, platform: Platform) {
             priceMap: cheapestByRating
         };
     }
-    localStorage.setItem(CACHE_STORAGE_KEY, JSON.stringify(cache));
+    localStorage.setItem(STORAGE_KEYS.cache, JSON.stringify(cache));
     return cheapestByRating;
 }
