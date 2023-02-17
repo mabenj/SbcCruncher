@@ -6,7 +6,6 @@ import {
     Flex,
     FormControl,
     FormLabel,
-    Heading,
     Input,
     Link,
     Modal,
@@ -19,14 +18,14 @@ import {
     Stack,
     Textarea,
     useDisclosure,
-    useToast,
-    VStack
+    useToast
 } from "@chakra-ui/react";
 import { mdiEmailFastOutline, mdiGithub } from "@mdi/js";
 import Icon from "@mdi/react";
 import Image from "next/image";
 import { useState } from "react";
 import ExternalLink from "../ui/ExternalLink";
+import HoverTooltip from "../ui/HoverTooltip";
 import MutedSmall from "../ui/MutedSmall";
 
 const FORM_URL = "https://formbold.com/s/94NmX";
@@ -42,93 +41,83 @@ export default function Footer() {
 
     return (
         <>
-            <Flex direction="column" gap={10} px={3} mt={40} mb={10}>
-                <Flex
-                    direction={["column", null, null, "row"]}
-                    justifyContent="space-evenly"
-                    fontSize="sm"
-                    gap="3rem">
-                    <VStack>
-                        <Heading as="h3" size="md">
-                            Donate
-                        </Heading>
-                        <Flex gap={2}>
+            <Flex
+                direction="column"
+                alignItems="center"
+                gap={5}
+                fontSize="sm"
+                textAlign="center"
+                my={20}>
+                <Flex direction={["column", null, "row"]} alignItems="center" columnGap={5} rowGap={2} mb={10}>
+                    <Link
+                        href="https://www.buymeacoffee.com/mabenj"
+                        isExternal
+                        onClick={() => eventTracker("donate_click")}>
+                        <HoverTooltip label="Donate">
+                            <Box position="relative" h="2.7rem" w="10rem">
+                                <Image
+                                    src="/bmc-button.svg"
+                                    alt="Buy me a coffee"
+                                    fill
+                                    style={{ objectFit: "contain" }}
+                                />
+                            </Box>
+                        </HoverTooltip>
+                    </Link>
+
+                    <Box position="relative" h="3.8rem" w="10rem">
+                        <HoverTooltip label="Google Play">
                             <Link
-                                href="https://www.buymeacoffee.com/mabenj"
+                                href="https://play.google.com/store/apps/details?id=cc.sbccruncher.twa&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1"
                                 isExternal
-                                onClick={() => eventTracker("donate_click")}>
-                                <Box position="relative" h="2.7rem" w="10rem">
-                                    <Image
-                                        src="/bmc-button.svg"
-                                        alt="Buy me a coffee"
-                                        fill
-                                        style={{ objectFit: "contain" }}
-                                    />
-                                </Box>
+                                onClick={() =>
+                                    eventTracker("google_play_click")
+                                }>
+                                <Image
+                                    alt="Get it on Google Play"
+                                    src="/images/google-play.png"
+                                    fill
+                                    style={{ objectFit: "contain" }}
+                                />
                             </Link>
-                        </Flex>
-                    </VStack>
-
-                    <VStack>
-                        <Heading as="h3" size="md">
-                            Contact & Feedback
-                        </Heading>
-                        <Flex alignItems="center" gap={2}>
-                            <Icon path={mdiEmailFastOutline} size={1}></Icon>
-
-                            <Button
-                                variant="ghost"
-                                color="brand.400"
-                                onClick={() => {
-                                    eventTracker("contact_form_open");
-                                    onFormOpen();
-                                }}
-                                fontWeight="700">
-                                Send message
-                            </Button>
-                        </Flex>
-                    </VStack>
-                </Flex>
-                <Flex
-                    direction="column"
-                    alignItems="center"
-                    gap={5}
-                    fontSize="sm"
-                    textAlign="center"
-                    mt={20}>
-                    <Box position="relative" h="3.6rem" w="10rem">
-                        <Link
-                            href="https://play.google.com/store/apps/details?id=cc.sbccruncher.twa&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1"
-                            isExternal
-                            onClick={() => eventTracker("google_play_click")}>
-                            <Image
-                                alt="Get it on Google Play"
-                                src="/images/google-play.png"
-                                fill
-                                style={{ objectFit: "contain" }}
-                            />
-                        </Link>
+                        </HoverTooltip>
                     </Box>
-                    <div onClick={() => eventTracker("brute_forcer_click")}>
-                        <MutedSmall>
-                            The idea for SBC Cruncher was inspired by{" "}
-                            <ExternalLink href="https://elmaano.github.io/sbc/">
-                                SBC Rating Brute Forcer
-                            </ExternalLink>
-                        </MutedSmall>
-                    </div>
-                    <Flex
-                        gap={2}
-                        py={2}
-                        onClick={() => eventTracker("github_click")}
-                        justifyContent="center"
-                        alignItems="center">
-                        <Box color="gray.500">© {new Date().getFullYear()}</Box>
-                        <Icon path={mdiGithub} size={1}></Icon>
-                        <ExternalLink href="https://github.com/mabenj/SbcCruncher">
-                            mabenj
+
+                    <HoverTooltip label="Open message form">
+                        <Button
+                            colorScheme="brand"
+                            leftIcon={
+                                <Icon path={mdiEmailFastOutline} size={1} />
+                            }
+                            onClick={() => {
+                                eventTracker("contact_form_open");
+                                onFormOpen();
+                            }}>
+                            Contact & Feedback
+                        </Button>
+                    </HoverTooltip>
+                </Flex>
+
+                <div onClick={() => eventTracker("brute_forcer_click")}>
+                    <MutedSmall>
+                        The idea for SBC Cruncher was inspired by{" "}
+                        <ExternalLink href="https://elmaano.github.io/sbc/">
+                            SBC Rating Brute Forcer
                         </ExternalLink>
-                    </Flex>
+                    </MutedSmall>
+                </div>
+
+                <Flex
+                    gap={2}
+                    py={2}
+                    onClick={() => eventTracker("github_click")}
+                    justifyContent="center"
+                    alignItems="center">
+                    <Box color="gray.500">© {new Date().getFullYear()}</Box>
+                    <Icon path={mdiGithub} size={1}></Icon>
+                    <ExternalLink href="https://github.com/mabenj/SbcCruncher">
+                        mabenj
+                    </ExternalLink>
                 </Flex>
             </Flex>
             <ContactForm isOpen={isFormOpen} onClose={onFormClose} />
@@ -223,11 +212,17 @@ const ContactForm = (props: { isOpen: boolean; onClose: () => any }) => {
                                 />
                             </FormControl>
                             <FormControl>
-                                <FormLabel htmlFor="email">Email</FormLabel>
+                                <FormLabel
+                                    htmlFor="email"
+                                    display="flex"
+                                    alignItems="center"
+                                    gap={1}>
+                                    Email <MutedSmall>(Optional)</MutedSmall>
+                                </FormLabel>
                                 <Input
                                     type="email"
                                     id="email"
-                                    placeholder="siuu@gmail.com (Optional)"
+                                    placeholder="siuu@gmail.com"
                                     variant="filled"
                                 />
                             </FormControl>
