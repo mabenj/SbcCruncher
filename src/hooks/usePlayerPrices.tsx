@@ -58,7 +58,7 @@ function usePlayerPrices() {
     const autofillExternalPrices = async () => {
         setIsFetching(true);
         try {
-            const priceMap: Record<number, number> = await fetchExternalPrices(
+            const { priceMap, cacheHit } = await fetchExternalPrices(
                 externalSource
             );
             const priceCount = Object.keys(priceMap).length;
@@ -68,7 +68,9 @@ function usePlayerPrices() {
                 description: `Fetched prices for ${priceCount} ratings`
             });
             eventTracker(
-                `price_fetch_ok=${externalSource.id}-${externalSource.platform}-${priceCount}`
+                `price_fetch_ok=${externalSource.id}-${
+                    externalSource.platform
+                }-${priceCount}-${cacheHit ? "HIT" : "MISS"}`
             );
         } catch (error) {
             toast({
@@ -134,7 +136,7 @@ async function fetchExternalPrices(priceProvider: PriceProvider) {
     const url = baseUrl + "?" + query;
     if (Date.now() - cache[url]?.lastModified < CACHE_MAX_AGE_MS) {
         await sleep(DUMMY_DELAY_MS);
-        return cache[url].priceMap;
+        return { priceMap: cache[url].priceMap, cacheHit: true };
     }
 
     const htmlParser = PARSERS[priceProvider.id];
@@ -177,7 +179,7 @@ async function fetchExternalPrices(priceProvider: PriceProvider) {
     }
     localStorage.setItem(STORAGE_KEYS.cache, JSON.stringify(cache));
 
-    return cheapestByRating;
+    return { priceMap: cheapestByRating, cacheHit: false };
 }
 
 function parseFutbin(htmlDoc: Document) {
