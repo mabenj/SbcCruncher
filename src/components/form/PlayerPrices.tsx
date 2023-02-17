@@ -32,7 +32,12 @@ import {
     SimpleGrid,
     useToast
 } from "@chakra-ui/react";
-import { mdiClose, mdiController, mdiDesktopTowerMonitor } from "@mdi/js";
+import {
+    mdiClose,
+    mdiControllerClassicOutline,
+    mdiDesktopTowerMonitor,
+    mdiGamepadVariantOutline
+} from "@mdi/js";
 import Icon from "@mdi/react";
 import { useEffect, useState } from "react";
 import HoverTooltip from "../ui/HoverTooltip";
@@ -198,7 +203,20 @@ export default function PlayerPrices() {
                             <Button
                                 isLoading={isFetchingPrices}
                                 loadingText="Fetching data"
-                                onClick={fetchPrices}>
+                                onClick={fetchPrices}
+                                leftIcon={
+                                    platform === "console" ? (
+                                        <Icon
+                                            path={mdiGamepadVariantOutline}
+                                            size={1}
+                                        />
+                                    ) : (
+                                        <Icon
+                                            path={mdiDesktopTowerMonitor}
+                                            size={1}
+                                        />
+                                    )
+                                }>
                                 Auto-fill
                             </Button>
                         </HoverTooltip>
@@ -221,7 +239,9 @@ export default function PlayerPrices() {
                                             <span>Console</span>
                                             <HoverTooltip label="Console market">
                                                 <Icon
-                                                    path={mdiController}
+                                                    path={
+                                                        mdiGamepadVariantOutline
+                                                    }
                                                     size={0.7}
                                                 />
                                             </HoverTooltip>
