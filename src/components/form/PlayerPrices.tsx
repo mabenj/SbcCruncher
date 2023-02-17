@@ -37,7 +37,7 @@ import Icon from "@mdi/react";
 import { useEffect, useState } from "react";
 import HoverTooltip from "../ui/HoverTooltip";
 
-const PRICE_STORAGE_KEY = "SBCCRUNCHER.PRICEMAP";
+const PRICE_STORAGE_KEY = "SBCCRUNCHER.PRICE.CURRENT";
 const PRICES_STALE_WARN_THRESHOLD_MS = 300_000;
 const MAX_PRICE_FETCH_ATTEMPTS = 3;
 const PRICE_FETCH_COOLDOWN_MS = 2_000;
@@ -278,23 +278,41 @@ export default function PlayerPrices() {
 }
 
 async function fetchExternalPrices(dataSource: DataSource, platform: Platform) {
+    const CACHE_STORAGE_KEY = "SBCCRUNCHER.PRICE.CACHE";
+    const PRICE_MAX_AGE_MS = 3_600_000; // 1h
+    const GIMMICK_MS = 500; // 1h
+
+    const cacheJson = localStorage.getItem(CACHE_STORAGE_KEY);
+    const cache = cacheJson
+        ? (JSON.parse(cacheJson) as {
+              [url: string]: {
+                  timestamp: number;
+                  priceMap: Record<number, number>;
+              };
+          })
+        : {};
+
+    const baseUrl = URLS[dataSource];
+    const query = new URLSearchParams();
+    if (dataSource !== "futbin") {
+        query.append("platform", platform);
+    }
+    const url = baseUrl + "?" + query;
+    if (Date.now() - cache[url]?.timestamp < PRICE_MAX_AGE_MS) {
+        await sleep(GIMMICK_MS);
+        return cache[url].priceMap;
+    }
+
+    const htmlParser = PARSER_FACTORY[dataSource];
     let cheapestByRating: Record<number, number> = {};
     let errorMessage = "";
     let attempts = 0;
 
     while (attempts++ < MAX_PRICE_FETCH_ATTEMPTS) {
         try {
-            const baseUrl = URLS[dataSource];
-            const query = new URLSearchParams();
-            if (dataSource !== "futbin") {
-                query.append("platform", platform);
-            }
-            const res = await fetch(baseUrl + "?" + query, {
-                cache: "default"
-            });
+            const res = await fetch(url);
             const html = await res.text();
-            const parser = PARSER_FACTORY[dataSource];
-            cheapestByRating = parser(html);
+            cheapestByRating = htmlParser(html);
 
             if (Object.keys(cheapestByRating).length === 0) {
                 throw new Error("No prices could be parsed");
@@ -314,5 +332,13 @@ async function fetchExternalPrices(dataSource: DataSource, platform: Platform) {
         return Promise.reject(errorMessage);
     }
 
+    if (dataSource !== "futbin") {
+        // don't cache futbin
+        cache[url] = {
+            timestamp: Date.now(),
+            priceMap: cheapestByRating
+        };
+    }
+    localStorage.setItem(CACHE_STORAGE_KEY, JSON.stringify(cache));
     return cheapestByRating;
 }
