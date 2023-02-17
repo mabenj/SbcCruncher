@@ -47,59 +47,69 @@ export default function Footer() {
                 gap={5}
                 fontSize="sm"
                 textAlign="center"
-                mt="20rem"
+                mt={["10rem", null, "20rem"]}
                 mb="3rem">
                 <Flex
                     direction={["column", null, "row"]}
-                    alignItems="center"
+                    alignItems={["stretch", null, "center"]}
                     columnGap={5}
-                    rowGap={2}
+                    rowGap={5}
                     mb={10}>
-                    <Link
-                        href="https://www.buymeacoffee.com/mabenj"
-                        isExternal
-                        onClick={() => eventTracker("donate_click")}>
-                        <HoverTooltip label="Donate">
-                            <Box position="relative" h="2.7rem" w="10rem">
+                    <Box
+                        position="relative"
+                        flexGrow={1}
+                        minW="10rem"
+                        h="2.7rem">
+                        <Link
+                            href="https://www.buymeacoffee.com/mabenj"
+                            isExternal
+                            onClick={() => eventTracker("donate_click")}>
+                            <HoverTooltip label="Donate">
                                 <Image
                                     src="/images/bmc-button.svg"
                                     alt="Buy me a coffee"
                                     fill
                                     style={{ objectFit: "contain" }}
                                 />
-                            </Box>
-                        </HoverTooltip>
-                    </Link>
+                            </HoverTooltip>
+                        </Link>
+                    </Box>
 
-                    <Link
-                        href="https://play.google.com/store/apps/details?id=cc.sbccruncher.twa"
-                        isExternal
-                        onClick={() => eventTracker("google_play_click")}>
-                        <HoverTooltip label="Google Play">
-                            <Box position="relative" h="2.7rem" w="10rem">
+                    <Box
+                        position="relative"
+                        flexGrow={1}
+                        minW="10rem"
+                        h="2.7rem">
+                        <Link
+                            href="https://play.google.com/store/apps/details?id=cc.sbccruncher.twa"
+                            isExternal
+                            onClick={() => eventTracker("google_play_click")}>
+                            <HoverTooltip label="Google Play">
                                 <Image
                                     src="/images/google-play.png"
                                     alt="Get it on Google Play"
                                     fill
                                     style={{ objectFit: "contain" }}
                                 />
-                            </Box>
-                        </HoverTooltip>
-                    </Link>
+                            </HoverTooltip>
+                        </Link>
+                    </Box>
 
-                    <HoverTooltip label="Open message form">
-                        <Button
-                            colorScheme="brand"
-                            leftIcon={
-                                <Icon path={mdiEmailFastOutline} size={1} />
-                            }
-                            onClick={() => {
-                                eventTracker("contact_form_open");
-                                onFormOpen();
-                            }}>
-                            Contact & Feedback
-                        </Button>
-                    </HoverTooltip>
+                    <Box flexGrow={1}>
+                        <HoverTooltip label="Open message form">
+                            <Button
+                                colorScheme="brand"
+                                leftIcon={
+                                    <Icon path={mdiEmailFastOutline} size={1} />
+                                }
+                                onClick={() => {
+                                    eventTracker("contact_form_open");
+                                    onFormOpen();
+                                }}>
+                                Contact & Feedback
+                            </Button>
+                        </HoverTooltip>
+                    </Box>
                 </Flex>
 
                 <div onClick={() => eventTracker("brute_forcer_click")}>
