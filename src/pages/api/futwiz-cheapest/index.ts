@@ -22,8 +22,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             })
         ).text();
 
+        res.setHeader("Content-Type", "text/html");
+        res.setHeader("Cache-Control", "public, maxage=3600");
         res.status(200).send(html);
     } catch (error) {
+        res.setHeader("Content-Type", "text/json");
         res.status(500).json({ error: getErrorMessage(error) });
     }
 };
