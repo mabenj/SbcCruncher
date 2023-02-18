@@ -58,9 +58,8 @@ function usePlayerPrices() {
     const autofillExternalPrices = async () => {
         setIsFetching(true);
         try {
-            const { priceMap, cacheHit } = await fetchExternalPrices(
-                externalSource
-            );
+            const { priceMap, localCache, remoteCache } =
+                await fetchExternalPrices(externalSource);
             const priceCount = Object.keys(priceMap).length;
             setAllPrices(priceMap);
             toast({
@@ -68,9 +67,7 @@ function usePlayerPrices() {
                 description: `Fetched prices for ${priceCount} ratings`
             });
             eventTracker(
-                `price_fetch_ok=${externalSource.id}-${
-                    externalSource.platform
-                }-${priceCount}-${cacheHit ? "HIT" : "MISS"}`
+                `price_fetch_ok=${externalSource.id}-${externalSource.platform}-L_${localCache}-R_${remoteCache}`
             );
         } catch (error) {
             toast({
@@ -134,10 +131,20 @@ async function fetchExternalPrices(priceProvider: PriceProvider) {
         query.append("platform", priceProvider.platform.toLowerCase());
     }
     const url = baseUrl + "?" + query;
-    const age = Date.now() - cache[url]?.lastModified;
-    if (!isNaN(age) && age < CACHE_MAX_AGE_MS) {
+
+    const cacheHit = !!cache[url];
+    const cacheFresh =
+        cacheHit && Date.now() - cache[url].lastModified < CACHE_MAX_AGE_MS;
+    const localCache =
+        cacheHit && cacheFresh ? "HIT" : cacheHit ? "EXPIRED" : "MISS";
+    let remoteCache = "MISS";
+    if (cacheHit && cacheFresh) {
         await sleep(DUMMY_DELAY_MS);
-        return { priceMap: cache[url].priceMap, cacheHit: true };
+        return {
+            priceMap: cache[url].priceMap,
+            localCache,
+            remoteCache
+        };
     }
 
     const htmlParser = PARSERS[priceProvider.id];
@@ -148,6 +155,7 @@ async function fetchExternalPrices(priceProvider: PriceProvider) {
     while (attempts++ < PRICE_FETCH_MAX_ATTEMPTS) {
         try {
             const res = await fetch(url);
+            remoteCache = res.headers.get("X-Function-Cache") || "MISS";
             const html = await res.text();
             const domParser = new DOMParser();
             const doc = domParser.parseFromString(html, "text/html");
@@ -180,7 +188,7 @@ async function fetchExternalPrices(priceProvider: PriceProvider) {
     }
     localStorage.setItem(STORAGE_KEYS.cache, JSON.stringify(cache));
 
-    return { priceMap: cheapestByRating, cacheHit: false };
+    return { priceMap: cheapestByRating, localCache, remoteCache };
 }
 
 function parseFutbin(htmlDoc: Document) {
