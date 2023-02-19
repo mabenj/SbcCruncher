@@ -141,7 +141,8 @@ export default function Footer() {
                     color="gray.500"
                     fontSize="xs"
                     p={2}>
-                    Build commit {process.env.NEXT_PUBLIC_COMMIT_REF}
+                    Build commit{" "}
+                    {process.env.NEXT_PUBLIC_COMMIT_REF.slice(0, 7)}
                 </Box>
             )}
             <ContactForm isOpen={isFormOpen} onClose={onFormClose} />
