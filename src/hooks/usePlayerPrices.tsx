@@ -89,11 +89,8 @@ function usePlayerPrices() {
         eventTracker("price_clear_all");
     };
 
-    const setPrice = (rating: number, price: string) => {
-        let priceNum = +price;
-        priceNum =
-            isNaN(priceNum) || typeof priceNum !== "number" ? 0 : priceNum;
-        storedPrices.priceMap[rating] = priceNum;
+    const setPrice = (rating: number, price: number) => {
+        storedPrices.priceMap[rating] = price;
         setAllPrices(storedPrices.priceMap);
         eventTracker("price_set=" + rating + "-" + price);
     };

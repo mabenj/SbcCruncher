@@ -2,6 +2,8 @@ const FORMATTER = new Intl.RelativeTimeFormat(undefined, {
     numeric: "auto"
 });
 
+const NUMBER_FORMATTER = new Intl.NumberFormat();
+
 const DIVISIONS = [
     { amount: 60, name: "seconds" },
     { amount: 60, name: "minutes" },
@@ -54,4 +56,11 @@ export function randomInt(min: number, max: number) {
 
 export function capitalize(text: string) {
     return text.at(0)?.toUpperCase() + text.slice(1);
+}
+
+export function prettyNumber(number: number | undefined) {
+    if (typeof number === "undefined") {
+        return "";
+    }
+    return NUMBER_FORMATTER.format(number);
 }

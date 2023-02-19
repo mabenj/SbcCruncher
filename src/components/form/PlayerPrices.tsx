@@ -11,9 +11,6 @@ import {
     Flex,
     HStack,
     IconButton,
-    Input,
-    InputGroup,
-    InputLeftAddon,
     Menu,
     MenuButton,
     MenuDivider,
@@ -26,6 +23,7 @@ import { mdiClose, mdiDesktopTowerMonitor, mdiGamepadVariant } from "@mdi/js";
 import Icon from "@mdi/react";
 import { useEffect } from "react";
 import HoverTooltip from "../ui/HoverTooltip";
+import PriceInput from "../ui/PriceInput";
 
 const PRICES_AGE_WARN_THRESHOLD_MS = 300_000; // 5m
 
@@ -47,26 +45,14 @@ export default function PlayerPrices() {
 
     return (
         <>
-            <SimpleGrid minChildWidth="9rem" spacing={[2, 2, 3, null, 5]}>
+            <SimpleGrid minChildWidth="14rem" spacing={[2, 2, 3, null, 5]}>
                 {ratingRange.map((rating) => (
-                    <InputGroup key={rating}>
-                        <InputLeftAddon p={2}>
-                            <HoverTooltip
-                                label={`Price for ${rating} rated players`}>
-                                <span>{rating}</span>
-                            </HoverTooltip>
-                        </InputLeftAddon>
-                        <Input
-                            type="tel"
-                            inputMode="numeric"
-                            pattern="[0-9]"
-                            value={config.ratingPriceMap[rating] || ""}
-                            onChange={(e) =>
-                                prices.setPrice(rating, e.target.value)
-                            }
-                            placeholder="0"
-                        />
-                    </InputGroup>
+                    <PriceInput
+                        key={rating}
+                        rating={rating}
+                        value={config.ratingPriceMap[rating]}
+                        onChange={(price) => prices.setPrice(rating, price)}
+                    />
                 ))}
             </SimpleGrid>
 

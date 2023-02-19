@@ -2,7 +2,7 @@ import { useConfig } from "@/context/ConfigContext";
 import { useEventTracker } from "@/hooks/useEventTracker";
 import { useSolver } from "@/hooks/useSolver";
 import { Solution } from "@/types/solution.interface";
-import { range } from "@/utilities";
+import { prettyNumber, range } from "@/utilities";
 import { NotAllowedIcon } from "@chakra-ui/icons";
 import {
     Alert,
@@ -36,7 +36,6 @@ import { useEffect, useState } from "react";
 import HoverTooltip from "../ui/HoverTooltip";
 import MutedSmall from "../ui/MutedSmall";
 
-const NUMBER_FORMATTER = new Intl.NumberFormat();
 const PAGE_SIZE = 12;
 
 export default function Solutions() {
@@ -113,9 +112,7 @@ export default function Solutions() {
                 {progress > 0 && (
                     <Stat mt={6}>
                         <StatLabel>Total Found</StatLabel>
-                        <StatNumber>
-                            {NUMBER_FORMATTER.format(solutionsFound)}
-                        </StatNumber>
+                        <StatNumber>{prettyNumber(solutionsFound)}</StatNumber>
                         <StatHelpText
                             visibility={
                                 !isSolving && solutions.length > 0
@@ -123,8 +120,7 @@ export default function Solutions() {
                                     : "hidden"
                             }>
                             <span>
-                                Cheapest{" "}
-                                {NUMBER_FORMATTER.format(solutions[0]?.price)}{" "}
+                                Cheapest {prettyNumber(solutions[0]?.price)}{" "}
                                 coins
                             </span>
                         </StatHelpText>
@@ -251,8 +247,7 @@ const SolutionCard = ({
                                 mt={1}
                                 isLoaded={!!solution}
                                 fadeDuration={1}>
-                                {NUMBER_FORMATTER.format(solution?.price ?? 0)}{" "}
-                                coins
+                                {prettyNumber(solution?.price ?? 0)} coins
                             </Skeleton>
                         </Box>
                     </div>
