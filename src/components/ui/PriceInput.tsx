@@ -90,7 +90,7 @@ export default function PriceInput({
 
     return (
         <InputGroup>
-            <InputLeftAddon p={2}>
+            <InputLeftAddon p={3}>
                 <HoverTooltip label={`Price for ${rating} rated players`}>
                     <span>{rating}</span>
                 </HoverTooltip>
@@ -109,23 +109,26 @@ export default function PriceInput({
                 placeholder="0"
                 onFocus={startEdit}
                 onBlur={endEdit}
+                title=""
             />
-            <InputRightAddon p={2}>
-                <Flex mx={1} gap={1}>
+            <InputRightAddon p={0}>
+                <Flex mx={0} gap={0}>
                     <IconButton
-                        size="xs"
+                        size="md"
                         variant="ghost"
-                        icon={<MinusIcon />}
+                        icon={<MinusIcon fontSize="2xs" />}
                         aria-label="Decrement"
                         onClick={handleDecrement}
+                        isDisabled={!value || value <= 0}
                         _hover={{ backgroundColor: stepBgColor }}
                     />
                     <IconButton
-                        size="xs"
+                        size="md"
                         variant="ghost"
-                        icon={<AddIcon />}
+                        icon={<AddIcon fontSize="2xs" />}
                         aria-label="Increment"
                         onClick={handleIncrement}
+                        isDisabled={!!value && value >= MAX_VALUE}
                         _hover={{ backgroundColor: stepBgColor }}
                     />
                 </Flex>
