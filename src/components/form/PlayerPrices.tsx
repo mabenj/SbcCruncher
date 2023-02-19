@@ -45,7 +45,7 @@ export default function PlayerPrices() {
 
     return (
         <>
-            <SimpleGrid minChildWidth="14rem" spacing={[2, 2, 3, null, 5]}>
+            <SimpleGrid minChildWidth="15rem" spacing={[2, 2, 3, null, 5]}>
                 {ratingRange.map((rating) => (
                     <PriceInput
                         key={rating}

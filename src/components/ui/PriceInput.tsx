@@ -6,7 +6,8 @@ import {
     Input,
     InputGroup,
     InputLeftAddon,
-    InputRightAddon
+    InputRightAddon,
+    useColorModeValue
 } from "@chakra-ui/react";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import HoverTooltip from "./HoverTooltip";
@@ -20,6 +21,8 @@ const PRICE_TIERS = [
     { min: 0, step: 150 }
 ];
 
+const MAX_VALUE = 15_000_000;
+
 export default function PriceInput({
     value,
     rating,
@@ -31,6 +34,8 @@ export default function PriceInput({
 }) {
     const [inputValue, setInputValue] = useState<number | undefined>();
     const [isEditing, setIsEditing] = useState(false);
+
+    const stepBgColor = useColorModeValue("gray.200", "whiteAlpha.200");
 
     const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -60,7 +65,7 @@ export default function PriceInput({
         if (isNaN(num) || typeof num !== "number") {
             num = undefined;
         }
-        setInputValue(num);
+        setInputValue(num ? Math.min(MAX_VALUE, num) : num);
     };
 
     const handleIncrement = () => {
@@ -93,21 +98,23 @@ export default function PriceInput({
                 onFocus={startEdit}
                 onBlur={endEdit}
             />
-            <InputRightAddon p={0}>
+            <InputRightAddon p={2}>
                 <Flex mx={1} gap={1}>
                     <IconButton
                         size="xs"
-                        variant="solid"
+                        variant="ghost"
                         icon={<MinusIcon />}
                         aria-label="Decrement"
                         onClick={handleDecrement}
+                        _hover={{ backgroundColor: stepBgColor }}
                     />
                     <IconButton
                         size="xs"
-                        variant="solid"
+                        variant="ghost"
                         icon={<AddIcon />}
                         aria-label="Increment"
                         onClick={handleIncrement}
+                        _hover={{ backgroundColor: stepBgColor }}
                     />
                 </Flex>
             </InputRightAddon>

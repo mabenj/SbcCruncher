@@ -1,8 +1,10 @@
-const FORMATTER = new Intl.RelativeTimeFormat(undefined, {
-    numeric: "auto"
+const FORMATTER = new Intl.RelativeTimeFormat("en", {
+    localeMatcher: "best fit",
+    numeric: "auto",
+    style: "long"
 });
 
-const NUMBER_FORMATTER = new Intl.NumberFormat();
+const NUMBER_FORMATTER = new Intl.NumberFormat("en-US");
 
 const DIVISIONS = [
     { amount: 60, name: "seconds" },
