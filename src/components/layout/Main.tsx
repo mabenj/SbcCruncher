@@ -99,6 +99,7 @@ const InfoBtn = ({ children }: { children: React.ReactNode }) => {
                     size="xs"
                     variant="ghost"
                     cursor="help"
+                    color="gray.500"
                     onMouseOver={() => setIsHovering(true)}
                     onMouseLeave={() => setIsHovering(false)}
                     icon={<Icon path={mdiInformationOutline} size={0.7} />}
