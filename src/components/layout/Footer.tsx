@@ -134,6 +134,16 @@ export default function Footer() {
                     </ExternalLink>
                 </Flex>
             </Flex>
+            {process.env.NEXT_PUBLIC_COMMIT_REF && (
+                <Box
+                    position="absolute"
+                    left={0}
+                    color="gray.500"
+                    fontSize="xs"
+                    p={2}>
+                    Build commit {process.env.NEXT_PUBLIC_COMMIT_REF}
+                </Box>
+            )}
             <ContactForm isOpen={isFormOpen} onClose={onFormClose} />
         </>
     );

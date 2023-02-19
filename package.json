@@ -4,7 +4,7 @@
     "private": true,
     "scripts": {
         "dev": "next dev",
-        "build": "next build",
+        "build": "cross-env NEXT_PUBLIC_COMMIT_REF=$COMMIT_REF next build",
         "start": "next start",
         "lint": "next lint"
     },
@@ -30,6 +30,7 @@
         "typescript": "4.9.5"
     },
     "devDependencies": {
+        "cross-env": "^7.0.3",
         "sass": "^1.58.0"
     }
 }
