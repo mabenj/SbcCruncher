@@ -165,7 +165,12 @@ export default function PlayerPrices() {
                                                 id: "Futwiz"
                                             })
                                         }>
-                                        Futwiz
+                                        <Flex justifyContent="space-between">
+                                            <span>Futwiz</span>
+                                            <HoverTooltip label="Available ratings">
+                                                <span>82 - 98</span>
+                                            </HoverTooltip>
+                                        </Flex>
                                     </MenuItemOption>
                                     <MenuItemOption
                                         value="Futbin"
@@ -179,7 +184,12 @@ export default function PlayerPrices() {
                                                 id: "Futbin"
                                             })
                                         }>
-                                        Futbin
+                                        <Flex justifyContent="space-between">
+                                            <span>Futbin</span>
+                                            <HoverTooltip label="Available ratings">
+                                                <span>81 - 98</span>
+                                            </HoverTooltip>
+                                        </Flex>
                                     </MenuItemOption>
                                 </MenuOptionGroup>
                             </MenuList>
