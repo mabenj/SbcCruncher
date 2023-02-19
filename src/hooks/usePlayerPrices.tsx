@@ -92,7 +92,6 @@ function usePlayerPrices() {
     const setPrice = (rating: number, price: number) => {
         storedPrices.priceMap[rating] = price;
         setAllPrices(storedPrices.priceMap);
-        eventTracker("price_set=" + rating + "-" + price);
     };
 
     const setAllPrices = (priceMap: Record<number, number>) => {

@@ -1,3 +1,4 @@
+import { useEventTracker } from "@/hooks/useEventTracker";
 import { prettyNumber } from "@/utilities";
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import {
@@ -39,6 +40,8 @@ export default function PriceInput({
 
     const inputRef = useRef<HTMLInputElement | null>(null);
 
+    const eventTracker = useEventTracker("Prices");
+
     useEffect(() => setInputValue(value), [value]);
 
     const startEdit = () => {
@@ -53,7 +56,10 @@ export default function PriceInput({
         newValue = roundToNearestStep(newValue, step);
 
         setIsEditing(false);
-        onChange(newValue);
+        if (newValue !== value) {
+            onChange(newValue);
+            eventTracker(`set_price_manual=${rating}-${newValue}`);
+        }
     };
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -72,12 +78,14 @@ export default function PriceInput({
         const increment =
             PRICE_TIERS.find((tier) => tier.min <= (value ?? 0))?.step ?? 0;
         onChange((value ?? 0) + increment);
+        eventTracker("increment");
     };
 
     const handleDecrement = () => {
         const decrement =
             PRICE_TIERS.find((tier) => tier.min < (value ?? 0))?.step ?? 0;
         onChange(Math.max(0, (value ?? 0) - decrement));
+        eventTracker("decrement");
     };
 
     return (
@@ -92,7 +100,11 @@ export default function PriceInput({
                 type="tel"
                 inputMode="numeric"
                 pattern="[0-9]"
-                value={isEditing ? inputValue : prettyNumber(value)}
+                value={
+                    (isEditing
+                        ? inputValue
+                        : prettyNumber(value || undefined)) || ""
+                }
                 onChange={handleInputChange}
                 placeholder="0"
                 onFocus={startEdit}
