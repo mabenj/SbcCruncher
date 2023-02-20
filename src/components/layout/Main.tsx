@@ -12,7 +12,7 @@ import {
     PopoverContent,
     Stack
 } from "@chakra-ui/react";
-import { mdiInformationOutline } from "@mdi/js";
+import { mdiHelpCircleOutline } from "@mdi/js";
 import Icon from "@mdi/react";
 import { useRef, useState } from "react";
 import ExistingPlayers from "../form/ExistingPlayers";
@@ -102,7 +102,7 @@ const InfoBtn = ({ children }: { children: React.ReactNode }) => {
                     color="gray.500"
                     onMouseOver={() => setIsHovering(true)}
                     onMouseLeave={() => setIsHovering(false)}
-                    icon={<Icon path={mdiInformationOutline} size={0.7} />}
+                    icon={<Icon path={mdiHelpCircleOutline} size={0.7} />}
                     aria-label={""}
                 />
             </PopoverAnchor>

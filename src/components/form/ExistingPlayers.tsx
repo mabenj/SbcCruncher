@@ -3,7 +3,6 @@ import { useConfig } from "@/context/ConfigContext";
 import { useEventTracker } from "@/hooks/useEventTracker";
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import {
-    Box,
     Button,
     ButtonGroup,
     Flex,
@@ -97,10 +96,8 @@ export default function ExistingPlayers() {
 
     return (
         <>
-            {config.existingRatings.length === 0 ? (
-                <Box color="gray.500">No ratings specified</Box>
-            ) : (
-                <TableContainer overflowX="hidden">
+            {config.existingRatings.length > 0 && (
+                <TableContainer overflowX="hidden" mb={10}>
                     <Table>
                         <Thead>
                             <Tr>
@@ -191,9 +188,8 @@ export default function ExistingPlayers() {
                     </Table>
                 </TableContainer>
             )}
-
             <Flex justifyContent={["center", null, "flex-start"]}>
-                <ButtonGroup colorScheme="gray" variant="solid" mt={10}>
+                <ButtonGroup colorScheme="gray" variant="solid">
                     <HoverTooltip label="Add a player rating">
                         <Button
                             leftIcon={<Icon path={mdiPlus} size={0.8} />}
