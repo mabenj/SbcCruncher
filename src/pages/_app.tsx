@@ -1,6 +1,7 @@
 import "@/styles/globals.scss";
 import { ChakraProvider } from "@chakra-ui/react";
 import { AppProps } from "next/app";
+import Script from "next/script";
 import ReactGA from "react-ga";
 import { theme } from "../theme";
 
@@ -27,8 +28,21 @@ if (typeof window !== "undefined" && "navigator" in window) {
 
 export default function App({ Component, pageProps }: AppProps) {
     return (
-        <ChakraProvider theme={theme}>
-            <Component {...pageProps} />
-        </ChakraProvider>
+        <>
+            <Script id="ezoicId">{`var ezoicId = 437895;`}</Script>
+            <Script
+                type="text/javascript"
+                src="//go.ezoic.net/ezoic/ezoic.js"
+                defer
+            />
+            <Script
+                src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3653518580503209"
+                defer
+                crossOrigin="anonymous"
+            />
+            <ChakraProvider theme={theme}>
+                <Component {...pageProps} />
+            </ChakraProvider>
+        </>
     );
 }
