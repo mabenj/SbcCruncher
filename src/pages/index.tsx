@@ -68,5 +68,17 @@ const HtmlHead = () => (
         <meta property="og:url" content="https://sbccruncher.cc" />
         {/* 200x200px - 1200x1200px */}
         <meta property="og:image" content="https://i.imgur.com/pHxDN7k.png" />
+
+        <script>var ezoicId = 437895;</script>
+        <script
+            type="text/javascript"
+            src="//go.ezoic.net/ezoic/ezoic.js"
+            defer
+        />
+        <script
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3653518580503209"
+            defer
+            crossOrigin="anonymous"
+        />
     </Head>
 );
