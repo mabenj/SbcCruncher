@@ -129,11 +129,7 @@ export const useSolver = () => {
     };
 
     const handleError = async (e: unknown) => {
-        // https://stackoverflow.com/a/44862693
-        eventTracker(
-            "solve_error",
-            JSON.stringify(e, ["message", "arguments", "type", "name"])
-        );
+        eventTracker("solve_error", JSON.stringify(e));
         const message = getErrorMessage(e);
         console.error(e);
         toast({
