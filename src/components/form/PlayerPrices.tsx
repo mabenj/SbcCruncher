@@ -57,7 +57,11 @@ export default function PlayerPrices() {
                     <PriceInput
                         key={rating}
                         rating={rating}
-                        value={config.ratingPriceMap[rating]}
+                        value={
+                            prices.isFetching
+                                ? 0
+                                : config.ratingPriceMap[rating]
+                        }
                         onChange={(price) => prices.setPrice(rating, price)}
                     />
                 ))}
