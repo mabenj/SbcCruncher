@@ -92,7 +92,7 @@ export default function Solutions() {
                     <Button
                         size="lg"
                         colorScheme="red"
-                        variant="outline"
+                        variant="ghost"
                         leftIcon={<NotAllowedIcon />}
                         isDisabled={!isSolving}
                         onClick={onStopSolve}>

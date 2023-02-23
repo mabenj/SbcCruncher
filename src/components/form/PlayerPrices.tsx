@@ -22,7 +22,7 @@ import {
     SimpleGrid,
     useColorModeValue
 } from "@chakra-ui/react";
-import { mdiClose, mdiDesktopTowerMonitor, mdiGamepadVariant } from "@mdi/js";
+import { mdiDesktopTowerMonitor, mdiGamepadVariant } from "@mdi/js";
 import Icon from "@mdi/react";
 import { useEffect } from "react";
 import HoverTooltip from "../ui/HoverTooltip";
@@ -204,9 +204,7 @@ export default function PlayerPrices() {
                     </ButtonGroup>
 
                     <HoverTooltip label="Set all prices to 0">
-                        <Button
-                            leftIcon={<Icon path={mdiClose} size={0.8} />}
-                            onClick={prices.clearAll}>
+                        <Button variant="ghost" onClick={prices.clearAll}>
                             Reset
                         </Button>
                     </HoverTooltip>

@@ -15,7 +15,7 @@ import {
     Thead,
     Tr
 } from "@chakra-ui/react";
-import { mdiClose, mdiPlus, mdiTrashCanOutline } from "@mdi/js";
+import { mdiPlus, mdiTrashCanOutline } from "@mdi/js";
 import Icon from "@mdi/react";
 import HoverTooltip from "../ui/HoverTooltip";
 import RatingCardInput from "../ui/RatingCardInput";
@@ -211,7 +211,8 @@ export default function ExistingPlayers() {
                     {config.existingRatings.length > 0 && (
                         <HoverTooltip label="Clear all player ratings">
                             <Button
-                                leftIcon={<Icon path={mdiClose} size={0.8} />}
+                                variant="ghost"
+                                colorScheme="gray"
                                 onClick={clearAllRatings}>
                                 Reset
                             </Button>
