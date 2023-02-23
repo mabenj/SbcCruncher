@@ -33,6 +33,7 @@ import {
 import { mdiCalculator } from "@mdi/js";
 import Icon from "@mdi/react";
 import { useEffect, useState } from "react";
+import ExternalLink from "../ui/ExternalLink";
 import HoverTooltip from "../ui/HoverTooltip";
 import MutedSmall from "../ui/MutedSmall";
 
@@ -269,7 +270,15 @@ const SolutionCard = ({
                             {solution &&
                                 solution.squad.map(({ rating, count }) => (
                                     <Tr key={rating}>
-                                        <Td textAlign="center">{rating}</Td>
+                                        <Td textAlign="center">
+                                            <ExternalLink
+                                                // Note: prices are sorted by ps (console) prices
+                                                href={`https://www.futbin.com/players?order=asc&player_rating=${rating}-${rating}&ps_price=200-15000000&sort=ps_price`}>
+                                                <HoverTooltip label="Show Futbin cheapest">
+                                                    <span>{rating}</span>
+                                                </HoverTooltip>
+                                            </ExternalLink>
+                                        </Td>
                                         <Td textAlign="center">{count}</Td>
                                     </Tr>
                                 ))}
