@@ -1,6 +1,7 @@
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import Main from "@/components/layout/Main";
+import AnimatedBg from "@/components/ui/AnimatedBg";
 import { usePageview } from "@/hooks/usePageview";
 import { Container } from "@chakra-ui/react";
 import { Nunito } from "@next/font/google";
@@ -23,6 +24,7 @@ export default function Home() {
     return (
         <>
             <HtmlHead />
+            <AnimatedBg />
             <Container maxW="4xl" className={font.className}>
                 <header>
                     <Header />

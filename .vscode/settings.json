@@ -42,7 +42,8 @@
         "SBCCRUNCHER",
         "Scroller",
         "scrollpanel",
-        "scrolltop"
+        "scrolltop",
+        "tsparticles"
     ],
     "explorer.fileNesting.enabled": true,
     "explorer.fileNesting.patterns": {
