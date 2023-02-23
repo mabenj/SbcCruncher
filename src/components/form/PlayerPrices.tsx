@@ -41,7 +41,7 @@ export default function PlayerPrices() {
         Math.max(...config.tryRatingMinMax)
     );
 
-    const allZeroes = ratingRange.every((r) => config.ratingPriceMap[r] === 0);
+    const allZeroes = ratingRange.every((r) => !config.ratingPriceMap[r]);
 
     useEffect(
         () =>
