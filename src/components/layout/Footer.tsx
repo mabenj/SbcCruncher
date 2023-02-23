@@ -96,7 +96,7 @@ export default function Footer() {
                     </Box>
 
                     <Box flexGrow={1}>
-                        <HoverTooltip label="Open message form">
+                        <HoverTooltip label="Send message">
                             <Button
                                 colorScheme="brand"
                                 leftIcon={

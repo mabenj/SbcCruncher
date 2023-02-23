@@ -4,7 +4,9 @@ import { range, timeAgo } from "@/utilities";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import {
     Alert,
+    AlertDescription,
     AlertIcon,
+    AlertTitle,
     Box,
     Button,
     ButtonGroup,
@@ -17,7 +19,8 @@ import {
     MenuItemOption,
     MenuList,
     MenuOptionGroup,
-    SimpleGrid
+    SimpleGrid,
+    useColorModeValue
 } from "@chakra-ui/react";
 import { mdiClose, mdiDesktopTowerMonitor, mdiGamepadVariant } from "@mdi/js";
 import Icon from "@mdi/react";
@@ -25,16 +28,20 @@ import { useEffect } from "react";
 import HoverTooltip from "../ui/HoverTooltip";
 import PriceInput from "../ui/PriceInput";
 
-const PRICES_AGE_WARN_THRESHOLD_MS = 300_000; // 5m
+const PRICES_AGE_WARN_THRESHOLD_MS = 30 * 60 * 1000; // 30m
 
 export default function PlayerPrices() {
     const [config, setConfig] = useConfig();
     const prices = usePlayerPrices();
 
+    const splitBtnBorderColor = useColorModeValue("gray.300", "gray.500");
+
     const ratingRange = range(
         Math.min(...config.tryRatingMinMax),
         Math.max(...config.tryRatingMinMax)
     );
+
+    const allZeroes = ratingRange.every((r) => config.ratingPriceMap[r] === 0);
 
     useEffect(
         () =>
@@ -60,12 +67,10 @@ export default function PlayerPrices() {
                 Date.now() - prices.lastModified >
                     PRICES_AGE_WARN_THRESHOLD_MS && (
                     <Box mt={5}>
-                        <Alert status="info">
+                        <Alert status="info" variant="left-accent">
                             <AlertIcon />
-                            <small>
-                                Prices last updated{" "}
-                                {timeAgo(new Date(prices.lastModified))}
-                            </small>
+                            Prices last updated{" "}
+                            {timeAgo(new Date(prices.lastModified))}
                         </Alert>
                     </Box>
                 )}
@@ -103,6 +108,8 @@ export default function PlayerPrices() {
                                     as={MenuButton}
                                     aria-label="Auto-fill options"
                                     icon={<ChevronDownIcon />}
+                                    borderLeft="1px solid"
+                                    borderColor={splitBtnBorderColor}
                                 />
                             </HoverTooltip>
 
@@ -205,6 +212,22 @@ export default function PlayerPrices() {
                     </HoverTooltip>
                 </ButtonGroup>
             </Flex>
+
+            {allZeroes && (
+                <Box mt="3rem">
+                    <Alert
+                        status="warning"
+                        variant="left-accent"
+                        display="flex"
+                        flexDirection={["column", null, "row"]}>
+                        <AlertIcon />
+                        <AlertTitle>No prices specified!</AlertTitle>
+                        <AlertDescription textAlign={["center", null, "left"]}>
+                            Use Auto-fill or specify them manually.
+                        </AlertDescription>
+                    </Alert>
+                </Box>
+            )}
         </>
     );
 }

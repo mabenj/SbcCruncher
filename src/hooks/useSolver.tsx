@@ -103,7 +103,7 @@ export const useSolver = () => {
             );
             toast({
                 status: "success",
-                description: `Calculation completed in ${elapsed}`
+                description: `Calculation complete`
             });
             setIsSolving(false);
             setProgress(e.data.progress);

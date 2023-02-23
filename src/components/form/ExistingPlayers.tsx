@@ -33,6 +33,8 @@ export default function ExistingPlayers() {
         .map(({ count }) => count)
         .reduce((acc, curr) => acc + curr, 0);
 
+    const isFull = totalPlayers === PLAYER_LIMIT;
+
     const setRatingCount = (index: number, count: number) => {
         const numOfOtherRatings = config.existingRatings
             .filter((_, i) => i !== index)
@@ -149,10 +151,7 @@ export default function ExistingPlayers() {
                                                             i,
                                                             count + 1
                                                         )}
-                                                        isDisabled={
-                                                            totalPlayers ===
-                                                            PLAYER_LIMIT
-                                                        }
+                                                        isDisabled={isFull}
                                                     />
                                                 </HoverTooltip>
                                             </Flex>
@@ -181,7 +180,18 @@ export default function ExistingPlayers() {
                             )}
                             <Tr>
                                 <Td>Total</Td>
-                                <Td textAlign="center">{totalPlayers}</Td>
+                                <Td textAlign="center">
+                                    <HoverTooltip
+                                        label={
+                                            isFull
+                                                ? "You can only specify 10 existing players at most"
+                                                : ""
+                                        }>
+                                        <span>
+                                            {totalPlayers} {isFull && "(full)"}
+                                        </span>
+                                    </HoverTooltip>
+                                </Td>
                                 <Td></Td>
                             </Tr>
                         </Tbody>
@@ -195,7 +205,7 @@ export default function ExistingPlayers() {
                             leftIcon={<Icon path={mdiPlus} size={0.8} />}
                             onClick={addRating}
                             isDisabled={totalPlayers === PLAYER_LIMIT}>
-                            Add rating
+                            Add player
                         </Button>
                     </HoverTooltip>
                     {config.existingRatings.length > 0 && (

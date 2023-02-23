@@ -91,7 +91,7 @@ export default function PriceInput({
     return (
         <InputGroup>
             <InputLeftAddon p={3}>
-                <HoverTooltip label={`Price for ${rating} rated players`}>
+                <HoverTooltip label={`Price of ${rating} rated players`}>
                     <span>{rating}</span>
                 </HoverTooltip>
             </InputLeftAddon>

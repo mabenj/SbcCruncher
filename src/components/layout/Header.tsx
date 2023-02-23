@@ -69,7 +69,7 @@ export default function Header() {
                     </Flex>
                 </Link>
                 <Flex alignItems="center">
-                    <HoverTooltip label="Go to the old website">
+                    {/* <HoverTooltip label="Go to the old website">
                         <Button
                             variant="ghost"
                             size="sm"
@@ -82,7 +82,7 @@ export default function Header() {
                             }}>
                             Old site
                         </Button>
-                    </HoverTooltip>
+                    </HoverTooltip> */}
                     <HoverTooltip
                         label={
                             colorMode === "dark" ? "Light mode" : "Dark mode"
