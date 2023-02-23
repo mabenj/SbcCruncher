@@ -115,7 +115,9 @@ export default function Footer() {
                 <div onClick={() => eventTracker("brute_forcer_click")}>
                     <MutedSmall>
                         The idea for SBC Cruncher was inspired by{" "}
-                        <ExternalLink href="https://elmaano.github.io/sbc/">
+                        <ExternalLink
+                            href="https://elmaano.github.io/sbc/"
+                            small>
                             SBC Rating Brute Forcer
                         </ExternalLink>
                     </MutedSmall>

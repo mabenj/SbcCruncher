@@ -67,7 +67,7 @@ const config: ISourceOptions = {
             distance: 150,
             enable: true,
             opacity: 0.2,
-            width: 2.5
+            width: 1
         },
         collisions: {
             enable: true

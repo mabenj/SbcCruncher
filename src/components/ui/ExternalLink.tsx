@@ -1,28 +1,23 @@
-import { Box, Link } from "@chakra-ui/react";
-import { mdiLinkVariant } from "@mdi/js";
-import { Icon } from "@mdi/react";
+import { Button } from "@chakra-ui/react";
 import React from "react";
-import styles from "./ExternalLink.module.scss";
 
 interface ExternalLinkProps {
     href: string;
-    useIcon?: boolean;
+    small?: boolean;
     children: React.ReactNode;
 }
 
 export default function ExternalLink(props: ExternalLinkProps) {
     return (
-        <Link
+        <Button
+            as="a"
             href={props.href}
-            isExternal
-            _hover={{ textDecoration: "none" }}
-            display="inline">
-            <Box display="inline-flex" alignItems="center" gap={1}>
-                <Box display="inline" color="brand.400" className={styles.link}>
-                    {props.children}
-                </Box>
-                {props.useIcon && <Icon path={mdiLinkVariant} size={0.5} />}
-            </Box>
-        </Link>
+            variant="link"
+            target="_blank"
+            referrerPolicy="no-referrer"
+            colorScheme="brand"
+            size={props.small ? "sm" : undefined}>
+            {props.children}
+        </Button>
     );
 }

@@ -235,6 +235,8 @@ const SolutionCard = ({
     label?: string;
     isCheapest?: boolean;
 }) => {
+    const eventTracker = useEventTracker("Solutions")
+
     return (
         <Card>
             <CardBody>
@@ -275,7 +277,7 @@ const SolutionCard = ({
                                                 // Note: prices are sorted by ps (console) prices
                                                 href={`https://www.futbin.com/players?order=asc&player_rating=${rating}-${rating}&ps_price=200-15000000&sort=ps_price`}>
                                                 <HoverTooltip label="Show Futbin cheapest">
-                                                    <span>{rating}</span>
+                                                    <span onClick={() => eventTracker("click_futbin_link=" + rating, rating.toString())}>{rating}</span>
                                                 </HoverTooltip>
                                             </ExternalLink>
                                         </Td>
