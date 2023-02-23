@@ -1,5 +1,5 @@
 import { EMPTY_PRICES } from "@/constants";
-import { getErrorMessage, sleep } from "@/utilities";
+import { getErrorMessage, getRandomInt, sleep } from "@/utilities";
 import { useToast } from "@chakra-ui/react";
 import { useState } from "react";
 import { useEventTracker } from "./useEventTracker";
@@ -60,11 +60,10 @@ function usePlayerPrices() {
         try {
             const { priceMap, localCache, remoteCache } =
                 await fetchExternalPrices(externalSource);
-            const priceCount = Object.keys(priceMap).length;
             setAllPrices(priceMap);
             toast({
                 status: "success",
-                description: `Fetched prices for ${priceCount} ratings`
+                description: `Prices filled automatically`
             });
             eventTracker(
                 `price_fetch_ok=${externalSource.id}-${externalSource.platform}-L_${localCache}-R_${remoteCache}`
@@ -72,7 +71,7 @@ function usePlayerPrices() {
         } catch (error) {
             toast({
                 status: "error",
-                title: "Could not fetch price data",
+                title: "Could not fill price data",
                 description: "Wait for a few minutes and try again"
             });
             eventTracker(
@@ -135,7 +134,7 @@ async function fetchExternalPrices(priceProvider: PriceProvider) {
         cacheHit && cacheFresh ? "HIT" : cacheHit ? "EXPIRED" : "MISS";
     let remoteCache = "MISS";
     if (cacheHit && cacheFresh) {
-        await sleep(DUMMY_DELAY_MS);
+        await sleep(getRandomInt(DUMMY_DELAY_MS, 4 * DUMMY_DELAY_MS));
         return {
             priceMap: cache[url].priceMap,
             localCache,
