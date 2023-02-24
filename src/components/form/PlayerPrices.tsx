@@ -10,6 +10,7 @@ import {
     Box,
     Button,
     ButtonGroup,
+    Collapse,
     Flex,
     HStack,
     IconButton,
@@ -67,17 +68,22 @@ export default function PlayerPrices() {
                 ))}
             </SimpleGrid>
 
-            {prices.lastModified > 0 &&
-                Date.now() - prices.lastModified >
-                    PRICES_AGE_WARN_THRESHOLD_MS && (
-                    <Box mt={5}>
-                        <Alert status="info" variant="left-accent">
-                            <AlertIcon />
-                            Prices last updated{" "}
-                            {timeAgo(new Date(prices.lastModified))}
-                        </Alert>
-                    </Box>
-                )}
+            <Collapse
+                in={
+                    prices.lastModified > 0 &&
+                    Date.now() - prices.lastModified >
+                        PRICES_AGE_WARN_THRESHOLD_MS
+                }
+                animateOpacity>
+                {" "}
+                <Box mt={5}>
+                    <Alert status="info" variant="left-accent">
+                        <AlertIcon />
+                        Prices last updated{" "}
+                        {timeAgo(new Date(prices.lastModified))}
+                    </Alert>
+                </Box>
+            </Collapse>
 
             <Flex justifyContent={["center", null, "flex-start"]}>
                 <ButtonGroup colorScheme="gray" variant="solid" mt={10}>
@@ -215,7 +221,7 @@ export default function PlayerPrices() {
                 </ButtonGroup>
             </Flex>
 
-            {allZeroes && (
+            <Collapse in={allZeroes} animateOpacity>
                 <Box mt="3rem">
                     <Alert
                         status="warning"
@@ -229,7 +235,7 @@ export default function PlayerPrices() {
                         </AlertDescription>
                     </Alert>
                 </Box>
-            )}
+            </Collapse>
         </>
     );
 }

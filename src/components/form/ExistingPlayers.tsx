@@ -5,6 +5,7 @@ import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import {
     Button,
     ButtonGroup,
+    Collapse,
     Flex,
     IconButton,
     Table,
@@ -98,7 +99,7 @@ export default function ExistingPlayers() {
 
     return (
         <>
-            {config.existingRatings.length > 0 && (
+            <Collapse in={config.existingRatings.length > 0} animateOpacity>
                 <TableContainer overflowX="hidden" mb={10}>
                     <Table>
                         <Thead>
@@ -197,7 +198,8 @@ export default function ExistingPlayers() {
                         </Tbody>
                     </Table>
                 </TableContainer>
-            )}
+            </Collapse>
+
             <Flex justifyContent={["center", null, "flex-start"]}>
                 <ButtonGroup colorScheme="gray" variant="solid">
                     <HoverTooltip label="Add a player rating">

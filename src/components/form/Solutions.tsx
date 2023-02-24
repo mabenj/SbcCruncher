@@ -15,6 +15,7 @@ import {
     Flex,
     Heading,
     Progress,
+    ScaleFade,
     SimpleGrid,
     Skeleton,
     Stat,
@@ -103,14 +104,16 @@ export default function Solutions() {
             </Flex>
             <Box mx={3} pt={10}>
                 <Heading>Solutions</Heading>
-                {progress === 0 && (
+
+                <ScaleFade in={progress === 0}>
                     <Box mt={3}>
                         <MutedSmall>
                             Press calculate to generate solutions
                         </MutedSmall>
                     </Box>
-                )}
-                {progress > 0 && (
+                </ScaleFade>
+
+                <ScaleFade in={progress > 0}>
                     <Stat mt={6}>
                         <StatLabel>Total Found</StatLabel>
                         <StatNumber>{prettyNumber(solutionsFound)}</StatNumber>
@@ -121,12 +124,12 @@ export default function Solutions() {
                                     : "hidden"
                             }>
                             <span>
-                                Cheapest {prettyNumber(solutions[0]?.price)}{" "}
+                                Cheapest {prettyNumber(solutions[0]?.coinPrice)}{" "}
                                 coins
                             </span>
                         </StatHelpText>
                     </Stat>
-                )}
+                </ScaleFade>
             </Box>
 
             {!isSolving && progress >= 100 && solutionsFound === 0 && (
