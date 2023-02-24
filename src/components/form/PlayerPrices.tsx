@@ -75,7 +75,6 @@ export default function PlayerPrices() {
                         PRICES_AGE_WARN_THRESHOLD_MS
                 }
                 animateOpacity>
-                {" "}
                 <Box mt={5}>
                     <Alert status="info" variant="left-accent">
                         <AlertIcon />

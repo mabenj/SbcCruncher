@@ -17,7 +17,6 @@ const URLS = {
 };
 
 const STORAGE_KEYS = {
-    externalPlatform: "prices.platform",
     externalSource: "prices.dataSource",
     priceMap: "prices.current",
     cache: "prices.cache"

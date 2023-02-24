@@ -25,7 +25,7 @@ export default function Home() {
         <>
             <HtmlHead />
             <AnimatedBg />
-            <Container maxW="4xl" className={font.className}>
+            <Container maxW="4xl" style={font.style}>
                 <header>
                     <Header />
                 </header>

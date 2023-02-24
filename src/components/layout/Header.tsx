@@ -2,7 +2,6 @@ import { useEventTracker } from "@/hooks/useEventTracker";
 import { MoonIcon, QuestionOutlineIcon, SunIcon } from "@chakra-ui/icons";
 import {
     Box,
-    Button,
     Drawer,
     DrawerBody,
     DrawerCloseButton,
@@ -17,16 +16,11 @@ import {
     useColorMode,
     useDisclosure
 } from "@chakra-ui/react";
-import { Nunito } from "@next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import ExternalLink from "../ui/ExternalLink";
 import HoverTooltip from "../ui/HoverTooltip";
-
-const font = Nunito({
-    subsets: ["latin"]
-});
 
 export default function Header() {
     const { colorMode, toggleColorMode } = useColorMode();
@@ -56,11 +50,7 @@ export default function Header() {
                             width={40}
                             height={40}
                         />
-                        <Flex
-                            gap={0.5}
-                            className={font.className}
-                            fontSize="xl"
-                            userSelect="none">
+                        <Flex gap={0.5} fontSize="xl" userSelect="none">
                             <span>SBC</span>
                             <Box fontWeight={900} color="brand.400">
                                 cruncher
@@ -149,7 +139,7 @@ const HelpDrawer = ({
             isOpen={isOpen}
             size={["full", "full", "full", "lg", "lg"]}>
             <DrawerOverlay />
-            <DrawerContent className={font.className}>
+            <DrawerContent>
                 <DrawerCloseButton />
                 <DrawerHeader>How to use SBC Cruncher</DrawerHeader>
                 <DrawerBody pl={10} pr={20} pb="7rem">
@@ -160,7 +150,7 @@ const HelpDrawer = ({
                         <ListItem pl={4}>
                             <Text>
                                 <strong>Choose your target rating</strong>: Go
-                                to the <Em>Target Rating</Em> section and select
+                                to the <em>Target Rating</em> section and select
                                 a rating card to specify your desired target
                                 rating.
                             </Text>
@@ -169,30 +159,30 @@ const HelpDrawer = ({
                             <Text>
                                 <strong>Enter existing player ratings</strong>:
                                 If you have players you plan to use in the SBC,
-                                go to the <Em>Existing Players</Em> section and
+                                go to the <em>Existing Players</em> section and
                                 enter their ratings.
                             </Text>
                         </ListItem>
                         <ListItem pl={4}>
                             <Text>
                                 <strong>Set the range of ratings</strong>: In
-                                the <Em>Range of Ratings to Try</Em> section,
+                                the <em>Range of Ratings to Try</em> section,
                                 specify the range of ratings you want to use for
                                 calculating solutions.
                             </Text>
                             <Text mt={2}>
                                 For instance, if you set a range from{" "}
-                                <Em>81</Em> to <Em>84</Em>, SBC Cruncher will
+                                <em>81</em> to <em>84</em>, SBC Cruncher will
                                 generate player rating combinations from{" "}
-                                <Em>81</Em>, <Em>82</Em>, <Em>83</Em>,{" "}
-                                <Em>84</Em>, and the ratings you entered in the{" "}
-                                <Em>Existing Players</Em> section.
+                                <em>81</em>, <em>82</em>, <em>83</em>,{" "}
+                                <em>84</em>, and the ratings you entered in the{" "}
+                                <em>Existing Players</em> section.
                             </Text>
                         </ListItem>
                         <ListItem pl={4}>
                             <Text>
                                 <strong>Set player prices</strong>: In the{" "}
-                                <Em>Player Prices</Em> section, you can specify
+                                <em>Player Prices</em> section, you can specify
                                 the price of each rating in coins.
                             </Text>
                             <Text mt={2}>
@@ -204,16 +194,16 @@ const HelpDrawer = ({
                                 <ExternalLink href="https://www.futwiz.com/en/lowest-price-ratings">
                                     Futwiz
                                 </ExternalLink>{" "}
-                                by clicking the <Em>Auto-fill</Em> button. This
+                                by clicking the <em>Auto-fill</em> button. This
                                 will automatically fetch and fill the prices
                                 with the current prices listed in{" "}
-                                <Em>Futbin</Em> or <Em>Futwiz</Em>.
+                                <em>Futbin</em> or <em>Futwiz</em>.
                             </Text>
                         </ListItem>
                         <ListItem pl={4}>
                             <Text>
                                 <strong>Get solutions</strong>: Finally, press
-                                the <Em>Calculate</Em> button and wait for the
+                                the <em>Calculate</em> button and wait for the
                                 solutions to appear at the bottom of the page.
                             </Text>
                             <Text mt={2}>
