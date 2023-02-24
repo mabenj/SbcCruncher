@@ -9,7 +9,9 @@ if (
     process.env.NODE_ENV === "production" &&
     process.env.NEXT_PUBLIC_ANALYTICS_ID
 ) {
-    ReactGA.initialize(process.env.NEXT_PUBLIC_ANALYTICS_ID);
+    import("react-ga").then((ReactGA) =>
+        ReactGA.initialize(process.env.NEXT_PUBLIC_ANALYTICS_ID!)
+    );
 }
 
 // get rid of service workers from previous versions

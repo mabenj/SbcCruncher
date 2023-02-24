@@ -1,8 +1,10 @@
 import { useMediaQuery, usePrefersReducedMotion } from "@chakra-ui/react";
+import dynamic from "next/dynamic";
 import { useCallback } from "react";
-import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
 import type { Engine, ISourceOptions } from "tsparticles-engine";
+
+const DynamicParticles = dynamic(() => import("react-tsparticles"));
 
 export default function AnimatedBg() {
     const prefersReducedMotion = usePrefersReducedMotion();
@@ -14,7 +16,7 @@ export default function AnimatedBg() {
     const particlesInit = useCallback((engine: Engine) => loadFull(engine), []);
 
     return prefersReducedMotion || !isLargerThan500 ? null : (
-        <Particles init={particlesInit} options={config} />
+        <DynamicParticles init={particlesInit} options={config} />
     );
 }
 
