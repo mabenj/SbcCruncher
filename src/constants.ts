@@ -7,6 +7,8 @@ export const SQUAD_SIZE = 11;
 export const ALL_RATINGS = range(RATING_MIN, RATING_MAX);
 export const TRY_RATINGS = range(75, RATING_MAX);
 
+export const MAX_SOLUTIONS_TO_TAKE = 500;
+
 export const EMPTY_PRICES = range(RATING_MIN, RATING_MAX).reduce(
     (acc, curr) => {
         acc[curr] = 0;

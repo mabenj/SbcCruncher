@@ -1,11 +1,10 @@
-import { SQUAD_SIZE } from "@/constants";
+import { MAX_SOLUTIONS_TO_TAKE, SQUAD_SIZE } from "@/constants";
 import { Solution } from "@/types/solution.interface";
 import { SolverRequest } from "@/types/solver-request.interface";
 import { SolverResponse } from "@/types/solver-response.interface";
 import { SolverHelper } from "./solver-helper";
 
 const UPDATE_INTERVAL_MS = 20;
-const MAX_SOLUTIONS_TO_RETURN = 500;
 
 const ctx: Worker = self as any;
 
@@ -71,7 +70,7 @@ function handleRequest(request: SolverRequest) {
             done: true,
             progress: 100,
             solutionsFound: solutions.length,
-            solutions: solutions.slice(0, MAX_SOLUTIONS_TO_RETURN)
+            solutions: solutions.slice(0, MAX_SOLUTIONS_TO_TAKE)
         };
         ctx.postMessage(response);
     } catch (error) {
