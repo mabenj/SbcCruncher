@@ -168,7 +168,7 @@ export default function Solutions() {
                 />
             )}
 
-            {!tableView && (
+            {!tableView && (isSolving || (!isSolving && solutionsFound > 0)) && (
                 <GridSolutions
                     loading={isSolving}
                     pageIndex={pageIndex}

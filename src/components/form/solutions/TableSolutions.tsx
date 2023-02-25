@@ -6,6 +6,7 @@ import { prettyNumber, range } from "@/utilities";
 import {
     Card,
     CardBody,
+    Fade,
     Skeleton,
     Table,
     TableContainer,
@@ -41,10 +42,13 @@ export default function TableSolutions({
 
     return (
         <>
-            <MutedSmall>
-                Each row represents how many players of each rating you need to
-                acquire to reach the target rating
-            </MutedSmall>
+            <Fade in={!loading}>
+                <MutedSmall>
+                    Each row represents how many players of each rating you need
+                    to acquire to reach the target rating
+                </MutedSmall>
+            </Fade>
+
             <Card>
                 <CardBody>
                     <TableContainer>
