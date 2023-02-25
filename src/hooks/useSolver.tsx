@@ -74,10 +74,12 @@ export const useSolver = () => {
             ratingsToTry: ratingsToTry,
             priceByRating: config.ratingPriceMap
         };
-        solverRef.current.postMessage(message);
-        latestConfigRef.current = config;
-        startTimeRef.current = performance.now();
-        setIsSolving(true);
+        setTimeout(() => {
+            solverRef.current?.postMessage(message);
+            latestConfigRef.current = config;
+            startTimeRef.current = performance.now();
+            setIsSolving(true);
+        });
     };
 
     const onStopSolve = async () => {

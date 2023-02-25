@@ -119,8 +119,7 @@ export default function Solutions() {
                 <ScaleFade in={progress === 0}>
                     <Box mt={3}>
                         <MutedSmall>
-                            Step 5 - press Calculate to generate
-                            solutions
+                            Step 5 - press Calculate to generate solutions
                         </MutedSmall>
                     </Box>
                 </ScaleFade>
@@ -168,17 +167,18 @@ export default function Solutions() {
                 />
             )}
 
-            {!tableView && (isSolving || (!isSolving && solutionsFound > 0)) && (
-                <GridSolutions
-                    loading={isSolving}
-                    pageIndex={pageIndex}
-                    pageSize={PAGE_SIZE}
-                    solutions={solutions.slice(
-                        pageIndex * PAGE_SIZE,
-                        pageIndex * PAGE_SIZE + PAGE_SIZE
-                    )}
-                />
-            )}
+            {!tableView &&
+                (isSolving || (!isSolving && solutionsFound > 0)) && (
+                    <GridSolutions
+                        loading={isSolving}
+                        pageIndex={pageIndex}
+                        pageSize={PAGE_SIZE}
+                        solutions={solutions.slice(
+                            pageIndex * PAGE_SIZE,
+                            pageIndex * PAGE_SIZE + PAGE_SIZE
+                        )}
+                    />
+                )}
 
             {!isSolving && solutionsFound > PAGE_SIZE && (
                 <Pagination

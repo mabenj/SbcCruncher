@@ -42,7 +42,9 @@ export default function PriceInput({
 
     const eventTracker = useEventTracker("Prices");
 
-    useEffect(() => setInputValue(value), [value]);
+    useEffect(() => {
+        setInputValue(value);
+    }, [value]);
 
     const startEdit = () => {
         setIsEditing(true);
