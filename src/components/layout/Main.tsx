@@ -1,19 +1,20 @@
 import { ConfigProvider } from "@/context/ConfigContext";
+import { useEventTracker } from "@/hooks/useEventTracker";
+import { QuestionOutlineIcon } from "@chakra-ui/icons";
 import {
     Box,
+    Button,
     CardBody,
     CardHeader,
     Heading,
-    IconButton,
     Popover,
     PopoverAnchor,
     PopoverArrow,
     PopoverBody,
     PopoverContent,
-    Stack
+    Stack,
+    Text
 } from "@chakra-ui/react";
-import { mdiHelpCircleOutline } from "@mdi/js";
-import Icon from "@mdi/react";
 import { useRef, useState } from "react";
 import ExistingPlayers from "../form/ExistingPlayers";
 import PlayerPrices from "../form/PlayerPrices";
@@ -28,27 +29,39 @@ export default function Main() {
             <Stack spacing={10} mt="3.7rem">
                 <Card
                     header="Target Rating"
-                    info="Select the desired squad rating">
+                    infoParagraphs={[
+                        "Choose a target rating.",
+                        "This can be, for example, the required rating of an SBC."
+                    ]}
+                    step={1}>
                     <TargetRating />
                 </Card>
 
                 <Card
                     header="Existing Players"
-                    info="Specify the ratings of the players you already
-                    possess and plan to use in the SBC (aka, fodder)">
+                    infoParagraphs={[
+                        "If you already have some players you want to use, add them here by pressing the 'Add player' button."
+                    ]}
+                    step={2}>
                     <ExistingPlayers />
                 </Card>
 
                 <Card
-                    header="Range of Ratings to Try"
-                    info="Specify the minimum and maximum ratings to use when
-                    calculating the possible rating combinations">
+                    header="Range of Ratings to Use"
+                    infoParagraphs={[
+                        "Select the minimum and maximum ratings you want SBC Cruncher to use when calculating solutions."
+                    ]}
+                    step={3}>
                     <RatingRange />
                 </Card>
 
                 <Card
                     header="Player Prices"
-                    info="Specify the price for each rating">
+                    infoParagraphs={[
+                        "Enter the price for each rating so that SBC Cruncher can properly rank the calculated solutions.",
+                        "You can also fill the prices with Futbin or Futwiz price data by pressing the 'Auto-fill' button."
+                    ]}
+                    step={4}>
                     <PlayerPrices />
                 </Card>
 
@@ -60,21 +73,29 @@ export default function Main() {
 
 const Card = ({
     header,
-    info,
-    children
+    infoParagraphs,
+    children,
+    step
 }: {
     header: string;
-    info: string;
+    infoParagraphs: string[];
     children: React.ReactNode;
+    step: number;
 }) => {
     return (
         <AccentedCard>
             <CardHeader
                 display="flex"
                 justifyContent="space-between"
-                alignItems="center">
+                alignItems="flex-start">
                 <Heading size="md">{header}</Heading>
-                <InfoBtn>{info}</InfoBtn>
+                <InfoBtn step={step}>
+                    {infoParagraphs.map((text, i) => (
+                        <Text key={i} py={1}>
+                            {text}
+                        </Text>
+                    ))}
+                </InfoBtn>
             </CardHeader>
             <CardBody>
                 <Box pb={8}>{children}</Box>
@@ -83,9 +104,17 @@ const Card = ({
     );
 };
 
-const InfoBtn = ({ children }: { children: React.ReactNode }) => {
+const InfoBtn = ({
+    step,
+    children
+}: {
+    step: number;
+    children: React.ReactNode;
+}) => {
     const initRef = useRef(null);
     const [isHovering, setIsHovering] = useState(false);
+
+    const eventTracker = useEventTracker("Info");
 
     return (
         <Popover
@@ -95,16 +124,17 @@ const InfoBtn = ({ children }: { children: React.ReactNode }) => {
             closeOnBlur
             placement="bottom-end">
             <PopoverAnchor>
-                <IconButton
-                    size="xs"
+                <Button
+                    size="sm"
                     variant="ghost"
                     cursor="help"
                     color="gray.500"
+                    rightIcon={<QuestionOutlineIcon />}
                     onMouseOver={() => setIsHovering(true)}
                     onMouseLeave={() => setIsHovering(false)}
-                    icon={<Icon path={mdiHelpCircleOutline} size={0.7} />}
-                    aria-label={""}
-                />
+                    onClick={() => eventTracker("click_info_step=" + step)}>
+                    Step {step}
+                </Button>
             </PopoverAnchor>
             <PopoverContent
                 w="auto"

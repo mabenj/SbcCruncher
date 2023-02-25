@@ -1,5 +1,4 @@
 import ExternalLink from "@/components/ui/ExternalLink";
-import HoverTooltip from "@/components/ui/HoverTooltip";
 import { useEventTracker } from "@/hooks/useEventTracker";
 import { Solution } from "@/types/solution.interface";
 import { prettyNumber, range } from "@/utilities";
@@ -70,18 +69,16 @@ export default function SolutionCard({
                                             <ExternalLink
                                                 // Note: prices are sorted by ps (console) prices
                                                 href={`https://www.futbin.com/players?order=asc&player_rating=${rating}-${rating}&ps_price=200-15000000&sort=ps_price`}>
-                                                <HoverTooltip label="Show Futbin cheapest">
-                                                    <span
-                                                        onClick={() =>
-                                                            eventTracker(
-                                                                "click_futbin_link=" +
-                                                                    rating,
-                                                                rating.toString()
-                                                            )
-                                                        }>
-                                                        {rating}
-                                                    </span>
-                                                </HoverTooltip>
+                                                <span
+                                                    onClick={() =>
+                                                        eventTracker(
+                                                            "click_futbin_link=" +
+                                                                rating,
+                                                            rating.toString()
+                                                        )
+                                                    }>
+                                                    {rating}
+                                                </span>
                                             </ExternalLink>
                                         </Td>
                                         <Td textAlign="center">{count}</Td>

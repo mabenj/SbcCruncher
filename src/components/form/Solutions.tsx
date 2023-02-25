@@ -119,7 +119,8 @@ export default function Solutions() {
                 <ScaleFade in={progress === 0}>
                     <Box mt={3}>
                         <MutedSmall>
-                            Press calculate to generate solutions
+                            Step 5 - press Calculate to generate
+                            solutions
                         </MutedSmall>
                     </Box>
                 </ScaleFade>

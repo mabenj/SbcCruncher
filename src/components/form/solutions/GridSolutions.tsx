@@ -1,3 +1,4 @@
+import MutedSmall from "@/components/ui/MutedSmall";
 import { Solution } from "@/types/solution.interface";
 import { range } from "@/utilities";
 import { SimpleGrid } from "@chakra-ui/react";
@@ -15,23 +16,31 @@ export default function GridSolutions({
     pageSize: number;
 }) {
     return (
-        <SimpleGrid minChildWidth="15.5rem" spacing={5}>
-            {loading &&
-                range(0, 5).map((i) => (
-                    <SolutionCard
-                        key={"skeleton_" + i}
-                        label={"Solution " + (i + 1)}
-                    />
-                ))}
-            {!loading &&
-                solutions.map((solution, i) => (
-                    <SolutionCard
-                        key={"solution_" + i}
-                        label={"Solution " + (pageIndex * pageSize + (i + 1))}
-                        solution={solution}
-                        isCheapest={solution.price === solutions[0].price}
-                    />
-                ))}
-        </SimpleGrid>
+        <>
+            <MutedSmall>
+                Each solution shows you how many players of each rating you need
+                to acquire to reach the target rating
+            </MutedSmall>
+            <SimpleGrid minChildWidth="15.5rem" spacing={5}>
+                {loading &&
+                    range(0, 5).map((i) => (
+                        <SolutionCard
+                            key={"skeleton_" + i}
+                            label={"Solution " + (i + 1)}
+                        />
+                    ))}
+                {!loading &&
+                    solutions.map((solution, i) => (
+                        <SolutionCard
+                            key={"solution_" + i}
+                            label={
+                                "Solution " + (pageIndex * pageSize + (i + 1))
+                            }
+                            solution={solution}
+                            isCheapest={solution.price === solutions[0].price}
+                        />
+                    ))}
+            </SimpleGrid>
+        </>
     );
 }

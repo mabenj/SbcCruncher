@@ -13,7 +13,7 @@ export default function TableGridToggle({
     onSetGridView: () => void;
 }) {
     const activeBg = useColorModeValue("gray.200", "gray.700");
-    const nonActiveColor = useColorModeValue("gray.400", "gray.600");
+    const nonActiveColor = useColorModeValue("gray.500", "gray.600");
 
     const activeProps = {
         backgroundColor: activeBg

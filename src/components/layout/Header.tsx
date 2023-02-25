@@ -150,7 +150,7 @@ const HelpDrawer = ({
                         <ListItem pl={4}>
                             <Text>
                                 <strong>Choose your target rating</strong>: Go
-                                to the <em>Target Rating</em> section and select
+                                to the <Em>Target Rating</Em> section and select
                                 a rating card to specify your desired target
                                 rating.
                             </Text>
@@ -159,30 +159,30 @@ const HelpDrawer = ({
                             <Text>
                                 <strong>Enter existing player ratings</strong>:
                                 If you have players you plan to use in the SBC,
-                                go to the <em>Existing Players</em> section and
+                                go to the <Em>Existing Players</Em> section and
                                 enter their ratings.
                             </Text>
                         </ListItem>
                         <ListItem pl={4}>
                             <Text>
                                 <strong>Set the range of ratings</strong>: In
-                                the <em>Range of Ratings to Try</em> section,
+                                the <Em>Range of Ratings to Try</Em> section,
                                 specify the range of ratings you want to use for
                                 calculating solutions.
                             </Text>
                             <Text mt={2}>
                                 For instance, if you set a range from{" "}
-                                <em>81</em> to <em>84</em>, SBC Cruncher will
+                                <Em>81</Em> to <Em>84</Em>, SBC Cruncher will
                                 generate player rating combinations from{" "}
-                                <em>81</em>, <em>82</em>, <em>83</em>,{" "}
-                                <em>84</em>, and the ratings you entered in the{" "}
-                                <em>Existing Players</em> section.
+                                <Em>81</Em>, <Em>82</Em>, <Em>83</Em>,{" "}
+                                <Em>84</Em>, and the ratings you entered in the{" "}
+                                <Em>Existing Players</Em> section.
                             </Text>
                         </ListItem>
                         <ListItem pl={4}>
                             <Text>
                                 <strong>Set player prices</strong>: In the{" "}
-                                <em>Player Prices</em> section, you can specify
+                                <Em>Player Prices</Em> section, you can specify
                                 the price of each rating in coins.
                             </Text>
                             <Text mt={2}>
@@ -194,16 +194,16 @@ const HelpDrawer = ({
                                 <ExternalLink href="https://www.futwiz.com/en/lowest-price-ratings">
                                     Futwiz
                                 </ExternalLink>{" "}
-                                by clicking the <em>Auto-fill</em> button. This
+                                by clicking the <Em>Auto-fill</Em> button. This
                                 will automatically fetch and fill the prices
                                 with the current prices listed in{" "}
-                                <em>Futbin</em> or <em>Futwiz</em>.
+                                <Em>Futbin</Em> or <Em>Futwiz</Em>.
                             </Text>
                         </ListItem>
                         <ListItem pl={4}>
                             <Text>
                                 <strong>Get solutions</strong>: Finally, press
-                                the <em>Calculate</em> button and wait for the
+                                the <Em>Calculate</Em> button and wait for the
                                 solutions to appear at the bottom of the page.
                             </Text>
                             <Text mt={2}>
@@ -220,7 +220,7 @@ const HelpDrawer = ({
 
 const Em = ({ children }: { children: React.ReactNode }) => {
     return (
-        <Box display="inline" fontWeight="semibold" fontStyle="italic">
+        <Box as="span" display="inline" fontWeight="semibold">
             {children}
         </Box>
     );
