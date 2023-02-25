@@ -27,11 +27,13 @@ const MAX_VALUE = 15_000_000;
 export default function PriceInput({
     value,
     rating,
-    onChange
+    onChange,
+    loading
 }: {
     value: number | undefined;
     rating: number;
     onChange: (value: number) => void;
+    loading: boolean;
 }) {
     const [inputValue, setInputValue] = useState<number | undefined>();
     const [isEditing, setIsEditing] = useState(false);
@@ -104,15 +106,18 @@ export default function PriceInput({
                 inputMode="numeric"
                 pattern="[0-9]"
                 value={
-                    (isEditing
-                        ? inputValue
-                        : prettyNumber(value || undefined)) || ""
+                    loading
+                        ? 0
+                        : (isEditing
+                              ? inputValue
+                              : prettyNumber(value || undefined)) || ""
                 }
                 onChange={handleInputChange}
                 placeholder="0"
                 onFocus={startEdit}
                 onBlur={endEdit}
                 title=""
+                isDisabled={loading}
             />
             <InputRightAddon p={0}>
                 <Flex mx={0} gap={0}>
@@ -122,7 +127,7 @@ export default function PriceInput({
                         icon={<MinusIcon fontSize="2xs" />}
                         aria-label="Decrement"
                         onClick={handleDecrement}
-                        isDisabled={!value || value <= 0}
+                        isDisabled={loading || !value || value <= 0}
                         _hover={{ backgroundColor: stepBgColor }}
                     />
                     <IconButton
@@ -131,7 +136,7 @@ export default function PriceInput({
                         icon={<AddIcon fontSize="2xs" />}
                         aria-label="Increment"
                         onClick={handleIncrement}
-                        isDisabled={!!value && value >= MAX_VALUE}
+                        isDisabled={loading || (!!value && value >= MAX_VALUE)}
                         _hover={{ backgroundColor: stepBgColor }}
                     />
                 </Flex>

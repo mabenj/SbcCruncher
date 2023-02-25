@@ -58,12 +58,9 @@ export default function PlayerPrices() {
                     <PriceInput
                         key={rating}
                         rating={rating}
-                        value={
-                            prices.isFetching
-                                ? 0
-                                : config.ratingPriceMap[rating]
-                        }
+                        value={config.ratingPriceMap[rating] }
                         onChange={(price) => prices.setPrice(rating, price)}
+                        loading={prices.isFetching}
                     />
                 ))}
             </SimpleGrid>
@@ -119,6 +116,7 @@ export default function PlayerPrices() {
                                     icon={<ChevronDownIcon />}
                                     borderLeft="1px solid"
                                     borderColor={splitBtnBorderColor}
+                                    isDisabled={prices.isFetching}
                                 />
                             </HoverTooltip>
 
@@ -213,7 +211,7 @@ export default function PlayerPrices() {
                     </ButtonGroup>
 
                     <HoverTooltip label="Set all prices to 0">
-                        <Button variant="ghost" onClick={prices.clearAll}>
+                        <Button variant="ghost" onClick={prices.clearAll} isDisabled={prices.isFetching}>
                             Reset
                         </Button>
                     </HoverTooltip>
