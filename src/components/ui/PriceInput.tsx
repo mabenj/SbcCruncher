@@ -54,6 +54,7 @@ export default function PriceInput({
         const step =
             PRICE_TIERS.find((tier) => tier.min <= newValue)?.step ?? 0;
         newValue = roundToNearestStep(newValue, step);
+        setInputValue(newValue);
 
         setIsEditing(false);
         if (newValue !== value) {
