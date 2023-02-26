@@ -19,7 +19,7 @@ import { useRef, useState } from "react";
 import ExistingPlayers from "../form/ExistingPlayers";
 import PlayerPrices from "../form/PlayerPrices";
 import RatingRange from "../form/RatingRange";
-import Solutions from "../form/Solutions";
+import Solutions from "../form/solutions/Solutions";
 import TargetRating from "../form/TargetRating";
 import AccentedCard from "../ui/AccentedCard";
 

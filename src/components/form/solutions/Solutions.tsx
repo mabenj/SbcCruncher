@@ -2,6 +2,7 @@ import { MAX_SOLUTIONS_TO_TAKE } from "@/constants";
 import { useConfig } from "@/context/ConfigContext";
 import { useEventTracker } from "@/hooks/useEventTracker";
 import useLocalStorage from "@/hooks/useLocalStorage";
+import useNoPricesWarning from "@/hooks/useNoPricesWarning";
 import { useSolver } from "@/hooks/useSolver";
 import { range } from "@/utilities";
 import { NotAllowedIcon } from "@chakra-ui/icons";
@@ -17,16 +18,16 @@ import {
 } from "@chakra-ui/react";
 import { mdiCalculator } from "@mdi/js";
 import Icon from "@mdi/react";
-import { useEffect, useMemo, useRef, useState } from "react";
-import HoverTooltip from "../ui/HoverTooltip";
-import MutedSmall from "../ui/MutedSmall";
-import GridSolutions from "./solutions/GridSolutions";
-import NoPricesDialog from "./solutions/NoPricesDialog";
-import Pagination from "./solutions/Pagination";
-import ProgressBar from "./solutions/ProgressBar";
-import SolutionsStats from "./solutions/SolutionStats";
-import TableGridToggle from "./solutions/TableGridToggle";
-import TableSolutions from "./solutions/TableSolutions";
+import { useEffect, useMemo, useState } from "react";
+import HoverTooltip from "../../ui/HoverTooltip";
+import MutedSmall from "../../ui/MutedSmall";
+import GridSolutions from "./GridSolutions";
+import NoPricesDialog from "./NoPricesDialog";
+import Pagination from "./Pagination";
+import ProgressBar from "./ProgressBar";
+import SolutionsStats from "./SolutionStats";
+import TableGridToggle from "./TableGridToggle";
+import TableSolutions from "./TableSolutions";
 
 const PAGE_SIZE = 12;
 const TABLE_VIEW_STORAGE_KEY = "solutions.tableView";
@@ -37,9 +38,6 @@ export default function Solutions() {
         false
     );
     const [pageIndex, setPageIndex] = useState(0);
-    const [showNoPriceAlert, setShowNoPriceAlert] = useState(false);
-    const dismissNoPricesRef = useRef(false);
-
     const [config] = useConfig();
     const noPrices = useMemo(() => {
         const ratingRange = range(
@@ -48,7 +46,7 @@ export default function Solutions() {
         );
         return ratingRange.every((rating) => !config.ratingPriceMap[rating]);
     }, [config.tryRatingMinMax, config.ratingPriceMap]);
-    
+
     const {
         solutions,
         solutionsFound,
@@ -58,6 +56,13 @@ export default function Solutions() {
         onStopSolve,
         onClearSolutions
     } = useSolver();
+
+    const {
+        isWarningOpen,
+        shouldDisplayWarning,
+        onWarningOpen,
+        onWarningClose
+    } = useNoPricesWarning();
 
     const eventTracker = useEventTracker("Solutions");
     const toast = useToast();
@@ -97,17 +102,27 @@ export default function Solutions() {
         });
     };
 
-    const solve = () => {
+    const calculate = () => {
         const ratingRange = range(
             config.tryRatingMinMax[0],
             config.tryRatingMinMax[1]
         );
         if (
-            !dismissNoPricesRef.current &&
+            shouldDisplayWarning &&
             ratingRange.every((rating) => !config.ratingPriceMap[rating])
         ) {
-            setShowNoPriceAlert(true);
+            onWarningOpen();
         } else {
+            onSolve(config);
+        }
+    };
+
+    const noPricesWarningClose = (
+        shouldContinue: boolean,
+        dontShowAgain: boolean
+    ) => {
+        onWarningClose(dontShowAgain);
+        if (shouldContinue) {
             onSolve(config);
         }
     };
@@ -125,7 +140,7 @@ export default function Solutions() {
                         }
                         isDisabled={isSolving || !config.targetRating}
                         isLoading={isSolving}
-                        onClick={solve}>
+                        onClick={calculate}>
                         Calculate
                     </Button>
                 </HoverTooltip>
@@ -155,7 +170,9 @@ export default function Solutions() {
                 <Flex justifyContent="space-between" alignItems="flex-end">
                     <ScaleFade in={progress > 0}>
                         <SolutionsStats
-                            cheapestPrice={noPrices ? undefined : solutions[0]?.price}
+                            cheapestPrice={
+                                noPrices ? undefined : solutions[0]?.price
+                            }
                             found={solutionsFound}
                             loading={isSolving}
                         />
@@ -232,14 +249,8 @@ export default function Solutions() {
             {isSolving && <ProgressBar percent={progress} />}
 
             <NoPricesDialog
-                isOpen={showNoPriceAlert}
-                onClose={(shouldContinue) => {
-                    setShowNoPriceAlert(false);
-                    if (shouldContinue) {
-                        dismissNoPricesRef.current = true;
-                        solve();
-                    }
-                }}
+                isOpen={isWarningOpen}
+                onClose={noPricesWarningClose}
             />
         </>
     );

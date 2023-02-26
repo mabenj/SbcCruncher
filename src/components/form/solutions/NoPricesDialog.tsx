@@ -1,4 +1,3 @@
-import { useEventTracker } from "@/hooks/useEventTracker";
 import {
     AlertDialog,
     AlertDialogBody,
@@ -7,30 +6,25 @@ import {
     AlertDialogHeader,
     AlertDialogOverlay,
     Button,
+    Checkbox,
     Text
 } from "@chakra-ui/react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 export default function NoPricesDialog({
     isOpen,
     onClose
 }: {
     isOpen: boolean;
-    onClose: (shouldContinue: boolean) => void;
+    onClose: (shouldContinue: boolean, dontShowAgain: boolean) => void;
 }) {
+    const [dontShowAgain, setDontShowAgain] = useState(false);
     const cancelRef = useRef<HTMLButtonElement | null>(null);
-
-    const eventTracker = useEventTracker("Solutions");
-
-    const handleClose = (shouldContinue: boolean = false) => {
-        eventTracker("dismiss_no_prices=" + shouldContinue.toString());
-        onClose(shouldContinue);
-    };
 
     return (
         <AlertDialog
             isOpen={isOpen}
-            onClose={handleClose}
+            onClose={() => onClose(false, false)}
             leastDestructiveRef={cancelRef}
             isCentered>
             <AlertDialogOverlay backdropFilter="blur(3px)">
@@ -38,22 +32,31 @@ export default function NoPricesDialog({
                     <AlertDialogHeader>No Player Prices</AlertDialogHeader>
                     <AlertDialogBody>
                         <Text>
-                            You did not specify any prices for player ratings!
+                            You did not specify any prices for player ratings!{" "}
+                            <strong>
+                                SBC Cruncher will not be able to determine which
+                                of the solutions is the cheapest
+                            </strong>
                         </Text>
-                        <Text py={2} fontWeight="bold">
-                            SBC Cruncher will not be able to determine which of
-                            the solutions is the cheapest
-                        </Text>
+                        <Checkbox
+                            colorScheme="brand"
+                            pt={8}
+                            checked={dontShowAgain}
+                            onChange={(e) =>
+                                setDontShowAgain(e.target.checked)
+                            }>
+                            Don&apos;t show this again
+                        </Checkbox>
                     </AlertDialogBody>
                     <AlertDialogFooter justifyContent="center" gap={2}>
                         <Button
                             ref={cancelRef}
-                            onClick={() => handleClose(false)}>
+                            onClick={() => onClose(false, false)}>
                             Cancel
                         </Button>
                         <Button
                             colorScheme="red"
-                            onClick={() => handleClose(true)}>
+                            onClick={() => onClose(true, dontShowAgain)}>
                             I understand, calculate anyway
                         </Button>
                     </AlertDialogFooter>
