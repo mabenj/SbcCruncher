@@ -13,7 +13,7 @@ const CACHE_MAX_AGE_MS = 3_600_000; // 1h
 
 const URLS = {
     Futbin: "https://www.futbin.com/stc/cheapest",
-    Futwiz: "/api/futwiz-cheapest"
+    Futwiz: "/api/futwiz-cheapest-proxy"
 };
 
 const STORAGE_KEYS = {

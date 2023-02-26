@@ -3,22 +3,24 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 const URL = "https://www.futwiz.com/en/lowest-price-ratings";
 
-// the server running this function should get wiped before 1h elapses
+// Realistically, the server running this function should get wiped before
+// this cache ever has a chance to become stale
 // https://answers.netlify.com/t/how-to-memoize-cache-lambda-function/5079/4
-const CACHE_STALE_MS = 3_600_600; // 1h
+const CACHE_STALE_MS = 60 * 60 * 1000; // 1h
 
 const cache: { [platform: string]: { timestamp: number; html: string } } = {};
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
+        // Yup, this is quite easy to circumvent
         if (!req.headers.referer?.includes(req.headers.host!)) {
-            res.status(400).send("Bad request");
+            res.status(403).send("Forbidden");
             return;
         }
 
         const platform = req.query["platform"];
         if (platform !== "console" && platform !== "pc") {
-            res.status(400).send("Bad request");
+            res.status(400).send("Missing platform");
             return;
         }
 
@@ -36,6 +38,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                     headers: { Cookie: `futwiz_prices=${platform}` }
                 })
             ).text();
+            if (!html) {
+                throw new Error("Invalid Futwiz response");
+            }
             cache[platform] = {
                 timestamp: Date.now(),
                 html: html
