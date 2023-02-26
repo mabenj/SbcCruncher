@@ -121,6 +121,10 @@ export default function Solutions() {
         shouldContinue: boolean,
         dontShowAgain: boolean
     ) => {
+        eventTracker(
+            "dismiss_noprices_dialog",
+            `continue=${shouldContinue}|dontShowAgain=${dontShowAgain}`
+        );
         onWarningClose(dontShowAgain);
         if (shouldContinue) {
             onSolve(config);
