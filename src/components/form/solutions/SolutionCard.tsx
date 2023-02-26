@@ -22,11 +22,13 @@ import {
 export default function SolutionCard({
     solution,
     label,
-    isCheapest
+    isCheapest,
+    showPrice
 }: {
     solution?: Solution;
     label?: string;
     isCheapest?: boolean;
+    showPrice?: boolean;
 }) {
     const eventTracker = useEventTracker("Solutions");
 
@@ -36,7 +38,7 @@ export default function SolutionCard({
                 <Flex justifyContent="space-between">
                     <div>
                         <Heading size="sm">{label}</Heading>
-                        <Box>
+                        <Box hidden={!showPrice}>
                             <Skeleton
                                 w={solution ? "auto" : "8rem"}
                                 h={solution ? "auto" : "0.8rem"}

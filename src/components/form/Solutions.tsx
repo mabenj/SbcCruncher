@@ -17,7 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { mdiCalculator } from "@mdi/js";
 import Icon from "@mdi/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import HoverTooltip from "../ui/HoverTooltip";
 import MutedSmall from "../ui/MutedSmall";
 import GridSolutions from "./solutions/GridSolutions";
@@ -41,6 +41,14 @@ export default function Solutions() {
     const dismissNoPricesRef = useRef(false);
 
     const [config] = useConfig();
+    const noPrices = useMemo(() => {
+        const ratingRange = range(
+            config.tryRatingMinMax[0],
+            config.tryRatingMinMax[1]
+        );
+        return ratingRange.every((rating) => !config.ratingPriceMap[rating]);
+    }, [config.tryRatingMinMax, config.ratingPriceMap]);
+    
     const {
         solutions,
         solutionsFound,
@@ -147,7 +155,7 @@ export default function Solutions() {
                 <Flex justifyContent="space-between" alignItems="flex-end">
                     <ScaleFade in={progress > 0}>
                         <SolutionsStats
-                            cheapestPrice={solutions[0]?.price}
+                            cheapestPrice={noPrices ? undefined : solutions[0]?.price}
                             found={solutionsFound}
                             loading={isSolving}
                         />
@@ -184,6 +192,7 @@ export default function Solutions() {
                         pageIndex * PAGE_SIZE,
                         pageIndex * PAGE_SIZE + PAGE_SIZE
                     )}
+                    showPriceColumn={!noPrices}
                 />
             )}
 
@@ -197,6 +206,7 @@ export default function Solutions() {
                             pageIndex * PAGE_SIZE,
                             pageIndex * PAGE_SIZE + PAGE_SIZE
                         )}
+                        showPrices={!noPrices}
                     />
                 )}
 

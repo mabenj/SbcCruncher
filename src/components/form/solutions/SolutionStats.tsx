@@ -1,5 +1,7 @@
-import { prettyNumber } from "@/utilities";
+import { useConfig } from "@/context/ConfigContext";
+import { prettyNumber, range } from "@/utilities";
 import { Stat, StatHelpText, StatLabel, StatNumber } from "@chakra-ui/react";
+import { useMemo } from "react";
 
 export default function SolutionsStats({
     found,
@@ -16,7 +18,9 @@ export default function SolutionsStats({
             <StatNumber>{prettyNumber(found)}</StatNumber>
             <StatHelpText
                 visibility={
-                    !loading && cheapestPrice != null ? "visible" : "hidden"
+                    !loading && cheapestPrice != null
+                        ? "visible"
+                        : "hidden"
                 }>
                 <span>Cheapest {prettyNumber(cheapestPrice)} coins</span>
             </StatHelpText>

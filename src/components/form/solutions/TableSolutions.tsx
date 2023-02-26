@@ -21,10 +21,12 @@ import { useMemo } from "react";
 
 export default function TableSolutions({
     solutions,
-    loading
+    loading,
+    showPriceColumn
 }: {
     solutions: Solution[];
     loading: boolean;
+    showPriceColumn: boolean;
 }) {
     const ratingColumns = useMemo(() => {
         const allRatings = solutions.flatMap((sol) =>
@@ -76,7 +78,9 @@ export default function TableSolutions({
                                                 </ExternalLink>
                                             </Th>
                                         ))}
-                                        <Th textAlign="right">Coins</Th>
+                                        {showPriceColumn && (
+                                            <Th textAlign="right">Price</Th>
+                                        )}
                                     </Tr>
                                 )}
                             </Thead>
@@ -121,15 +125,19 @@ export default function TableSolutions({
                                                 );
                                             })}
 
-                                            <Td
-                                                textAlign="right"
-                                                bg={
-                                                    i % 2 === 0
-                                                        ? "gray.800"
-                                                        : undefined
-                                                }>
-                                                {prettyNumber(solution.price)}
-                                            </Td>
+                                            {showPriceColumn && (
+                                                <Td
+                                                    textAlign="right"
+                                                    bg={
+                                                        i % 2 === 0
+                                                            ? "gray.800"
+                                                            : undefined
+                                                    }>
+                                                    {prettyNumber(
+                                                        solution.price
+                                                    )}
+                                                </Td>
+                                            )}
                                         </Tr>
                                     ))}
                             </Tbody>
