@@ -3,6 +3,8 @@ import { useConfig } from "@/context/ConfigContext";
 import { useEventTracker } from "@/hooks/useEventTracker";
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import {
+    Alert,
+    Box,
     Button,
     ButtonGroup,
     Collapse,
@@ -100,8 +102,8 @@ export default function ExistingPlayers() {
     return (
         <>
             <Collapse in={config.existingRatings.length > 0} animateOpacity>
-                <TableContainer overflowX="hidden" mb={10}>
-                    <Table>
+                <TableContainer overflowX="hidden">
+                    <Table variant="unstyled">
                         <Thead>
                             <Tr>
                                 <Th textAlign="center">Rating</Th>
@@ -179,28 +181,25 @@ export default function ExistingPlayers() {
                                     </Tr>
                                 )
                             )}
-                            <Tr>
-                                <Td>Total</Td>
-                                <Td textAlign="center">
-                                    <HoverTooltip
-                                        label={
-                                            isFull
-                                                ? "You can only specify 10 existing players at most"
-                                                : ""
-                                        }>
-                                        <span>
-                                            {totalPlayers} {isFull && "(full)"}
-                                        </span>
-                                    </HoverTooltip>
-                                </Td>
-                                <Td></Td>
-                            </Tr>
                         </Tbody>
                     </Table>
                 </TableContainer>
             </Collapse>
 
-            <Flex justifyContent={["center", null, "flex-start"]}>
+            <Collapse in={isFull}>
+                <Box pt={8}>
+                    <Alert status="warning" variant="left-accent">
+                        Existing player limit reached
+                    </Alert>
+                </Box>
+            </Collapse>
+
+            <Flex
+                justifyContent={["center", null, "space-between"]}
+                direction={["column", null, "row"]}
+                gap={3}
+                alignItems="center"
+                pt={8}>
                 <ButtonGroup colorScheme="gray" variant="solid">
                     <HoverTooltip label="Add a player rating">
                         <Button
