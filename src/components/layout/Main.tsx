@@ -129,7 +129,7 @@ const InfoBtn = ({
                     variant="ghost"
                     cursor="help"
                     color="gray.500"
-                    rightIcon={<QuestionOutlineIcon />}
+                    rightIcon={<QuestionOutlineIcon mb={0.5} />}
                     onMouseOver={() => setIsHovering(true)}
                     onMouseLeave={() => setIsHovering(false)}
                     onClick={() => eventTracker("click_info_step=" + step)}>
