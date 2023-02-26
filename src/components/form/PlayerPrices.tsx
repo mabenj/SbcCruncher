@@ -35,7 +35,7 @@ export default function PlayerPrices() {
     const [config, setConfig] = useConfig();
     const prices = usePlayerPrices();
 
-    const splitBtnBorderColor = useColorModeValue("gray.300", "gray.500");
+    const splitBtnBorderColor = useColorModeValue("gray.200", "gray.600");
 
     const ratingRange = range(
         Math.min(...config.tryRatingMinMax),
