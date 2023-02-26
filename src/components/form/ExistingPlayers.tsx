@@ -102,7 +102,7 @@ export default function ExistingPlayers() {
     return (
         <>
             <Collapse in={config.existingRatings.length > 0} animateOpacity>
-                <TableContainer overflowX="hidden">
+                <TableContainer overflowX="hidden" pb={8}>
                     <Table variant="unstyled">
                         <Thead>
                             <Tr>
@@ -187,7 +187,7 @@ export default function ExistingPlayers() {
             </Collapse>
 
             <Collapse in={isFull}>
-                <Box pt={8}>
+                <Box pb={8}>
                     <Alert status="warning" variant="left-accent">
                         Existing player limit reached
                     </Alert>
@@ -198,8 +198,7 @@ export default function ExistingPlayers() {
                 justifyContent={["center", null, "space-between"]}
                 direction={["column", null, "row"]}
                 gap={3}
-                alignItems="center"
-                pt={8}>
+                alignItems="center">
                 <ButtonGroup colorScheme="gray" variant="solid">
                     <HoverTooltip label="Add a player rating">
                         <Button
