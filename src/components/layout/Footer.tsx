@@ -220,7 +220,7 @@ const ContactForm = (props: { isOpen: boolean; onClose: () => any }) => {
                 props.onClose();
             }}
             size={["full", null, "lg", "md"]}>
-            <ModalOverlay />
+            <ModalOverlay backdropFilter="blur(3px)" />
             <ModalContent>
                 <form onSubmit={handleSubmit}>
                     <ModalHeader>Contact & Feedback</ModalHeader>

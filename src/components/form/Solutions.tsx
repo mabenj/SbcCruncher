@@ -3,6 +3,7 @@ import { useConfig } from "@/context/ConfigContext";
 import { useEventTracker } from "@/hooks/useEventTracker";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { useSolver } from "@/hooks/useSolver";
+import { range } from "@/utilities";
 import { NotAllowedIcon } from "@chakra-ui/icons";
 import {
     Alert,
@@ -16,10 +17,11 @@ import {
 } from "@chakra-ui/react";
 import { mdiCalculator } from "@mdi/js";
 import Icon from "@mdi/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import HoverTooltip from "../ui/HoverTooltip";
 import MutedSmall from "../ui/MutedSmall";
 import GridSolutions from "./solutions/GridSolutions";
+import NoPricesDialog from "./solutions/NoPricesDialog";
 import Pagination from "./solutions/Pagination";
 import ProgressBar from "./solutions/ProgressBar";
 import SolutionsStats from "./solutions/SolutionStats";
@@ -35,6 +37,9 @@ export default function Solutions() {
         false
     );
     const [pageIndex, setPageIndex] = useState(0);
+    const [showNoPriceAlert, setShowNoPriceAlert] = useState(false);
+    const dismissNoPricesRef = useRef(false);
+
     const [config] = useConfig();
     const {
         solutions,
@@ -84,6 +89,21 @@ export default function Solutions() {
         });
     };
 
+    const solve = () => {
+        const ratingRange = range(
+            config.tryRatingMinMax[0],
+            config.tryRatingMinMax[1]
+        );
+        if (
+            !dismissNoPricesRef.current &&
+            ratingRange.every((rating) => !config.ratingPriceMap[rating])
+        ) {
+            setShowNoPriceAlert(true);
+        } else {
+            onSolve(config);
+        }
+    };
+
     return (
         <>
             <Flex justifyContent="center" alignItems="center" gap={2}>
@@ -97,7 +117,7 @@ export default function Solutions() {
                         }
                         isDisabled={isSolving || !config.targetRating}
                         isLoading={isSolving}
-                        onClick={() => onSolve(config)}>
+                        onClick={solve}>
                         Calculate
                     </Button>
                 </HoverTooltip>
@@ -200,6 +220,17 @@ export default function Solutions() {
                 )}
 
             {isSolving && <ProgressBar percent={progress} />}
+
+            <NoPricesDialog
+                isOpen={showNoPriceAlert}
+                onClose={(shouldContinue) => {
+                    setShowNoPriceAlert(false);
+                    if (shouldContinue) {
+                        dismissNoPricesRef.current = true;
+                        solve();
+                    }
+                }}
+            />
         </>
     );
 }

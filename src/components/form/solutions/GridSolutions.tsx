@@ -1,7 +1,9 @@
 import MutedSmall from "@/components/ui/MutedSmall";
+import { useConfig } from "@/context/ConfigContext";
 import { Solution } from "@/types/solution.interface";
 import { range } from "@/utilities";
 import { Fade, SimpleGrid } from "@chakra-ui/react";
+import { useMemo } from "react";
 import SolutionCard from "./SolutionCard";
 
 export default function GridSolutions({
@@ -15,6 +17,15 @@ export default function GridSolutions({
     pageIndex: number;
     pageSize: number;
 }) {
+    const [config] = useConfig();
+    const noPrices = useMemo(() => {
+        const ratingRange = range(
+            config.tryRatingMinMax[0],
+            config.tryRatingMinMax[1]
+        );
+        return ratingRange.every((rating) => !config.ratingPriceMap[rating]);
+    }, [config.tryRatingMinMax, config.ratingPriceMap]);
+
     return (
         <>
             <Fade in={!loading}>
@@ -40,7 +51,10 @@ export default function GridSolutions({
                                 "Solution " + (pageIndex * pageSize + (i + 1))
                             }
                             solution={solution}
-                            isCheapest={solution.price === solutions[0].price}
+                            isCheapest={
+                                !noPrices &&
+                                solution.price === solutions[0].price
+                            }
                         />
                     ))}
             </SimpleGrid>
