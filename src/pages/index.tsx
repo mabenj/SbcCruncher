@@ -4,13 +4,8 @@ import Main from "@/components/layout/Main";
 import AnimatedBg from "@/components/ui/AnimatedBg";
 import { usePageview } from "@/hooks/usePageview";
 import { Container } from "@chakra-ui/react";
-import { Nunito } from "@next/font/google";
 import Head from "next/head";
 import { useEffect } from "react";
-
-const font = Nunito({
-    subsets: ["latin"]
-});
 
 export default function Home() {
     const pageview = usePageview();
@@ -25,7 +20,7 @@ export default function Home() {
         <>
             <HtmlHead />
             <AnimatedBg />
-            <Container maxW="4xl" style={font.style}>
+            <Container maxW="4xl">
                 <header>
                     <Header />
                 </header>

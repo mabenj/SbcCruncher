@@ -1,5 +1,10 @@
 import { extendTheme, ThemeConfig } from "@chakra-ui/react";
 import { mode } from "@chakra-ui/theme-tools";
+import { Nunito } from "@next/font/google";
+
+const nunito = Nunito({
+    subsets: ["latin"]
+});
 
 const config: ThemeConfig = {
     initialColorMode: "system",
@@ -30,4 +35,9 @@ const styles = {
     })
 };
 
-export const theme = extendTheme({ config, colors, styles });
+const fonts = {
+    body: nunito.style.fontFamily,
+    heading: nunito.style.fontFamily
+};
+
+export const theme = extendTheme({ config, colors, styles, fonts });
