@@ -58,28 +58,47 @@ export default function PlayerPrices() {
                     <PriceInput
                         key={rating}
                         rating={rating}
-                        value={config.ratingPriceMap[rating] }
+                        value={config.ratingPriceMap[rating]}
                         onChange={(price) => prices.setPrice(rating, price)}
                         loading={prices.isFetching}
                     />
                 ))}
             </SimpleGrid>
 
-            <Collapse
-                in={
-                    prices.lastModified > 0 &&
-                    Date.now() - prices.lastModified >
-                        PRICES_AGE_WARN_THRESHOLD_MS
-                }
-                animateOpacity>
-                <Box mt={5}>
-                    <Alert status="info" variant="left-accent">
-                        <AlertIcon />
-                        Prices last updated{" "}
-                        {timeAgo(new Date(prices.lastModified))}
-                    </Alert>
-                </Box>
-            </Collapse>
+            <Box mt="2rem">
+                <Collapse
+                    in={
+                        prices.lastModified > 0 &&
+                        Date.now() - prices.lastModified >
+                            PRICES_AGE_WARN_THRESHOLD_MS
+                    }
+                    animateOpacity>
+                    <Box>
+                        <Alert status="info" variant="left-accent">
+                            <AlertIcon />
+                            Prices last updated{" "}
+                            {timeAgo(new Date(prices.lastModified))}
+                        </Alert>
+                    </Box>
+                </Collapse>
+
+                <Collapse in={allZeroes} animateOpacity>
+                    <Box mt="1rem">
+                        <Alert
+                            status="warning"
+                            variant="left-accent"
+                            display="flex"
+                            flexDirection={["column", null, "row"]}>
+                            <AlertIcon />
+                            <AlertTitle>No prices specified!</AlertTitle>
+                            <AlertDescription
+                                textAlign={["center", null, "left"]}>
+                                Use Auto-fill or specify them manually.
+                            </AlertDescription>
+                        </Alert>
+                    </Box>
+                </Collapse>
+            </Box>
 
             <Flex justifyContent={["center", null, "flex-start"]}>
                 <ButtonGroup colorScheme="gray" variant="solid" mt={10}>
@@ -211,28 +230,15 @@ export default function PlayerPrices() {
                     </ButtonGroup>
 
                     <HoverTooltip label="Set all prices to 0">
-                        <Button variant="ghost" onClick={prices.clearAll} isDisabled={prices.isFetching}>
+                        <Button
+                            variant="ghost"
+                            onClick={prices.clearAll}
+                            isDisabled={prices.isFetching}>
                             Reset
                         </Button>
                     </HoverTooltip>
                 </ButtonGroup>
             </Flex>
-
-            <Collapse in={allZeroes} animateOpacity>
-                <Box mt="3rem">
-                    <Alert
-                        status="warning"
-                        variant="left-accent"
-                        display="flex"
-                        flexDirection={["column", null, "row"]}>
-                        <AlertIcon />
-                        <AlertTitle>No prices specified!</AlertTitle>
-                        <AlertDescription textAlign={["center", null, "left"]}>
-                            Use Auto-fill or specify them manually.
-                        </AlertDescription>
-                    </Alert>
-                </Box>
-            </Collapse>
         </>
     );
 }
