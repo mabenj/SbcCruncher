@@ -7,19 +7,26 @@ export default function useNoPricesWarning() {
         "dontShowNoPricesWarning",
         false
     );
+    const [warningShown, setWarningShown] = useState(false);
 
     const onWarningOpen = () => {
         setIsWarningOpen(true);
     };
 
-    const onWarningClose = (dontShowAgain: boolean) => {
+    const onWarningClose = (
+        shouldContinue: boolean,
+        dontShowAgain: boolean
+    ) => {
         setDontShowAgain(dontShowAgain);
         setIsWarningOpen(false);
+        if (shouldContinue) {
+            setWarningShown(true);
+        }
     };
 
     return {
         isWarningOpen,
-        shouldDisplayWarning: !dontShowAgain,
+        shouldDisplayWarning: !dontShowAgain && !warningShown,
         onWarningOpen,
         onWarningClose
     };

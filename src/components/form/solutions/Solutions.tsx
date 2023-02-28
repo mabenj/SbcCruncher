@@ -125,7 +125,7 @@ export default function Solutions() {
             "dismiss_noprices_dialog",
             `continue=${shouldContinue}|dontShowAgain=${dontShowAgain}`
         );
-        onWarningClose(dontShowAgain);
+        onWarningClose(shouldContinue, dontShowAgain);
         if (shouldContinue) {
             onSolve(config);
         }
