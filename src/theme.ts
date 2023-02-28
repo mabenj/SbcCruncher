@@ -30,7 +30,11 @@ const colors = {
 const styles = {
     global: (props: any) => ({
         body: {
-            bg: mode("#F7FAFC", "#1A202C")(props)
+            bg: mode(
+                "linear-gradient(-45deg, rgb(247, 247, 247) 50%, rgba(173, 215, 246, 0.2) 100%)",
+                "linear-gradient(-30deg, #1A202C 50%, #242b38 100%)"
+            )(props),
+            backgroundAttachment: "fixed"
         }
     })
 };
@@ -41,3 +45,7 @@ const fonts = {
 };
 
 export const theme = extendTheme({ config, colors, styles, fonts });
+
+//linear-gradient(rgb(173, 215, 246) 0%, rgb(247, 247, 247) 100%)
+//#F7FAFC
+//#1A202C
