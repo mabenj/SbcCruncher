@@ -46,11 +46,11 @@ const config: ISourceOptions = {
             },
             repulse: {
                 distance: 200,
-                duration: 10,
-                speed: 5
+                duration: 1,
+                speed: 2
             },
             grab: {
-                distance: 150
+                distance: 100
             }
         }
     },
