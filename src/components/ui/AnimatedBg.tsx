@@ -118,27 +118,6 @@ const config: ISourceOptions = {
         }
     },
     particles: {
-        // color: {
-        //     value: [
-        //         "#000d21",
-        //         "#002551",
-        //         "#003d82",
-        //         "#0056b4",
-        //         "#006fe6",
-        //         "#1a88ff",
-        //         "#4aa3ff",
-        //         "#7dbdff",
-        //         "#aed7ff",
-        //         "#dcf3ff"
-        //     ]
-        // },
-        // links: {
-        //     color: "#1a88ff",
-        //     distance: 150,
-        //     enable: true,
-        //     opacity: 0.2,
-        //     width: 1
-        // },
         bounce: {
             horizontal: {
                 random: {
@@ -281,11 +260,9 @@ const config: ISourceOptions = {
         number: {
             density: {
                 enable: true,
-                area: 800,
-                factor: 1000
+                area: 1200
             },
-            limit: 0,
-            value: 80
+            value: 100
         },
         opacity: {
             random: {
