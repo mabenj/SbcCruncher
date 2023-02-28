@@ -2,6 +2,7 @@ import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import Main from "@/components/layout/Main";
 import AnimatedBg from "@/components/ui/AnimatedBg";
+import { ConfigProvider } from "@/context/ConfigContext";
 import { usePageview } from "@/hooks/usePageview";
 import { Container } from "@chakra-ui/react";
 import Head from "next/head";
@@ -17,7 +18,7 @@ export default function Home() {
     );
 
     return (
-        <>
+        <ConfigProvider>
             <HtmlHead />
             <AnimatedBg />
             <Container maxW="4xl">
@@ -31,7 +32,7 @@ export default function Home() {
                     <Footer />
                 </footer>
             </Container>
-        </>
+        </ConfigProvider>
     );
 }
 

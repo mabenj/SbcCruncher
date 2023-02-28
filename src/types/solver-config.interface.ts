@@ -3,4 +3,5 @@ export interface SolverConfig {
     existingRatings: { rating: number; count: number }[];
     tryRatingMinMax: [number, number];
     ratingPriceMap: Record<number, number>;
+    pricesDisabled: boolean
 }

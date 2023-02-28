@@ -40,12 +40,15 @@ export default function Solutions() {
     const [pageIndex, setPageIndex] = useState(0);
     const [config] = useConfig();
     const noPrices = useMemo(() => {
+        if (config.pricesDisabled) {
+            return true;
+        }
         const ratingRange = range(
             config.tryRatingMinMax[0],
             config.tryRatingMinMax[1]
         );
         return ratingRange.every((rating) => !config.ratingPriceMap[rating]);
-    }, [config.tryRatingMinMax, config.ratingPriceMap]);
+    }, [config.tryRatingMinMax, config.ratingPriceMap, config.pricesDisabled]);
 
     const {
         solutions,
@@ -103,14 +106,7 @@ export default function Solutions() {
     };
 
     const calculate = () => {
-        const ratingRange = range(
-            config.tryRatingMinMax[0],
-            config.tryRatingMinMax[1]
-        );
-        if (
-            shouldDisplayWarning &&
-            ratingRange.every((rating) => !config.ratingPriceMap[rating])
-        ) {
+        if (shouldDisplayWarning) {
             onWarningOpen();
         } else {
             onSolve(config);
