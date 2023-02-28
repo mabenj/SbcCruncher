@@ -31,8 +31,8 @@ const styles = {
     global: (props: any) => ({
         body: {
             bg: mode(
-                "linear-gradient(-45deg, rgb(247, 247, 247) 50%, rgba(173, 215, 246, 0.2) 100%)",
-                "linear-gradient(-30deg, #1A202C 50%, #242b38 100%)"
+                "linear-gradient(-5deg, #f5faff 70%, #ffffff 100%)",
+                "linear-gradient(-30deg, #1A202C 50%, #2c3444 100%)"
             )(props),
             backgroundAttachment: "fixed"
         }
