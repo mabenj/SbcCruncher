@@ -62,7 +62,7 @@ function usePlayerPrices() {
             setAllPrices(priceMap);
             toast({
                 status: "success",
-                description: `Prices filled automatically`
+                description: `Prices from ${externalSource.id} filled automatically`
             });
             eventTracker(
                 `price_fetch_ok=${externalSource.id}-${externalSource.platform}-L_${localCache}-R_${remoteCache}`
@@ -70,7 +70,7 @@ function usePlayerPrices() {
         } catch (error) {
             toast({
                 status: "error",
-                title: "Could not fill price data",
+                title: `Could not fetch price data from ${externalSource.id} (${externalSource.platform})`,
                 description: "Wait for a few minutes and try again"
             });
             eventTracker(

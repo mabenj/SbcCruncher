@@ -23,7 +23,7 @@ import {
     SimpleGrid,
     useColorModeValue
 } from "@chakra-ui/react";
-import { mdiDesktopTowerMonitor, mdiGamepadVariant } from "@mdi/js";
+import { mdiControllerClassicOutline, mdiDesktopTowerMonitor } from "@mdi/js";
 import Icon from "@mdi/react";
 import { useEffect } from "react";
 import HoverTooltip from "../ui/HoverTooltip";
@@ -104,7 +104,7 @@ export default function PlayerPrices() {
                 <ButtonGroup colorScheme="gray" variant="solid" mt={10}>
                     <ButtonGroup isAttached>
                         <HoverTooltip
-                            label={`Fetch ${prices.externalSource.platform} market prices from ${prices.externalSource.id}`}>
+                            label={`Get prices from ${prices.externalSource.id} (${prices.externalSource.platform})`}>
                             <Button
                                 isLoading={prices.isFetching}
                                 loadingText="Fetching data"
@@ -113,7 +113,7 @@ export default function PlayerPrices() {
                                     prices.externalSource.platform ===
                                     "console" ? (
                                         <Icon
-                                            path={mdiGamepadVariant}
+                                            path={mdiControllerClassicOutline}
                                             size={1}
                                         />
                                     ) : (
@@ -153,11 +153,17 @@ export default function PlayerPrices() {
                                         }>
                                         <HStack justifyContent="space-between">
                                             <span>Console</span>
-                                            <HoverTooltip label="Console market">
+                                            <HoverTooltip
+                                                label="Console market"
+                                                placement="right">
+                                                    <Box color="gray.500">
+
                                                 <Icon
-                                                    path={mdiGamepadVariant}
-                                                    size={0.7}
-                                                />
+                                                    path={
+                                                        mdiControllerClassicOutline
+                                                    }
+                                                    size={1}
+                                                /></Box>
                                             </HoverTooltip>
                                         </HStack>
                                     </MenuItemOption>
@@ -175,13 +181,18 @@ export default function PlayerPrices() {
                                         }>
                                         <HStack justifyContent="space-between">
                                             <span>PC</span>
-                                            <HoverTooltip label="PC market">
+                                            <HoverTooltip
+                                                label="PC market"
+                                                placement="right">
+                                                    <Box color="gray.500">
+
                                                 <Icon
                                                     path={
                                                         mdiDesktopTowerMonitor
                                                     }
-                                                    size={0.7}
-                                                />
+                                                    size={1}
+                                                    />
+                                                    </Box>
                                             </HoverTooltip>
                                         </HStack>
                                     </MenuItemOption>
@@ -200,8 +211,10 @@ export default function PlayerPrices() {
                                         }>
                                         <Flex justifyContent="space-between">
                                             <span>Futwiz</span>
-                                            <HoverTooltip label="Available ratings">
-                                                <span>82 - 98</span>
+                                            <HoverTooltip
+                                                label="Available ratings"
+                                                placement="right">
+                                                <Box color="gray.500">82 - 98</Box>
                                             </HoverTooltip>
                                         </Flex>
                                     </MenuItemOption>
@@ -219,8 +232,10 @@ export default function PlayerPrices() {
                                         }>
                                         <Flex justifyContent="space-between">
                                             <span>Futbin</span>
-                                            <HoverTooltip label="Available ratings">
-                                                <span>81 - 98</span>
+                                            <HoverTooltip
+                                                label="Available ratings"
+                                                placement="right">
+                                                <Box color="gray.500">81 - 98</Box>
                                             </HoverTooltip>
                                         </Flex>
                                     </MenuItemOption>
