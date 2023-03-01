@@ -4,6 +4,8 @@ import { useEventTracker } from "@/hooks/useEventTracker";
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import {
     Alert,
+    AlertDescription,
+    AlertIcon,
     Box,
     Button,
     ButtonGroup,
@@ -189,7 +191,10 @@ export default function ExistingPlayers() {
             <Collapse in={isFull}>
                 <Box pb={8}>
                     <Alert status="warning" variant="left-accent">
-                        Existing player limit reached
+                        <AlertIcon />
+                        <AlertDescription>
+                            Existing player limit reached
+                        </AlertDescription>
                     </Alert>
                 </Box>
             </Collapse>
