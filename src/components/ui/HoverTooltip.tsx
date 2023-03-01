@@ -6,7 +6,7 @@ interface HoverTooltipProps {
     children: React.ReactNode;
     label?: string;
     hasArrow?: boolean;
-    placement?: "top" | "bottom" | "left" | "right";
+    placement?: "top" | "bottom";
 }
 
 export default function HoverTooltip(props: HoverTooltipProps) {

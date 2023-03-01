@@ -1,5 +1,4 @@
 import { EMPTY_PRICES } from "@/constants";
-import { PriceProvider } from "@/types/price-provider.interface";
 import { getErrorMessage, getRandomInt, sleep } from "@/utilities";
 import { useToast } from "@chakra-ui/react";
 import { useState } from "react";
@@ -33,6 +32,11 @@ interface StoredPrices {
     lastModified: number;
 }
 
+interface PriceProvider {
+    id: "Futbin" | "Futwiz";
+    platform: "console" | "PC";
+}
+
 function usePlayerPrices() {
     const [storedPrices, setStoredPrices] = useLocalStorage<StoredPrices>(
         STORAGE_KEYS.priceMap,
@@ -50,28 +54,27 @@ function usePlayerPrices() {
     const eventTracker = useEventTracker("Prices", TRACKER_DEBOUNCE_MS);
     const toast = useToast();
 
-    const autofillExternalPrices = async (priceSource?: PriceProvider) => {
-        priceSource ??= externalSource;
+    const autofillExternalPrices = async () => {
         setIsFetching(true);
         try {
             const { priceMap, localCache, remoteCache } =
-                await fetchExternalPrices(priceSource);
+                await fetchExternalPrices(externalSource);
             setAllPrices(priceMap);
             toast({
                 status: "success",
-                description: `Prices from ${priceSource.id} filled automatically`
+                description: `Prices filled automatically`
             });
             eventTracker(
-                `price_fetch_ok=${priceSource.id}-${priceSource.platform}-L_${localCache}-R_${remoteCache}`
+                `price_fetch_ok=${externalSource.id}-${externalSource.platform}-L_${localCache}-R_${remoteCache}`
             );
         } catch (error) {
             toast({
                 status: "error",
-                title: `Could not fetch price data from ${priceSource.id}`,
+                title: "Could not fill price data",
                 description: "Wait for a few minutes and try again"
             });
             eventTracker(
-                `price_fetch_error=${priceSource.id}-${priceSource.platform}`,
+                `price_fetch_error=${externalSource.id}-${externalSource.platform}`,
                 getErrorMessage(error)
             );
         } finally {
