@@ -13,17 +13,12 @@ interface RatingCardCarouselSelectProps {
 export default function RatingCardCarouselSelect(
     props: RatingCardCarouselSelectProps
 ) {
-    const prevRating = useRef(-1);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const selectedCardRef = useRef<HTMLDivElement>(null);
 
     const order = props.reverseOptions ? 1 : -1;
 
     useEffect(() => {
-        if (props.value === prevRating.current) {
-            return;
-        }
-        prevRating.current = props.value;
         if (!selectedCardRef.current || !scrollContainerRef.current) {
             return;
         }
