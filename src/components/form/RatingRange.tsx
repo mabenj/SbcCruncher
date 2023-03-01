@@ -20,7 +20,7 @@ import Icon from "@mdi/react";
 import HoverTooltip from "../ui/HoverTooltip";
 import RatingCardInput from "../ui/RatingCardInput";
 
-const WARNING_THRESHOLD = 15;
+const WARNING_THRESHOLD = 20;
 const DEBOUNCE_MS = 4000;
 const RANGE_MIN = Math.min(...TRY_RATINGS);
 const RANGE_MAX = Math.max(...TRY_RATINGS);
