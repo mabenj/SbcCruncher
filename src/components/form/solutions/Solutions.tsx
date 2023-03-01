@@ -71,6 +71,7 @@ export default function Solutions() {
     const toast = useToast();
 
     const lastPage = Math.ceil(solutions.length / PAGE_SIZE);
+    const cheapestPrice =  noPrices ? undefined : solutions[0]?.price
 
     useEffect(() => {
         if (isSolving) {
@@ -171,7 +172,7 @@ export default function Solutions() {
                     <ScaleFade in={progress > 0}>
                         <SolutionsStats
                             cheapestPrice={
-                                noPrices ? undefined : solutions[0]?.price
+                                cheapestPrice
                             }
                             found={solutionsFound}
                             loading={isSolving}
@@ -224,6 +225,7 @@ export default function Solutions() {
                             pageIndex * PAGE_SIZE + PAGE_SIZE
                         )}
                         showPrices={!noPrices}
+                        cheapestPrice={cheapestPrice}
                     />
                 )}
 
