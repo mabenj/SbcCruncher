@@ -28,7 +28,7 @@ export default function GridSolutions({
 
             <SimpleGrid minChildWidth="15.5rem" spacing={5}>
                 {loading &&
-                    range(0, 5).map((i) => (
+                    range(0, 11).map((i) => (
                         <SolutionCard
                             key={"skeleton_" + i}
                             label={"Solution " + (i + 1)}
