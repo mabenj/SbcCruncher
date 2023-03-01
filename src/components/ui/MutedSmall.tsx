@@ -3,7 +3,7 @@ import React from "react";
 
 export default function MutedSmall(props: { children: React.ReactNode }) {
     return (
-        <Box fontSize="sm" color={"gray.500"}>
+        <Box position="relative" fontSize="sm" color={"gray.500"}>
             {props.children}
         </Box>
     );

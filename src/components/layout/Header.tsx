@@ -33,7 +33,7 @@ export default function Header() {
     const eventTracker = useEventTracker("Header");
 
     return (
-        <Box px={2} pt={5}>
+        <Box position="relative" px={2} pt={5}>
             <Flex
                 wrap="wrap"
                 justifyContent="space-between"

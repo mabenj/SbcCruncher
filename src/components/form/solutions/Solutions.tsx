@@ -156,7 +156,7 @@ export default function Solutions() {
                     </Button>
                 </HoverTooltip>
             </Flex>
-            <Box mx={3} pt={10}>
+            <Box position="relative" mx={3} pt={10}>
                 <Heading>Solutions</Heading>
 
                 <ScaleFade in={progress === 0}>
