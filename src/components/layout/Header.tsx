@@ -149,9 +149,9 @@ const HelpDrawer = ({
                         letterSpacing={0.3}>
                         <ListItem pl={4}>
                             <Text>
-                                <strong>Choose your target rating</strong>: Go
-                                to the <Em>Target Rating</Em> section and select
-                                a rating card to specify your desired target
+                                <strong>Choose your target rating</strong>: In
+                                the <Em>Target Rating</Em> section, select a
+                                rating card to specify your desired target
                                 rating.
                             </Text>
                         </ListItem>
@@ -166,7 +166,7 @@ const HelpDrawer = ({
                         <ListItem pl={4}>
                             <Text>
                                 <strong>Set the range of ratings</strong>: In
-                                the <Em>Range of Ratings to Try</Em> section,
+                                the <Em>Range of Ratings to Use</Em> section,
                                 specify the range of ratings you want to use for
                                 calculating solutions.
                             </Text>
@@ -183,7 +183,9 @@ const HelpDrawer = ({
                             <Text>
                                 <strong>Set player prices</strong>: In the{" "}
                                 <Em>Player Prices</Em> section, you can specify
-                                the price of each rating in coins.
+                                the price of each rating in coins so that SBC
+                                Cruncher can rank the solutions based on their
+                                price.
                             </Text>
                             <Text mt={2}>
                                 You can also fetch the prices directly from{" "}
