@@ -1,5 +1,6 @@
 import { useConfig } from "@/context/ConfigContext";
 import usePlayerPrices from "@/hooks/usePlayerPrices";
+import { PriceProvider } from "@/types/price-provider.interface";
 import { range, timeAgo } from "@/utilities";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import {
@@ -12,30 +13,44 @@ import {
     ButtonGroup,
     Collapse,
     Flex,
-    HStack,
     IconButton,
     Menu,
     MenuButton,
     MenuDivider,
-    MenuItemOption,
+    MenuGroup,
+    MenuItem,
     MenuList,
-    MenuOptionGroup,
     SimpleGrid,
     useColorModeValue
 } from "@chakra-ui/react";
-import { mdiDesktopTowerMonitor, mdiGamepadVariant } from "@mdi/js";
+import { mdiControllerClassicOutline, mdiDesktopTowerMonitor } from "@mdi/js";
 import Icon from "@mdi/react";
-import { useEffect } from "react";
+import { LegacyRef, useEffect, useRef } from "react";
 import HoverTooltip from "../ui/HoverTooltip";
 import PriceInput from "../ui/PriceInput";
 
 const PRICES_AGE_WARN_THRESHOLD_MS = 30 * 60 * 1000; // 30m
+const CONSOLE_SOURCES: PriceProvider[] = [
+    {
+        id: "Futbin",
+        platform: "console"
+    },
+    {
+        id: "Futwiz",
+        platform: "console"
+    }
+];
+
+const PC_SOURCES: PriceProvider[] = [
+    {
+        id: "Futwiz",
+        platform: "PC"
+    }
+];
 
 export default function PlayerPrices() {
     const [config, setConfig] = useConfig();
     const prices = usePlayerPrices();
-
-    const splitBtnBorderColor = useColorModeValue("gray.200", "gray.600");
 
     const ratingRange = range(
         Math.min(...config.tryRatingMinMax),
@@ -50,6 +65,11 @@ export default function PlayerPrices() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [prices.priceMap]
     );
+
+    const setAutoFillSource = (provider: PriceProvider) => {
+        prices.setExternalSource(provider);
+        prices.autofillExternalPrices(provider);
+    };
 
     return (
         <>
@@ -104,16 +124,16 @@ export default function PlayerPrices() {
                 <ButtonGroup colorScheme="gray" variant="solid" mt={10}>
                     <ButtonGroup isAttached>
                         <HoverTooltip
-                            label={`Fetch ${prices.externalSource.platform} market prices from ${prices.externalSource.id}`}>
+                            label={`Auto-fill from ${prices.externalSource.id} (${prices.externalSource.platform})`}>
                             <Button
                                 isLoading={prices.isFetching}
                                 loadingText="Fetching data"
-                                onClick={prices.autofillExternalPrices}
+                                onClick={() => prices.autofillExternalPrices()}
                                 leftIcon={
                                     prices.externalSource.platform ===
                                     "console" ? (
                                         <Icon
-                                            path={mdiGamepadVariant}
+                                            path={mdiControllerClassicOutline}
                                             size={1}
                                         />
                                     ) : (
@@ -127,106 +147,11 @@ export default function PlayerPrices() {
                             </Button>
                         </HoverTooltip>
 
-                        <Menu closeOnSelect={false}>
-                            <HoverTooltip label="Auto-fill options">
-                                <IconButton
-                                    as={MenuButton}
-                                    aria-label="Auto-fill options"
-                                    icon={<ChevronDownIcon />}
-                                    borderLeft="1px solid"
-                                    borderColor={splitBtnBorderColor}
-                                    isDisabled={prices.isFetching}
-                                />
-                            </HoverTooltip>
-
-                            <MenuList>
-                                <MenuOptionGroup
-                                    type="radio"
-                                    value={prices.externalSource.platform}>
-                                    <MenuItemOption
-                                        value="console"
-                                        onClick={() =>
-                                            prices.setExternalSource({
-                                                ...prices.externalSource,
-                                                platform: "console"
-                                            })
-                                        }>
-                                        <HStack justifyContent="space-between">
-                                            <span>Console</span>
-                                            <HoverTooltip label="Console market">
-                                                <Icon
-                                                    path={mdiGamepadVariant}
-                                                    size={0.7}
-                                                />
-                                            </HoverTooltip>
-                                        </HStack>
-                                    </MenuItemOption>
-                                    <MenuItemOption
-                                        value="PC"
-                                        isDisabled={
-                                            prices.externalSource.id ===
-                                            "Futbin"
-                                        }
-                                        onClick={() =>
-                                            prices.setExternalSource({
-                                                ...prices.externalSource,
-                                                platform: "PC"
-                                            })
-                                        }>
-                                        <HStack justifyContent="space-between">
-                                            <span>PC</span>
-                                            <HoverTooltip label="PC market">
-                                                <Icon
-                                                    path={
-                                                        mdiDesktopTowerMonitor
-                                                    }
-                                                    size={0.7}
-                                                />
-                                            </HoverTooltip>
-                                        </HStack>
-                                    </MenuItemOption>
-                                </MenuOptionGroup>
-                                <MenuDivider />
-                                <MenuOptionGroup
-                                    type="radio"
-                                    value={prices.externalSource.id}>
-                                    <MenuItemOption
-                                        value="Futwiz"
-                                        onClick={() =>
-                                            prices.setExternalSource({
-                                                ...prices.externalSource,
-                                                id: "Futwiz"
-                                            })
-                                        }>
-                                        <Flex justifyContent="space-between">
-                                            <span>Futwiz</span>
-                                            <HoverTooltip label="Available ratings">
-                                                <span>82 - 98</span>
-                                            </HoverTooltip>
-                                        </Flex>
-                                    </MenuItemOption>
-                                    <MenuItemOption
-                                        value="Futbin"
-                                        isDisabled={
-                                            prices.externalSource.platform ===
-                                            "PC"
-                                        }
-                                        onClick={() =>
-                                            prices.setExternalSource({
-                                                ...prices.externalSource,
-                                                id: "Futbin"
-                                            })
-                                        }>
-                                        <Flex justifyContent="space-between">
-                                            <span>Futbin</span>
-                                            <HoverTooltip label="Available ratings">
-                                                <span>81 - 98</span>
-                                            </HoverTooltip>
-                                        </Flex>
-                                    </MenuItemOption>
-                                </MenuOptionGroup>
-                            </MenuList>
-                        </Menu>
+                        <AutoFillMenu
+                            disabled={prices.isFetching}
+                            onItemSelected={setAutoFillSource}
+                            activeItem={prices.externalSource}
+                        />
                     </ButtonGroup>
 
                     <HoverTooltip label="Set all prices to 0">
@@ -242,3 +167,103 @@ export default function PlayerPrices() {
         </>
     );
 }
+
+const AutoFillMenu = ({
+    onItemSelected,
+    disabled,
+    activeItem
+}: {
+    onItemSelected: (item: PriceProvider) => void;
+    disabled: boolean;
+    activeItem: PriceProvider;
+}) => {
+    const initialFocusRef = useRef(null);
+    const splitBtnBorderColor = useColorModeValue("gray.200", "gray.600");
+
+    return (
+        <Menu initialFocusRef={initialFocusRef}>
+            <IconButton
+                as={MenuButton}
+                aria-label="Auto-fill options"
+                icon={<ChevronDownIcon />}
+                borderLeft="1px solid"
+                borderColor={splitBtnBorderColor}
+                isDisabled={disabled}
+            />
+
+            <MenuList>
+                <MenuGroup title="Console">
+                    {CONSOLE_SOURCES.map((source, i) => (
+                        <AutoFillMenuItem
+                            key={i}
+                            priceSource={source}
+                            onClick={() => onItemSelected(source)}
+                            initialFocusRef={
+                                activeItem.id === source.id &&
+                                activeItem.platform == source.platform
+                                    ? initialFocusRef
+                                    : undefined
+                            }
+                        />
+                    ))}
+                </MenuGroup>
+                <MenuDivider />
+                <MenuGroup title="PC">
+                    {PC_SOURCES.map((source, i) => (
+                        <AutoFillMenuItem
+                            key={i}
+                            priceSource={source}
+                            onClick={() => onItemSelected(source)}
+                            initialFocusRef={
+                                activeItem.id === source.id &&
+                                activeItem.platform == source.platform
+                                    ? initialFocusRef
+                                    : undefined
+                            }
+                        />
+                    ))}
+                </MenuGroup>
+            </MenuList>
+        </Menu>
+    );
+};
+
+const AutoFillMenuItem = ({
+    priceSource,
+    onClick,
+    initialFocusRef
+}: {
+    priceSource: PriceProvider;
+    onClick: () => void;
+    initialFocusRef?: LegacyRef<HTMLButtonElement>;
+}) => {
+    return (
+        <MenuItem ref={initialFocusRef} onClick={onClick}>
+            <Flex
+                w="100%"
+                justifyContent="space-between"
+                alignItems="center"
+                minH="2rem">
+                <Flex alignItems="center" gap={2}>
+                    <Box color="gray.500">
+                        <Icon
+                            path={
+                                priceSource.platform === "console"
+                                    ? mdiControllerClassicOutline
+                                    : mdiDesktopTowerMonitor
+                            }
+                            size={0.8}
+                        />
+                    </Box>
+                    <Box>{priceSource.id}</Box>
+                </Flex>
+                <HoverTooltip label="Available ratings" placement="right">
+                    <Box color="gray.500">
+                        {priceSource.id === "Futbin" && <span>81 - 98</span>}
+                        {priceSource.id === "Futwiz" && <span>82 - 98</span>}
+                    </Box>
+                </HoverTooltip>
+            </Flex>
+        </MenuItem>
+    );
+};
