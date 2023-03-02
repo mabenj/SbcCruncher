@@ -3,7 +3,8 @@ import { mode } from "@chakra-ui/theme-tools";
 import { Nunito } from "@next/font/google";
 
 const nunito = Nunito({
-    subsets: ["latin"]
+    subsets: ["latin"],
+    display: "swap"
 });
 
 const config: ThemeConfig = {
