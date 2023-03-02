@@ -165,10 +165,10 @@ const HelpDrawer = ({
                         </ListItem>
                         <ListItem pl={4}>
                             <Text>
-                                <strong>Set the range of ratings</strong>: In
-                                the <Em>Range of Ratings to Use</Em> section,
-                                specify the range of ratings you want to use for
-                                calculating solutions.
+                                <strong>Set the ratings to use</strong>: In the{" "}
+                                <Em>Ratings to Use</Em> section, specify the
+                                range of ratings you want to use for calculating
+                                solutions.
                             </Text>
                             <Text mt={2}>
                                 For instance, if you set a range from{" "}

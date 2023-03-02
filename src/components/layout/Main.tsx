@@ -50,7 +50,7 @@ const ExistingPlayersCard = ({ step }: { step: number }) => {
 const RatingRangeCard = ({ step }: { step: number }) => {
     return (
         <AccentedCard
-            header="Range of Ratings to Use"
+            header="Ratings to Use"
             infoParagraphs={[
                 "Select the minimum and maximum ratings you want SBC Cruncher to use when calculating solutions."
             ]}
