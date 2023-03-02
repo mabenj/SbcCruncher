@@ -28,11 +28,10 @@ const config: ISourceOptions = {
     },
     fpsLimit: 90,
     interactivity: {
-        detectsOn: "canvas",
         events: {
             onClick: {
                 enable: true,
-                mode: ["push", "repulse"]
+                mode: "repulse"
             },
             onHover: {
                 enable: true,
@@ -46,11 +45,7 @@ const config: ISourceOptions = {
             },
             repulse: {
                 distance: 200,
-                duration: 1,
-                speed: 2
-            },
-            grab: {
-                distance: 100
+                duration: 0.4
             }
         }
     },
