@@ -67,7 +67,7 @@ function usePlayerPrices() {
             });
             autoFillEventTracker(
                 `autofill_ok_${externalSource.id}_${externalSource.platform}`,
-                `local=${localCache}|remote=${remoteCache}`,
+                `local=${localCache}|api=${remoteCache}`,
                 localCache === "HIT" ? 1 : -1
             );
         } catch (error) {
