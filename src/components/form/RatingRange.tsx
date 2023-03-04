@@ -21,13 +21,12 @@ import HoverTooltip from "../ui/HoverTooltip";
 import RatingCardInput from "../ui/RatingCardInput";
 
 const WARNING_THRESHOLD = 20;
-const DEBOUNCE_MS = 4000;
 const RANGE_MIN = Math.min(...TRY_RATINGS);
 const RANGE_MAX = Math.max(...TRY_RATINGS);
 
 export default function RatingRange() {
     const [config, setConfig] = useConfig();
-    const eventTracker = useEventTracker("Rating range", DEBOUNCE_MS);
+    const eventTracker = useEventTracker("Rating range");
 
     const configMin = Math.min(...config.tryRatingMinMax);
     const configMax = Math.max(...config.tryRatingMinMax);
@@ -39,24 +38,36 @@ export default function RatingRange() {
         color: "gray.500"
     };
 
-    const handleRangeChange =
-        (isSlider: boolean) => (range: [number, number]) => {
-            const newMin = Math.min(...range);
-            const newMax = Math.max(...range);
-            if (newMin === configMin && newMax === configMax) {
-                return;
-            }
-            setConfig((prev) => ({
-                ...prev,
-                tryRatingMinMax: [newMin, newMax]
-            }));
-            eventTracker(
-                isSlider
-                    ? `range_slider=${configMin},${configMax}`
-                    : `range_card=${configMin},${configMax}`,
-                configMin + "-" + configMax
-            );
-        };
+    const handleSliderChange = (range: [number, number]) => {
+        const newMin = Math.min(...range);
+        const newMax = Math.max(...range);
+        if (newMin === configMin && newMax === configMax) {
+            return;
+        }
+        setConfig((prev) => ({
+            ...prev,
+            tryRatingMinMax: [newMin, newMax]
+        }));
+        eventTracker(
+            "range_set_slider",
+            newMin + "-" + newMax,
+            newMax - newMin + 1
+        );
+    };
+
+    const handleChangeMin = (min: number) => {
+        const newMin = Math.min(...[min, configMax]);
+        const newMax = Math.max(...[min, configMax]);
+        setConfig((prev) => ({ ...prev, tryRatingMinMax: [newMin, newMax] }));
+        eventTracker("range_set_min", newMin, newMin);
+    };
+
+    const handleChangeMax = (max: number) => {
+        const newMin = Math.min(...[configMin, max]);
+        const newMax = Math.max(...[configMin, max]);
+        setConfig((prev) => ({ ...prev, tryRatingMinMax: [newMin, newMax] }));
+        eventTracker("range_set_max", newMax, newMax);
+    };
 
     return (
         <Stack spacing={10}>
@@ -67,9 +78,7 @@ export default function RatingRange() {
                     <RatingCardInput
                         customRange={TRY_RATINGS}
                         rating={configMin}
-                        onChange={(newVal) =>
-                            handleRangeChange(false)([newVal, configMax])
-                        }
+                        onChange={handleChangeMin}
                         selection={range(configMin, configMax)}
                         reverseOptions
                     />
@@ -88,9 +97,7 @@ export default function RatingRange() {
                     <RatingCardInput
                         customRange={TRY_RATINGS}
                         rating={configMax}
-                        onChange={(newVal) =>
-                            handleRangeChange(false)([newVal, configMin])
-                        }
+                        onChange={handleChangeMax}
                         selection={range(configMin, configMax)}
                         reverseOptions
                     />
@@ -104,7 +111,7 @@ export default function RatingRange() {
                     step={1}
                     colorScheme="brand"
                     value={[configMin, configMax]}
-                    onChange={handleRangeChange(true)}>
+                    onChange={handleSliderChange}>
                     <RangeSliderTrack>
                         <RangeSliderFilledTrack bg="brand.400" />
                     </RangeSliderTrack>

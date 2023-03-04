@@ -26,13 +26,12 @@ import HoverTooltip from "../ui/HoverTooltip";
 import RatingCardInput from "../ui/RatingCardInput";
 
 const PLAYER_LIMIT = SQUAD_SIZE - 1;
-const DEFAULT_RATING = 83;
-const DEBOUNCE_MS = 4000;
+const DEFAULT_RATING = 85;
 
 export default function ExistingPlayers() {
     const [config, setConfig] = useConfig();
 
-    const eventTracker = useEventTracker("Existing players", DEBOUNCE_MS);
+    const eventTracker = useEventTracker("Existing players");
 
     const totalPlayers = config.existingRatings
         .map(({ count }) => count)
@@ -51,10 +50,16 @@ export default function ExistingPlayers() {
         return () =>
             setConfig((prev) => {
                 const prevRatings = prev.existingRatings;
-                if (prevRatings[index]) {
+                if (prevRatings[index] && prevRatings[index].count !== count) {
+                    const operation =
+                        prevRatings[index].count > count
+                            ? "decrement"
+                            : "increment";
                     prevRatings[index].count = count;
                     eventTracker(
-                        `existing_rating=${count}x${prevRatings[index].rating}`
+                        `existing_player_${operation}`,
+                        `${count}x${prevRatings[index].rating}`,
+                        operation === "decrement" ? -1 : 1
                     );
                 }
                 return { ...prev, existingRatings: prevRatings };
@@ -69,15 +74,18 @@ export default function ExistingPlayers() {
             }
             return { ...prev, existingRatings: [...prevRatings] };
         });
-        eventTracker("existing_rating=" + rating, rating.toString(), rating);
+        eventTracker("existing_player_set", rating, rating);
     };
 
     const removeRatingAt = (index: number) => {
         return () =>
             setConfig((prev) => {
                 const ratings = prev.existingRatings;
-                ratings.splice(index, 1);
-                eventTracker("existing_rating_delete");
+                const [deleted] = ratings.splice(index, 1);
+                eventTracker(
+                    "existing_player_delete",
+                    `${deleted.count}x${deleted.rating}`
+                );
                 return {
                     ...prev,
                     existingRatings: [...ratings]
@@ -87,7 +95,7 @@ export default function ExistingPlayers() {
 
     const clearAllRatings = () => {
         setConfig((prev) => ({ ...prev, existingRatings: [] }));
-        eventTracker("existing_rating_clear_all");
+        eventTracker("existing_player_reset");
     };
 
     const addRating = () => {
@@ -98,7 +106,7 @@ export default function ExistingPlayers() {
                 { rating: DEFAULT_RATING, count: 1 }
             ]
         }));
-        eventTracker("existing_rating_add");
+        eventTracker("existing_player_add");
     };
 
     return (
@@ -136,7 +144,7 @@ export default function ExistingPlayers() {
                                                     <IconButton
                                                         variant="ghost"
                                                         size="xs"
-                                                        aria-label="Increment"
+                                                        aria-label="Decrement"
                                                         icon={<MinusIcon />}
                                                         onClick={setRatingCount(
                                                             i,

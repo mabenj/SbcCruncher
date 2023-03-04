@@ -92,7 +92,7 @@ const HelpBtn = ({
     const initRef = useRef(null);
     const [isHovering, setIsHovering] = useState(false);
 
-    const eventTracker = useEventTracker("Info");
+    const eventTracker = useEventTracker("Step help");
 
     return (
         <Popover
@@ -112,7 +112,7 @@ const HelpBtn = ({
                     onMouseLeave={() => setIsHovering(false)}
                     onClick={(e) => {
                         e.stopPropagation();
-                        eventTracker("click_info_step=" + step);
+                        eventTracker("click_step_help", step, step);
                     }}>
                     Step {step}
                 </Button>

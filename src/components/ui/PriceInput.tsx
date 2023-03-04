@@ -63,7 +63,7 @@ export default function PriceInput({
         setIsEditing(false);
         if (newValue !== value) {
             onChange(newValue);
-            eventTracker(`set_price_manual=${rating}-${newValue}`);
+            eventTracker(`set_price_${rating}`, `input`, newValue);
         }
     };
 
@@ -82,15 +82,17 @@ export default function PriceInput({
     const handleIncrement = () => {
         const increment =
             PRICE_TIERS.find((tier) => tier.min <= (value ?? 0))?.step ?? 0;
-        onChange((value ?? 0) + increment);
-        eventTracker("increment");
+        const newValue = (value ?? 0) + increment;
+        onChange(newValue);
+        eventTracker(`set_price_${rating}`, `increment`, newValue);
     };
 
     const handleDecrement = () => {
         const decrement =
             PRICE_TIERS.find((tier) => tier.min < (value ?? 0))?.step ?? 0;
-        onChange(Math.max(0, (value ?? 0) - decrement));
-        eventTracker("decrement");
+        const newValue = Math.max(0, (value ?? 0) - decrement);
+        onChange(newValue);
+        eventTracker(`set_price_${rating}`, `decrement`, newValue);
     };
 
     return (

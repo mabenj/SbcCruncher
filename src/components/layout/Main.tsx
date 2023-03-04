@@ -70,7 +70,11 @@ const PricesCard = ({ step }: { step: number }) => {
             ...prev,
             pricesDisabled: !isChecked
         }));
-        eventTracker("disable_prices=" + !isChecked);
+        eventTracker(
+            "prices_enabled",
+            isChecked ? "yes" : "no",
+            isChecked ? 1 : -1
+        );
     };
 
     return (

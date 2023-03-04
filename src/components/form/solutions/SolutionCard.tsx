@@ -74,9 +74,9 @@ export default function SolutionCard({
                                                 <span
                                                     onClick={() =>
                                                         eventTracker(
-                                                            "click_futbin_link=" +
-                                                                rating,
-                                                            rating.toString()
+                                                            "click_futbin_link",
+                                                            rating,
+                                                            rating
                                                         )
                                                     }>
                                                     {rating}

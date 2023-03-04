@@ -68,9 +68,9 @@ export default function TableSolutions({
                                                     <span
                                                         onClick={() =>
                                                             eventTracker(
-                                                                "click_futbin_link=" +
-                                                                    rating,
-                                                                rating.toString()
+                                                                "click_futbin_link",
+                                                                rating,
+                                                                rating
                                                             )
                                                         }>
                                                         {rating}

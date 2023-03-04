@@ -7,7 +7,6 @@ import useLocalStorage from "./useLocalStorage";
 
 const PRICE_FETCH_MAX_ATTEMPTS = 3;
 const PRICE_FETCH_COOLDOWN_MS = 2000;
-const TRACKER_DEBOUNCE_MS = 3000;
 const DUMMY_DELAY_MS = 500;
 const CACHE_MAX_AGE_MS = 3_600_000; // 1h
 
@@ -51,8 +50,10 @@ function usePlayerPrices() {
     );
     const [isFetching, setIsFetching] = useState(false);
 
-    const eventTracker = useEventTracker("Prices", TRACKER_DEBOUNCE_MS);
     const toast = useToast();
+
+    const autoFillEventTracker = useEventTracker("Autofill");
+    const pricesEventTracker = useEventTracker("Prices");
 
     const autofillExternalPrices = async () => {
         setIsFetching(true);
@@ -64,8 +65,10 @@ function usePlayerPrices() {
                 status: "success",
                 description: `Prices from ${externalSource.id} filled automatically`
             });
-            eventTracker(
-                `price_fetch_ok=${externalSource.id}-${externalSource.platform}-L_${localCache}-R_${remoteCache}`
+            autoFillEventTracker(
+                `autofill_ok_${externalSource.id}_${externalSource.platform}`,
+                `local=${localCache}|remote=${remoteCache}`,
+                localCache === "HIT" ? 1 : -1
             );
         } catch (error) {
             toast({
@@ -73,8 +76,8 @@ function usePlayerPrices() {
                 title: `Could not fetch price data from ${externalSource.id} (${externalSource.platform})`,
                 description: "Wait for a few minutes and try again"
             });
-            eventTracker(
-                `price_fetch_error=${externalSource.id}-${externalSource.platform}`,
+            autoFillEventTracker(
+                `autofill_error_${externalSource.id}_${externalSource.platform}`,
                 getErrorMessage(error)
             );
         } finally {
@@ -84,7 +87,7 @@ function usePlayerPrices() {
 
     const clearAll = () => {
         setAllPrices(EMPTY_PRICES);
-        eventTracker("price_clear_all");
+        pricesEventTracker("prices_clear_all");
     };
 
     const setPrice = (rating: number, price: number) => {

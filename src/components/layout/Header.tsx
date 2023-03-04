@@ -22,6 +22,8 @@ import React from "react";
 import ExternalLink from "../ui/ExternalLink";
 import HoverTooltip from "../ui/HoverTooltip";
 
+const DEBOUNCE_MS = 200;
+
 export default function Header() {
     const { colorMode, toggleColorMode } = useColorMode();
     const {
@@ -30,7 +32,21 @@ export default function Header() {
         onClose: onHelpClose
     } = useDisclosure();
 
-    const eventTracker = useEventTracker("Header");
+    const eventTracker = useEventTracker("Header", DEBOUNCE_MS);
+
+    const handleToggleTheme = () => {
+        eventTracker(
+            "set_theme",
+            colorMode === "dark" ? "light" : "dark",
+            colorMode === "dark" ? 1 : -1
+        );
+        toggleColorMode();
+    };
+
+    const handleOpenHelp = () => {
+        onHelpOpen();
+        eventTracker("open_help");
+    };
 
     return (
         <Box position="relative" px={2} pt={5}>
@@ -92,13 +108,7 @@ export default function Header() {
                                     ? "Light mode"
                                     : "Dark mode"
                             }
-                            onClick={() => {
-                                eventTracker(
-                                    "set_theme",
-                                    colorMode === "dark" ? "light" : "dark"
-                                );
-                                toggleColorMode();
-                            }}
+                            onClick={handleToggleTheme}
                         />
                     </HoverTooltip>
                     <HoverTooltip label="How to use">
@@ -107,10 +117,7 @@ export default function Header() {
                             variant="ghost"
                             icon={<QuestionOutlineIcon />}
                             aria-label="Help"
-                            onClick={() => {
-                                eventTracker("open_help");
-                                onHelpOpen();
-                            }}
+                            onClick={handleOpenHelp}
                         />
                     </HoverTooltip>
                 </Flex>

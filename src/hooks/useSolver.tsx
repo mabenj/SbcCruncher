@@ -4,7 +4,6 @@ import { SolverRequest } from "@/types/solver-request.interface";
 import { SolverResponse } from "@/types/solver-response.interface";
 import { getErrorMessage, range } from "@/utilities";
 import { useToast } from "@chakra-ui/react";
-import prettyMilliseconds from "pretty-ms";
 import { useEffect, useRef, useState } from "react";
 import { useEventTracker } from "./useEventTracker";
 
@@ -15,7 +14,6 @@ export const useSolver = () => {
     const [progress, setProgress] = useState(0);
 
     const startTimeRef = useRef(0);
-    const latestConfigRef = useRef<SolverConfig | null>(null);
     const solverRef = useRef<Worker | null>(null);
 
     const toast = useToast();
@@ -76,7 +74,6 @@ export const useSolver = () => {
         };
         setTimeout(() => {
             solverRef.current?.postMessage(message);
-            latestConfigRef.current = config;
             startTimeRef.current = performance.now();
             setIsSolving(true);
         });
@@ -99,10 +96,7 @@ export const useSolver = () => {
             return;
         }
         if (e.data.done) {
-            const elapsed = prettyMilliseconds(
-                performance.now() - startTimeRef.current,
-                { verbose: true }
-            );
+            const elapsedMs = performance.now() - startTimeRef.current;
             toast({
                 status: "success",
                 description: `Calculation complete`
@@ -111,18 +105,10 @@ export const useSolver = () => {
             setProgress(e.data.progress);
             setSolutions(e.data.solutions);
             setSolutionsFound(e.data.solutionsFound);
-
             eventTracker(
-                `solve_success`,
-                `price=${e.data.solutions[0]?.price}|solutions=${
-                    e.data.solutionsFound
-                }|time=${elapsed}|target=${
-                    latestConfigRef.current?.targetRating
-                }|existing=${latestConfigRef.current?.existingRatings
-                    .map(({ rating, count }) => count + "x" + rating)
-                    .join(",")}|minMax=${
-                    latestConfigRef.current?.tryRatingMinMax[0]
-                },${latestConfigRef.current?.tryRatingMinMax[1]}`
+                `solve_complete`,
+                `duration=${getDurationClass(elapsedMs)}`,
+                e.data.solutionsFound
             );
         } else {
             setProgress(e.data.progress);
@@ -131,7 +117,6 @@ export const useSolver = () => {
     };
 
     const handleError = async (e: unknown) => {
-        eventTracker("solve_error", JSON.stringify(e));
         const message = getErrorMessage(e);
         console.error(e);
         toast({
@@ -140,6 +125,10 @@ export const useSolver = () => {
             description: message
         });
         resetWorker();
+        eventTracker(
+            "solve_error",
+            `ua=${navigator.userAgent},err=${JSON.stringify(e)}`
+        );
     };
 
     const checkIsWorkerSupported = () => {
@@ -164,3 +153,23 @@ export const useSolver = () => {
         onClearSolutions
     };
 };
+
+function getDurationClass(ms: number) {
+    if (ms < 500) {
+        return "instant";
+    } else if (ms < 2000) {
+        return "sub-2s";
+    } else if (ms < 5000) {
+        return "sub-5s";
+    } else if (ms < 10000) {
+        return "sub-10s";
+    } else if (ms < 30000) {
+        return "sub-30s";
+    } else if (ms < 60000) {
+        return "sub-1m";
+    } else if (ms < 120000) {
+        return "sub-2m";
+    } else {
+        return "longer";
+    }
+}
