@@ -66,5 +66,7 @@ const HtmlHead = () => (
         <meta property="og:url" content="https://sbccruncher.cc" />
         {/* 200x200px - 1200x1200px */}
         <meta property="og:image" content="https://i.imgur.com/pHxDN7k.png" />
+
+        <meta name="google" content="notranslate"></meta>
     </Head>
 );
