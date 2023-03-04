@@ -108,8 +108,8 @@ export default function Solutions() {
             onSolve(config);
         }
         eventTracker(
-            `noprices_dialog_${shouldContinue ? "continue" : "back"}`,
-            `dsa=${dontShowAgain}`,
+            `no_prices_dialog_${shouldContinue ? "continue" : "back"}`,
+            `no_prices:continue=${shouldContinue},dsa=${dontShowAgain}`,
             shouldContinue ? 1 : -1
         );
     };
@@ -118,7 +118,7 @@ export default function Solutions() {
         setTableView(tableView);
         eventTracker(
             "set_table_view",
-            tableView ? "on" : "off",
+            `table_view=${tableView ? "on" : "off"}`,
             tableView ? 1 : -1
         );
     };
@@ -126,7 +126,7 @@ export default function Solutions() {
     const handleNextPage = () => {
         setPageIndex((prev) => {
             const next = prev + 1;
-            eventTracker("solutions_paginate", next + 1, next + 1);
+            eventTracker("solutions_paginate", `paginate=${next + 1}`, next + 1);
             return next;
         });
     };
@@ -134,7 +134,7 @@ export default function Solutions() {
     const handlePrevPage = () => {
         setPageIndex((prev) => {
             const next = prev - 1;
-            eventTracker("solutions_paginate", next + 1, next + 1);
+            eventTracker("solutions_paginate", `paginate=${next + 1}`, next + 1);
             return next;
         });
     };

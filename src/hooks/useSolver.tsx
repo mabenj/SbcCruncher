@@ -82,7 +82,7 @@ export const useSolver = () => {
     const onStopSolve = async () => {
         resetWorker();
         resetState();
-        eventTracker("solve_stop");
+        eventTracker("solve_stop", "stop");
     };
 
     const onClearSolutions = async () => {

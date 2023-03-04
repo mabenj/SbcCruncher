@@ -18,7 +18,7 @@ export const useEventTracker = (category: string, debounceMs?: number) => {
         ReactGA.event(debouncedEvent);
     }, [debouncedEvent]);
 
-    return (action: string, label?: string | number, value?: number) => {
-        setEvent({ category, action, label: label?.toString(), value });
+    return (action: string, label: string | number, value?: number) => {
+        setEvent({ category, action, label: label.toString(), value });
     };
 };

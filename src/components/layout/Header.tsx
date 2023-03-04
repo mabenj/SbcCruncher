@@ -45,7 +45,7 @@ export default function Header() {
 
     const handleOpenHelp = () => {
         onHelpOpen();
-        eventTracker("open_help");
+        eventTracker("open_help", "open_help");
     };
 
     return (

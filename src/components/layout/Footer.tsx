@@ -63,7 +63,9 @@ export default function Footer() {
                         <Link
                             href="https://www.buymeacoffee.com/mabenj"
                             isExternal
-                            onClick={() => eventTracker("donate_click")}>
+                            onClick={() =>
+                                eventTracker("donate_click", "donate_click")
+                            }>
                             <HoverTooltip label="Donate">
                                 <Image
                                     src="/images/bmc-button.svg"
@@ -83,7 +85,12 @@ export default function Footer() {
                         <Link
                             href="https://play.google.com/store/apps/details?id=cc.sbccruncher.twa"
                             isExternal
-                            onClick={() => eventTracker("google_play_click")}>
+                            onClick={() =>
+                                eventTracker(
+                                    "google_play_click",
+                                    "google_play_click"
+                                )
+                            }>
                             <HoverTooltip label="Google Play">
                                 <Image
                                     src="/images/google-play.png"
@@ -103,7 +110,10 @@ export default function Footer() {
                                     <Icon path={mdiEmailFastOutline} size={1} />
                                 }
                                 onClick={() => {
-                                    eventTracker("contact_form_open");
+                                    eventTracker(
+                                        "contact_form_open",
+                                        "contact_form_open"
+                                    );
                                     onFormOpen();
                                 }}>
                                 Contact & Feedback
@@ -112,7 +122,10 @@ export default function Footer() {
                     </Box>
                 </Flex>
 
-                <div onClick={() => eventTracker("brute_forcer_click")}>
+                <div
+                    onClick={() =>
+                        eventTracker("brute_forcer_click", "brute_forcer_click")
+                    }>
                     <MutedSmall>
                         The idea for SBC Cruncher was inspired by{" "}
                         <ExternalLink
@@ -126,7 +139,7 @@ export default function Footer() {
                 <Flex
                     gap={2}
                     py={2}
-                    onClick={() => eventTracker("github_click")}
+                    onClick={() => eventTracker("github_click", "github_click")}
                     justifyContent="center"
                     alignItems="center">
                     <Box color="gray.500">© {new Date().getFullYear()}</Box>
@@ -216,7 +229,7 @@ const ContactForm = (props: { isOpen: boolean; onClose: () => any }) => {
         <Modal
             isOpen={props.isOpen}
             onClose={() => {
-                eventTracker("contact_form_close");
+                eventTracker("contact_form_close", "contact_form_close");
                 props.onClose();
             }}
             size={["full", null, "lg", "md"]}>
@@ -270,7 +283,10 @@ const ContactForm = (props: { isOpen: boolean; onClose: () => any }) => {
                             variant="ghost"
                             mr={3}
                             onClick={() => {
-                                eventTracker("contact_form_cancel");
+                                eventTracker(
+                                    "contact_form_cancel",
+                                    "contact_form_cancel"
+                                );
                                 props.onClose();
                             }}>
                             Cancel

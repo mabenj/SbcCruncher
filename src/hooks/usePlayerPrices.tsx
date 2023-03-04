@@ -78,7 +78,7 @@ function usePlayerPrices() {
             });
             autoFillEventTracker(
                 `autofill_error_${externalSource.id}_${externalSource.platform}`,
-                getErrorMessage(error)
+                getErrorMessage(error) || "unknown_error"
             );
         } finally {
             setIsFetching(false);
@@ -87,7 +87,7 @@ function usePlayerPrices() {
 
     const clearAll = () => {
         setAllPrices(EMPTY_PRICES);
-        pricesEventTracker("prices_clear_all");
+        pricesEventTracker("prices_clear_all", "clear_all");
     };
 
     const setPrice = (rating: number, price: number) => {

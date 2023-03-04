@@ -112,7 +112,11 @@ const HelpBtn = ({
                     onMouseLeave={() => setIsHovering(false)}
                     onClick={(e) => {
                         e.stopPropagation();
-                        eventTracker("click_step_help", step, step);
+                        eventTracker(
+                            "click_step_help",
+                            "click_step=" + step,
+                            step
+                        );
                     }}>
                     Step {step}
                 </Button>

@@ -9,7 +9,7 @@ export default function TargetRating() {
     const eventTracker = useEventTracker("Target rating");
 
     const setRating = (rating: number) => {
-        eventTracker("target_set", rating, rating);
+        eventTracker("target_set", "set=" + rating, rating);
         setConfig((prev) => ({ ...prev, targetRating: rating }));
     };
 

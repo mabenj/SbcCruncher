@@ -58,7 +58,7 @@ export default function ExistingPlayers() {
                     prevRatings[index].count = count;
                     eventTracker(
                         `existing_player_${operation}`,
-                        `${count}x${prevRatings[index].rating}`,
+                        `${operation}=${count}x${prevRatings[index].rating}`,
                         operation === "decrement" ? -1 : 1
                     );
                 }
@@ -74,7 +74,7 @@ export default function ExistingPlayers() {
             }
             return { ...prev, existingRatings: [...prevRatings] };
         });
-        eventTracker("existing_player_set", rating, rating);
+        eventTracker("existing_player_set", "set=" + rating, rating);
     };
 
     const removeRatingAt = (index: number) => {
@@ -84,7 +84,7 @@ export default function ExistingPlayers() {
                 const [deleted] = ratings.splice(index, 1);
                 eventTracker(
                     "existing_player_delete",
-                    `${deleted.count}x${deleted.rating}`
+                    `delete=${deleted.count}x${deleted.rating}`
                 );
                 return {
                     ...prev,
@@ -95,7 +95,7 @@ export default function ExistingPlayers() {
 
     const clearAllRatings = () => {
         setConfig((prev) => ({ ...prev, existingRatings: [] }));
-        eventTracker("existing_player_reset");
+        eventTracker("existing_player_reset", "reset");
     };
 
     const addRating = () => {
@@ -106,7 +106,7 @@ export default function ExistingPlayers() {
                 { rating: DEFAULT_RATING, count: 1 }
             ]
         }));
-        eventTracker("existing_player_add");
+        eventTracker("existing_player_add", "add");
     };
 
     return (

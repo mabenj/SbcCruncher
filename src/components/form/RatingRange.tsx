@@ -50,7 +50,7 @@ export default function RatingRange() {
         }));
         eventTracker(
             "range_set_slider",
-            newMin + "-" + newMax,
+            `slider=${newMin}-${newMax}`,
             newMax - newMin + 1
         );
     };
@@ -59,14 +59,14 @@ export default function RatingRange() {
         const newMin = Math.min(...[min, configMax]);
         const newMax = Math.max(...[min, configMax]);
         setConfig((prev) => ({ ...prev, tryRatingMinMax: [newMin, newMax] }));
-        eventTracker("range_set_min", newMin, newMin);
+        eventTracker("range_set_min", `min=${newMin}`, newMin);
     };
 
     const handleChangeMax = (max: number) => {
         const newMin = Math.min(...[configMin, max]);
         const newMax = Math.max(...[configMin, max]);
         setConfig((prev) => ({ ...prev, tryRatingMinMax: [newMin, newMax] }));
-        eventTracker("range_set_max", newMax, newMax);
+        eventTracker("range_set_max", `max=${newMax}`, newMax);
     };
 
     return (

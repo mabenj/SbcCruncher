@@ -75,7 +75,7 @@ export default function SolutionCard({
                                                     onClick={() =>
                                                         eventTracker(
                                                             "click_futbin_link",
-                                                            rating,
+                                                            `click_link=${rating}`,
                                                             rating
                                                         )
                                                     }>
