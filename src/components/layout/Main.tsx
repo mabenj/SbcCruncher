@@ -39,7 +39,8 @@ const ExistingPlayersCard = ({ step }: { step: number }) => {
         <AccentedCard
             header="Existing Players"
             infoParagraphs={[
-                "If you already have some players you want to use, add them here by pressing the 'Add player' button."
+                "If you already have some players you want to use, add them here by pressing the 'Add player' button.",
+                "For best results, try to only add players that are close to the target rating."
             ]}
             step={step}>
             <ExistingPlayers />
