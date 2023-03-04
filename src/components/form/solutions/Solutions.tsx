@@ -9,6 +9,7 @@ import { NotAllowedIcon } from "@chakra-ui/icons";
 import {
     Alert,
     AlertIcon,
+    AlertTitle,
     Box,
     Button,
     Flex,
@@ -200,8 +201,11 @@ export default function Solutions() {
             {!isSolving && progress >= 100 && solutionsFound === 0 && (
                 <Alert status="error">
                     <AlertIcon />
-                    No possible solutions exist. Try again with a different
-                    configuration.
+                    <div>
+                        <AlertTitle>No possible solutions exist</AlertTitle>
+                        Adjust the amount of existing players or increase the
+                        maximum rating to use and try again
+                    </div>
                 </Alert>
             )}
 
