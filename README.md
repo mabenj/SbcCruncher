@@ -15,7 +15,7 @@
 
 ## Introduction
 
-[SBC Cruncher](https://sbccruncher.cc) is a website that helps you find the cheapest player ratings to reach a specific target rating in FIFA Ultimate Team. This is particularly useful for completing [SBC](https://www.futbin.com/squad-building-challenges)s, as it allows you to specify the ratings of the players you already have and plan to use in the SBC (aka, fodder). It also has the capability to automatically retrieve player rating prices from [Futbin](https://www.futbin.com/stc/cheapest), removing the need for manual input of prices for each rating.
+[SBC Cruncher](https://sbccruncher.cc) is a website that helps you find the cheapest player ratings to reach a specific target rating in FIFA Ultimate Team. This is particularly useful for completing [SBC](https://www.futbin.com/squad-building-challenges)s, as it allows you to specify the ratings of the players you already have and plan to use in the SBC (aka, fodder). It also has the capability to automatically retrieve player rating prices from Futbin and Futwiz, removing the need for manual input of prices for each rating.
 
 ## How it works
 
