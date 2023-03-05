@@ -162,10 +162,6 @@ export default function PlayerPrices() {
                                     </MenuItemOption>
                                     <MenuItemOption
                                         value="PC"
-                                        isDisabled={
-                                            prices.externalSource.id ===
-                                            "Futbin"
-                                        }
                                         onClick={() =>
                                             prices.setExternalSource({
                                                 ...prices.externalSource,
@@ -201,39 +197,17 @@ export default function PlayerPrices() {
                                                 id: "Futwiz"
                                             })
                                         }>
-                                        <Flex justifyContent="space-between">
-                                            <span>Futwiz</span>
-                                            <HoverTooltip
-                                                label="Available ratings"
-                                                placement="right">
-                                                <Box color="gray.500">
-                                                    82 - 98
-                                                </Box>
-                                            </HoverTooltip>
-                                        </Flex>
+                                        <span>Futwiz</span>
                                     </MenuItemOption>
                                     <MenuItemOption
                                         value="Futbin"
-                                        isDisabled={
-                                            prices.externalSource.platform ===
-                                            "PC"
-                                        }
                                         onClick={() =>
                                             prices.setExternalSource({
                                                 ...prices.externalSource,
                                                 id: "Futbin"
                                             })
                                         }>
-                                        <Flex justifyContent="space-between">
-                                            <span>Futbin</span>
-                                            <HoverTooltip
-                                                label="Available ratings"
-                                                placement="right">
-                                                <Box color="gray.500">
-                                                    81 - 98
-                                                </Box>
-                                            </HoverTooltip>
-                                        </Flex>
+                                        <span>Futbin</span>
                                     </MenuItemOption>
                                 </MenuOptionGroup>
                             </MenuList>
