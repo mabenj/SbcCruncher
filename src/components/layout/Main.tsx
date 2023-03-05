@@ -83,7 +83,8 @@ const PricesCard = ({ step }: { step: number }) => {
             header="Player Prices"
             infoParagraphs={[
                 "Enter the price for each rating so that SBC Cruncher can properly rank the calculated solutions.",
-                "You can also fill the prices with Futbin or Futwiz price data by pressing the 'Auto-fill' button."
+                "You can also fill the prices with Futbin or Futwiz price data by pressing the 'Auto-fill' button.",
+                "Note! Auto-fill will only fill the prices for ratings 78 - 93."
             ]}
             step={step}
             expandSwitch

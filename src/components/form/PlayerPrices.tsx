@@ -56,56 +56,9 @@ export default function PlayerPrices() {
     );
 
     return (
-        <>
-            <SimpleGrid minChildWidth="15rem" spacing={[2, 2, 3, null, 5]}>
-                {ratingRange.map((rating) => (
-                    <PriceInput
-                        key={rating}
-                        rating={rating}
-                        value={config.ratingPriceMap[rating]}
-                        onChange={(price) => prices.setPrice(rating, price)}
-                        loading={prices.isFetching}
-                    />
-                ))}
-            </SimpleGrid>
-
-            <Box mt="2rem">
-                <Collapse
-                    in={
-                        prices.lastModified > 0 &&
-                        Date.now() - prices.lastModified >
-                            PRICES_AGE_WARN_THRESHOLD_MS
-                    }
-                    animateOpacity>
-                    <Box>
-                        <Alert status="info" variant="left-accent">
-                            <AlertIcon />
-                            Prices last updated{" "}
-                            {timeAgo(new Date(prices.lastModified))}
-                        </Alert>
-                    </Box>
-                </Collapse>
-
-                <Collapse in={allZeroes} animateOpacity>
-                    <Box mt="1rem">
-                        <Alert
-                            status="warning"
-                            variant="left-accent"
-                            display="flex"
-                            flexDirection={["column", null, "row"]}>
-                            <AlertIcon />
-                            <AlertTitle>No prices specified!</AlertTitle>
-                            <AlertDescription
-                                textAlign={["center", null, "left"]}>
-                                Use Auto-fill or specify them manually.
-                            </AlertDescription>
-                        </Alert>
-                    </Box>
-                </Collapse>
-            </Box>
-
-            <Flex justifyContent={["center", null, "flex-start"]}>
-                <ButtonGroup colorScheme="gray" variant="solid" mt={10}>
+        <Flex direction="column" gap="3rem">
+            <Flex justifyContent={["center", "flex-start"]}>
+                <ButtonGroup colorScheme="gray" variant="solid">
                     <ButtonGroup isAttached>
                         <HoverTooltip
                             label={`Get prices from ${prices.externalSource.id} (${prices.externalSource.platform})`}>
@@ -162,10 +115,6 @@ export default function PlayerPrices() {
                                     </MenuItemOption>
                                     <MenuItemOption
                                         value="PC"
-                                        isDisabled={
-                                            prices.externalSource.id ===
-                                            "Futbin"
-                                        }
                                         onClick={() =>
                                             prices.setExternalSource({
                                                 ...prices.externalSource,
@@ -201,39 +150,17 @@ export default function PlayerPrices() {
                                                 id: "Futwiz"
                                             })
                                         }>
-                                        <Flex justifyContent="space-between">
-                                            <span>Futwiz</span>
-                                            <HoverTooltip
-                                                label="Available ratings"
-                                                placement="right">
-                                                <Box color="gray.500">
-                                                    82 - 98
-                                                </Box>
-                                            </HoverTooltip>
-                                        </Flex>
+                                        <span>Futwiz</span>
                                     </MenuItemOption>
                                     <MenuItemOption
                                         value="Futbin"
-                                        isDisabled={
-                                            prices.externalSource.platform ===
-                                            "PC"
-                                        }
                                         onClick={() =>
                                             prices.setExternalSource({
                                                 ...prices.externalSource,
                                                 id: "Futbin"
                                             })
                                         }>
-                                        <Flex justifyContent="space-between">
-                                            <span>Futbin</span>
-                                            <HoverTooltip
-                                                label="Available ratings"
-                                                placement="right">
-                                                <Box color="gray.500">
-                                                    81 - 98
-                                                </Box>
-                                            </HoverTooltip>
-                                        </Flex>
+                                        <span>Futbin</span>
                                     </MenuItemOption>
                                 </MenuOptionGroup>
                             </MenuList>
@@ -250,6 +177,50 @@ export default function PlayerPrices() {
                     </HoverTooltip>
                 </ButtonGroup>
             </Flex>
-        </>
+
+            <SimpleGrid minChildWidth="15rem" spacing={[2, 2, 3, null, 5]}>
+                {ratingRange.map((rating) => (
+                    <PriceInput
+                        key={rating}
+                        rating={rating}
+                        value={config.ratingPriceMap[rating]}
+                        onChange={(price) => prices.setPrice(rating, price)}
+                        loading={prices.isFetching}
+                    />
+                ))}
+            </SimpleGrid>
+
+            <Collapse
+                in={
+                    prices.lastModified > 0 &&
+                    Date.now() - prices.lastModified >
+                        PRICES_AGE_WARN_THRESHOLD_MS
+                }
+                animateOpacity>
+                <Box>
+                    <Alert status="info" variant="left-accent">
+                        <AlertIcon />
+                        Prices last updated{" "}
+                        {timeAgo(new Date(prices.lastModified))}
+                    </Alert>
+                </Box>
+            </Collapse>
+
+            <Collapse in={allZeroes} animateOpacity>
+                <Box>
+                    <Alert
+                        status="warning"
+                        variant="left-accent"
+                        display="flex"
+                        flexDirection={["column", null, "row"]}>
+                        <AlertIcon />
+                        <AlertTitle>No prices specified!</AlertTitle>
+                        <AlertDescription textAlign={["center", null, "left"]}>
+                            Use Auto-fill or specify them manually.
+                        </AlertDescription>
+                    </Alert>
+                </Box>
+            </Collapse>
+        </Flex>
     );
 }

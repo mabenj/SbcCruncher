@@ -1,29 +1,20 @@
 import { EMPTY_PRICES } from "@/constants";
+import { PricesDto } from "@/types/prices-dto.interface";
 import { getErrorMessage, getRandomInt, sleep } from "@/utilities";
 import { useToast } from "@chakra-ui/react";
 import { useState } from "react";
 import { useEventTracker } from "./useEventTracker";
 import useLocalStorage from "./useLocalStorage";
 
-const PRICE_FETCH_MAX_ATTEMPTS = 3;
-const PRICE_FETCH_COOLDOWN_MS = 2000;
+const CACHE_MAX_AGE_MS = 15 * 60 * 1000; // 15min
 const DUMMY_DELAY_MS = 500;
-const CACHE_MAX_AGE_MS = 3_600_000; // 1h
 
-const URLS = {
-    Futbin: "https://www.futbin.com/stc/cheapest",
-    Futwiz: "/api/futwiz-cheapest-proxy"
-};
+const BASE_API_URL = "/api/prices";
 
 const STORAGE_KEYS = {
     externalSource: "prices.dataSource",
     priceMap: "prices.current",
     cache: "prices.cache"
-};
-
-const PARSERS = {
-    Futbin: parseFutbin,
-    Futwiz: parseFutwiz
 };
 
 interface StoredPrices {
@@ -58,8 +49,9 @@ function usePlayerPrices() {
     const autofillExternalPrices = async () => {
         setIsFetching(true);
         try {
-            const { priceMap, localCache, remoteCache } =
-                await fetchExternalPrices(externalSource);
+            const [priceMap, cacheStatus] = await fetchExternalPrices(
+                externalSource
+            );
             setAllPrices(priceMap);
             toast({
                 status: "success",
@@ -67,8 +59,8 @@ function usePlayerPrices() {
             });
             autoFillEventTracker(
                 `autofill_ok_${externalSource.id}_${externalSource.platform}`,
-                `local=${localCache}|api=${remoteCache}`,
-                localCache === "HIT" ? 1 : -1
+                `localCache=${cacheStatus}`,
+                cacheStatus === "HIT" ? 1 : -1
             );
         } catch (error) {
             toast({
@@ -122,140 +114,36 @@ async function fetchExternalPrices(priceProvider: PriceProvider) {
         [url: string]: StoredPrices;
     };
 
-    const baseUrl = URLS[priceProvider.id];
-    const query = new URLSearchParams();
-    if (priceProvider.id !== "Futbin") {
-        query.append("platform", priceProvider.platform.toLowerCase());
-    }
-    const url = baseUrl + "?" + query;
+    const query = new URLSearchParams({
+        platform: priceProvider.platform.toLowerCase(),
+        datasource: priceProvider.id.toLowerCase()
+    });
+    const url = BASE_API_URL + "?" + query;
 
     const cacheHit = !!cache[url];
     const cacheFresh =
         cacheHit && Date.now() - cache[url].lastModified < CACHE_MAX_AGE_MS;
-    const localCache =
+    const cacheStatus =
         cacheHit && cacheFresh ? "HIT" : cacheHit ? "EXPIRED" : "MISS";
-    let remoteCache = "MISS";
     if (cacheHit && cacheFresh) {
         await sleep(getRandomInt(DUMMY_DELAY_MS, 4 * DUMMY_DELAY_MS));
-        return {
-            priceMap: cache[url].priceMap,
-            localCache,
-            remoteCache
-        };
+        return [cache[url].priceMap, cacheStatus] as const;
     }
 
-    const htmlParser = PARSERS[priceProvider.id];
-    let cheapestByRating: Record<number, number> = {};
-    let errorMessage = "";
-    let attempts = 0;
-
-    while (attempts++ < PRICE_FETCH_MAX_ATTEMPTS) {
-        try {
-            const res = await fetch(url);
-            remoteCache = res.headers.get("X-Function-Cache") || "MISS";
-            const html = await res.text();
-            const domParser = new DOMParser();
-            const doc = domParser.parseFromString(html, "text/html");
-            cheapestByRating = htmlParser(doc);
-
-            if (Object.keys(cheapestByRating).length === 0) {
-                throw new Error("No prices could be parsed");
-            }
-
-            errorMessage = "";
-            break;
-        } catch (error) {
-            cheapestByRating = {};
-            console.warn("Could not fetch player prices: ", error);
-            errorMessage = getErrorMessage(error) || "";
-            await sleep(PRICE_FETCH_COOLDOWN_MS);
-        }
+    const responseJson = (await (await fetch(url)).json()) as PricesDto;
+    if (responseJson.status === "error") {
+        throw new Error("Error fetching price data");
     }
 
-    if (errorMessage) {
-        return Promise.reject(errorMessage);
-    }
-
-    if (priceProvider.id !== "Futbin") {
-        // don't cache futbin
-        cache[url] = {
-            lastModified: Date.now(),
-            priceMap: cheapestByRating
-        };
-    }
+    const cheapestByRating = responseJson.prices.reduce((acc, curr) => {
+        acc[curr.rating] = curr.price;
+        return acc;
+    }, {} as Record<number, number>);
+    cache[url] = {
+        lastModified: Date.now(),
+        priceMap: cheapestByRating
+    };
     localStorage.setItem(STORAGE_KEYS.cache, JSON.stringify(cache));
 
-    return { priceMap: cheapestByRating, localCache, remoteCache };
-}
-
-function parseFutbin(htmlDoc: Document) {
-    const cheapestByRating: Record<number, number> = {};
-
-    const ratingGroups = htmlDoc.querySelectorAll(".top-stc-players-col");
-    ratingGroups.forEach((group) => {
-        const rating = parseInt(
-            group
-                .querySelector(".top-players-stc-title>span>span")
-                ?.innerHTML.trim() ?? "-1"
-        );
-        if (isNaN(rating) || rating === -1) {
-            return;
-        }
-        const spans = group.querySelectorAll(".price-holder-row>span");
-        const playerPrices = Array.from(spans).map((span) =>
-            parsePrice(span.textContent?.trim())
-        );
-        if (playerPrices.length === 0) {
-            return;
-        }
-
-        cheapestByRating[rating] = Math.min(...playerPrices);
-    });
-
-    return cheapestByRating;
-}
-
-function parseFutwiz(htmlDoc: Document) {
-    const cheapestByRating: Record<number, number> = {};
-
-    const ratingColumns = htmlDoc.querySelectorAll(
-        ".col-4[style='padding-right:0px;']"
-    );
-    ratingColumns.forEach((column) => {
-        const rating = parseInt(
-            column.querySelector(".title")?.innerHTML.trim() ?? "-1"
-        );
-        if (isNaN(rating) || rating === -1) {
-            return;
-        }
-        const playersBins = column.querySelectorAll(".bin");
-        const playerPrices = Array.from(playersBins).map((bin) =>
-            parsePrice(bin.textContent?.trim())
-        );
-        if (playerPrices.length === 0) {
-            return;
-        }
-
-        cheapestByRating[rating] = Math.min(...playerPrices);
-    });
-
-    return cheapestByRating;
-}
-
-function parsePrice(text: string | undefined) {
-    if (!text) {
-        return 0;
-    }
-    const isThousand = text.endsWith("K");
-    const isMillion = text.endsWith("M");
-    const num = parseFloat(text);
-    const result = isThousand ? 1000 * num : isMillion ? 1_000_000 * num : num;
-    if (
-        isNaN(result) ||
-        result === Number.POSITIVE_INFINITY ||
-        result === Number.NEGATIVE_INFINITY
-    ) {
-        throw new Error("Error parsing price '" + text + "'");
-    }
-    return result;
+    return [cheapestByRating, cacheStatus] as const;
 }
