@@ -24,11 +24,12 @@ _tl;dr brute force_
 1. Given the existing player ratings and the range of ratings to try, all possible combinations of these ratings are computed. In other words, all possible teams made up of the existing ratings plus all the possible _multisubsets_ (unordered sets with repetition of elements) of the ratings to try.
 2. All rating combinations that have a rating lower than the target are then filtered out.
 3. Lastly, each combination of ratings is assigned a price based on the user or Futbin-defined prices, after which, it is only a matter of displaying the cheapest combinations of ratings.
-   
+
 See [solver.worker.ts](src/workers/solver.worker.ts) for more details.
 
 ## Tech used
 
-- Next.js, TypeScript
-- Web Workers
-- Chakra UI
+-   Next.js, TypeScript
+-   MongoDB, mongoose
+-   Web Workers
+-   Chakra UI
