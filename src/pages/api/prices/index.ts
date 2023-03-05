@@ -2,7 +2,7 @@ import { PricesDto } from "@/types/prices-dto.interface";
 import { getErrorMessage, range } from "@/utilities";
 import { NextApiRequest, NextApiResponse } from "next";
 import { Log } from "../log";
-import PriceService from "../services/price.service";
+import PriceService from "../services/price-fetch.service";
 
 const RATINGS = range(78, 93);
 

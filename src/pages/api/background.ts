@@ -1,19 +1,22 @@
-import { sleep } from "@/utilities";
+import { getErrorMessage } from "@/utilities";
 import { NextApiRequest, NextApiResponse } from "next";
+import { Log } from "./log";
+import { PriceUpdateService } from "./services/price-update.service";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-    // Do something scheduled
-    console.log("start");
-    for (let i = 0; i < 10; i++) {
-        console.log(i);
-        await sleep(2000);
+    try {
+        const updateService = new PriceUpdateService();
+        await updateService.updateRatingPrices();
+        res.status(204).end();
+    } catch (error) {
+        Log.error(`Error updating rating prices: $${getErrorMessage(error)}`);
+        res.status(500).end();
     }
-    res.status(200).send("hello");
 };
 
 export default handler;
 
-// export const config = {
-//     type: "experimental-scheduled",
-//     schedule: "* * * * *" // every minute
-// };
+export const config = {
+    type: "experimental-scheduled",
+    schedule: "0 */3 * * *" // every 3rd hour
+};

@@ -3,10 +3,11 @@ import { RatingPrice } from "../types/rating-price.interface";
 
 const RatingPriceSchema: Schema = new Schema(
     {
-        rating: { type: Number, required: true },
-        platform: { type: String, required: true },
-        cheapest: { type: Number, required: true },
-        dataSource: { type: String, required: true }
+        rating: { type: Number, required: true, unique: true },
+        cheapestFutbinPc: { type: Number, required: true },
+        cheapestFutbinConsole: { type: Number, required: true },
+        cheapestFutwizPc: { type: Number, required: true },
+        cheapestFutwizConsole: { type: Number, required: true }
     },
     {
         timestamps: true,
@@ -20,5 +21,5 @@ const RatingPriceSchema: Schema = new Schema(
     }
 );
 
-export default mongoose.models.RatingPrice ||
+export default (mongoose.models.RatingPrice as mongoose.Model<RatingPrice>) ||
     mongoose.model<RatingPrice>("RatingPrice", RatingPriceSchema);

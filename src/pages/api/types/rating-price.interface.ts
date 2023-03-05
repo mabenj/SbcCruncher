@@ -1,7 +1,7 @@
 export interface RatingPrice {
     rating: number;
-    platform: "pc" | "console";
-    cheapest: number;
-    dataSource: "futbin" | "futwiz";
-    updatedAt?: Date;
+    cheapestFutbinPc: number;
+    cheapestFutbinConsole: number;
+    cheapestFutwizPc: number;
+    cheapestFutwizConsole: number;
 }
