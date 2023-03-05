@@ -1,7 +1,7 @@
 import { getErrorMessage, range } from "@/utilities";
 import { JSDOM } from "jsdom";
 import { Types } from "mongoose";
-import connect from "../db";
+import { connect, disconnect } from "../db";
 import { Log } from "../log";
 import RatingPriceModel from "../models/rating-price.model";
 import { RatingPrice } from "../types/rating-price.interface";
@@ -25,58 +25,64 @@ export default class PriceService {
 
     async getPrices(ratings: number[]) {
         ratings = Array.from(new Set(ratings));
-        await connect();
 
-        const result = await RatingPriceModel.find({
-            dataSource: this.dataSource,
-            platform: this.platform,
-            rating: { $in: ratings }
-        }).exec();
-        const storedPrices = result.map((res) => ({
-            rating: res.rating,
-            cheapest: res.cheapest,
-            timestamp: res.updatedAt,
-            id: res.id
-        }));
+        try {
+            await connect();
 
-        const now = Date.now();
-        const resultPrices: { rating: number; price: number }[] = [];
-        for (let i = 0; i < ratings.length; i++) {
-            const currentRating = ratings[i];
-            const storedRatingPrice = storedPrices.find(
-                ({ rating }) => rating === currentRating
-            );
-            if (
-                storedRatingPrice &&
-                now - storedRatingPrice.timestamp < PRICES_STALE_THRESHOLD_MS
-            ) {
-                // still fresh
-                resultPrices.push({
-                    rating: storedRatingPrice.rating,
-                    price: storedRatingPrice.cheapest
-                });
-                continue;
-            }
-
-            const currentPrice = await this.getCheapest(currentRating);
-            const ratingPrice: RatingPrice = {
-                cheapest: currentPrice,
+            const result = await RatingPriceModel.find({
                 dataSource: this.dataSource,
                 platform: this.platform,
-                rating: currentRating
-            };
-            await RatingPriceModel.findByIdAndUpdate(
-                storedRatingPrice?.id || new Types.ObjectId(),
-                { $set: { ...ratingPrice } },
-                { upsert: true }
-            );
-            resultPrices.push({
-                rating: currentRating,
-                price: currentPrice
-            });
-        }
+                rating: { $in: ratings }
+            }).exec();
+            const storedPrices = result.map((res) => ({
+                rating: res.rating,
+                cheapest: res.cheapest,
+                timestamp: res.updatedAt,
+                id: res.id
+            }));
 
-        return resultPrices;
+            const now = Date.now();
+            const resultPrices: { rating: number; price: number }[] = [];
+            for (let i = 0; i < ratings.length; i++) {
+                const currentRating = ratings[i];
+                const storedRatingPrice = storedPrices.find(
+                    ({ rating }) => rating === currentRating
+                );
+                if (
+                    storedRatingPrice &&
+                    now - storedRatingPrice.timestamp <
+                        PRICES_STALE_THRESHOLD_MS
+                ) {
+                    // still fresh
+                    resultPrices.push({
+                        rating: storedRatingPrice.rating,
+                        price: storedRatingPrice.cheapest
+                    });
+                    continue;
+                }
+
+                const currentPrice = await this.getCheapest(currentRating);
+                const ratingPrice: RatingPrice = {
+                    cheapest: currentPrice,
+                    dataSource: this.dataSource,
+                    platform: this.platform,
+                    rating: currentRating
+                };
+                await RatingPriceModel.findByIdAndUpdate(
+                    storedRatingPrice?.id || new Types.ObjectId(),
+                    { $set: { ...ratingPrice } },
+                    { upsert: true }
+                );
+                resultPrices.push({
+                    rating: currentRating,
+                    price: currentPrice
+                });
+            }
+
+            return resultPrices;
+        } finally {
+            await disconnect();
+        }
     }
 
     private async getCheapest(rating: number) {
