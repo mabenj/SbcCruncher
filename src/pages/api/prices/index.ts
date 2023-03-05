@@ -4,7 +4,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { Log } from "../log";
 import PriceService from "../services/price.service";
 
-const RATINGS = range(75, 94);
+const RATINGS = range(78, 93);
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
