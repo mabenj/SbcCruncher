@@ -27,6 +27,7 @@ export class PriceUpdateService {
         const result: RatingPrice[] = [];
         for (let i = 0; i < ratings.length; i++) {
             const rating = ratings[i];
+            Log.info(`Fetching prices for rating '${rating}'`);
             const [cheapestFutbinPc, cheapestFutwizPc] = await Promise.all([
                 this.getFutbinCheapest(rating, "pc"),
                 this.getFutwizCheapest(rating, "pc")
