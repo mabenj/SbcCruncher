@@ -3,7 +3,7 @@ import { Log } from "./log";
 
 const CONN_STRING = process.env.MONGO_CONN_STRING;
 
-export async function connect() {
+async function connect() {
     Log.info("Connecting to database...");
     try {
         if (!CONN_STRING) {
@@ -16,12 +16,4 @@ export async function connect() {
     }
 }
 
-export async function disconnect() {
-    Log.info("Disonnecting from database...");
-    try {
-        await mongoose.disconnect();
-        Log.info("Disonnected");
-    } catch (err) {
-        Log.error("Error disconnecting from database", err);
-    }
-}
+export default connect;
