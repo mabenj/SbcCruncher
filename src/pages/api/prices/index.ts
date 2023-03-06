@@ -2,7 +2,7 @@ import { PricesDto } from "@/types/prices-dto.interface";
 import { getErrorMessage, range } from "@/utilities";
 import { NextApiRequest, NextApiResponse } from "next";
 import { Log } from "../log";
-import PriceService from "../services/price-fetch.service";
+import {PriceFetchService} from "../services/price-fetch.service";
 
 const RATINGS = range(78, 93);
 
@@ -26,7 +26,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             return;
         }
 
-        const priceService = new PriceService(datasource, platform);
+        const priceService = new PriceFetchService(datasource, platform);
         const prices = await priceService.getPrices(RATINGS);
         const responseObject: PricesDto = {
             prices,

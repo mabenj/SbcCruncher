@@ -1,7 +1,7 @@
 import { connect, disconnect } from "../db";
 import RatingPriceModel from "../models/rating-price.model";
 
-export default class PriceFetchService {
+export class PriceFetchService {
     constructor(
         private readonly dataSource: "futbin" | "futwiz",
         private readonly platform: "pc" | "console"
