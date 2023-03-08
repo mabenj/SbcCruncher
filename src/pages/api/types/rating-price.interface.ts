@@ -1,7 +1,9 @@
+interface PriceDictionary {
+    [dataSource: string]: number;
+}
+
 export interface RatingPrice {
     rating: number;
-    cheapestFutbinPc: number;
-    cheapestFutbinConsole: number;
-    cheapestFutwizPc: number;
-    cheapestFutwizConsole: number;
+    pricesPc: PriceDictionary;
+    pricesConsole: PriceDictionary;
 }

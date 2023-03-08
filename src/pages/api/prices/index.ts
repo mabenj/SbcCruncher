@@ -2,27 +2,33 @@ import { PricesDto } from "@/types/prices-dto.interface";
 import { getErrorMessage, range } from "@/utilities";
 import { NextApiRequest, NextApiResponse } from "next";
 import { Log } from "../log";
-import {PriceFetchService} from "../services/price-fetch.service";
+import { PriceFetchService } from "../services/price-fetch.service";
 
-const RATINGS = range(78, 93);
+type DataSource = "futbin" | "futwiz";
+type Platform = "pc" | "console";
+
+const DATASOURCES: DataSource[] = ["futbin", "futwiz"];
+const PLATFORMS: Platform[] = ["pc", "console"];
+const RATINGS = range(75, 98);
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         // Yup, this is quite easy to circumvent
-        if (!req.headers.referer?.includes(req.headers.host!)) {
+        if (
+            process.env.NODE_ENV !== "development" &&
+            !req.headers.referer?.includes(req.headers.host!)
+        ) {
             res.status(403).send("Forbidden");
             return;
         }
 
-        const datasource = req.query["datasource"];
-        if (datasource !== "futbin" && datasource !== "futwiz") {
-            res.status(400).send("Invalid datasource");
-            return;
-        }
-
-        const platform = req.query["platform"];
-        if (platform !== "console" && platform !== "pc") {
-            res.status(400).send("Missing platform");
+        const datasource = req.query["datasource"] as DataSource;
+        const platform = req.query["platform"] as Platform;
+        if (
+            !DATASOURCES.includes(datasource) ||
+            !PLATFORMS.includes(platform)
+        ) {
+            res.status(404).end();
             return;
         }
 

@@ -13,33 +13,16 @@ export class PriceFetchService {
         try {
             await connect();
 
-            let priceKey = "";
-            if (this.dataSource === "futbin" && this.platform === "pc") {
-                priceKey = "cheapestFutbinPc";
-            } else if (
-                this.dataSource === "futbin" &&
-                this.platform === "console"
-            ) {
-                priceKey = "cheapestFutbinConsole";
-            } else if (this.dataSource === "futwiz" && this.platform === "pc") {
-                priceKey = "cheapestFutwizPc";
-            } else {
-                priceKey = "cheapestFutwizConsole";
-            }
-
-            const result = await RatingPriceModel.find(
-                {
-                    rating: { $in: ratings }
-                },
-                {
-                    rating: true,
-                    [priceKey]: true
-                }
-            ).exec();
+            const result = await RatingPriceModel.find({
+                rating: { $in: ratings }
+            }).exec();
 
             return result.map((res) => ({
                 rating: res.rating,
-                price: (res as any)[priceKey]
+                price:
+                    this.platform === "pc"
+                        ? res.pricesPc[this.dataSource]
+                        : res.pricesConsole[this.dataSource]
             }));
         } finally {
             await disconnect();
