@@ -2,7 +2,6 @@ import "@/styles/globals.scss";
 import { ChakraProvider } from "@chakra-ui/react";
 import { AppProps } from "next/app";
 import Script from "next/script";
-import ReactGA from "react-ga";
 import { theme } from "../theme";
 
 if (
@@ -19,11 +18,13 @@ if (typeof window !== "undefined" && "navigator" in window) {
     navigator.serviceWorker.getRegistrations().then((registrations) =>
         registrations.forEach((r) => {
             r.unregister();
-            ReactGA.event({
-                category: "Service worker",
-                action: "unregister"
-            });
             console.log("Service worker unregistered");
+            import("react-ga").then((ReactGA) =>
+                ReactGA.event({
+                    category: "Service worker",
+                    action: "unregister"
+                })
+            );
         })
     );
 }
