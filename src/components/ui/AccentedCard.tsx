@@ -66,7 +66,7 @@ export default function AccentedCard({
                     </Flex>
                     <HelpBtn step={step}>
                         {infoParagraphs.map((text, i) => (
-                            <Text key={i} py={1.5}>
+                            <Text key={i} py={1}>
                                 {text}
                             </Text>
                         ))}
