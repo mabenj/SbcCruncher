@@ -1,7 +1,5 @@
-import ReactGA from "react-ga";
-
 export const usePageview = () => {
     return (path: string) => {
-        ReactGA.pageview(path);
+        import("react-ga").then((ReactGA) => ReactGA.pageview(path));
     };
 };

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import ReactGA from "react-ga";
+import type ReactGA from "react-ga";
 import useDebounce from "./useDebounce";
 
 const DEFAULT_DEBOUNCE_MS = 2000;
@@ -15,7 +15,7 @@ export const useEventTracker = (category: string, debounceMs?: number) => {
         if (!debouncedEvent) {
             return;
         }
-        ReactGA.event(debouncedEvent);
+        import("react-ga").then((ReactGA) => ReactGA.event(debouncedEvent));
     }, [debouncedEvent]);
 
     return (action: string, label: string | number, value?: number) => {
