@@ -37,7 +37,7 @@ function usePlayerPrices() {
     );
     const [externalSource, setExternalSource] = useLocalStorage<PriceProvider>(
         STORAGE_KEYS.externalSource,
-        { id: "Futwiz", platform: "console" }
+        { id: "Futbin", platform: "console" }
     );
     const [isFetching, setIsFetching] = useState(false);
 
