@@ -21,6 +21,7 @@ import Link from "next/link";
 import React from "react";
 import ExternalLink from "../ui/ExternalLink";
 import HoverTooltip from "../ui/HoverTooltip";
+import SponsoredContent from "../ui/SponsoredContent";
 
 const DEBOUNCE_MS = 200;
 
@@ -50,6 +51,7 @@ export default function Header() {
 
     return (
         <Box position="relative" px={2} pt={5}>
+            <SponsoredContent />
             <Flex
                 wrap="wrap"
                 justifyContent="space-between"

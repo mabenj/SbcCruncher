@@ -7,15 +7,20 @@ import RatingRange from "../form/RatingRange";
 import Solutions from "../form/solutions/Solutions";
 import TargetRating from "../form/TargetRating";
 import AccentedCard from "../ui/AccentedCard";
+import SponsoredContent from "../ui/SponsoredContent";
 
 export default function Main() {
     return (
         <Stack spacing={10} mt="3.7rem">
             <TargetRatingCard step={1} />
+            <SponsoredContent />
             <ExistingPlayersCard step={2} />
+            <SponsoredContent />
             <RatingRangeCard step={3} />
+            <SponsoredContent />
             <PricesCard step={4} />
             <Solutions />
+            <SponsoredContent />
         </Stack>
     );
 }
