@@ -2,11 +2,16 @@ import { TRY_RATINGS } from "@/constants";
 import { useConfig } from "@/context/ConfigContext";
 import { useEventTracker } from "@/hooks/useEventTracker";
 import { range } from "@/utilities";
+import { AddIcon } from "@chakra-ui/icons";
 import {
     Alert,
     AlertIcon,
     Box,
+    Button,
+    Collapse,
     Flex,
+    Heading,
+    IconButton,
     RangeSlider,
     RangeSliderFilledTrack,
     RangeSliderMark,
@@ -15,8 +20,9 @@ import {
     Stack,
     VStack
 } from "@chakra-ui/react";
-import { mdiArrowTopLeftBottomRight } from "@mdi/js";
+import { mdiArrowTopLeftBottomRight, mdiClose } from "@mdi/js";
 import Icon from "@mdi/react";
+import { useMemo } from "react";
 import HoverTooltip from "../ui/HoverTooltip";
 import RatingCardInput from "../ui/RatingCardInput";
 
@@ -28,8 +34,20 @@ export default function RatingRange() {
     const [config, setConfig] = useConfig();
     const eventTracker = useEventTracker("Rating range");
 
-    const configMin = Math.min(...config.tryRatingMinMax);
-    const configMax = Math.max(...config.tryRatingMinMax);
+    const [configMin, configMax] = useMemo(
+        () => [
+            Math.min(...config.tryRatingMinMax),
+            Math.max(...config.tryRatingMinMax)
+        ],
+        [config.tryRatingMinMax]
+    );
+    const excludeOptions = useMemo(
+        () =>
+            range(configMin, configMax).filter(
+                (rating) => !config.tryRatingExclude.includes(rating)
+            ),
+        [configMin, configMax, config.tryRatingExclude]
+    );
 
     const markStyles = {
         pt: 3,
@@ -69,6 +87,37 @@ export default function RatingRange() {
         eventTracker("range_set_max", `max=${newMax}`, newMax);
     };
 
+    const handleExcludeAdd = () => {
+        setConfig((prev) => ({
+            ...prev,
+            tryRatingExclude: [...prev.tryRatingExclude, excludeOptions[0]]
+        }));
+        eventTracker("range_exclude_add", `exclude=${excludeOptions[0]}`, excludeOptions[0]);
+    };
+
+    const handleExcludeChange = (index: number, rating: number) => {
+        setConfig((prev) => {
+            const { tryRatingExclude } = prev;
+            tryRatingExclude[index] = rating;
+            return { ...prev, tryRatingExclude: [...tryRatingExclude] };
+        });
+        eventTracker("range_exclude_set", `set=${rating}`, rating);
+    };
+
+    const handleExcludeDelete = (index: number) => {
+        setConfig((prev) => {
+            const { tryRatingExclude } = prev;
+            eventTracker("range_exclude_delete", `delete=${tryRatingExclude[index]}`, tryRatingExclude[index]);
+            tryRatingExclude.splice(index, 1);
+            return { ...prev, tryRatingExclude };
+        });
+    };
+
+    const handleExcludeClear = () => {
+        setConfig((prev) => ({ ...prev, tryRatingExclude: [] }));
+        eventTracker("range_exclude_clear", `clear`);
+    };
+
     return (
         <Stack spacing={10}>
             <Flex justifyContent="center" alignItems="flex-end" gap={10}>
@@ -103,7 +152,7 @@ export default function RatingRange() {
                     />
                 </VStack>
             </Flex>
-            <Box px={["0.4rem", "2rem", "6rem", "8rem"]}>
+            <Box px={["0.4rem", "2rem", "6rem", "8rem"]} pb={6}>
                 <RangeSlider
                     defaultValue={[configMin, configMax]}
                     min={RANGE_MIN}
@@ -134,6 +183,59 @@ export default function RatingRange() {
                     </HoverTooltip>
                 </RangeSlider>
             </Box>
+
+            <Collapse in={config.tryRatingExclude.length > 0}>
+                <Heading size="sm" textAlign="center">
+                    Exclude ratings
+                </Heading>
+                <Box py={2} />
+                <Flex
+                    justifyContent="center"
+                    alignItems="center"
+                    flexWrap="wrap"
+                    gap={4}>
+                    {config.tryRatingExclude.map((excludeRating, i) => (
+                        <Flex key={`${i}_${excludeRating}`}>
+                            <RatingCardInput
+                                rating={excludeRating}
+                                onChange={(newRating) =>
+                                    handleExcludeChange(i, newRating)
+                                }
+                                customRange={excludeOptions}
+                                reverseOptions
+                            />
+                            <HoverTooltip label="Remove exclude rating">
+                                <IconButton
+                                    variant="ghost"
+                                    size="xs"
+                                    rounded="full"
+                                    aria-label="Remove exclude rating"
+                                    icon={<Icon path={mdiClose} size={0.8} />}
+                                    onClick={() => handleExcludeDelete(i)}
+                                />
+                            </HoverTooltip>
+                        </Flex>
+                    ))}
+                </Flex>
+            </Collapse>
+
+            <Flex justifyContent="center" alignItems="center" gap={2}>
+                <HoverTooltip label="Add a rating to exclude">
+                    <Button
+                        leftIcon={<AddIcon />}
+                        onClick={handleExcludeAdd}
+                        isDisabled={excludeOptions.length === 0}>
+                        Exclude rating
+                    </Button>
+                </HoverTooltip>
+                {config.tryRatingExclude.length > 0 && (
+                    <HoverTooltip label="Clear all exclude ratings">
+                        <Button variant="ghost" onClick={handleExcludeClear}>
+                            Reset
+                        </Button>
+                    </HoverTooltip>
+                )}
+            </Flex>
 
             {Math.abs(configMax - configMin) > WARNING_THRESHOLD && (
                 <Alert status="warning">

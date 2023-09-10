@@ -185,7 +185,7 @@ export default function ExistingPlayers() {
                                                     }
                                                     onClick={removeRatingAt(
                                                         i
-                                                    )}></IconButton>
+                                                    )}/>
                                             </HoverTooltip>
                                         </Td>
                                     </Tr>

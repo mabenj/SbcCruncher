@@ -185,6 +185,14 @@ const HelpDrawer = ({
                                 <Em>84</Em>, and the ratings you entered in the{" "}
                                 <Em>Existing Players</Em> section.
                             </Text>
+                            <Text mt={2}>
+                                You may also exclude specific ratings from the
+                                range of ratings to use by pressing the{" "}
+                                <Em>Exclude rating</Em> button. For example, if
+                                you are running low on 83 rated players, it
+                                might be a good idea to exclude it from the
+                                calculations.
+                            </Text>
                         </ListItem>
                         <ListItem pl={4}>
                             <Text>

@@ -64,7 +64,7 @@ export const useSolver = () => {
         const ratingsToTry = range(
             Math.min(...config.tryRatingMinMax),
             Math.max(...config.tryRatingMinMax)
-        );
+        ).filter((rating) => !config.tryRatingExclude.includes(rating));
 
         const message: SolverRequest = {
             targetRating: config.targetRating,

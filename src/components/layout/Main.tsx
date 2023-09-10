@@ -53,7 +53,8 @@ const RatingRangeCard = ({ step }: { step: number }) => {
         <AccentedCard
             header="Ratings to Use"
             infoParagraphs={[
-                "Select the minimum and maximum ratings you want SBC Cruncher to use when calculating solutions."
+                "Select the minimum and maximum ratings you want SBC Cruncher to use when calculating solutions.",
+                "To exclude specific ratings from the calculations, press the 'Exclude rating' button"
             ]}
             step={step}>
             <RatingRange />

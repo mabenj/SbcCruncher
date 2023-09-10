@@ -21,6 +21,7 @@ export const DEFAULT_CONFIG: SolverConfig = {
     targetRating: 83,
     existingRatings: [],
     tryRatingMinMax: [82, 92],
+    tryRatingExclude: [],
     ratingPriceMap: EMPTY_PRICES,
     pricesDisabled: false
 };
