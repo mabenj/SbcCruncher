@@ -1,4 +1,4 @@
-import { SQUAD_SIZE } from "@/constants";
+import { RATING_MAX, RATING_MIN, SQUAD_SIZE } from "@/constants";
 import { useConfig } from "@/context/ConfigContext";
 import { useEventTracker } from "@/hooks/useEventTracker";
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
@@ -99,13 +99,26 @@ export default function ExistingPlayers() {
     };
 
     const addRating = () => {
-        setConfig((prev) => ({
-            ...prev,
-            existingRatings: [
-                ...prev.existingRatings,
-                { rating: DEFAULT_RATING, count: 1 }
-            ]
-        }));
+        setConfig((prev) => {
+            const lowestRating =
+                prev.existingRatings
+                    .map(({ rating }) => rating)
+                    .sort((a, b) => a - b)[0] ?? DEFAULT_RATING + 1;
+            const ratingToAdd = Math.min(
+                Math.max(lowestRating - 1, RATING_MIN),
+                RATING_MAX
+            );
+            return {
+                ...prev,
+                existingRatings: [
+                    ...prev.existingRatings,
+                    {
+                        rating: ratingToAdd,
+                        count: 1
+                    }
+                ]
+            };
+        });
         eventTracker("existing_player_add", "add");
     };
 
@@ -126,13 +139,56 @@ export default function ExistingPlayers() {
                                 ({ rating, count }, i) => (
                                     <Tr key={i}>
                                         <Td px={0}>
-                                            <Flex justifyContent="center">
+                                            <Flex
+                                                justifyContent="center"
+                                                alignItems="center"
+                                                gap={3}>
+                                                <HoverTooltip
+                                                    label="Decrement rating"
+                                                    placement="left">
+                                                    <IconButton
+                                                        variant="ghost"
+                                                        size="xs"
+                                                        aria-label="Decrement"
+                                                        icon={<MinusIcon />}
+                                                        onClick={() =>
+                                                            setRating(
+                                                                i,
+                                                                rating - 1
+                                                            )
+                                                        }
+                                                        isDisabled={
+                                                            rating ===
+                                                            RATING_MIN
+                                                        }
+                                                    />
+                                                </HoverTooltip>
                                                 <RatingCardInput
                                                     rating={rating}
                                                     onChange={(newRating) =>
                                                         setRating(i, newRating)
                                                     }
                                                 />
+                                                <HoverTooltip
+                                                    label="Increment rating"
+                                                    placement="right">
+                                                    <IconButton
+                                                        variant="ghost"
+                                                        size="xs"
+                                                        aria-label="Increment"
+                                                        icon={<AddIcon />}
+                                                        onClick={() =>
+                                                            setRating(
+                                                                i,
+                                                                rating + 1
+                                                            )
+                                                        }
+                                                        isDisabled={
+                                                            rating ===
+                                                            RATING_MAX
+                                                        }
+                                                    />
+                                                </HoverTooltip>
                                             </Flex>
                                         </Td>
                                         <Td px={0}>
@@ -140,7 +196,9 @@ export default function ExistingPlayers() {
                                                 justifyContent="center"
                                                 alignItems="center"
                                                 gap={3}>
-                                                <HoverTooltip label="Remove one">
+                                                <HoverTooltip
+                                                    label="Remove one"
+                                                    placement="left">
                                                     <IconButton
                                                         variant="ghost"
                                                         size="xs"
@@ -154,7 +212,9 @@ export default function ExistingPlayers() {
                                                     />
                                                 </HoverTooltip>
                                                 {count}
-                                                <HoverTooltip label="Add one">
+                                                <HoverTooltip
+                                                    label="Add one"
+                                                    placement="right">
                                                     <IconButton
                                                         variant="ghost"
                                                         size="xs"
@@ -183,9 +243,8 @@ export default function ExistingPlayers() {
                                                             size={0.8}
                                                         />
                                                     }
-                                                    onClick={removeRatingAt(
-                                                        i
-                                                    )}/>
+                                                    onClick={removeRatingAt(i)}
+                                                />
                                             </HoverTooltip>
                                         </Td>
                                     </Tr>
