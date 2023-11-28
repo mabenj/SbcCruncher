@@ -38,10 +38,13 @@ export default function Home() {
 
 const HtmlHead = () => (
     <Head>
-        <title>SBC Cruncher - FIFA Ultimate Team SBC Rating Calculator</title>
+        <title>
+            SBC Cruncher - EA Sports FC (FIFA) Ultimate Team SBC Rating
+            Calculator
+        </title>
         <meta
             name="description"
-            content="SBC Cruncher calculates the cheapest player rating combinations for FIFA 23 Ultimate Team SBCs based on FUTBIN and FUTWIZ price data"
+            content="SBC Cruncher calculates the cheapest player rating combinations for EA Sports FC (FIFA) 24 Ultimate Team SBCs based on FUTBIN and FUTWIZ price data"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
@@ -55,11 +58,11 @@ const HtmlHead = () => (
         {/* <!-- OG tags --> */}
         <meta
             property="og:title"
-            content="SBC Cruncher - FIFA Ultimate Team SBC Rating Calculator"
+            content="SBC Cruncher - EA Sports FC (FIFA) Ultimate Team SBC Rating Calculator"
         />
         <meta
             property="og:description"
-            content="Calculate the cheapest player rating combinations for FIFA 23 Ultimate Team SBCs based on FUTBIN and FUTWIZ price data"
+            content="Calculate the cheapest player rating combinations for EA Sports FC (FIFA) 24 Ultimate Team SBCs based on FUTBIN and FUTWIZ price data"
         />
         <meta property="og:site_name" content="SBC Cruncher" />
         <meta property="og:type" content="website" />
