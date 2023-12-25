@@ -28,8 +28,6 @@ import ExternalLink from "../ui/ExternalLink";
 import HoverTooltip from "../ui/HoverTooltip";
 import MutedSmall from "../ui/MutedSmall";
 
-const FORM_URL = "https://formbold.com/s/94NmX";
-
 export default function Footer() {
     const {
         isOpen: isFormOpen,
@@ -182,15 +180,9 @@ const ContactForm = (props: { isOpen: boolean; onClose: () => any }) => {
         const email = target.email.value;
         const message = target.message.value;
         try {
-            const response = await fetch(FORM_URL, {
+            const response = await fetch("/api/contact", {
                 method: "POST",
-                mode: "cors",
-                headers: {
-                    "Content-Type": "application/json",
-                    Accept: "application/json"
-                },
-                body: JSON.stringify({ name, email, message }),
-                redirect: "follow"
+                body: JSON.stringify({ name, email, message })
             });
             if (response.ok) {
                 toast({
@@ -207,7 +199,7 @@ const ContactForm = (props: { isOpen: boolean; onClose: () => any }) => {
                     })
                 );
             } else {
-                throw new Error(await response.json());
+                throw new Error(response.statusText);
             }
         } catch (error) {
             const message = getErrorMessage(error);
@@ -247,7 +239,7 @@ const ContactForm = (props: { isOpen: boolean; onClose: () => any }) => {
                                     type="text"
                                     id="name"
                                     required
-                                    placeholder="Mr. Cristiano"
+                                    placeholder="Cristiano"
                                     variant="filled"
                                 />
                             </FormControl>
