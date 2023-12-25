@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { RatingPrice } from "../types/rating-price.interface";
+import { RatingPrice } from "../../../types/rating-price.interface";
 
 interface RatingPriceDocument extends Document, RatingPrice {}
 

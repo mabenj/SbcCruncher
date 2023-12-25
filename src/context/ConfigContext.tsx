@@ -1,4 +1,4 @@
-import { DEFAULT_CONFIG } from "@/constants";
+import { DEFAULT_CONFIG } from "@/common/constants";
 import { SolverConfig } from "@/types/solver-config.interface";
 import React, { createContext, useContext, useState } from "react";
 

@@ -1,4 +1,4 @@
-import { SQUAD_SIZE } from "@/constants";
+import { SQUAD_SIZE } from "@/common/constants";
 
 export class SolverHelper {
     static getMultisubsetsCount(setLength: number, n: number) {

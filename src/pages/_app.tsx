@@ -2,7 +2,7 @@ import "@/styles/globals.scss";
 import { ChakraProvider } from "@chakra-ui/react";
 import { AppProps } from "next/app";
 import Script from "next/script";
-import { theme } from "../theme";
+import { theme } from "../common/theme";
 
 if (
     process.env.NODE_ENV === "production" &&

@@ -1,6 +1,6 @@
+import { range } from "@/common/utilities";
 import MutedSmall from "@/components/ui/MutedSmall";
 import { Solution } from "@/types/solution.interface";
-import { range } from "@/utilities";
 import { Fade, SimpleGrid } from "@chakra-ui/react";
 import SolutionCard from "./SolutionCard";
 

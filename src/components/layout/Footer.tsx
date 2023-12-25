@@ -1,5 +1,5 @@
+import { getErrorMessage } from "@/common/utilities";
 import { useEventTracker } from "@/hooks/useEventTracker";
-import { getErrorMessage } from "@/utilities";
 import {
     Box,
     Button,

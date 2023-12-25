@@ -1,5 +1,5 @@
+import { range } from "@/common/utilities";
 import { useConfig } from "@/context/ConfigContext";
-import { range } from "@/utilities";
 import { useMemo, useState } from "react";
 import useLocalStorage from "./useLocalStorage";
 
@@ -37,8 +37,11 @@ export default function useNoPricesWarning() {
 
     return {
         isWarningOpen,
-        shouldDisplayWarning: allZeroes &&
-            !dontShowAgain && !warningShown && !config.pricesDisabled,
+        shouldDisplayWarning:
+            allZeroes &&
+            !dontShowAgain &&
+            !warningShown &&
+            !config.pricesDisabled,
         onWarningOpen,
         onWarningClose
     };

@@ -1,8 +1,8 @@
+import { prettyNumber, range } from "@/common/utilities";
 import ExternalLink from "@/components/ui/ExternalLink";
 import MutedSmall from "@/components/ui/MutedSmall";
 import { useEventTracker } from "@/hooks/useEventTracker";
 import { Solution } from "@/types/solution.interface";
-import { prettyNumber, range } from "@/utilities";
 import {
     Card,
     CardBody,

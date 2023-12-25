@@ -1,4 +1,4 @@
-import { ALL_RATINGS } from "@/constants";
+import { ALL_RATINGS } from "@/common/constants";
 import { useConfig } from "@/context/ConfigContext";
 import { useEventTracker } from "@/hooks/useEventTracker";
 import { Flex, Text } from "@chakra-ui/react";

@@ -1,10 +1,10 @@
-import { MAX_SOLUTIONS_TO_TAKE } from "@/constants";
+import { MAX_SOLUTIONS_TO_TAKE } from "@/common/constants";
+import { range } from "@/common/utilities";
 import { useConfig } from "@/context/ConfigContext";
 import { useEventTracker } from "@/hooks/useEventTracker";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import useNoPricesWarning from "@/hooks/useNoPricesWarning";
 import { useSolver } from "@/hooks/useSolver";
-import { range } from "@/utilities";
 import { NotAllowedIcon } from "@chakra-ui/icons";
 import {
     Alert,
@@ -126,7 +126,11 @@ export default function Solutions() {
     const handleNextPage = () => {
         setPageIndex((prev) => {
             const next = prev + 1;
-            eventTracker("solutions_paginate", `paginate=${next + 1}`, next + 1);
+            eventTracker(
+                "solutions_paginate",
+                `paginate=${next + 1}`,
+                next + 1
+            );
             return next;
         });
     };
@@ -134,7 +138,11 @@ export default function Solutions() {
     const handlePrevPage = () => {
         setPageIndex((prev) => {
             const next = prev - 1;
-            eventTracker("solutions_paginate", `paginate=${next + 1}`, next + 1);
+            eventTracker(
+                "solutions_paginate",
+                `paginate=${next + 1}`,
+                next + 1
+            );
             return next;
         });
     };

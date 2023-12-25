@@ -1,6 +1,6 @@
+import { range, timeAgo } from "@/common/utilities";
 import { useConfig } from "@/context/ConfigContext";
 import usePlayerPrices from "@/hooks/usePlayerPrices";
-import { range, timeAgo } from "@/utilities";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import {
     Alert,

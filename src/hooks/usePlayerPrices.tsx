@@ -1,6 +1,6 @@
-import { EMPTY_PRICES } from "@/constants";
+import { EMPTY_PRICES } from "@/common/constants";
+import { getErrorMessage, getRandomInt, sleep } from "@/common/utilities";
 import { PricesDto } from "@/types/prices-dto.interface";
-import { getErrorMessage, getRandomInt, sleep } from "@/utilities";
 import { useToast } from "@chakra-ui/react";
 import { useState } from "react";
 import { useEventTracker } from "./useEventTracker";

@@ -1,5 +1,4 @@
-import { connect, disconnect } from "../db";
-import RatingPriceModel from "../models/rating-price.model";
+import { Database } from "../db/database";
 
 export class PriceFetchService {
     constructor(
@@ -10,22 +9,23 @@ export class PriceFetchService {
     async getPrices(ratings: number[]) {
         ratings = Array.from(new Set(ratings));
 
+        let db: Database | null = null;
         try {
-            await connect();
+            db = await Database.getInstance();
 
-            const result = await RatingPriceModel.find({
+            const result = await db.models.RatingPrice.find({
                 rating: { $in: ratings }
             }).exec();
 
             return result.map((res) => ({
                 rating: res.rating,
                 price:
-                    this.platform === "pc"
+                    (this.platform === "pc"
                         ? res.pricesPc[this.dataSource]
-                        : res.pricesConsole[this.dataSource]
+                        : res.pricesConsole[this.dataSource]) ?? 0
             }));
         } finally {
-            await disconnect();
+            await db?.dispose();
         }
     }
 }

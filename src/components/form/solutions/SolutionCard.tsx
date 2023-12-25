@@ -1,7 +1,7 @@
+import { prettyNumber, range } from "@/common/utilities";
 import ExternalLink from "@/components/ui/ExternalLink";
 import { useEventTracker } from "@/hooks/useEventTracker";
 import { Solution } from "@/types/solution.interface";
-import { prettyNumber, range } from "@/utilities";
 import {
     Badge,
     Box,

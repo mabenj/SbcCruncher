@@ -1,4 +1,4 @@
-import { RATING_MAX, RATING_MIN, SQUAD_SIZE } from "@/constants";
+import { RATING_MAX, RATING_MIN, SQUAD_SIZE } from "@/common/constants";
 import { useConfig } from "@/context/ConfigContext";
 import { useEventTracker } from "@/hooks/useEventTracker";
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";

@@ -1,4 +1,4 @@
-import { MAX_SOLUTIONS_TO_TAKE, SQUAD_SIZE } from "@/constants";
+import { MAX_SOLUTIONS_TO_TAKE, SQUAD_SIZE } from "@/common/constants";
 import { Solution } from "@/types/solution.interface";
 import { SolverRequest } from "@/types/solver-request.interface";
 import { SolverResponse } from "@/types/solver-response.interface";

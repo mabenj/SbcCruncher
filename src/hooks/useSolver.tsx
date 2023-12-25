@@ -1,8 +1,8 @@
+import { getErrorMessage, range } from "@/common/utilities";
 import { Solution } from "@/types/solution.interface";
 import { SolverConfig } from "@/types/solver-config.interface";
 import { SolverRequest } from "@/types/solver-request.interface";
 import { SolverResponse } from "@/types/solver-response.interface";
-import { getErrorMessage, range } from "@/utilities";
 import { useToast } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { useEventTracker } from "./useEventTracker";

@@ -1,6 +1,6 @@
 import { ColorModeScript } from "@chakra-ui/react";
 import { Head, Html, Main, NextScript } from "next/document";
-import { theme } from "../theme";
+import { theme } from "../common/theme";
 
 // Translations disabled because of this: https://github.com/facebook/react/issues/13278
 

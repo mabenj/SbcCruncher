@@ -1,4 +1,4 @@
-import { SolverConfig } from "./types/solver-config.interface";
+import { SolverConfig } from "../types/solver-config.interface";
 import { range } from "./utilities";
 
 export const RATING_MIN = 47;

@@ -1,4 +1,4 @@
-import { prettyNumber } from "@/utilities";
+import { prettyNumber } from "@/common/utilities";
 import { Stat, StatHelpText, StatLabel, StatNumber } from "@chakra-ui/react";
 
 export default function SolutionsStats({
@@ -16,7 +16,8 @@ export default function SolutionsStats({
             <StatNumber borderLeft="3px solid" borderColor="brand.500" px={1}>
                 {prettyNumber(found)}
             </StatNumber>
-            <StatHelpText px={2}
+            <StatHelpText
+                px={2}
                 visibility={
                     !loading && cheapestPrice != null ? "visible" : "hidden"
                 }>

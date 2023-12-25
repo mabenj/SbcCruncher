@@ -1,7 +1,7 @@
-import { TRY_RATINGS } from "@/constants";
+import { TRY_RATINGS } from "@/common/constants";
+import { range } from "@/common/utilities";
 import { useConfig } from "@/context/ConfigContext";
 import { useEventTracker } from "@/hooks/useEventTracker";
-import { range } from "@/utilities";
 import { AddIcon } from "@chakra-ui/icons";
 import {
     Alert,
@@ -92,7 +92,11 @@ export default function RatingRange() {
             ...prev,
             tryRatingExclude: [...prev.tryRatingExclude, excludeOptions[0]]
         }));
-        eventTracker("range_exclude_add", `exclude=${excludeOptions[0]}`, excludeOptions[0]);
+        eventTracker(
+            "range_exclude_add",
+            `exclude=${excludeOptions[0]}`,
+            excludeOptions[0]
+        );
     };
 
     const handleExcludeChange = (index: number, rating: number) => {
@@ -107,7 +111,11 @@ export default function RatingRange() {
     const handleExcludeDelete = (index: number) => {
         setConfig((prev) => {
             const { tryRatingExclude } = prev;
-            eventTracker("range_exclude_delete", `delete=${tryRatingExclude[index]}`, tryRatingExclude[index]);
+            eventTracker(
+                "range_exclude_delete",
+                `delete=${tryRatingExclude[index]}`,
+                tryRatingExclude[index]
+            );
             tryRatingExclude.splice(index, 1);
             return { ...prev, tryRatingExclude };
         });

@@ -1,5 +1,5 @@
+import { prettyNumber } from "@/common/utilities";
 import { useEventTracker } from "@/hooks/useEventTracker";
-import { prettyNumber } from "@/utilities";
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import {
     Flex,
@@ -63,7 +63,11 @@ export default function PriceInput({
         setIsEditing(false);
         if (newValue !== value) {
             onChange(newValue);
-            eventTracker(`set_price_${rating}`, `input=${rating}-${newValue}`, newValue);
+            eventTracker(
+                `set_price_${rating}`,
+                `input=${rating}-${newValue}`,
+                newValue
+            );
         }
     };
 
@@ -84,7 +88,11 @@ export default function PriceInput({
             PRICE_TIERS.find((tier) => tier.min <= (value ?? 0))?.step ?? 0;
         const newValue = (value ?? 0) + increment;
         onChange(newValue);
-        eventTracker(`set_price_${rating}`, `increment=${rating}-${newValue}`, newValue);
+        eventTracker(
+            `set_price_${rating}`,
+            `increment=${rating}-${newValue}`,
+            newValue
+        );
     };
 
     const handleDecrement = () => {
@@ -92,7 +100,11 @@ export default function PriceInput({
             PRICE_TIERS.find((tier) => tier.min < (value ?? 0))?.step ?? 0;
         const newValue = Math.max(0, (value ?? 0) - decrement);
         onChange(newValue);
-        eventTracker(`set_price_${rating}`, `decrement=${rating}-${newValue}`, newValue);
+        eventTracker(
+            `set_price_${rating}`,
+            `decrement=${rating}-${newValue}`,
+            newValue
+        );
     };
 
     return (
