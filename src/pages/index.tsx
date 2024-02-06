@@ -54,6 +54,7 @@ const HtmlHead = () => (
             name="google-site-verification"
             content={process.env.NEXT_PUBLIC_SITE_VERIFICATION}
         />
+        <meta name="google-adsense-account" content="ca-pub-3653518580503209"/>
 
         {/* <!-- OG tags --> */}
         <meta
