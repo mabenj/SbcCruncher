@@ -3,3 +3,56 @@
 .brand-color {
     color: $brand-color;
 }
+
+.privacy-policy {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-weight: bold;
+        padding-top: 1.5rem;
+        font-size: small;
+    }
+
+    h1 {
+        font-size: xx-large;
+    }
+
+    h2 {
+        font-size: x-large;
+    }
+
+    h3 {
+        font-size: large;
+    }
+
+    h4 {
+        font-size: medium;
+    }
+
+    h5 {
+        font-size: small;
+    }
+
+    p {
+        padding-top: 0.5rem;
+        padding-bottom: 0.1rem;
+    }
+
+    a {
+        color: $brand-color;
+        font-weight: 600;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    ul {
+        padding-left: 2rem;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+    }
+}

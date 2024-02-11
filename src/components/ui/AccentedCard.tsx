@@ -23,9 +23,9 @@ import styles from "./AccentedCard.module.scss";
 
 interface AccentedCardProps {
     header: string;
-    infoParagraphs: string[];
+    infoParagraphs?: string[];
     children: React.ReactNode;
-    step: number;
+    step?: number;
     expandSwitch?: boolean;
     onExpandChange?: (isChecked: boolean) => void;
 }
@@ -64,13 +64,15 @@ export default function AccentedCard({
                             />
                         )}
                     </Flex>
-                    <HelpBtn step={step}>
-                        {infoParagraphs.map((text, i) => (
-                            <Text key={i} py={1}>
-                                {text}
-                            </Text>
-                        ))}
-                    </HelpBtn>
+                    {step != null && infoParagraphs ? (
+                        <HelpBtn step={step}>
+                            {infoParagraphs.map((text, i) => (
+                                <Text key={i} py={1}>
+                                    {text}
+                                </Text>
+                            ))}
+                        </HelpBtn>
+                    ) : null}
                 </CardHeader>
                 <Collapse in={expanded}>
                     <CardBody>

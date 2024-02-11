@@ -24,7 +24,11 @@ import HoverTooltip from "../ui/HoverTooltip";
 
 const DEBOUNCE_MS = 200;
 
-export default function Header() {
+export default function Header({
+    showHelpBtn = true
+}: {
+    showHelpBtn?: boolean;
+}) {
     const { colorMode, toggleColorMode } = useColorMode();
     const {
         isOpen: isHelpOpen,
@@ -111,15 +115,17 @@ export default function Header() {
                             onClick={handleToggleTheme}
                         />
                     </HoverTooltip>
-                    <HoverTooltip label="How to use">
-                        <IconButton
-                            size="sm"
-                            variant="ghost"
-                            icon={<QuestionOutlineIcon />}
-                            aria-label="Help"
-                            onClick={handleOpenHelp}
-                        />
-                    </HoverTooltip>
+                    {showHelpBtn ? (
+                        <HoverTooltip label="How to use">
+                            <IconButton
+                                size="sm"
+                                variant="ghost"
+                                icon={<QuestionOutlineIcon />}
+                                aria-label="Help"
+                                onClick={handleOpenHelp}
+                            />
+                        </HoverTooltip>
+                    ) : null}
                 </Flex>
             </Flex>
 
