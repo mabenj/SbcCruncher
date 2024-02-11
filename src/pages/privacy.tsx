@@ -7,7 +7,7 @@ import { usePageview } from "@/hooks/usePageview";
 import { Box, Container } from "@chakra-ui/react";
 import { useEffect } from "react";
 
-export default function Policy() {
+export default function Privacy() {
     const pageview = usePageview();
 
     useEffect(

@@ -1,31 +1,10 @@
-import { getErrorMessage } from "@/common/utilities";
 import { useEventTracker } from "@/hooks/useEventTracker";
-import {
-    Box,
-    Button,
-    Flex,
-    FormControl,
-    FormLabel,
-    Input,
-    Link,
-    Modal,
-    ModalBody,
-    ModalCloseButton,
-    ModalContent,
-    ModalFooter,
-    ModalHeader,
-    ModalOverlay,
-    Stack,
-    Textarea,
-    useDisclosure,
-    useToast
-} from "@chakra-ui/react";
+import { Box, Flex, Link } from "@chakra-ui/react";
 import { mdiGithub } from "@mdi/js";
 import Icon from "@mdi/react";
 import { Nunito } from "@next/font/google";
 import Image from "next/image";
 import NextLink from "next/link";
-import { useState } from "react";
 import ExternalLink from "../ui/ExternalLink";
 import HoverTooltip from "../ui/HoverTooltip";
 import MutedSmall from "../ui/MutedSmall";
@@ -122,7 +101,7 @@ export default function Footer() {
                     onClick={() => eventTracker("github_click", "github_click")}
                     justifyContent="center"
                     alignItems="center">
-                    <Link as={NextLink} href="/policy" color="gray.500">
+                    <Link as={NextLink} href="/privacy" color="gray.500">
                         Privacy Policy
                     </Link>
                     <Link as={NextLink} href="/contact" color="gray.500">
