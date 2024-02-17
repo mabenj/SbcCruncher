@@ -149,7 +149,9 @@ const ContactForm = () => {
                 </form>
             </AccentedCard>
             <Flex as="small" py={5} direction="column" alignItems="center">
-                <div>You can also get in touch directly via email at</div>
+                <Box color="gray.500">
+                    You can also get in touch directly via email at
+                </Box>
                 <Box
                     as="a"
                     display="block"
