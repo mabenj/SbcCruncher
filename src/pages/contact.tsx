@@ -148,6 +148,19 @@ const ContactForm = () => {
                     </Flex>
                 </form>
             </AccentedCard>
+            <Flex as="small" py={5} direction="column" alignItems="center">
+                <div>You can also get in touch directly via email at</div>
+                <Box
+                    as="a"
+                    display="block"
+                    fontWeight="semibold"
+                    href="mailto:contact@sbccruncher.cc"
+                    _hover={{
+                        textDecoration: "underline"
+                    }}>
+                    contact@sbccruncher.cc
+                </Box>
+            </Flex>
         </Box>
     );
 };
