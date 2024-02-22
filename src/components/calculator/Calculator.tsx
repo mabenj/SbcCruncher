@@ -1,16 +1,16 @@
 import { useConfig } from "@/context/ConfigContext";
 import { useEventTracker } from "@/hooks/useEventTracker";
 import { Stack } from "@chakra-ui/react";
-import ExistingPlayers from "../form/ExistingPlayers";
-import PlayerPrices from "../form/PlayerPrices";
-import RatingRange from "../form/RatingRange";
-import Solutions from "../form/solutions/Solutions";
-import TargetRating from "../form/TargetRating";
 import AccentedCard from "../ui/AccentedCard";
+import ExistingPlayers from "./ExistingPlayers";
+import PlayerPrices from "./PlayerPrices";
+import RatingRange from "./RatingRange";
+import TargetRating from "./TargetRating";
+import Solutions from "./solutions/Solutions";
 
 export default function Main() {
     return (
-        <Stack spacing={10} mt="3.7rem">
+        <Stack spacing={10}>
             <TargetRatingCard step={1} />
             <ExistingPlayersCard step={2} />
             <RatingRangeCard step={3} />

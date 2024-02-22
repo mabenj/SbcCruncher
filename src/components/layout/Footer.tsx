@@ -2,17 +2,10 @@ import { useEventTracker } from "@/hooks/useEventTracker";
 import { Box, Flex, Link } from "@chakra-ui/react";
 import { mdiGithub } from "@mdi/js";
 import Icon from "@mdi/react";
-import { Nunito } from "@next/font/google";
 import Image from "next/image";
 import NextLink from "next/link";
 import ExternalLink from "../ui/ExternalLink";
 import HoverTooltip from "../ui/HoverTooltip";
-import MutedSmall from "../ui/MutedSmall";
-
-const nunito = Nunito({
-    subsets: ["latin"],
-    display: "swap"
-});
 
 export default function Footer() {
     const eventTracker = useEventTracker("Footer");
@@ -81,32 +74,31 @@ export default function Footer() {
                     </Box>
                 </Flex>
 
-                <div
-                    onClick={() =>
-                        eventTracker("brute_forcer_click", "brute_forcer_click")
-                    }>
-                    <MutedSmall>
-                        The idea for SBC Cruncher was inspired by{" "}
-                        <ExternalLink
-                            href="https://elmaano.github.io/sbc/"
-                            small>
-                            SBC Rating Brute Forcer
-                        </ExternalLink>
-                    </MutedSmall>
-                </div>
-
                 <Flex
-                    gap={5}
+                    direction="column"
+                    gap={10}
                     py={5}
-                    onClick={() => eventTracker("github_click", "github_click")}
-                    justifyContent="center"
-                    alignItems="center">
-                    <Link as={NextLink} href="/privacy" color="gray.500">
-                        Privacy Policy
-                    </Link>
-                    <Link as={NextLink} href="/contact" color="gray.500">
-                        Contact
-                    </Link>
+                    onClick={() =>
+                        eventTracker("github_click", "github_click")
+                    }>
+                    <Flex
+                        justifyContent="center"
+                        alignItems="center"
+                        flexWrap="wrap"
+                        gap={[5]}>
+                        <Link as={NextLink} href="/privacy" color="gray.500">
+                            Privacy Policy
+                        </Link>
+                        <Link as={NextLink} href="/terms" color="gray.500">
+                            Terms of Service
+                        </Link>
+                        <Link as={NextLink} href="/cookies" color="gray.500">
+                            Cookie Policy
+                        </Link>
+                        <Link as={NextLink} href="/contact" color="gray.500">
+                            Contact
+                        </Link>
+                    </Flex>
                     <Flex gap={2} justifyContent="center" alignItems="center">
                         <Box color="gray.500">© {new Date().getFullYear()}</Box>
                         <Icon path={mdiGithub} size={1}></Icon>

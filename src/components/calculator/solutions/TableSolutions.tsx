@@ -4,9 +4,11 @@ import MutedSmall from "@/components/ui/MutedSmall";
 import { useEventTracker } from "@/hooks/useEventTracker";
 import { Solution } from "@/types/solution.interface";
 import {
+    Badge,
     Card,
     CardBody,
     Fade,
+    Flex,
     Skeleton,
     Table,
     TableContainer,
@@ -17,16 +19,18 @@ import {
     Tr,
     useColorModeValue
 } from "@chakra-ui/react";
+import { mdiAlertCircleOutline, mdiAlertOutline } from "@mdi/js";
+import Icon from "@mdi/react";
 import { useMemo } from "react";
 
 export default function TableSolutions({
     solutions,
     loading,
-    showPriceColumn
+    noPriceData
 }: {
     solutions: Solution[];
     loading: boolean;
-    showPriceColumn: boolean;
+    noPriceData?: boolean;
 }) {
     const ratingColumns = useMemo(() => {
         const allRatings = solutions.flatMap((sol) =>
@@ -53,6 +57,19 @@ export default function TableSolutions({
 
             <Card>
                 <CardBody>
+                    {!loading && noPriceData && (
+                        <Flex pb={4} justifyContent="end">
+                            <Badge colorScheme="red">
+                                <Flex
+                                    alignItems="center"
+                                    justifyContent="center"
+                                    gap={1}>
+                                    <Icon path={mdiAlertCircleOutline} size={0.7} />
+                                    <span>Price data missing</span>
+                                </Flex>
+                            </Badge>
+                        </Flex>
+                    )}
                     <TableContainer>
                         <Table
                             variant={loading ? "simple" : tableVariant}
@@ -79,7 +96,7 @@ export default function TableSolutions({
                                                 </ExternalLink>
                                             </Th>
                                         ))}
-                                        {showPriceColumn && (
+                                        {!noPriceData && (
                                             <Th textAlign="right">Price</Th>
                                         )}
                                     </Tr>
@@ -126,7 +143,7 @@ export default function TableSolutions({
                                                 );
                                             })}
 
-                                            {showPriceColumn && (
+                                            {!noPriceData && (
                                                 <Td
                                                     textAlign="right"
                                                     bg={

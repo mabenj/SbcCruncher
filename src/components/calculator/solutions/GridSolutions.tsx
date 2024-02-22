@@ -9,14 +9,14 @@ export default function GridSolutions({
     loading,
     pageIndex,
     pageSize,
-    showPrices,
+    noPriceData,
     cheapestPrice
 }: {
     solutions: Solution[];
     loading: boolean;
     pageIndex: number;
     pageSize: number;
-    showPrices: boolean;
+    noPriceData: boolean;
     cheapestPrice?: number;
 }) {
     return (
@@ -44,9 +44,9 @@ export default function GridSolutions({
                                 "Solution " + (pageIndex * pageSize + (i + 1))
                             }
                             solution={solution}
-                            showPrice={showPrices}
+                            noPriceData={noPriceData}
                             isCheapest={
-                                showPrices && solution.price === cheapestPrice
+                                noPriceData && solution.price === cheapestPrice
                             }
                         />
                     ))}

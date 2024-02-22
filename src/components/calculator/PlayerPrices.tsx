@@ -209,14 +209,14 @@ export default function PlayerPrices() {
             <Collapse in={allZeroes} animateOpacity>
                 <Box>
                     <Alert
-                        status="warning"
+                        status="error"
                         variant="left-accent"
                         display="flex"
                         flexDirection={["column", null, "row"]}>
                         <AlertIcon />
-                        <AlertTitle>No prices specified!</AlertTitle>
+                        <AlertTitle>Price data missing!</AlertTitle>
                         <AlertDescription textAlign={["center", null, "left"]}>
-                            Use Auto-fill or specify them manually.
+                            Use Auto-fill or enter prices manually
                         </AlertDescription>
                     </Alert>
                 </Box>

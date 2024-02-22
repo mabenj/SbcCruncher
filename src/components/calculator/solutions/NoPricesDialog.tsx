@@ -29,7 +29,7 @@ export default function NoPricesDialog({
             isCentered>
             <AlertDialogOverlay backdropFilter="blur(3px)">
                 <AlertDialogContent textAlign={["center", null, "left"]}>
-                    <AlertDialogHeader>No Player Prices</AlertDialogHeader>
+                    <AlertDialogHeader>Price data missing</AlertDialogHeader>
                     <AlertDialogBody>
                         <Text>
                             You did not specify any prices for player ratings!{" "}

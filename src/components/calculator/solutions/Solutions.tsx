@@ -224,7 +224,7 @@ export default function Solutions() {
                         pageIndex * PAGE_SIZE,
                         pageIndex * PAGE_SIZE + PAGE_SIZE
                     )}
-                    showPriceColumn={!noPrices}
+                    noPriceData={noPrices}
                 />
             )}
 
@@ -238,7 +238,7 @@ export default function Solutions() {
                             pageIndex * PAGE_SIZE,
                             pageIndex * PAGE_SIZE + PAGE_SIZE
                         )}
-                        showPrices={!noPrices}
+                        noPriceData={noPrices}
                         cheapestPrice={cheapestPrice}
                     />
                 )}

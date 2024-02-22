@@ -1,14 +1,10 @@
 import { getErrorMessage } from "@/common/utilities";
-import Footer from "@/components/layout/Footer";
-import Header from "@/components/layout/Header";
-import HtmlHead from "@/components/layout/HtmlHead";
+import Page from "@/components/layout/Page";
 import AccentedCard from "@/components/ui/AccentedCard";
-import AnimatedBg from "@/components/ui/AnimatedBg";
 import { useEventTracker } from "@/hooks/useEventTracker";
 import {
     Box,
     Button,
-    Container,
     Flex,
     FormControl,
     FormLabel,
@@ -21,23 +17,15 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import MutedSmall from "../components/ui/MutedSmall";
 
-export default function Contact() {
+export default function ContactPage() {
     return (
-        <>
-            <HtmlHead title="Contact" description="SBC Cruncher - Contact" />
-            <AnimatedBg />
-            <Container maxW="4xl">
-                <header>
-                    <Header showHelpBtn={false} />
-                </header>
-                <main>
-                    <ContactForm />
-                </main>
-                <footer>
-                    <Footer />
-                </footer>
-            </Container>
-        </>
+        <Page
+            head={{
+                title: "Contact",
+                description: "Get in touch with via a contact form or email"
+            }}>
+            <ContactForm />
+        </Page>
     );
 }
 
@@ -98,8 +86,8 @@ const ContactForm = () => {
     };
 
     return (
-        <Box pt={20}>
-            <AccentedCard header="Contact Form">
+        <Box pt={5}>
+            <AccentedCard header="Get in touch">
                 <form onSubmit={handleSubmit}>
                     <Stack spacing={5} mt={3}>
                         <FormControl>
@@ -148,7 +136,7 @@ const ContactForm = () => {
                     </Flex>
                 </form>
             </AccentedCard>
-            <Flex as="small" py={5} direction="column" alignItems="center">
+            <Flex fontSize="sm" py={5} direction="column" alignItems="center">
                 <Box color="gray.500">
                     You can also get in touch directly via email at
                 </Box>

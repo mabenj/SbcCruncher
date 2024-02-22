@@ -3,6 +3,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { AppProps } from "next/app";
 import Script from "next/script";
 import { theme } from "../common/theme";
+import CookieConsent from "@/components/layout/CookieConsent";
 
 if (
     process.env.NODE_ENV === "production" &&
@@ -35,6 +36,7 @@ export default function App({ Component, pageProps }: AppProps) {
             <ScriptHotjar />
             <ChakraProvider theme={theme}>
                 <Component {...pageProps} />
+                <CookieConsent />
             </ChakraProvider>
         </>
     );

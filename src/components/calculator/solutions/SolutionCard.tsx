@@ -18,17 +18,19 @@ import {
     Thead,
     Tr
 } from "@chakra-ui/react";
+import { mdiAlertCircleOutline } from "@mdi/js";
+import Icon from "@mdi/react";
 
 export default function SolutionCard({
     solution,
     label,
     isCheapest,
-    showPrice
+    noPriceData
 }: {
     solution?: Solution;
     label?: string;
     isCheapest?: boolean;
-    showPrice?: boolean;
+    noPriceData?: boolean;
 }) {
     const eventTracker = useEventTracker("Solutions");
 
@@ -38,7 +40,7 @@ export default function SolutionCard({
                 <Flex justifyContent="space-between">
                     <div>
                         <Heading size="sm">{label}</Heading>
-                        <Box hidden={!showPrice}>
+                        <Box hidden={noPriceData}>
                             <Skeleton
                                 w={solution ? "auto" : "8rem"}
                                 h={solution ? "auto" : "0.8rem"}
@@ -49,6 +51,22 @@ export default function SolutionCard({
                             </Skeleton>
                         </Box>
                     </div>
+                    {noPriceData && (
+                        <div>
+                            <Badge colorScheme="red">
+                                <Flex
+                                    alignItems="center"
+                                    justifyContent="center"
+                                    gap={1}>
+                                    <Icon
+                                        path={mdiAlertCircleOutline}
+                                        size={0.7}
+                                    />
+                                    <span>Price data missing</span>
+                                </Flex>
+                            </Badge>
+                        </div>
+                    )}
                     {isCheapest && (
                         <div>
                             <Badge colorScheme="green">Cheapest</Badge>
