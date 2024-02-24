@@ -25,6 +25,10 @@ export default function HtmlHead({ title, description }: HtmlHeadProps) {
                 name="google-adsense-account"
                 content="ca-pub-3653518580503209"
             />
+            <meta
+                name="ezoic-site-verification"
+                content="z3OfO6WC3HrGUrIRS9MOhCZU1sxe4v"
+            />
 
             {/* <!-- OG tags --> */}
             <meta property="og:title" content={title} />
