@@ -1,5 +1,4 @@
 import { useEventTracker } from "@/hooks/useEventTracker";
-import useLocalStorage from "@/hooks/useLocalStorage";
 import {
     Box,
     Button,
@@ -9,18 +8,26 @@ import {
     useColorModeValue
 } from "@chakra-ui/react";
 import NextLink from "next/link";
+import { useEffect, useState } from "react";
+
+const CONSENT_KEY = "cookieConsent";
 
 export default function CookieConsent() {
-    const [hasConsent, setHasConsent] = useLocalStorage("cookieConsent", false);
+    const [showBanner, setShowBanner] = useState(false);
     const borderColor = useColorModeValue("gray.200", "gray.600");
     const eventTracker = useEventTracker("CookieConsent");
 
+    useEffect(() => {
+        setShowBanner(localStorage.getItem(CONSENT_KEY) !== "true");
+    }, []);
+
     const onAccept = () => {
-        setHasConsent(true);
+        setShowBanner(false);
+        localStorage.setItem(CONSENT_KEY, "true");
         eventTracker("accept", "accept");
     };
 
-    if (hasConsent) {
+    if (!showBanner) {
         return null;
     }
 
