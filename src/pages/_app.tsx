@@ -1,9 +1,9 @@
+import CookieConsent from "@/components/layout/CookieConsent";
 import "@/styles/globals.scss";
 import { ChakraProvider } from "@chakra-ui/react";
 import { AppProps } from "next/app";
 import Script from "next/script";
 import { theme } from "../common/theme";
-import CookieConsent from "@/components/layout/CookieConsent";
 
 if (
     process.env.NODE_ENV === "production" &&
@@ -15,7 +15,11 @@ if (
 }
 
 // get rid of service workers from previous versions
-if (typeof window !== "undefined" && "navigator" in window) {
+if (
+    typeof window !== "undefined" &&
+    "navigator" in window &&
+    navigator.serviceWorker
+) {
     navigator.serviceWorker.getRegistrations().then((registrations) =>
         registrations.forEach((r) => {
             r.unregister();
