@@ -18,13 +18,17 @@ export default function HtmlHead({ title, description }: HtmlHeadProps) {
         name="google-site-verification"
         content={process.env.NEXT_PUBLIC_SITE_VERIFICATION}
       />
+      {/* AdSense */}
       <meta name="google-adsense-account" content="ca-pub-3653518580503209" />
+      {/* ExoClick */}
       <meta
         name="6a97888e-site-verification"
         content="7696dd57872b300305398f45c5d82f4d"
       />
+      {/* AdMaven */}
+      <meta name="admaven-placement" content="Bqdk6rjCF" />
 
-      {/* <!-- OG tags --> */}
+      {/* OG tags */}
       <meta property="og:title" content={title} />
       <meta
         property="og:description"
