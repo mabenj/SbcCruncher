@@ -10,6 +10,16 @@ export default function PrivacyPage() {
         description: "Privacy Policy for SBC Cruncher",
       }}
     >
+      <iframe
+        src="//a.magsrv.com/iframe.php?idzone=5521316&size=900x250"
+        width="900"
+        height="250"
+        scrolling="no"
+        marginWidth={0}
+        marginHeight={0}
+        frameBorder={0}
+      ></iframe>
+
       <AccentedCard header="">
         <PrivacyPolicyHtml />
       </AccentedCard>

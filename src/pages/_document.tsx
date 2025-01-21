@@ -12,20 +12,7 @@ export default function Document() {
         <ColorModeScript initialColorMode={theme.config.initialColorMode} />
         <Main />
         <NextScript />
-        <ExoClick />
       </body>
     </Html>
   );
 }
-
-const ExoClick = () => (
-  <>
-    <script
-      async
-      type="application/javascript"
-      src="https://a.magsrv.com/ad-provider.js"
-    ></script>
-    <ins className="eas6a97888e2" data-zoneid="5521316"></ins>
-    <script>{`(AdProvider = window.AdProvider || []).push({serve: {}});`}</script>
-  </>
-);
