@@ -47,7 +47,20 @@ const ContactForm = () => {
       name: { value: string };
       email: { value: string };
       message: { value: string };
+      hp: { value: string };
     };
+
+    // Honeypot field check: if filled, likely a bot
+    if (target.hp.value) {
+      setIsSubmitting(false);
+      await router.push("/");
+      toast({
+        description: "Message sent",
+        status: "success",
+      });
+      return;
+    }
+
     const name = target.name.value;
     const email = target.email.value;
     const message = target.message.value;
@@ -93,6 +106,16 @@ const ContactForm = () => {
     <Box pt={5}>
       <AccentedCard header="Get in touch">
         <form onSubmit={handleSubmit}>
+          <Box display="none">
+            <label htmlFor="hp">Leave this field empty</label>
+            <input
+              type="text"
+              id="hp"
+              name="hp"
+              autoComplete="off"
+              tabIndex={-1}
+            />
+          </Box>
           <Stack spacing={5} mt={3}>
             <FormControl>
               <FormLabel htmlFor="name">Name</FormLabel>
