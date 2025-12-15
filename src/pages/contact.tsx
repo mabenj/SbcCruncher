@@ -51,23 +51,24 @@ const ContactForm = () => {
     };
 
     // Honeypot field check: if filled, likely a bot
-    if (target.hp.value) {
-      setIsSubmitting(false);
-      await router.push("/");
-      toast({
-        description: "Message sent",
-        status: "success",
-      });
-      return;
-    }
+    // if (target.hp.value) {
+    //   setIsSubmitting(false);
+    //   await router.push("/");
+    //   toast({
+    //     description: "Message sent",
+    //     status: "success",
+    //   });
+    //   return;
+    // }
 
     const name = target.name.value;
     const email = target.email.value;
     const message = target.message.value;
+    const hp = target.hp.value;
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
-        body: JSON.stringify({ name, email, message }),
+        body: JSON.stringify({ name, email, message, hp }),
       });
       if (response.ok) {
         await router.push("/");
